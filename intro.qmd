@@ -1,9 +1,98 @@
 # Introduction
 
-This is a book created from markdown and executable code.
+## Methods
+Since 2013, the BRC Census team has collected data in two phases: a random 
+sample of participants entering the Burning Man event and a more comprehensive 
+online survey after the event. During the Burning Man event in Black Rock City, 
+Census volunteers conduct the random sample by administering a short 
+socio-demographic survey to randomly selected Burners who agree to participate.
+After the event, announcements about the online survey are sent out via email 
+lists, social media, the Burning Man website and through other various
+outreach programs. Results from the online survey are biased due to 
+self-selection of Burners choosing to participate. To adjust for this bias
+we choose weights for the online survey responses so that answers to key questions
+asked on both surveys match.
 
-See @knuth84 for additional discussion of literate programming.
+All analyses were conducted using R version 4.2.2 [@R-base] and the anesrake [@R-anesrake] and survey [@R-survey] packages.  Graphics were created using the ggplot2 [@R-ggplot2] package, and this report was constructed using
+created with Quarto [@Allaire_Quarto_2024].
 
-```{r}
-1 + 1
+This study was performed in accordance with the Declaration of Helsinki. This human study was approved by University of Nevada, Reno, Research Integrity - IRBNet ID:1903458-1. All parents, guardians, or next of kin provided verbal consent for the minors to participate in this study. Verbal consent was taken from all other participants at the time of interviews. The verbal consent process was documented by interviewers at the time of the interview. 
+
+### Random Sample 
+The random sample is designed with a goal of surveying 5\% to 10\% of the population 
+of Black Rock City in a given year. The survey collection is stratified by 
+location participants entered Black Rock City: the main gate, the airport, or 
+on the Burner Express Bus (a shuttle service running from San Francisco and 
+Reno into Black Rock City). Participants are chosen in a pseudo-random fashion 
+by skipping a pre-selected number of cars driving in through gate or 
+participants entering through the airport. Entire Burner Express Buses 
+are randomly selected as a cluster sample.
+
+The random sample collects data on 10 questions by giving selected participants
+a short paper form to fill out:
+
+* Day of arrival
+* Age
+* Number of prior Burning Man events attended
+* English as a first language
+* Gender
+* US Resident or not
+* Voting eligibility in the US
+* US political party affiliation
+
+### Online Survey 
+The online survey is live Tuesday the week following and remains available 
+for approximately a month. The survey comprises questions in the random
+sample, demographic and socioeconomic questions, questions submitted by
+the Burning Man Organization, and questions submitted by academic researchers.
+Response rates for all surveys are given in the table below.
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+library(kableExtra)
+responseTable <- matrix(cbind(c("11,919", "11,676", "9,585", "7,137", 
+                                "9,168", "8,745", "7,737", "8,382", "7,712"),
+                              c("68,000", "68,000", "70,000", "70,000", 
+                                "70,000", "70,000", "80,000", "87,000", "77,000"),
+                              c("17%", "18%", "14%", "11%", "13%", "12%",
+                              "10%", "10%", "10%")), ncol = 3)
+rownames(responseTable) <- c(2013:2019, 2022:2023)
+responseTable |>
+  kbl(col.names = c("Survey responses (n)", "BRC Population", "Response rate"),
+      row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  kable_styling() |>
+  column_spec(column = 1:1, width_min = "9.5em")
+
 ```
+
+### Weighting
+Results from the online survey are weighted to adjust for selection bias. Weights
+are chosen so that the distribution of responses for questions that appear in 
+both the random sample and the online survey are nearly the same through a
+process called post stratification or raking [@holt1979post; @debell2009computing]. 
+For example, in 2023, the random
+sample estimated 44.0\% of participants were virgins (attending their first burn),
+but only 23.0\% of online sample participants were virgins.  
+Weighting responses of the online brings this estimate up to 44.0\% to match the random sample.
+
+```{r, echo = FALSE, warning = FALSE, message = FALSE}
+library(ggplot2)
+library(scales)
+plotDat <- data.frame(est = c(0.440, 0.230, 0.440),
+                      label = c("44.0%", "23.0%", "44.0%"),
+                      type = factor(c("Random sample", 
+                                      "Online survey (unweighted)",
+                                      "Online survey (weighted)"),
+                                    levels = c("Random sample", 
+                                      "Online survey (unweighted)",
+                                      "Online survey (weighted)")))
+ggplot(plotDat, aes(x = type, y = est)) +
+  geom_bar(stat = "identity", fill = "#EA008B") +
+  geom_text(aes(label = label), vjust = -1.5, colour = "black") +
+  scale_y_continuous(labels = percent, limits = c(0, 0.5)) +
+  theme_bw() +
+  labs(x = "", y = "Participants in 2023 (%)",
+       title = "Percent virgin burners in 2023")
+```
+
+

@@ -1,0 +1,33 @@
+# Contributions and acknowledgments {.unnumbered}
+
+**BRC Census General Manager:** Andi "Sonder" Morency, Ph.D.
+
+**Principal Investigator:** Samuel Ehrenreich, Ph.D.
+
+**Study Design and Data Analysis and Visualization:** Aaron "Murrs" Shev, Ph.D.; "Dusty Nuts", Ph.D. 
+
+**Special thanks and acknowledgements:**
+
+-   The nearly 200 volunteers of the 2023 Census Lab including: research collaborators, volunteer coordinators, camp builders, gate samplers, key punchers, Census Lab hosts, graphic designers, and many more!
+
+-   Special thanks to Dana "DV8" DeVaul whose work on the 2018 population report was the basis for many elements in this report, and to Dominic "Hunter" Beaulieu-Prévost for cleaning and weighting data from 2013 to 2019.
+
+-   We would also like to thank Dominique DeBucquoy "Great Question" Dodley, Leslie Moyer, Carly "I-Carly" Rhodes, and the Burning Man Communications Department.
+
+-   Additionally, we would like to extend our sincere thanks to all of the Burning Man participants who have taken the time to provide their data. This project would not exist without our respondents.
+
+-   Finally, our thanks to Burning Man Project for the resources they provide both on playa and off playa and for believing in the Black Rock City Census!
+
+## For more information {.unnumbered}
+
+To contact the Census Lab, email census\@burningman.org
+
+Census Lab Blog: <https://journal.burningman.org/author/census/>
+
+Census Lab Data Archive: <https://burningman.org/culture/history/brc-history/census-data/>
+
+Citation: Shev, A.B., Morency A., and the 2023 Census Lab. (2024). Black Rock City Census: 2013-2023 Population Analysis. Black Rock City Census.
+
+Copyright © 2024 Shev et al.
+
+
