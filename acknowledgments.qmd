@@ -8,7 +8,7 @@
 
 **Special thanks and acknowledgements:**
 
--   The nearly 200 volunteers of the 2023 Census Lab including: research collaborators, volunteer coordinators, camp builders, gate samplers, key punchers, Census Lab hosts, graphic designers, and many more!
+-   The nearly 200 volunteers of the 2024 Census Lab including: research collaborators, volunteer coordinators, camp builders, gate samplers, key punchers, Census Lab hosts, graphic designers, and many more!
 
 -   Special thanks to Dana "DV8" DeVaul whose work on the 2018 population report was the basis for many elements in this report, and to Dominic "Hunter" Beaulieu-Prévost for cleaning and weighting data from 2013 to 2019.
 
@@ -26,8 +26,8 @@ Census Lab Blog: <https://journal.burningman.org/author/census/>
 
 Census Lab Data Archive: <https://burningman.org/culture/history/brc-history/census-data/>
 
-Citation: Shev, A.B., Morency A., and the 2023 Census Lab. (2024). Black Rock City Census: 2013-2023 Population Analysis. Black Rock City Census.
+Citation: Shev, A.B., Morency A., and the 2024 Census Lab. (2025). Black Rock City Census: 2013-2024 Population Analysis. Black Rock City Census.
 
-Copyright © 2024 Shev et al.
+Copyright © 2025 Shev et al.
 
 
