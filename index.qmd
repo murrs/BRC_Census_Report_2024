@@ -14,8 +14,8 @@ visitors on-playa to a weighted online survey conducted post-event.
 The results in this report are estimates of the Black Rock City population. 
 The true population values may differ from the presented estimates due to random 
 variation in the sampling process. This report contains estimates from data 
-collected in 2023 and, when possible, comparable estimates from 2013 through 
-2019 and 2022.
+collected in 2024 and, when possible, comparable estimates from 2013 through 
+2019, 2022, and 2023.
 
 The BRC Census project is made possible through the extensive collective effort 
 of volunteers, academic researchers, and Burning Man Project. Our thanks to 
