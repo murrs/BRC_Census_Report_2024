@@ -3,7 +3,7 @@ project:
 
 book:
   title: "BRC_Census_Report_2024"
-  author: "Norah Jones"
+  author: "Black Rock City Census"
   date: "2/3/2025"
   chapters:
     - index.qmd
