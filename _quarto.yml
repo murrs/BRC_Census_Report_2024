@@ -2,14 +2,20 @@ project:
   type: book
 
 book:
-  title: "BRC_Census_Report_2024"
-  author: "Norah Jones"
-  date: "2/3/2025"
+  title: "Black Rock City Census 2024 Population Report"
+  author: "Aaron \"Murrs\" Shev"
+  date: "2/17/2025"
   chapters:
     - index.qmd
     - intro.qmd
-    - summary.qmd
+    - sociodemo.qmd
+    - regionals_media_volunteering.qmd
+    - perspectives.qmd
+    - travel.qmd
+    - camp_logistics.qmd
+    - acknowledgments.qmd
     - references.qmd
+  cover-image: Logo.png
 
 bibliography: references.bib
 
