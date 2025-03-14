@@ -1,21 +1,30 @@
 #### Code to read in and prep all years of data
-# Edit this file to your local file paths
-# Don't pull request changes to this file
+#
+# create a file called config.yml and add the path to your data
+# directory (with a trailing slash) like this for Mac or linux:
+#
+# default:
+#   datadir: /Users/matto/Documents/census_data/
+#
+# or if on Windows:
+#
+# default:
+#   datadir: "C:\Users\ashev\Documents\census\report_2023\BRC_Census_Report_2023\_data\"
 
 library(data.table)
 library(survey)
 
-datadir <- "C:\\Users\\ashev\\Documents\\census\\report_2023\\BRC_Census_Report_2023\\_data\\"
+datadir <- config::get("datadir")
 
-census13 <- fread(paste0(datadir, "\\Census2013Fulltab.tsv"), sep = "\t", na.strings = c("", "NA"))
-census14 <- fread(paste0(datadir, "\\Census2014Fulltab.tsv"), sep = "\t", na.strings = c("", "NA"))
-census15 <- fread(paste0(datadir, "\\Clean2015CensusFulltabJul2018.tsv"), sep = "\t", na.strings = c("", "NA"))
-census16 <- fread(paste0(datadir, "\\Census2016Fulltab.tsv"), sep = "\t", na.strings = c("", "NA"))
-census17 <- fread(paste0(datadir, "\\Clean2017CensusFulltabMar2018.tsv"), sep = "\t", na.strings = c("", "NA"))
-census18 <- fread(paste0(datadir, "\\Clean2018CensusFulltabApr2019.tsv"), sep = "\t", na.strings = c("", "NA"))
-census19 <- fread(paste0(datadir, "\\Clean2019CensusFulltabJan2019.tsv"), sep = "\t", na.strings = c("", "NA"))
-census22 <- fread(paste0(datadir, "\\census2022_cleaned_weighted.tsv"), sep = "\t", na.strings = c("", "NA"))
-census23 <- fread(paste0(datadir, "\\census2023_cleaned_weighted.tsv"), sep = "\t", na.strings = c("", "NA"))
+census13 <- fread(paste0(datadir, "Census2013Fulltab.tsv"), sep = "\t", na.strings = c("", "NA"))
+census14 <- fread(paste0(datadir, "Census2014Fulltab.tsv"), sep = "\t", na.strings = c("", "NA"))
+census15 <- fread(paste0(datadir, "Clean2015CensusFulltabJul2018.tsv"), sep = "\t", na.strings = c("", "NA"))
+census16 <- fread(paste0(datadir, "Census2016Fulltab.tsv"), sep = "\t", na.strings = c("", "NA"))
+census17 <- fread(paste0(datadir, "Clean2017CensusFulltabMar2018.tsv"), sep = "\t", na.strings = c("", "NA"))
+census18 <- fread(paste0(datadir, "Clean2018CensusFulltabApr2019.tsv"), sep = "\t", na.strings = c("", "NA"))
+census19 <- fread(paste0(datadir, "Clean2019CensusFulltabJan2019.tsv"), sep = "\t", na.strings = c("", "NA"))
+census22 <- fread(paste0(datadir, "census2022_cleaned_weighted.tsv"), sep = "\t", na.strings = c("", "NA"))
+census23 <- fread(paste0(datadir, "census2023_cleaned_weighted.tsv"), sep = "\t", na.strings = c("", "NA"))
 
 design13 <- svydesign(ids = ~id, weights = ~weight, data = census13)
 design14 <- svydesign(ids = ~id, weights = ~weightbmorg, data = census14)
@@ -27,8 +36,4 @@ design19 <- svydesign(ids = ~id, weights = ~weightbfarrival, data = census19)
 design22 <- svydesign(ids = ~responseID, weights = ~weights, data = census22)
 design23 <- svydesign(ids = ~responseID, weights = ~weights, data = census23)
 
-varNameTable <- fread(paste0(datadir, "\\question_name_xwalk_2023.txt"), sep = "\t")
-
-
-
-
+varNameTable <- fread(paste0(datadir, "question_name_xwalk_2024.tsv"), sep = "\t")

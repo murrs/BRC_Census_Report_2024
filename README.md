@@ -19,6 +19,7 @@ EOF
 R
 pkgs = c(
 	"cartogram", 
+        "config",
 	"ggplot2", 
 	"kableExtra", 
 	"survey", 
@@ -30,6 +31,12 @@ pkgs = c(
 )
 install.packages(pkgs, dependencies = TRUE)
 q()
+
+# put the path to your data dir here:
+cat >config.yml <<EOF
+default:
+  datadir: /Users/matto/Documents/census_data/
+EOF
 
 quarto render
 quarto preview
