@@ -39,43 +39,46 @@ discreteColors <- c("#EA008B", "#B0AEDC", "#554149", "#A07200", "#AADA91",
 
 ```{r}
 
-# virgin <- makePlotData(varName = "Was this your first time visiting Black Rock City?", 
-#                        varNameTable,
-#                        designs = list(design13, design14, design15, 
-#                                       design16, design17, design18, 
-#                                       design19, design22, design23),
-#                        years = c(2013:2019, 2022:2023), 
-#                        levels = list(c("no", "yes"), c("no", "yes"),
-#                                      c("no", "yes"), c("no", "yes"),
-#                                      c("no", "yes"), c("no", "yes"),
-#                                      c("no", "yes"), c(FALSE, TRUE),
-#                                      c(FALSE, TRUE)),
-#                        labels = c("Not virgin", "Virgin"),
-#                        labelOrder = c("Virgin", "Not virgin"))
-# 
-# 
-# ggplot(virgin[virgin$labels == "Virgin",], aes(x = year, y = est)) +
-#   geom_line(linewidth = 1.5, color = "#EA008B", alpha = 0.7) +
-#   geom_point(size = 2.25, color = "#EA008B") +
-#   theme_bw() +
-#   theme(panel.grid.minor = element_blank()) +
-#   scale_x_continuous(breaks = c(2013:2019, 2022:2023), 
-#                      labels = c(2013:2019, 2022:2023)) +
-#   scale_y_continuous(labels = percent, limits = c(0, NA)) +
-#   labs(x = "", y = "Burning Man Participants (%)")
-# 
-# virginTable <- makeTableData(virgin)
-# virginTable <- virginTable[1,] |>
-#   matrix(nrow = 1) |>
-#   as.table()
-# rownames(virginTable) = "Virgin"
-# colnames(virginTable) = c(2013:2019, 2022:2023)
-# kbl(virginTable, col.names = c(2013:2019, 2022:2023),
-#       row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
-#   kable_styling() |>
-#   column_spec(column = 1:10, width_min = "10.5em") |>
-#   scroll_box(width = "100%")
+yearrange <- c(2013:2019, 2022:2024)
+
+virgin <- makePlotData(varName = "Was this your first time visiting Black Rock City?", 
+                       varNameTable,
+                       designs = list(design13, design14, design15, 
+                                      design16, design17, design18, 
+                                      design19, design22, design23,
+                                      design24),
+                       years = yearrange,
+                       levels = list(c("no", "yes"), c("no", "yes"),
+                                     c("no", "yes"), c("no", "yes"),
+                                     c("no", "yes"), c("no", "yes"),
+                                     c("no", "yes"), c(FALSE, TRUE),
+                                     c(FALSE, TRUE), c(FALSE, TRUE)),
+                       labels = c("Not virgin", "Virgin"),
+                       labelOrder = c("Virgin", "Not virgin"))
+
+
+ggplot(virgin[virgin$labels == "Virgin",], aes(x = year, y = est)) +
+  geom_line(linewidth = 1.5, color = "#EA008B", alpha = 0.7) +
+  geom_point(size = 2.25, color = "#EA008B") +
+  theme_bw() +
+  theme(panel.grid.minor = element_blank()) +
+  scale_x_continuous(breaks = yearrange, 
+                     labels = yearrange) +
+  scale_y_continuous(labels = percent, limits = c(0, NA)) +
+  labs(x = "", y = "Burning Man Participants (%)")
+
+virginTable <- makeTableData(virgin)
+virginTable <- virginTable[1,] |>
+  matrix(nrow = 1) |>
+  as.table()
+rownames(virginTable) = "Virgin"
+colnames(virginTable) = yearrange
+kbl(virginTable, col.names = yearrange,
+      row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  kable_styling() |>
+  column_spec(column = 1:10, width_min = "10.5em") |>
+  scroll_box(width = "100%")
 
 ```
 
