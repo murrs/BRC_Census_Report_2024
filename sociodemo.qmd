@@ -85,59 +85,60 @@ kbl(virginTable, col.names = yearrange,
 ### Number of burns attended
 
 ```{r}
-# ggplot(census23, 
-#        aes(x = nburns, y = after_stat(density), weight = weights)) +
-#   geom_histogram(fill = "#EA008B", color = "black", binwidth = 1) +
-#   theme_bw() +
-#   labs(x = "Number of burns attended (including 2023)", y = "Proportion") +
-#   coord_cartesian(xlim = c(0, 30))
-# 
-# 
-# empCDFs <- list(svycdf(~nburns, design23)[[1]],
-#                  svycdf(~numberBurns, design22)[[1]],
-#                  svycdf(~nbburns, design19)[[1]],
-#                  svycdf(~nbburns, design18)[[1]],
-#                  svycdf(~nbburns, design17)[[1]],
-#                  svycdf(~nbburns, design16)[[1]],
-#                  svycdf(~nbburns, design15)[[1]],
-#                  svycdf(~nbburns, design14)[[1]])
-# names(empCDFs) <- c(2023:2022, 2019:2014)
-# ## todo: use nbburns2-6 to add 2013 data
-# 
-# myQuantiles <- c(0, 1, 2, 4, 10, Inf) # account for time looping burners!
-# rangeNames <- c("1","2","3-4","5-10",">10")
-# 
-# ## number burns >=2022 are inclusive, but <= 2019 are not inclusive
-# cumulProportions1 <- sapply(
-#   empCDFs[c("2023", "2022")], 
-#   mapply, 
-#   myQuantiles)
-# cumulProportions2 <- sapply(
-#   empCDFs[c("2019", "2018", "2017", "2016", "2015", "2014")], 
-#   mapply, 
-#   myQuantiles-1) # -1 to make these inclusive
-# cumulProportions <- cbind(cumulProportions1, cumulProportions2)
-# 
-# myProportions <- diff(cumulProportions)
-# rownames(myProportions) <- rangeNames
-# 
-# myDat <- data.frame(
-#   rows=factor(rownames(myProportions)[row(myProportions)],
-#               levels=rev(rangeNames)), 
-#   Year=factor(colnames(myProportions)[col(myProportions)],
-#               levels=2014:2023),
-#   Percentage=c(myProportions))
-# 
-# ggplot(myDat, aes(x = Year, y = Percentage, fill = rows)) + 
-#   geom_bar(position = "fill",stat = "identity") +
-#   scale_y_continuous(labels = scales::percent_format()) +
-#   scale_x_discrete(drop = FALSE) + 
-#   labs(fill="Number\n of burns\n attended\n (inclusive)",
-#        x = "") +
-#   scale_fill_manual(values = gradientColors(5)) +
-#   # scale_fill_manual(values=c("#EA008B", "#d460c7", "#bc8ce0", "#b0aedc",
-#   #                               "#c3c4c6")[1:5]) +
-#   theme_bw()
+ggplot(census24, 
+       aes(x = numberBurns, y = after_stat(density), weight = weights)) +
+  geom_histogram(fill = "#EA008B", color = "black", binwidth = 1) +
+  theme_bw() +
+  labs(x = "Number of burns attended (including 2024)", y = "Proportion") +
+  coord_cartesian(xlim = c(0, 30))
+
+
+empCDFs <- list(svycdf(~numberBurns, design24)[[1]],
+                 svycdf(~nburns, design23)[[1]],
+                 svycdf(~numberBurns, design22)[[1]],
+                 svycdf(~nbburns, design19)[[1]],
+                 svycdf(~nbburns, design18)[[1]],
+                 svycdf(~nbburns, design17)[[1]],
+                 svycdf(~nbburns, design16)[[1]],
+                 svycdf(~nbburns, design15)[[1]],
+                 svycdf(~nbburns, design14)[[1]])
+names(empCDFs) <- c(2024:2022, 2019:2014)
+## todo: use nbburns2-6 to add 2013 data
+
+myQuantiles <- c(0, 1, 2, 4, 10, Inf) # account for time looping burners!
+rangeNames <- c("1","2","3-4","5-10",">10")
+
+## number burns >=2022 are inclusive, but <= 2019 are not inclusive
+cumulProportions1 <- sapply(
+  empCDFs[c("2024", "2023", "2022")], 
+  mapply, 
+  myQuantiles)
+cumulProportions2 <- sapply(
+  empCDFs[c("2019", "2018", "2017", "2016", "2015", "2014")], 
+  mapply, 
+  myQuantiles-1) # -1 to make these inclusive
+cumulProportions <- cbind(cumulProportions1, cumulProportions2)
+
+myProportions <- diff(cumulProportions)
+rownames(myProportions) <- rangeNames
+ 
+myDat <- data.frame(
+  rows=factor(rownames(myProportions)[row(myProportions)],
+              levels=rev(rangeNames)), 
+  Year=factor(colnames(myProportions)[col(myProportions)],
+              levels=2014:2024),
+  Percentage=c(myProportions))
+
+ggplot(myDat, aes(x = Year, y = Percentage, fill = rows)) + 
+  geom_bar(position = "fill",stat = "identity") +
+  scale_y_continuous(labels = scales::percent_format()) +
+  scale_x_discrete(drop = FALSE) + 
+  labs(fill="Number\n of burns\n attended\n (inclusive)",
+       x = "") +
+  scale_fill_manual(values = gradientColors(5)) +
+  # scale_fill_manual(values=c("#EA008B", "#d460c7", "#bc8ce0", "#b0aedc",
+  #                               "#c3c4c6")[1:5]) +
+  theme_bw()
 ```
 
 ### Plans to Return to Black Rock City
