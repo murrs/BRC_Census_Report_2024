@@ -25,6 +25,7 @@ census18 <- fread(paste0(datadir, "Clean2018CensusFulltabApr2019.tsv"), sep = "\
 census19 <- fread(paste0(datadir, "Clean2019CensusFulltabJan2019.tsv"), sep = "\t", na.strings = c("", "NA"))
 census22 <- fread(paste0(datadir, "census2022_cleaned_weighted.tsv"), sep = "\t", na.strings = c("", "NA"))
 census23 <- fread(paste0(datadir, "census2023_cleaned_weighted.tsv"), sep = "\t", na.strings = c("", "NA"))
+census24 <- fread(paste0(datadir, "census2024_cleaned_weighted.tsv"), sep = "\t", na.strings = c("", "NA"))
 
 design13 <- svydesign(ids = ~id, weights = ~weight, data = census13)
 design14 <- svydesign(ids = ~id, weights = ~weightbmorg, data = census14)
@@ -35,5 +36,6 @@ design18 <- svydesign(ids = ~id, weights = ~weightbfarrival, data = census18)
 design19 <- svydesign(ids = ~id, weights = ~weightbfarrival, data = census19)
 design22 <- svydesign(ids = ~responseID, weights = ~weights, data = census22)
 design23 <- svydesign(ids = ~responseID, weights = ~weights, data = census23)
+design24 <- svydesign(ids = ~responseID, weights = ~weights, data = census24)
 
 varNameTable <- fread(paste0(datadir, "question_name_xwalk_2024.tsv"), sep = "\t")
