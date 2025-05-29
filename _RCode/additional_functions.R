@@ -92,10 +92,9 @@ makePlotDataByVarLevel <- function(varName, design, year, levels, groups){
 
 makePlotDataByYearVarLevel <- function(i, varNames, designs, years, levels,
                                        groups){
-  
   ciDatList <- lapply(varNames[[i]], makePlotDataByVarLevel, 
                       design = designs[[i]], levels = levels[[i]], 
-                      year = years[i], groups = groups)
+                      year = years[i], groups = groups[[i]])
   do.call(rbind, ciDatList)
 }
 
@@ -188,9 +187,10 @@ format_table_entry <- function(x, format = c("percent", "proportion"),
 
 
 customPlotDat <- function(levels, design, incomeVarName, year, label){
-  f <- as.formula(paste0("~ I(", incomeVarName, " %in% c(\"", 
+  f <- as.formula(paste0("~ I(", "match(", incomeVarName, ", c(\"", 
                          do.call(paste, c(as.list(levels), 
-                                          list(sep = "\",\""))),"\"))"))
+                                          list(sep = "\",\""))),
+                         "\"), nomatch = 0, incomparables = NA) > 0)"))
   ciout <- svyciprop(f, design = design)
   data.frame(est = as.numeric(ciout), lower = attr(ciout, "ci")[1],
              upper = attr(ciout, "ci")[2], level = label, 
