@@ -80,6 +80,45 @@ kbl(virginTable, col.names = yearrange,
   column_spec(column = 1:10, width_min = "10.5em") |>
   scroll_box(width = "100%")
 
+virgin <- makePlotData(varName = "Was this your first time visiting Black Rock City?",
+                       varNameTable,
+                       designs = list(design13, design14, design15,
+                                      design16, design17, design18,
+                                      design19, design22, design23,
+                                      design24),
+                       years = c(2013:2019, 2022:2024),
+                       levels = list(c("no", "yes"), c("no", "yes"),
+                                     c("no", "yes"), c("no", "yes"),
+                                     c("no", "yes"), c("no", "yes"),
+                                     c("no", "yes"), c(FALSE, TRUE),
+                                     c(FALSE, TRUE), c(FALSE, TRUE)),
+                       labels = c("Not virgin", "Virgin"),
+                       labelOrder = c("Virgin", "Not virgin"))
+
+
+ggplot(virgin[virgin$labels == "Virgin",], aes(x = year, y = est)) +
+  geom_line(linewidth = 1.5, color = "#EA008B", alpha = 0.7) +
+  geom_point(size = 2.25, color = "#EA008B") +
+  theme_bw() +
+  theme(panel.grid.minor = element_blank()) +
+  scale_x_continuous(breaks = c(2013:2019, 2022:2024),
+                     labels = c(2013:2019, 2022:2024)) +
+  scale_y_continuous(labels = percent, limits = c(0, NA)) +
+  labs(x = "", y = "Burning Man Participants (%)")
+
+virginTable <- makeTableData(virgin)
+virginTable <- virginTable[1,] |>
+  matrix(nrow = 1) |>
+  as.table()
+rownames(virginTable) = "Virgin"
+colnames(virginTable) = c(2013:2019, 2022:2024)
+kbl(virginTable, col.names = c(2013:2019, 2022:2024),
+      row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  kable_styling() |>
+  column_spec(column = 1:11, width_min = "10.5em") |>
+  scroll_box(width = "100%")
+
 ```
 
 ### Number of burns attended
@@ -313,6 +352,7 @@ ggplot(myDat, aes(x = Year, y = Percentage, fill = rows)) +
 
 ### Ethnoracial background
 
+
 ```{r}
 # ethnoracial22to23 <- makePlotData("Which category best describes your race?",
 #                               varNameTable = varNameTable,
@@ -412,6 +452,7 @@ ggplot(myDat, aes(x = Year, y = Percentage, fill = rows)) +
 ```
 
 ### Self-identification as a person of color
+
 
 ```{r}
 # personOfColor <- makePlotData("Do you consider yourself to be a person of color?",
@@ -514,392 +555,434 @@ ggplot(myDat, aes(x = Year, y = Percentage, fill = rows)) +
 #   scroll_box(width = "100%")}
 ```
 
-## 
+
 
 ### Personal income in 2023
 
 ```{r}
-# pi.lt25.23 <- customPlotDat(c("No income", "Less than $7500",
-#                                  "$7,500-$14,999", "$15,000-$24,999"),
-#                                design = design23, "personalIncome",
-#                                2023, "Less than $25,000")
-# pi.25to50.23 <- customPlotDat(c("$25,000-$34,999", "$35,000-$49,999"),
-#                               design = design23, "personalIncome", 2023,
-#                               "$25,000-$49,999")
-# pi.50to100.23 <- customPlotDat(c("$50,000-$74,999", "$75,000-$99,999"),
-#                                design = design23, "personalIncome",
-#                                2023, "$50,000-$99,999")
-# pi.100to300.23 <- customPlotDat(c("$100,000-$149,999", "$150,000-$299,000"),
-#                                 design = design23, "personalIncome", 2023,
-#                                 "$100,000-$299,999")
-# pi.gt300.23 <- customPlotDat("$300,000 or more", design = design23,
-#                              "personalIncome", 2023, "$300,000 or more")
-# pi.23 <- rbind(pi.lt25.23, pi.25to50.23, pi.50to100.23, pi.100to300.23,
-#                pi.gt300.23)
-# 
-# pi.lt25.22 <- customPlotDat(c("No income", "Less than $7500",
-#                                  "$7,500-$14,999", "$15,000-$24,999"),
-#                                design = design22, "personalIncome",
-#                                2022, "Less than $25,000")
-# pi.25to50.22 <- customPlotDat(c("$25,000-$34,999", "$35,000-$49,999"),
-#                               design = design22, "personalIncome", 2022,
-#                               "$25,000-$49,999")
-# pi.50to100.22 <- customPlotDat(c("$50,000-$74,999", "$75,000-$99,999"),
-#                                design = design22, "personalIncome",
-#                                2022, "$50,000-$99,999")
-# pi.100to300.22 <- customPlotDat(c("$100,000-$149,999", "$150,000-$299,000"),
-#                                 design = design22, "personalIncome", 2022,
-#                                 "$100,000-$299,999")
-# pi.gt300.22 <- customPlotDat("$300,000 or more", design = design22,
-#                              "personalIncome", 2022, "$300,000 or more")
-# pi.22 <- rbind(pi.lt25.22, pi.25to50.22, pi.50to100.22, pi.100to300.22,
-#                pi.gt300.22)
-# 
-# pi.lt25.19 <- customPlotDat(c("None", "Less_than_7500US",
-#                                  "_7500_14999US", "_15000_24999US"),
-#                                design = design19, "incomep",
-#                                2019, "Less than $25,000")
-# pi.25to50.19 <- customPlotDat(c("_25000_34999US", "_35000_49999US"),
-#                               design = design19, "incomep", 2019,
-#                               "$25,000-$49,999")
-# pi.50to100.19 <- customPlotDat(c("_50000_74999US", "_75000_99999US"),
-#                                design = design19, "incomep",
-#                                2019, "$50,000-$99,999")
-# pi.100to300.19 <- customPlotDat(c("_100k_149999US", "_150k_299999US"),
-#                                 design = design19, "incomep", 2019,
-#                                 "$100,000-$299,999")
-# pi.gt300.19 <- customPlotDat("_300kUS_or_more", design = design19,
-#                              "incomep", 2019, "$300,000 or more")
-# pi.19 <- rbind(pi.lt25.19, pi.25to50.19, pi.50to100.19, pi.100to300.19,
-#                pi.gt300.19)
-# 
-# pi.lt25.18 <- customPlotDat(c("None", "Less_than_7500US",
-#                                  "_7500_14999US", "_15000_24999US"),
-#                                design = design18, "incomep",
-#                                2018, "Less than $25,000")
-# pi.25to50.18 <- customPlotDat(c("_25000_34999US", "_35000_49999US"),
-#                               design = design18, "incomep", 2018,
-#                               "$25,000-$49,999")
-# pi.50to100.18 <- customPlotDat(c("_50000_74999US", "_75000_99999US"),
-#                                design = design18, "incomep",
-#                                2018, "$50,000-$99,999")
-# pi.100to300.18 <- customPlotDat(c("_100k_149999US", "_150k_299999US"),
-#                                 design = design18, "incomep", 2018,
-#                                 "$100,000-$299,999")
-# pi.gt300.18 <- customPlotDat("_300kUS_or_more", design = design18,
-#                              "incomep", 2018, "$300,000 or more")
-# pi.18 <- rbind(pi.lt25.18, pi.25to50.18, pi.50to100.18, pi.100to300.18,
-#                pi.gt300.18)
-# 
-# pi.lt25.17 <- customPlotDat(c("None", "Less_than_7500US",
-#                                  "_7500_14999US", "_15000_24999US"),
-#                                design = design17, "incomep",
-#                                2017, "Less than $25,000")
-# pi.25to50.17 <- customPlotDat(c("_25000_34999US", "_35000_49999US"),
-#                               design = design17, "incomep", 2017,
-#                               "$25,000-$49,999")
-# pi.50to100.17 <- customPlotDat(c("_50000_74999US", "_75000_99999US"),
-#                                design = design17, "incomep",
-#                                2017, "$50,000-$99,999")
-# pi.100to300.17 <- customPlotDat(c("_100k_149999US", "_150k_299999US"),
-#                                 design = design17, "incomep", 2017,
-#                                 "$100,000-$299,999")
-# pi.gt300.17 <- customPlotDat("_300kUS_or_more", design = design17,
-#                              "incomep", 2017, "$300,000 or more")
-# pi.17 <- rbind(pi.lt25.17, pi.25to50.17, pi.50to100.17, pi.100to300.17,
-#                pi.gt300.17)
-# 
-# pi.lt25.16 <- customPlotDat(c("None", "Less_than_7500US",
-#                                  "_7500_14999US", "_15000_24999US"),
-#                                design = design16, "incomep",
-#                                2016, "Less than $25,000")
-# pi.25to50.16 <- customPlotDat(c("_25000_34999US", "_35000_49999US"),
-#                               design = design16, "incomep", 2016,
-#                               "$25,000-$49,999")
-# pi.50to100.16 <- customPlotDat(c("_50000_74999US", "_75000_99999US"),
-#                                design = design16, "incomep",
-#                                2016, "$50,000-$99,999")
-# pi.100to300.16 <- customPlotDat(c("_100k_149999US", "_150k_299999US"),
-#                                 design = design16, "incomep", 2016,
-#                                 "$100,000-$299,999")
-# pi.gt300.16 <- customPlotDat("_300kUS_or_more", design = design16,
-#                              "incomep", 2016, "$300,000 or more")
-# pi.16 <- rbind(pi.lt25.16, pi.25to50.16, pi.50to100.16, pi.100to300.16,
-#                pi.gt300.16)
-# 
-# pi.lt25.15 <- customPlotDat(c("None", "Less_than_7500US",
-#                                  "_7500_14999US", "_15000_24999US"),
-#                                design = design15, "incomep",
-#                                2015, "Less than $25,000")
-# pi.25to50.15 <- customPlotDat(c("_25000_34999US", "_35000_49999US"),
-#                               design = design15, "incomep", 2015,
-#                               "$25,000-$49,999")
-# pi.50to100.15 <- customPlotDat(c("_50000_74999US", "_75000_99999US"),
-#                                design = design15, "incomep",
-#                                2015, "$50,000-$99,999")
-# pi.100to300.15 <- customPlotDat(c("_100k_149999US", "_150k_299999US"),
-#                                 design = design15, "incomep", 2015,
-#                                 "$100,000-$299,999")
-# pi.gt300.15 <- customPlotDat("_300kUS_or_more", design = design15,
-#                              "incomep", 2015, "$300,000 or more")
-# pi.15 <- rbind(pi.lt25.15, pi.25to50.15, pi.50to100.15, pi.100to300.15,
-#                pi.gt300.15)
-# 
-# pi.allYears <- rbind(pi.23, pi.22, pi.19, pi.18, pi.17, pi.16, pi.15)
-# pi.allYears$labels <- factor(pi.allYears$labels,
-#                              levels = c("Less than $25,000",
-#                                         "$25,000-$49,999",
-#                                         "$50,000-$99,999",
-#                                         "$100,000-$299,999",
-#                                         "$300,000 or more"))
-# 
-# ggplot(pi.allYears, aes(x = year, y = est, color = labels)) +
-#   geom_line(linewidth = 1.5, alpha = 0.7) +
-#   geom_point(size = 2.25) +
-#   # geom_errorbar(aes(ymin = lower, ymax = upper), color = "black", width = 0.2,
-#   #               linewidth = 1) +
-#   theme_bw() +
-#   theme(panel.grid.minor = element_blank()) +
-#   scale_x_continuous(breaks = c(2013:2019, 2022:2023), labels = c(2013:2019, 2022:2023)) +
-#   scale_y_continuous(labels = percent, limits = c(0, NA)) +
-#   scale_color_manual(values = gradientColors(5)) +
-#   labs(x = "", y = "Burning Man participants (%)", color = "Personal income (USD)")
-# 
-# ## note: varName below should refer to previous burn year
-# personalIncome <- makePlotData(varName = "What was your personal income in 2022 before taxes? Give your best estimate. Please do not include your spouse's income as your own.",
-#                          varNameTable,
-#                          designs = list(design15, design16, design17, design18,
-#                                         design19, design22, design23),
-#                          years = c(2015:2019, 2022:2023),
-#                          levels = c(rep(list(c("_100k_149999US",
-#                                                "_15000_24999US",
-#                                                "_150k_299999US",
-#                                                "_25000_34999US",
-#                                                "_300kUS_or_more",
-#                                                "_35000_49999US",
-#                                                "_50000_74999US",
-#                                                "_7500_14999US",
-#                                                "_75000_99999US",
-#                                                "Less_than_7500US",
-#                                                "None")), times  = 5),
-#                                     rep(list(c("$100,000-$149,999", "$15,000-$24,999",
-#                                     "$150,000-$299,000", "$25,000-$34,999",
-#                                     "$300,000 or more", "$35,000-$49,999",
-#                                     "$50,000-$74,999", "$7,500-$14,999",
-#                                     "$75,000-$99,999", "Less than $7500",
-#                                     "No income")), times = 2)),
-#                          labels = c("$100,000-$149,999", "$15,000-$24,999",
-#                                     "$150,000-$299,000", "$25,000-$34,999",
-#                                     "$300,000 or more", "$35,000-$49,999",
-#                                     "$50,000-$74,999", "$7,500-$14,999",
-#                                     "$75,000-$99,999", "Less than $7,500",
-#                                     "No income"),
-#                          labelOrder = c("No income", "Less than $7,500",
-#                                         "$7,500-$14,999", "$15,000-$24,999",
-#                                         "$25,000-$34,999", "$35,000-$49,999",
-#                                         "$50,000-$74,999", "$75,000-$99,999",
-#                                         "$100,000-$149,999", "$150,000-$299,000",
-#                                         "$300,000 or more"))
-# 
-# 
-# makeTableData(personalIncome) |>
-#   kbl(col.names = c(2015:2019, 2022:2023), row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
-#   kable_styling() |>
-#   column_spec(column = 1:8, width_min = "10.5em") |>
-#   scroll_box(width = "100%")
+#TODO Make barplot and table for just 2024 data
+
+piGraphGroups <- list("Less than $25,000" = c("None", 
+                                              "Less_than_7500US",
+                                              "_7500_14999US", 
+                                              "_15000_24999US",
+                                              "I had no personal income",
+                                              "Less than $7,500 USD",
+                                              "$7,500-$14,999 USD",
+                                              "$15,000-$24,999 USD",
+                                              "No income", 
+                                              "Less than $7500",
+                                              "$7,500-$14,999", 
+                                              "$15,000-$24,999"),
+                        "$25,000-$49,999" = c("_25000_34999US",
+                                              "_35000_49999US",
+                                              "$25,000-$34,999", 
+                                              "$35,000-$49,999",
+                                              "$25,000-$34,999 USD",
+                                              "$35,000-$49,999 USD"),
+                        "$50,000-$99,999" = c("_50000_74999US", 
+                                              "_75000_99999US",
+                                              "$50,000-$74,999", 
+                                              "$75,000-$99,999",
+                                              "$50,000-$74,999 USD",
+                                              "$75,000-$99,999 USD"),
+                        "$100,000-$299,999" = c("_100k_149999US", 
+                                                "_150k_299999US",
+                                                "$100,000-$149,999", 
+                                                "$150,000-$299,000",
+                                                "$100,000-$149,999 USD",
+                                                "$150,000-$299,999 USD"),
+                        "$300,000 or more" = c("_300kUS_or_more",
+                                               "$300,000 or more",
+                                               "$300,000-$399,999 USD",
+                                               "$400,000-$499,999 USD",
+                                               "$500,000-$749,999 USD",
+                                               "$750,000-$999,999 USD",
+                                               "$1,000,000-$4,999,999 USD",
+                                               "$5,000,000-$9,999,999 USD",
+                                               "$10,000,000 USD or more"))
+
+pi.allYears <- makePlotData(varName = "What was your personal income in 2023 before taxes? Give your best estimate. Please do not include your spouse's income as your own.",
+                         varNameTable,
+                         designs = list(design15, design16, design17, design18,
+                                        design19, design22, design23, design24),
+                         years = c(2015:2019, 2022:2024),
+                         levels = c(rep(list(c("_100k_149999US",
+                                               "_15000_24999US",
+                                               "_150k_299999US",
+                                               "_25000_34999US",
+                                               "_300kUS_or_more",
+                                               "_35000_49999US",
+                                               "_50000_74999US",
+                                               "_7500_14999US",
+                                               "_75000_99999US",
+                                               "Less_than_7500US",
+                                               "None")), times  = 5),
+                                    rep(list(c("$100,000-$149,999", 
+                                               "$15,000-$24,999",
+                                               "$150,000-$299,000", 
+                                               "$25,000-$34,999",
+                                               "$300,000 or more", 
+                                               "$35,000-$49,999",
+                                               "$50,000-$74,999", 
+                                               "$7,500-$14,999",
+                                               "$75,000-$99,999", 
+                                               "Less than $7500",
+                                               "No income")), times = 2),
+                                    list(c("$1,000,000-$4,999,999 USD", 
+                                         "$10,000,000 USD or more",
+                                         "$100,000-$149,999 USD", 
+                                         "$15,000-$24,999 USD",
+                                         "$150,000-$299,999 USD", 
+                                         "$25,000-$34,999 USD",
+                                         "$300,000-$399,999 USD",
+                                         "$35,000-$49,999 USD",
+                                         "$400,000-$499,999 USD",
+                                         "$5,000,000-$9,999,999 USD",
+                                         "$50,000-$74,999 USD",
+                                         "$500,000-$749,999 USD",
+                                         "$7,500-$14,999 USD",
+                                         "$75,000-$99,999 USD",
+                                         "$750,000-$999,999 USD",
+                                         "I had no personal income",
+                                         "Less than $7,500 USD"))),
+                         labels = c("Less than $25,000", "$25,000-$49,999",
+                                    "$50,000-$99,999", "$100,000-$299,999",
+                                    "$300,000 or more"),
+                         labelOrder = c("Less than $25,000", "$25,000-$49,999",
+                                        "$50,000-$99,999", "$100,000-$299,999",
+                                        "$300,000 or more"),
+                         groups = piGraphGroups) 
+
+
+
+ggplot(pi.allYears, aes(x = year, y = est, color = labels)) +
+  geom_line(linewidth = 1.5, alpha = 0.7) +
+  geom_point(size = 2.25) +
+  theme_bw() +
+  theme(panel.grid.minor = element_blank()) +
+  scale_x_continuous(breaks = c(2013:2019, 2022:2024), labels = c(2013:2019, 2022:2024)) +
+  scale_y_continuous(labels = percent, limits = c(0, NA)) +
+  scale_color_manual(values = gradientColors(5)) +
+  labs(x = "", y = "Burning Man participants (%)", color = "Personal income (USD)",
+       title = "Personal income of Burning Man participants in 2024")
+
+
+
+
+personalIncome <- makePlotData(varName = "What was your personal income in 2023 before taxes? Give your best estimate. Please do not include your spouse's income as your own.",
+                         varNameTable,
+                         designs = list(design15, design16, design17, design18,
+                                        design19, design22, design23),
+                         years = c(2015:2019, 2022:2023),
+                         levels = c(rep(list(c("_100k_149999US",
+                                               "_15000_24999US",
+                                               "_150k_299999US",
+                                               "_25000_34999US",
+                                               "_300kUS_or_more",
+                                               "_35000_49999US",
+                                               "_50000_74999US",
+                                               "_7500_14999US",
+                                               "_75000_99999US",
+                                               "Less_than_7500US",
+                                               "None")), times  = 5),
+                                    rep(list(c("$100,000-$149,999", 
+                                               "$15,000-$24,999",
+                                               "$150,000-$299,000", 
+                                               "$25,000-$34,999",
+                                               "$300,000 or more", 
+                                               "$35,000-$49,999",
+                                               "$50,000-$74,999", 
+                                               "$7,500-$14,999",
+                                               "$75,000-$99,999", 
+                                               "Less than $7500",
+                                               "No income")), times = 2)),
+                         labels = c("$100,000-$149,999", "$15,000-$24,999",
+                                    "$150,000-$299,000", "$25,000-$34,999",
+                                    "$300,000 or more", "$35,000-$49,999",
+                                    "$50,000-$74,999", "$7,500-$14,999",
+                                    "$75,000-$99,999", "Less than $7,500",
+                                    "No income"),
+                         labelOrder = c("No income", "Less than $7,500",
+                                        "$7,500-$14,999", "$15,000-$24,999",
+                                        "$25,000-$34,999", "$35,000-$49,999",
+                                        "$50,000-$74,999", "$75,000-$99,999",
+                                        "$100,000-$149,999", "$150,000-$299,000",
+                                        "$300,000 or more")) 
+  
+piGroups24 = list("No income" = c("I had no personal income"),
+                  "Less than $7,500" = c("Less than $7,500 USD"),
+                  "$7,500-$14,999" = c("$7,500-$14,999 USD"), 
+                  "$15,000-$24,999" = c("$15,000-$24,999 USD"),
+                  "$25,000-$34,999" = c("$25,000-$34,999 USD"), 
+                  "$35,000-$49,999" = c("$35,000-$49,999 USD"),
+                  "$50,000-$74,999" = c("$50,000-$74,999 USD"), 
+                  "$75,000-$99,999" = c("$75,000-$99,999 USD"),
+                  "$100,000-$149,999" = c("$100,000-$149,999 USD"), 
+                  "$150,000-$299,000" = c("$150,000-$299,999 USD"),
+                  "$300,000 or more" = c("$300,000-$399,999 USD",
+                                         "$400,000-$499,999 USD",
+                                         "$500,000-$749,999 USD",
+                                         "$750,000-$999,999 USD",
+                                         "$1,000,000-$4,999,999 USD",
+                                         "$5,000,000-$9,999,999 USD",
+                                         "$10,000,000 USD or more"))
+
+personalIncome24 <- makePlotData(varName = "What was your personal income in 2023 before taxes? Give your best estimate. Please do not include your spouse's income as your own.",
+                         varNameTable,
+                         designs = list(design24),
+                         years = c(2024),
+                         levels = list(c("$1,000,000-$4,999,999 USD", 
+                                         "$10,000,000 USD or more",
+                                         "$100,000-$149,999 USD", 
+                                         "$15,000-$24,999 USD",
+                                         "$150,000-$299,999 USD", 
+                                         "$25,000-$34,999 USD",
+                                         "$300,000-$399,999 USD",
+                                         "$35,000-$49,999 USD",
+                                         "$400,000-$499,999 USD",
+                                         "$5,000,000-$9,999,999 USD",
+                                         "$50,000-$74,999 USD",
+                                         "$500,000-$749,999 USD",
+                                         "$7,500-$14,999 USD",
+                                         "$75,000-$99,999 USD",
+                                         "$750,000-$999,999 USD",
+                                         "I had no personal income",
+                                         "Less than $7,500 USD")),
+                         labels = c("$100,000-$149,999", "$15,000-$24,999",
+                                    "$150,000-$299,000", "$25,000-$34,999",
+                                    "$300,000 or more", "$35,000-$49,999",
+                                    "$50,000-$74,999", "$7,500-$14,999",
+                                    "$75,000-$99,999", "Less than $7,500",
+                                    "No income"),
+                         labelOrder = c("No income", "Less than $7,500",
+                                        "$7,500-$14,999", "$15,000-$24,999",
+                                        "$25,000-$34,999", "$35,000-$49,999",
+                                        "$50,000-$74,999", "$75,000-$99,999",
+                                        "$100,000-$149,999", "$150,000-$299,000",
+                                        "$300,000 or more"),
+                         groups = piGroups24) 
+
+makeTableData(rbind(personalIncome, personalIncome24)) |>
+  kbl(col.names = c(2015:2019, 2022:2024), row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  kable_styling() |>
+  column_spec(column = 1:8, width_min = "10.5em") |>
+  scroll_box(width = "100%")
 ```
 
 ### Household income in 2023
 
 ```{r}
-# hi.lt25.23 <- customPlotDat(c("No income", "Less than $7500",
-#                                  "$7,500-$14,999", "$15,000-$24,999"),
-#                                design = design23, "householdIncome",
-#                                2023, "Less than $25,000")
-# hi.25to50.23 <- customPlotDat(c("$25,000-$34,999", "$35,000-$49,999"),
-#                               design = design23, "householdIncome", 2023,
-#                               "$25,000-$49,999")
-# hi.50to100.23 <- customPlotDat(c("$50,000-$74,999", "$75,000-$99,999"),
-#                                design = design23, "householdIncome",
-#                                2023, "$50,000-$99,999")
-# hi.100to300.23 <- customPlotDat(c("$100,000-$149,999", "$150,000-$299,000"),
-#                                 design = design23, "householdIncome", 2023,
-#                                 "$100,000-$299,999")
-# hi.gt300.23 <- customPlotDat("$300,000 or more", design = design23,
-#                              "householdIncome", 2023, "$300,000 or more")
-# hi.23 <- rbind(hi.lt25.23, hi.25to50.23, hi.50to100.23, hi.100to300.23,
-#                hi.gt300.23)
-# 
-# hi.lt25.22 <- customPlotDat(c("No income", "Less than $7500",
-#                                  "$7,500-$14,999", "$15,000-$24,999"),
-#                                design = design22, "householdIncome",
-#                                2022, "Less than $25,000")
-# hi.25to50.22 <- customPlotDat(c("$25,000-$34,999", "$35,000-$49,999"),
-#                               design = design22, "householdIncome", 2022,
-#                               "$25,000-$49,999")
-# hi.50to100.22 <- customPlotDat(c("$50,000-$74,999", "$75,000-$99,999"),
-#                                design = design22, "householdIncome",
-#                                2022, "$50,000-$99,999")
-# hi.100to300.22 <- customPlotDat(c("$100,000-$149,999", "$150,000-$299,000"),
-#                                 design = design22, "householdIncome", 2022,
-#                                 "$100,000-$299,999")
-# hi.gt300.22 <- customPlotDat("$300,000 or more", design = design22,
-#                              "householdIncome", 2022, "$300,000 or more")
-# hi.22 <- rbind(hi.lt25.22, hi.25to50.22, hi.50to100.22, hi.100to300.22,
-#                hi.gt300.22)
-# 
-# hi.lt25.19 <- customPlotDat(c("None", "Less_than_7500US",
-#                                  "_7500_14999US", "_15000_24999US"),
-#                                design = design19, "incomeh",
-#                                2019, "Less than $25,000")
-# hi.25to50.19 <- customPlotDat(c("_25000_34999US", "_35000_49999US"),
-#                               design = design19, "incomeh", 2019,
-#                               "$25,000-$49,999")
-# hi.50to100.19 <- customPlotDat(c("_50000_74999US", "_75000_99999US"),
-#                                design = design19, "incomeh",
-#                                2019, "$50,000-$99,999")
-# hi.100to300.19 <- customPlotDat(c("_100k_149999US", "_150k_299999US"),
-#                                 design = design19, "incomeh", 2019,
-#                                 "$100,000-$299,999")
-# hi.gt300.19 <- customPlotDat("_300kUS_or_more", design = design19,
-#                              "incomeh", 2019, "$300,000 or more")
-# hi.19 <- rbind(hi.lt25.19, hi.25to50.19, hi.50to100.19, hi.100to300.19,
-#                hi.gt300.19)
-# 
-# hi.lt25.18 <- customPlotDat(c("None", "Less_than_7500US",
-#                                  "_7500_14999US", "_15000_24999US"),
-#                                design = design18, "incomeh",
-#                                2018, "Less than $25,000")
-# hi.25to50.18 <- customPlotDat(c("_25000_34999US", "_35000_49999US"),
-#                               design = design18, "incomeh", 2018,
-#                               "$25,000-$49,999")
-# hi.50to100.18 <- customPlotDat(c("_50000_74999US", "_75000_99999US"),
-#                                design = design18, "incomeh",
-#                                2018, "$50,000-$99,999")
-# hi.100to300.18 <- customPlotDat(c("_100k_149999US", "_150k_299999US"),
-#                                 design = design18, "incomeh", 2018,
-#                                 "$100,000-$299,999")
-# hi.gt300.18 <- customPlotDat("_300kUS_or_more", design = design18,
-#                              "incomeh", 2018, "$300,000 or more")
-# hi.18 <- rbind(hi.lt25.18, hi.25to50.18, hi.50to100.18, hi.100to300.18,
-#                hi.gt300.18)
-# 
-# hi.lt25.17 <- customPlotDat(c("None", "Less_than_7500US",
-#                                  "_7500_14999US", "_15000_24999US"),
-#                                design = design17, "incomeh",
-#                                2017, "Less than $25,000")
-# hi.25to50.17 <- customPlotDat(c("_25000_34999US", "_35000_49999US"),
-#                               design = design17, "incomeh", 2017,
-#                               "$25,000-$49,999")
-# hi.50to100.17 <- customPlotDat(c("_50000_74999US", "_75000_99999US"),
-#                                design = design17, "incomeh",
-#                                2017, "$50,000-$99,999")
-# hi.100to300.17 <- customPlotDat(c("_100k_149999US", "_150k_299999US"),
-#                                 design = design17, "incomeh", 2017,
-#                                 "$100,000-$299,999")
-# hi.gt300.17 <- customPlotDat("_300kUS_or_more", design = design17,
-#                              "incomeh", 2017, "$300,000 or more")
-# hi.17 <- rbind(hi.lt25.17, hi.25to50.17, hi.50to100.17, hi.100to300.17,
-#                hi.gt300.17)
-# 
-# hi.lt25.16 <- customPlotDat(c("None", "Less_than_7500US",
-#                                  "_7500_14999US", "_15000_24999US"),
-#                                design = design16, "incomeh",
-#                                2016, "Less than $25,000")
-# hi.25to50.16 <- customPlotDat(c("_25000_34999US", "_35000_49999US"),
-#                               design = design16, "incomeh", 2016,
-#                               "$25,000-$49,999")
-# hi.50to100.16 <- customPlotDat(c("_50000_74999US", "_75000_99999US"),
-#                                design = design16, "incomeh",
-#                                2016, "$50,000-$99,999")
-# hi.100to300.16 <- customPlotDat(c("_100k_149999US", "_150k_299999US"),
-#                                 design = design16, "incomeh", 2016,
-#                                 "$100,000-$299,999")
-# hi.gt300.16 <- customPlotDat("_300kUS_or_more", design = design16,
-#                              "incomeh", 2016, "$300,000 or more")
-# hi.16 <- rbind(hi.lt25.16, hi.25to50.16, hi.50to100.16, hi.100to300.16,
-#                hi.gt300.16)
-# 
-# hi.lt25.15 <- customPlotDat(c("None", "Less_than_7500US",
-#                                  "_7500_14999US", "_15000_24999US"),
-#                                design = design15, "incomeh",
-#                                2015, "Less than $25,000")
-# hi.25to50.15 <- customPlotDat(c("_25000_34999US", "_35000_49999US"),
-#                               design = design15, "incomeh", 2015,
-#                               "$25,000-$49,999")
-# hi.50to100.15 <- customPlotDat(c("_50000_74999US", "_75000_99999US"),
-#                                design = design15, "incomeh",
-#                                2015, "$50,000-$99,999")
-# hi.100to300.15 <- customPlotDat(c("_100k_149999US", "_150k_299999US"),
-#                                 design = design15, "incomeh", 2015,
-#                                 "$100,000-$299,999")
-# hi.gt300.15 <- customPlotDat("_300kUS_or_more", design = design15,
-#                              "incomeh", 2015, "$300,000 or more")
-# hi.15 <- rbind(hi.lt25.15, hi.25to50.15, hi.50to100.15, hi.100to300.15,
-#                hi.gt300.15)
-# 
-# hi.allYears <- rbind(hi.23, hi.22, hi.19, hi.18, hi.17, hi.16, hi.15)
-# hi.allYears$labels <- factor(hi.allYears$labels,
-#                              levels = c("Less than $25,000",
-#                                         "$25,000-$49,999",
-#                                         "$50,000-$99,999",
-#                                         "$100,000-$299,999",
-#                                         "$300,000 or more"))
-# 
-# ggplot(hi.allYears, aes(x = year, y = est, color = labels)) +
-#   geom_line(linewidth = 1.5, alpha = 0.7) +
-#   geom_point(size = 2.25) +
-#   # geom_errorbar(aes(ymin = lower, ymax = upper), color = "black", width = 0.2,
-#   #               linewidth = 1) +
-#   theme_bw() +
-#   theme(panel.grid.minor = element_blank()) +
-#   scale_x_continuous(breaks = c(2013:2019, 2022:2023), labels = c(2013:2019, 2022:2023)) +
-#   scale_y_continuous(labels = percent, limits = c(0, NA)) +
-#   scale_color_manual(values = gradientColors(5)) +
-#   labs(x = "", y = "Burning Man participants (%)", color = "Household income (USD)")
-# 
-# householdIncome <- makePlotData(varName = "What was the total income before taxes of all members of your household (including you) in 2022?",
-#                          varNameTable,
-#                          designs = list(design15, design16, design17, design18,
-#                                         design19, design22, design23),
-#                          years = c(2015:2019, 2022:2023),
-#                          levels = c(rep(list(c("_100k_149999US",
-#                                                "_15000_24999US",
-#                                                "_150k_299999US",
-#                                                "_25000_34999US",
-#                                                "_300kUS_or_more",
-#                                                "_35000_49999US",
-#                                                "_50000_74999US",
-#                                                "_7500_14999US",
-#                                                "_75000_99999US",
-#                                                "Less_than_7500US",
-#                                                "None")), times  = 5),
-#                                     rep(list(c("$100,000-$149,999", "$15,000-$24,999",
-#                                     "$150,000-$299,000", "$25,000-$34,999",
-#                                     "$300,000 or more", "$35,000-$49,999",
-#                                     "$50,000-$74,999", "$7,500-$14,999",
-#                                     "$75,000-$99,999", "Less than $7500",
-#                                     "No income")), times=2)),
-#                          labels = c("$100,000-$149,999", "$15,000-$24,999",
-#                                     "$150,000-$299,000", "$25,000-$34,999",
-#                                     "$300,000 or more", "$35,000-$49,999",
-#                                     "$50,000-$74,999", "$7,500-$14,999",
-#                                     "$75,000-$99,999", "Less than $7,500",
-#                                     "No income"),
-#                          labelOrder = c("No income", "Less than $7,500",
-#                                         "$7,500-$14,999", "$15,000-$24,999",
-#                                         "$25,000-$34,999", "$35,000-$49,999",
-#                                         "$50,000-$74,999", "$75,000-$99,999",
-#                                         "$100,000-$149,999", "$150,000-$299,000",
-#                                         "$300,000 or more"))
-# 
-# makeTableData(householdIncome) |>
-#   kbl(col.names = c(2015:2019, 2022:2023), row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
-#   kable_styling() |>
-#   column_spec(column = 1:8, width_min = "10.5em") |>
-#   scroll_box(width = "100%")
+#TODO Make barplot and table for just 2024 data
+
+hiGraphGroups <- list("Less than $25,000" = c("None", 
+                                              "Less_than_7500US",
+                                              "_7500_14999US", 
+                                              "_15000_24999US",
+                                              "I had no household income",
+                                              "Less than $7,500 USD",
+                                              "$7,500-$14,999 USD",
+                                              "$15,000-$24,999 USD",
+                                              "No income", 
+                                              "Less than $7500",
+                                              "$7,500-$14,999", 
+                                              "$15,000-$24,999"),
+                        "$25,000-$49,999" = c("_25000_34999US",
+                                              "_35000_49999US",
+                                              "$25,000-$34,999", 
+                                              "$35,000-$49,999",
+                                              "$25,000-$34,999 USD",
+                                              "$35,000-$49,999 USD"),
+                        "$50,000-$99,999" = c("_50000_74999US", 
+                                              "_75000_99999US",
+                                              "$50,000-$74,999", 
+                                              "$75,000-$99,999",
+                                              "$50,000-$74,999 USD",
+                                              "$75,000-$99,999 USD"),
+                        "$100,000-$299,999" = c("_100k_149999US", 
+                                                "_150k_299999US",
+                                                "$100,000-$149,999", 
+                                                "$150,000-$299,000",
+                                                "$100,000-$149,999 USD",
+                                                "$150,000-$299,999 USD"),
+                        "$300,000 or more" = c("_300kUS_or_more",
+                                               "$300,000 or more",
+                                               "$300,000-$399,999 USD",
+                                               "$400,000-$499,999 USD",
+                                               "$500,000-$749,999 USD",
+                                               "$750,000-$999,999 USD",
+                                               "$1,000,000-$4,999,999 USD",
+                                               "$5,000,000-$9,999,999 USD",
+                                               "$10,000,000 USD or more"))
+
+hi.allYears <- makePlotData(varName = "What was the total income before taxes of all members of your household (including you) in 2023?",
+                         varNameTable,
+                         designs = list(design15, design16, design17, design18,
+                                        design19, design22, design23, design24),
+                         years = c(2015:2019, 2022:2024),
+                         levels = c(rep(list(c("_100k_149999US",
+                                               "_15000_24999US",
+                                               "_150k_299999US",
+                                               "_25000_34999US",
+                                               "_300kUS_or_more",
+                                               "_35000_49999US",
+                                               "_50000_74999US",
+                                               "_7500_14999US",
+                                               "_75000_99999US",
+                                               "Less_than_7500US",
+                                               "None")), times  = 5),
+                                    rep(list(c("$100,000-$149,999", 
+                                               "$15,000-$24,999",
+                                               "$150,000-$299,000", 
+                                               "$25,000-$34,999",
+                                               "$300,000 or more", 
+                                               "$35,000-$49,999",
+                                               "$50,000-$74,999", 
+                                               "$7,500-$14,999",
+                                               "$75,000-$99,999", 
+                                               "Less than $7500",
+                                               "No income")), times = 2),
+                                    list(c("$1,000,000-$4,999,999 USD", 
+                                         "$10,000,000 USD or more",
+                                         "$100,000-$149,999 USD", 
+                                         "$15,000-$24,999 USD",
+                                         "$150,000-$299,999 USD", 
+                                         "$25,000-$34,999 USD",
+                                         "$300,000-$399,999 USD",
+                                         "$35,000-$49,999 USD",
+                                         "$400,000-$499,999 USD",
+                                         "$5,000,000-$9,999,999 USD",
+                                         "$50,000-$74,999 USD",
+                                         "$500,000-$749,999 USD",
+                                         "$7,500-$14,999 USD",
+                                         "$75,000-$99,999 USD",
+                                         "$750,000-$999,999 USD",
+                                         "I had no household income",
+                                         "Less than $7,500 USD"))),
+                         labels = c("Less than $25,000", "$25,000-$49,999",
+                                    "$50,000-$99,999", "$100,000-$299,999",
+                                    "$300,000 or more"),
+                         labelOrder = c("Less than $25,000", "$25,000-$49,999",
+                                        "$50,000-$99,999", "$100,000-$299,999",
+                                        "$300,000 or more"),
+                         groups = hiGraphGroups) 
+
+
+
+ggplot(hi.allYears, aes(x = year, y = est, color = labels)) +
+  geom_line(linewidth = 1.5, alpha = 0.7) +
+  geom_point(size = 2.25) +
+  theme_bw() +
+  theme(panel.grid.minor = element_blank()) +
+  scale_x_continuous(breaks = c(2013:2019, 2022:2024), labels = c(2013:2019, 2022:2024)) +
+  scale_y_continuous(labels = percent, limits = c(0, NA)) +
+  scale_color_manual(values = gradientColors(5)) +
+  labs(x = "", y = "Burning Man participants (%)", color = "Personal income (USD)",
+       title = "Household income (for 2023) of Burning Man participants in 2024")
+
+
+
+
+householdIncome <- makePlotData(varName = "What was the total income before taxes of all members of your household (including you) in 2023?",
+                         varNameTable,
+                         designs = list(design15, design16, design17, design18,
+                                        design19, design22, design23),
+                         years = c(2015:2019, 2022:2023),
+                         levels = c(rep(list(c("_100k_149999US",
+                                               "_15000_24999US",
+                                               "_150k_299999US",
+                                               "_25000_34999US",
+                                               "_300kUS_or_more",
+                                               "_35000_49999US",
+                                               "_50000_74999US",
+                                               "_7500_14999US",
+                                               "_75000_99999US",
+                                               "Less_than_7500US",
+                                               "None")), times  = 5),
+                                    rep(list(c("$100,000-$149,999", 
+                                               "$15,000-$24,999",
+                                               "$150,000-$299,000", 
+                                               "$25,000-$34,999",
+                                               "$300,000 or more", 
+                                               "$35,000-$49,999",
+                                               "$50,000-$74,999", 
+                                               "$7,500-$14,999",
+                                               "$75,000-$99,999", 
+                                               "Less than $7500",
+                                               "No income")), times = 2)),
+                         labels = c("$100,000-$149,999", "$15,000-$24,999",
+                                    "$150,000-$299,000", "$25,000-$34,999",
+                                    "$300,000 or more", "$35,000-$49,999",
+                                    "$50,000-$74,999", "$7,500-$14,999",
+                                    "$75,000-$99,999", "Less than $7,500",
+                                    "No income"),
+                         labelOrder = c("No income", "Less than $7,500",
+                                        "$7,500-$14,999", "$15,000-$24,999",
+                                        "$25,000-$34,999", "$35,000-$49,999",
+                                        "$50,000-$74,999", "$75,000-$99,999",
+                                        "$100,000-$149,999", "$150,000-$299,000",
+                                        "$300,000 or more")) 
+  
+hiGroups24 = list("No income" = c("I had no household income"),
+                  "Less than $7,500" = c("Less than $7,500 USD"),
+                  "$7,500-$14,999" = c("$7,500-$14,999 USD"), 
+                  "$15,000-$24,999" = c("$15,000-$24,999 USD"),
+                  "$25,000-$34,999" = c("$25,000-$34,999 USD"), 
+                  "$35,000-$49,999" = c("$35,000-$49,999 USD"),
+                  "$50,000-$74,999" = c("$50,000-$74,999 USD"), 
+                  "$75,000-$99,999" = c("$75,000-$99,999 USD"),
+                  "$100,000-$149,999" = c("$100,000-$149,999 USD"), 
+                  "$150,000-$299,000" = c("$150,000-$299,999 USD"),
+                  "$300,000 or more" = c("$300,000-$399,999 USD",
+                                         "$400,000-$499,999 USD",
+                                         "$500,000-$749,999 USD",
+                                         "$750,000-$999,999 USD",
+                                         "$1,000,000-$4,999,999 USD",
+                                         "$5,000,000-$9,999,999 USD",
+                                         "$10,000,000 USD or more"))
+
+householdIncome24 <- makePlotData(varName = "What was the total income before taxes of all members of your household (including you) in 2023?",
+                         varNameTable,
+                         designs = list(design24),
+                         years = c(2024),
+                         levels = list(c("$1,000,000-$4,999,999 USD", 
+                                         "$10,000,000 USD or more",
+                                         "$100,000-$149,999 USD", 
+                                         "$15,000-$24,999 USD",
+                                         "$150,000-$299,999 USD", 
+                                         "$25,000-$34,999 USD",
+                                         "$300,000-$399,999 USD",
+                                         "$35,000-$49,999 USD",
+                                         "$400,000-$499,999 USD",
+                                         "$5,000,000-$9,999,999 USD",
+                                         "$50,000-$74,999 USD",
+                                         "$500,000-$749,999 USD",
+                                         "$7,500-$14,999 USD",
+                                         "$75,000-$99,999 USD",
+                                         "$750,000-$999,999 USD",
+                                         "I had no household income",
+                                         "Less than $7,500 USD")),
+                         labels = c("$100,000-$149,999", "$15,000-$24,999",
+                                    "$150,000-$299,000", "$25,000-$34,999",
+                                    "$300,000 or more", "$35,000-$49,999",
+                                    "$50,000-$74,999", "$7,500-$14,999",
+                                    "$75,000-$99,999", "Less than $7,500",
+                                    "No income"),
+                         labelOrder = c("No income", "Less than $7,500",
+                                        "$7,500-$14,999", "$15,000-$24,999",
+                                        "$25,000-$34,999", "$35,000-$49,999",
+                                        "$50,000-$74,999", "$75,000-$99,999",
+                                        "$100,000-$149,999", "$150,000-$299,000",
+                                        "$300,000 or more"),
+                         groups = hiGroups24) 
+
+makeTableData(rbind(householdIncome, householdIncome24)) |>
+  kbl(col.names = c(2015:2019, 2022:2024), row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  kable_styling() |>
+  column_spec(column = 1:8, width_min = "10.5em") |>
+  scroll_box(width = "100%")
 ```
 
 ### Highest level of education completed

@@ -12,11 +12,51 @@ makePlotData <- function(varName, varNameTable, designs, years, levels,
   }
   
   #If groups is just a numeric vector identifying groups, format as a list
-  if((!is.list(groups)) & (!is.null(groups))){
+  if(!is.null(groups)){
     if(is.numeric(groups)){
       ngroups <- max(groups)
       groups <- lapply(1:ngroups, function(i, groups){which(groups == i)},
                        groups = groups)
+      groups <- rep(groups, length = nYears)
+    }
+    #If groups is a list create appropriate groups list for processing
+    else if(is.list(groups)){
+      if(setequal(names(groups), labels)){
+        if(all(sapply(groups, is.character))){
+          if(!setequal(unlist(groups), unlist(levels))){
+            stop("All levels must be present in groups list, check none are missing")
+          }
+          if(any(duplicated(unlist(groups)))){
+            stop("A level is present in more than one group. Each level should appear in only one group.")
+          }
+          groups <- groups[match(labels, names(groups))]
+          ngroups <- length(groups)
+          groups <- lapply(1:nYears, function(i, groups){
+            lapply(1:ngroups, function(j, i, groups){
+              #TODO make a check to see levels are consistently placed into groups across years
+              which(levels[[i]] %in% groups[[j]])}, groups = groups, i = i)
+          }, groups = groups)
+        }
+        
+        else if(all(sapply(groups, is.numeric))){
+          if(!setequal(1:length(levels), unlist(groups))){
+            stop("There must be the same number of level indicies as there are levels (1 through \"number of levels\")")
+          }
+          if(any(duplicated(unilist(groups)))){
+            stop("A level index is present in more than one group. Each level index should appear in only one group.")
+          }
+          #TODO make this work based on the levels input to basically make this the same case as the character input
+          if(length(unique(sapply(levels, length))) > 1){
+            stop("Groups denoted by numeric values in a list is only allowed for cases when each year has the same number of levels.")
+          }
+          groups <- groups[match(labels, names(groups))]
+          groups <- rep(groups, times = nYears)
+        }
+        else{stop("Elements of the groups list must all be character or all numeric")}
+      }
+      else{
+        stop("List names should be the same as labels")
+      }
     }
     else{
       stop("groups should be a list or numeric vector.")
@@ -29,6 +69,7 @@ makePlotData <- function(varName, varNameTable, designs, years, levels,
   years <- years[yearOrder]
   designs <- designs[yearOrder]
   levels <- levels[yearOrder]
+  groups <- groups[yearOrder]
   
   #Get variable names from the crosswalk
   #Determine which years to pull
