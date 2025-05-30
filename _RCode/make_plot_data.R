@@ -1,6 +1,9 @@
 makePlotData <- function(varName, varNameTable, designs, years, levels,
                          labels = NULL, labelOrder = NULL, groups = NULL){
   #TODO: check inputs for errors and create helpful error messages
+  if(any(c(2020:2021) %in% years)){
+    stop("There was no Burning Man and no Census in 2020 or 2021.  Check years input.")
+  }
   
   #Get number of years to loop over
   nYears <- length(years)
