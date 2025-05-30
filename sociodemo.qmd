@@ -39,43 +39,46 @@ discreteColors <- c("#EA008B", "#B0AEDC", "#554149", "#A07200", "#AADA91",
 
 ```{r}
 
-# virgin <- makePlotData(varName = "Was this your first time visiting Black Rock City?", 
-#                        varNameTable,
-#                        designs = list(design13, design14, design15, 
-#                                       design16, design17, design18, 
-#                                       design19, design22, design23),
-#                        years = c(2013:2019, 2022:2023), 
-#                        levels = list(c("no", "yes"), c("no", "yes"),
-#                                      c("no", "yes"), c("no", "yes"),
-#                                      c("no", "yes"), c("no", "yes"),
-#                                      c("no", "yes"), c(FALSE, TRUE),
-#                                      c(FALSE, TRUE)),
-#                        labels = c("Not virgin", "Virgin"),
-#                        labelOrder = c("Virgin", "Not virgin"))
-# 
-# 
-# ggplot(virgin[virgin$labels == "Virgin",], aes(x = year, y = est)) +
-#   geom_line(linewidth = 1.5, color = "#EA008B", alpha = 0.7) +
-#   geom_point(size = 2.25, color = "#EA008B") +
-#   theme_bw() +
-#   theme(panel.grid.minor = element_blank()) +
-#   scale_x_continuous(breaks = c(2013:2019, 2022:2023), 
-#                      labels = c(2013:2019, 2022:2023)) +
-#   scale_y_continuous(labels = percent, limits = c(0, NA)) +
-#   labs(x = "", y = "Burning Man Participants (%)")
-# 
-# virginTable <- makeTableData(virgin)
-# virginTable <- virginTable[1,] |>
-#   matrix(nrow = 1) |>
-#   as.table()
-# rownames(virginTable) = "Virgin"
-# colnames(virginTable) = c(2013:2019, 2022:2023)
-# kbl(virginTable, col.names = c(2013:2019, 2022:2023),
-#       row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
-#   kable_styling() |>
-#   column_spec(column = 1:10, width_min = "10.5em") |>
-#   scroll_box(width = "100%")
+yearrange <- c(2013:2019, 2022:2024)
+
+virgin <- makePlotData(varName = "Was this your first time visiting Black Rock City?", 
+                       varNameTable,
+                       designs = list(design13, design14, design15, 
+                                      design16, design17, design18, 
+                                      design19, design22, design23,
+                                      design24),
+                       years = yearrange,
+                       levels = list(c("no", "yes"), c("no", "yes"),
+                                     c("no", "yes"), c("no", "yes"),
+                                     c("no", "yes"), c("no", "yes"),
+                                     c("no", "yes"), c(FALSE, TRUE),
+                                     c(FALSE, TRUE), c(FALSE, TRUE)),
+                       labels = c("Not virgin", "Virgin"),
+                       labelOrder = c("Virgin", "Not virgin"))
+
+
+ggplot(virgin[virgin$labels == "Virgin",], aes(x = year, y = est)) +
+  geom_line(linewidth = 1.5, color = "#EA008B", alpha = 0.7) +
+  geom_point(size = 2.25, color = "#EA008B") +
+  theme_bw() +
+  theme(panel.grid.minor = element_blank()) +
+  scale_x_continuous(breaks = yearrange, 
+                     labels = yearrange) +
+  scale_y_continuous(labels = percent, limits = c(0, NA)) +
+  labs(x = "", y = "Burning Man Participants (%)")
+
+virginTable <- makeTableData(virgin)
+virginTable <- virginTable[1,] |>
+  matrix(nrow = 1) |>
+  as.table()
+rownames(virginTable) = "Virgin"
+colnames(virginTable) = yearrange
+kbl(virginTable, col.names = yearrange,
+      row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  kable_styling() |>
+  column_spec(column = 1:10, width_min = "10.5em") |>
+  scroll_box(width = "100%")
 
 virgin <- makePlotData(varName = "Was this your first time visiting Black Rock City?",
                        varNameTable,
@@ -121,59 +124,60 @@ kbl(virginTable, col.names = c(2013:2019, 2022:2024),
 ### Number of burns attended
 
 ```{r}
-# ggplot(census23, 
-#        aes(x = nburns, y = after_stat(density), weight = weights)) +
-#   geom_histogram(fill = "#EA008B", color = "black", binwidth = 1) +
-#   theme_bw() +
-#   labs(x = "Number of burns attended (including 2023)", y = "Proportion") +
-#   coord_cartesian(xlim = c(0, 30))
-# 
-# 
-# empCDFs <- list(svycdf(~nburns, design23)[[1]],
-#                  svycdf(~numberBurns, design22)[[1]],
-#                  svycdf(~nbburns, design19)[[1]],
-#                  svycdf(~nbburns, design18)[[1]],
-#                  svycdf(~nbburns, design17)[[1]],
-#                  svycdf(~nbburns, design16)[[1]],
-#                  svycdf(~nbburns, design15)[[1]],
-#                  svycdf(~nbburns, design14)[[1]])
-# names(empCDFs) <- c(2023:2022, 2019:2014)
-# ## todo: use nbburns2-6 to add 2013 data
-# 
-# myQuantiles <- c(0, 1, 2, 4, 10, Inf) # account for time looping burners!
-# rangeNames <- c("1","2","3-4","5-10",">10")
-# 
-# ## number burns >=2022 are inclusive, but <= 2019 are not inclusive
-# cumulProportions1 <- sapply(
-#   empCDFs[c("2023", "2022")], 
-#   mapply, 
-#   myQuantiles)
-# cumulProportions2 <- sapply(
-#   empCDFs[c("2019", "2018", "2017", "2016", "2015", "2014")], 
-#   mapply, 
-#   myQuantiles-1) # -1 to make these inclusive
-# cumulProportions <- cbind(cumulProportions1, cumulProportions2)
-# 
-# myProportions <- diff(cumulProportions)
-# rownames(myProportions) <- rangeNames
-# 
-# myDat <- data.frame(
-#   rows=factor(rownames(myProportions)[row(myProportions)],
-#               levels=rev(rangeNames)), 
-#   Year=factor(colnames(myProportions)[col(myProportions)],
-#               levels=2014:2023),
-#   Percentage=c(myProportions))
-# 
-# ggplot(myDat, aes(x = Year, y = Percentage, fill = rows)) + 
-#   geom_bar(position = "fill",stat = "identity") +
-#   scale_y_continuous(labels = scales::percent_format()) +
-#   scale_x_discrete(drop = FALSE) + 
-#   labs(fill="Number\n of burns\n attended\n (inclusive)",
-#        x = "") +
-#   scale_fill_manual(values = gradientColors(5)) +
-#   # scale_fill_manual(values=c("#EA008B", "#d460c7", "#bc8ce0", "#b0aedc",
-#   #                               "#c3c4c6")[1:5]) +
-#   theme_bw()
+ggplot(census24, 
+       aes(x = numberBurns, y = after_stat(density), weight = weights)) +
+  geom_histogram(fill = "#EA008B", color = "black", binwidth = 1) +
+  theme_bw() +
+  labs(x = "Number of burns attended (including 2024)", y = "Proportion") +
+  coord_cartesian(xlim = c(0, 30))
+
+
+empCDFs <- list(svycdf(~numberBurns, design24)[[1]],
+                 svycdf(~nburns, design23)[[1]],
+                 svycdf(~numberBurns, design22)[[1]],
+                 svycdf(~nbburns, design19)[[1]],
+                 svycdf(~nbburns, design18)[[1]],
+                 svycdf(~nbburns, design17)[[1]],
+                 svycdf(~nbburns, design16)[[1]],
+                 svycdf(~nbburns, design15)[[1]],
+                 svycdf(~nbburns, design14)[[1]])
+names(empCDFs) <- c(2024:2022, 2019:2014)
+## todo: use nbburns2-6 to add 2013 data
+
+myQuantiles <- c(0, 1, 2, 4, 10, Inf) # account for time looping burners!
+rangeNames <- c("1","2","3-4","5-10",">10")
+
+## number burns >=2022 are inclusive, but <= 2019 are not inclusive
+cumulProportions1 <- sapply(
+  empCDFs[c("2024", "2023", "2022")], 
+  mapply, 
+  myQuantiles)
+cumulProportions2 <- sapply(
+  empCDFs[c("2019", "2018", "2017", "2016", "2015", "2014")], 
+  mapply, 
+  myQuantiles-1) # -1 to make these inclusive
+cumulProportions <- cbind(cumulProportions1, cumulProportions2)
+
+myProportions <- diff(cumulProportions)
+rownames(myProportions) <- rangeNames
+ 
+myDat <- data.frame(
+  rows=factor(rownames(myProportions)[row(myProportions)],
+              levels=rev(rangeNames)), 
+  Year=factor(colnames(myProportions)[col(myProportions)],
+              levels=2014:2024),
+  Percentage=c(myProportions))
+
+ggplot(myDat, aes(x = Year, y = Percentage, fill = rows)) + 
+  geom_bar(position = "fill",stat = "identity") +
+  scale_y_continuous(labels = scales::percent_format()) +
+  scale_x_discrete(drop = FALSE) + 
+  labs(fill="Number\n of burns\n attended\n (inclusive)",
+       x = "") +
+  scale_fill_manual(values = gradientColors(5)) +
+  # scale_fill_manual(values=c("#EA008B", "#d460c7", "#bc8ce0", "#b0aedc",
+  #                               "#c3c4c6")[1:5]) +
+  theme_bw()
 ```
 
 ### Plans to Return to Black Rock City
@@ -352,19 +356,204 @@ kbl(virginTable, col.names = c(2013:2019, 2022:2024),
 ### Ethnoracial background
 
 ```{r}
-# ethnoracial22to23 <- makePlotData("Which category best describes your race?", #                               varNameTable = varNameTable, #                               designs = list(design22, design23), #                               years = 2022:2023, #                               levels = rep(list(TRUE), times = 2), #                               labels = c("Asian", "Native American", #                                          "Hispanic/Latino", #                                          "White (non-hispanic)", #                                          "Middle Eastern or North African", #                                          "Black (non-Hispanic)", "Other"), #                               labelOrder = c("White (non-hispanic)", #                                              "Hispanic/Latino", #                                              "Asian", #                                              "Middle Eastern or North African", #                                              "Black (non-Hispanic)", #                                              "Native American", "Other")) # ethnoracial17to19 <- makePlotData("ethnoracial 2013 through 2019", #                               varNameTable = varNameTable, #                               designs = list(design17, design18, design19), #                               years = 2017:2019, #                               levels = rep(list(c("asian", "black", "hispanic", #                                                   "middleeastern", "native", #                                                   "other_or_mix", "white")), #                                            times = 3), #                               labels = c("Asian", "Black (non-Hispanic)", #                                          "Hispanic/Latino", #                                          "Middle Eastern or North African", #                                          "Native American", #                                          "Other", "White (non-hispanic)"), #                               labelOrder = c("White (non-hispanic)", #                                              "Hispanic/Latino", #                                              "Asian", #                                              "Middle Eastern or North African", #                                              "Black (non-Hispanic)", #                                              "Native American", "Other")) #  # ethnoracial13to16 <- makePlotData("ethnoracial 2013 through 2019", #                               varNameTable = varNameTable, #                               designs = list(design13, design14, design15, #                                              design16), #                               years = 2013:2016, #                               levels = rep(list(c("asian", "black", "hispanic", #                                                   "native", "other_or_mix", #                                                   "white")), times = 4), #                               labels = c("Asian", "Black (non-Hispanic)", #                                          "Hispanic/Latino", #                                          "Native American", #                                          "Other", "White (non-hispanic)"), #                               labelOrder = c("White (non-hispanic)", #                                              "Hispanic/Latino", #                                              "Asian", #                                              "Black (non-Hispanic)", #                                              "Native American", "Other")) # ethnoracial13to16 <- rbind(ethnoracial13to16, #                            data.frame(est = NA, lower = NA, upper = NA, #                                       level = "middleeastern", #                                       year = 2013:2016, #                                       labels = factor("Middle Eastern or North African", #                                                       levels = c("White (non-hispanic)", #                                                                  "Hispanic/Latino", #                                                                  "Asian", #                                                                  "Middle Eastern or North African", #                                                                  "Black (non-Hispanic)", #                                                                  "Native American", "Other")))) #  # ggplot(ethnoracial22to23[ethnoracial22to23$year == 2023,], aes(x = labels, y = est)) + #   geom_bar(stat = "identity", position = "dodge", fill = "#EA008B") + #   scale_y_continuous(labels = percent) + #   labs(x = "Ethnoracial background", y = "Burning Man participants in 2023 (%)", #        title = "Which category best describes your race?") + #   theme_bw() + #   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) #  # tableDat <- makeTableData(rbind(ethnoracial22to23, ethnoracial17to19, ethnoracial13to16)) # tdrn <- rownames(tableDat) # tdrn[4] <- "Middle Eastern or North African^a^" # tdrn[7] <- "Other^b^" # rownames(tableDat) <- tdrn # # tdcn <- colnames(tableDat) # # tdcn[8] <- "2022^c^" # # colnames(tableDat) <- tdcn #  # tableDat |> #   kbl(col.names = c(as.character(2013:2019), "2022^c^", as.character(2023)),  #       row.names = TRUE) |> #   kable_paper("striped") |> #   kable_styling(full_width = F, wraptable_width = "100%") |> #   column_spec(column = 1:10, width_min = "10.5em") |> #   footnote(alphabet = c("Middle eastern was not an option in 2013-2016.", #                         "The \"other or mixed\" option in 2013-2019 changed to \"other\" in 2022.", #                         "In 2022 the format changed to allow users to select multiple options. While this improves our data collection, it unfortunately makes it impossible to make direct comparisons to previous years.")) |> #   scroll_box(width = "100%")}
+# ethnoracial22to23 <- makePlotData("Which category best describes your race?",
+#                               varNameTable = varNameTable,
+#                               designs = list(design22, design23),
+#                               years = 2022:2023,
+#                               levels = rep(list(TRUE), times = 2),
+#                               labels = c("Asian", "Native American",
+#                                          "Hispanic/Latino",
+#                                          "White (non-hispanic)",
+#                                          "Middle Eastern or North African",
+#                                          "Black (non-Hispanic)", "Other"),
+#                               labelOrder = c("White (non-hispanic)",
+#                                              "Hispanic/Latino",
+#                                              "Asian",
+#                                              "Middle Eastern or North African",
+#                                              "Black (non-Hispanic)",
+#                                              "Native American", "Other"))
+# ethnoracial17to19 <- makePlotData("ethnoracial 2013 through 2019",
+#                               varNameTable = varNameTable,
+#                               designs = list(design17, design18, design19),
+#                               years = 2017:2019,
+#                               levels = rep(list(c("asian", "black", "hispanic",
+#                                                   "middleeastern", "native",
+#                                                   "other_or_mix", "white")),
+#                                            times = 3),
+#                               labels = c("Asian", "Black (non-Hispanic)",
+#                                          "Hispanic/Latino",
+#                                          "Middle Eastern or North African",
+#                                          "Native American",
+#                                          "Other", "White (non-hispanic)"),
+#                               labelOrder = c("White (non-hispanic)",
+#                                              "Hispanic/Latino",
+#                                              "Asian",
+#                                              "Middle Eastern or North African",
+#                                              "Black (non-Hispanic)",
+#                                              "Native American", "Other"))
+# 
+# ethnoracial13to16 <- makePlotData("ethnoracial 2013 through 2019",
+#                               varNameTable = varNameTable,
+#                               designs = list(design13, design14, design15,
+#                                              design16),
+#                               years = 2013:2016,
+#                               levels = rep(list(c("asian", "black", "hispanic",
+#                                                   "native", "other_or_mix",
+#                                                   "white")), times = 4),
+#                               labels = c("Asian", "Black (non-Hispanic)",
+#                                          "Hispanic/Latino",
+#                                          "Native American",
+#                                          "Other", "White (non-hispanic)"),
+#                               labelOrder = c("White (non-hispanic)",
+#                                              "Hispanic/Latino",
+#                                              "Asian",
+#                                              "Black (non-Hispanic)",
+#                                              "Native American", "Other"))
+# ethnoracial13to16 <- rbind(ethnoracial13to16,
+#                            data.frame(est = NA, lower = NA, upper = NA,
+#                                       level = "middleeastern",
+#                                       year = 2013:2016,
+#                                       labels = factor("Middle Eastern or North African",
+#                                                       levels = c("White (non-hispanic)",
+#                                                                  "Hispanic/Latino",
+#                                                                  "Asian",
+#                                                                  "Middle Eastern or North African",
+#                                                                  "Black (non-Hispanic)",
+#                                                                  "Native American", "Other"))))
+# 
+# ggplot(ethnoracial22to23[ethnoracial22to23$year == 2023,], aes(x = labels, y = est)) +
+#   geom_bar(stat = "identity", position = "dodge", fill = "#EA008B") +
+#   scale_y_continuous(labels = percent) +
+#   labs(x = "Ethnoracial background", y = "Burning Man participants in 2023 (%)",
+#        title = "Which category best describes your race?") +
+#   theme_bw() +
+#   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))
+# 
+# tableDat <- makeTableData(rbind(ethnoracial22to23, ethnoracial17to19, ethnoracial13to16))
+# tdrn <- rownames(tableDat)
+# tdrn[4] <- "Middle Eastern or North African^a^"
+# tdrn[7] <- "Other^b^"
+# rownames(tableDat) <- tdrn
+#
+# tdcn <- colnames(tableDat)
+#
+# tdcn[8] <- "2022^c^"
+#
+# colnames(tableDat) <- tdcn
+# 
+# tableDat |>
+#   kbl(col.names = c(as.character(2013:2019), "2022^c^", as.character(2023)), 
+#       row.names = TRUE) |>
+#   kable_paper("striped") |>
+#   kable_styling(full_width = F, wraptable_width = "100%") |>
+#   column_spec(column = 1:10, width_min = "10.5em") |>
+#   footnote(alphabet = c("Middle eastern was not an option in 2013-2016.",
+#                         "The \"other or mixed\" option in 2013-2019 changed to \"other\" in 2022.",
+#                         "In 2022 the format changed to allow users to select multiple options. While this improves our data collection, it unfortunately makes it impossible to make direct comparisons to previous years.")) |>
+#   scroll_box(width = "100%")}
 ```
 
 ### Self-identification as a person of color
 
 ```{r}
-# personOfColor <- makePlotData("Do you consider yourself to be a person of color?", #                               varNameTable = varNameTable, #                               designs = list(design13, design14, design15, #                                              design16, design17, design18, #                                              design19, design22, design23), #                               years = c(2013:2019, 2022:2023), #                               levels = c("No", "Sometimes", "Yes"), #                               labels = c("No", "Sometimes", "Yes"), #                               labelOrder = 1:3) #  # ggplot(personOfColor, aes(x = year, y = est, fill = labels)) + #   geom_area(alpha = 0.65) + #   scale_y_continuous(labels = percent) + #   scale_x_continuous(breaks = c(2013:2019, 2022:2023),  #                      labels = c(2013:2019, 2022:2023)) + #   scale_fill_manual(values = gradientColors(3)[3:1]) + #   labs(x = "", y = "Burning Man participants (%)", #        fill = "Person of color", #        title = "Do you consider yourself a person of color?") + #   theme_bw() #  # makeTableData(personOfColor) |> #   kbl(col.names = c(2013:2019, 2022:2023), row.names = TRUE) |> #   kable_paper("striped", full_width = F) |> #   column_spec(column = 1:10, width_min = "10.5em") |> #   kable_styling() |> #   scroll_box(width = "100%")}
+# personOfColor <- makePlotData("Do you consider yourself to be a person of color?",
+#                               varNameTable = varNameTable,
+#                               designs = list(design13, design14, design15,
+#                                              design16, design17, design18,
+#                                              design19, design22, design23),
+#                               years = c(2013:2019, 2022:2023),
+#                               levels = c("No", "Sometimes", "Yes"),
+#                               labels = c("No", "Sometimes", "Yes"),
+#                               labelOrder = 1:3)
+# 
+# ggplot(personOfColor, aes(x = year, y = est, fill = labels)) +
+#   geom_area(alpha = 0.65) +
+#   scale_y_continuous(labels = percent) +
+#   scale_x_continuous(breaks = c(2013:2019, 2022:2023), 
+#                      labels = c(2013:2019, 2022:2023)) +
+#   scale_fill_manual(values = gradientColors(3)[3:1]) +
+#   labs(x = "", y = "Burning Man participants (%)",
+#        fill = "Person of color",
+#        title = "Do you consider yourself a person of color?") +
+#   theme_bw()
+# 
+# makeTableData(personOfColor) |>
+#   kbl(col.names = c(2013:2019, 2022:2023), row.names = TRUE) |>
+#   kable_paper("striped", full_width = F) |>
+#   column_spec(column = 1:10, width_min = "10.5em") |>
+#   kable_styling() |>
+#   scroll_box(width = "100%")}
 ```
 
 ### First language learned
 
 ```{r}
-# language <- makePlotData("What was the first language you learned and still use (i.e., native language)?", #                          varNameTable = varNameTable, #                          designs = list(design13, design14, design15, #                                         design16, design17, design18, #                                         design19, design22, design23), #                          years = c(2013:2019, 2022:2023), #                          levels = rep(list(c("Arabic", "Chinese", "Danish", #                                              "Dutch", "English", "Farsi", #                                              "French", "German","Hebrew", #                                              "Hindi", "Italian", "Japanese", #                                              "Norwegian", "Other", "Polish", #                                              "Portuguese", "Punjabi", #                                              "Romanian", "Russian", "Spanish", #                                              "Swedish", "Tagalog", "Urdu")), #                                       times = 9), #                          labels = NULL, #                          labelOrder = c(5, 20, 7, 8, 19, 2, 16, 4, 9, 11, #                                         21, 6, 1, 15, 10, 3, 18, 22, 17, 12, #                                         13, 23, 14)) #  # language2 <- makePlotData("What was the first language you learned and still use (i.e., native language)?", #                          varNameTable = varNameTable, #                          designs = list(design13, design14, design15, #                                              design16, design17, design18, #                                              design19, design22, design23), #                          years = c(2013:2019, 2022:2023), #                          levels = rep(list(c("Arabic", "Chinese", "Danish", #                                              "Dutch", "English", "Farsi", #                                              "French", "German","Hebrew", #                                              "Hindi", "Italian", "Japanese", #                                              "Norwegian", "Other", "Polish", #                                              "Portuguese", "Punjabi", #                                              "Romanian", "Russian", "Spanish", #                                              "Swedish", "Tagalog", "Urdu")), #                                       times = 9), #                          labels = c("English", "Other language"), #                          labelOrder = 2:1, #                          groups = c(2, 2, 2, #                                     2, 1, 2, #                                     2, 2, 2, #                                     2, 2, 2, #                                     2, 2, 2, #                                     2, 2, #                                     2, 2, 2, #                                     2, 2, 2)) #  #  #  # ggplot(language2, aes(x = year, y = est, fill = labels)) + #   geom_area(alpha = 0.65) + #   theme_bw() + #   theme(panel.grid.minor = element_blank()) + #   scale_x_continuous(breaks = c(2013:2019, 2022:2023),  #                      labels = c(2013:2019, 2022:2023)) + #   scale_y_continuous(labels = percent) + #   scale_fill_manual(values = gradientColors(2)[2:1]) + #   labs(x = "", y = "Burning Man participants (%)", fill = "Language", #        title = "What was the first language you learned and still use?") #  #  # makeTableData(language) |> #   kbl(col.names = c(2013:2019, 2022:2023), row.names = TRUE) |> #   kable_paper("striped", full_width = F) |> #   column_spec(column = 1:10, width_min = "10.5em") |> #   kable_styling() |> #   scroll_box(width = "100%")}
+# language <- makePlotData("What was the first language you learned and still use (i.e., native language)?",
+#                          varNameTable = varNameTable,
+#                          designs = list(design13, design14, design15,
+#                                         design16, design17, design18,
+#                                         design19, design22, design23),
+#                          years = c(2013:2019, 2022:2023),
+#                          levels = rep(list(c("Arabic", "Chinese", "Danish",
+#                                              "Dutch", "English", "Farsi",
+#                                              "French", "German","Hebrew",
+#                                              "Hindi", "Italian", "Japanese",
+#                                              "Norwegian", "Other", "Polish",
+#                                              "Portuguese", "Punjabi",
+#                                              "Romanian", "Russian", "Spanish",
+#                                              "Swedish", "Tagalog", "Urdu")),
+#                                       times = 9),
+#                          labels = NULL,
+#                          labelOrder = c(5, 20, 7, 8, 19, 2, 16, 4, 9, 11,
+#                                         21, 6, 1, 15, 10, 3, 18, 22, 17, 12,
+#                                         13, 23, 14))
+# 
+# language2 <- makePlotData("What was the first language you learned and still use (i.e., native language)?",
+#                          varNameTable = varNameTable,
+#                          designs = list(design13, design14, design15,
+#                                              design16, design17, design18,
+#                                              design19, design22, design23),
+#                          years = c(2013:2019, 2022:2023),
+#                          levels = rep(list(c("Arabic", "Chinese", "Danish",
+#                                              "Dutch", "English", "Farsi",
+#                                              "French", "German","Hebrew",
+#                                              "Hindi", "Italian", "Japanese",
+#                                              "Norwegian", "Other", "Polish",
+#                                              "Portuguese", "Punjabi",
+#                                              "Romanian", "Russian", "Spanish",
+#                                              "Swedish", "Tagalog", "Urdu")),
+#                                       times = 9),
+#                          labels = c("English", "Other language"),
+#                          labelOrder = 2:1,
+#                          groups = c(2, 2, 2,
+#                                     2, 1, 2,
+#                                     2, 2, 2,
+#                                     2, 2, 2,
+#                                     2, 2, 2,
+#                                     2, 2,
+#                                     2, 2, 2,
+#                                     2, 2, 2))
+# 
+# 
+# 
+# ggplot(language2, aes(x = year, y = est, fill = labels)) +
+#   geom_area(alpha = 0.65) +
+#   theme_bw() +
+#   theme(panel.grid.minor = element_blank()) +
+#   scale_x_continuous(breaks = c(2013:2019, 2022:2023), 
+#                      labels = c(2013:2019, 2022:2023)) +
+#   scale_y_continuous(labels = percent) +
+#   scale_fill_manual(values = gradientColors(2)[2:1]) +
+#   labs(x = "", y = "Burning Man participants (%)", fill = "Language",
+#        title = "What was the first language you learned and still use?")
+# 
+# 
+# makeTableData(language) |>
+#   kbl(col.names = c(2013:2019, 2022:2023), row.names = TRUE) |>
+#   kable_paper("striped", full_width = F) |>
+#   column_spec(column = 1:10, width_min = "10.5em") |>
+#   kable_styling() |>
+#   scroll_box(width = "100%")}
 ```
 
 ### Personal income in 2023
