@@ -191,34 +191,36 @@ ggplot(myDat, aes(x = Year, y = Percentage, fill = rows)) +
 ### Age
 
 ```{r}
-# ggplot(census23, aes(x = age, y = after_stat(density), weight = weights)) +
-#   geom_histogram(binwidth = 1, fill = "#EA008B", color = "black") +
-#   scale_x_continuous(breaks=seq(20,90,5)) + 
-#   theme_bw() +
-#   labs(x = "Age at arrival on playa in 2023", y = "Density")
-# 
-# props <- c(10, 25, 50, 75, 90)/100
-# 
-# ageQuantiles <- data.frame(svyquantile(~age, design23, props)[[1]][,1],
-#                       svyquantile(~age, design22, props)[[1]][,1],
-#                       rep("",length(props)),
-#                       svyquantile(~age, design19, props)[[1]][,1],
-#                       svyquantile(~age, design18, props)[[1]][,1],
-#                       svyquantile(~age, design17, props)[[1]][,1],
-#                       svyquantile(~age, design16, props)[[1]][,1],
-#                       svyquantile(~age, design15, props)[[1]][,1],
-#                       svyquantile(~age, design14, props)[[1]][,1]
-#                       ) |>
-# rev()
-# row.names(ageQuantiles) <- paste0(props*100, "th percentile")
-# ageQuantiles |>
-#   kbl(col.names = c(2014:2019,"", 2022:2023),
-#       row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
-#   kable_styling() |>
-#   #column_spec(column = 1:9, width_min = "10.5em") |>
-#   column_spec(column = 1:10, width_min = "10.5em") |>
-#   scroll_box(width = "100%")
+ggplot(census24, aes(x = age, y = after_stat(density), weight = weights)) +
+  geom_histogram(binwidth = 1, fill = "#EA008B", color = "black") +
+  scale_x_continuous(breaks=seq(20,90,5)) + 
+  theme_bw() +
+  labs(x = "Age at arrival on playa in 2024", y = "Density")
+
+props <- c(10, 25, 50, 75, 90)/100
+
+ageQuantiles <- data.frame(
+                      svyquantile(~age, design24, props)[[1]][,1],
+                      svyquantile(~age, design23, props)[[1]][,1],
+                      svyquantile(~age, design22, props)[[1]][,1],
+                      rep("",length(props)),
+                      svyquantile(~age, design19, props)[[1]][,1],
+                      svyquantile(~age, design18, props)[[1]][,1],
+                      svyquantile(~age, design17, props)[[1]][,1],
+                      svyquantile(~age, design16, props)[[1]][,1],
+                      svyquantile(~age, design15, props)[[1]][,1],
+                      svyquantile(~age, design14, props)[[1]][,1]
+                      ) |>
+rev()
+row.names(ageQuantiles) <- paste0(props*100, "th percentile")
+ageQuantiles |>
+  kbl(col.names = c(2014:2019,"", 2022:2024),
+      row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  kable_styling() |>
+  #column_spec(column = 1:9, width_min = "10.5em") |>
+  column_spec(column = 1:10, width_min = "10.5em") |>
+  scroll_box(width = "100%")
 ```
 
 ### Current gender
