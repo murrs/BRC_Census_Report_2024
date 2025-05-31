@@ -227,101 +227,135 @@ ageQuantiles |>
 
 ```{r}
 #### 2022
-# gender22.male <- svyciprop(~grepl("(?<!([Ff]e))[Mm]ale", currentGender, perl = TRUE),
-#                            design22)
-# gender22.male <- data.table(est = as.numeric(gender22.male),
-#                             lower = attr(gender22.male, "ci")[1],
-#                             upper = attr(gender22.male, "ci")[2],
-#                             level = "male",
-#                             year = 2022,
-#                             labels = factor("Male",
-#                                             levels = c("Male", "Female",
-#                                                        "Other identity")))
-# gender22.female <- svyciprop(~grepl("[Ff]emale", currentGender, perl = TRUE),
-#                            design22)
-# gender22.female <- data.table(est = as.numeric(gender22.female),
-#                             lower = attr(gender22.female, "ci")[1],
-#                             upper = attr(gender22.female, "ci")[2],
-#                             level = "female",
-#                             year = 2022,
-#                             labels = factor("Female",
-#                                             levels = c("Male", "Female",
-#                                                        "Other identity")))
-# gender22.other <- svyciprop(~I(!grepl("[Mm]ale", currentGender, perl = TRUE)),
-#                            design22)
-# gender22.other <- data.table(est = as.numeric(gender22.other),
-#                             lower = attr(gender22.other, "ci")[1],
-#                             upper = attr(gender22.other, "ci")[2],
-#                             level = "male",
-#                             year = 2022,
-#                             labels = factor("Other identity",
-#                                             levels = c("Male", "Female",
-#                                                        "Other identity")))
-# gender22 <- rbind(gender22.male, gender22.female, gender22.other)
-# #### 2023
-# gender23.male <- svyciprop(~grepl("(?<!([Ff]e))[Mm]ale", currentGender, perl = TRUE),
-#                            design23)
-# gender23.male <- data.table(est = as.numeric(gender23.male),
-#                             lower = attr(gender23.male, "ci")[1],
-#                             upper = attr(gender23.male, "ci")[2],
-#                             level = "male",
-#                             year = 2023,
-#                             labels = factor("Male",
-#                                             levels = c("Male", "Female",
-#                                                        "Other identity")))
-# gender23.female <- svyciprop(~grepl("[Ff]emale", currentGender, perl = TRUE),
-#                            design23)
-# gender23.female <- data.table(est = as.numeric(gender23.female),
-#                             lower = attr(gender23.female, "ci")[1],
-#                             upper = attr(gender23.female, "ci")[2],
-#                             level = "female",
-#                             year = 2023,
-#                             labels = factor("Female",
-#                                             levels = c("Male", "Female",
-#                                                        "Other identity")))
-# gender23.other <- svyciprop(~I(!grepl("[Mm]ale", currentGender, perl = TRUE)),
-#                            design23)
-# gender23.other <- data.table(est = as.numeric(gender23.other),
-#                             lower = attr(gender23.other, "ci")[1],
-#                             upper = attr(gender23.other, "ci")[2],
-#                             level = "male",
-#                             year = 2023,
-#                             labels = factor("Other identity",
-#                                             levels = c("Male", "Female",
-#                                                        "Other identity")))
-# gender23 <- rbind(gender23.male, gender23.female, gender23.other)
-# 
-# gender <- makePlotData(varName = "What is your current gender?", varNameTable,
-#                           designs = list(design13, design14, design15,
-#                                          design16, design17, design18,
-#                                          design19),
-#                           years = c(2013:2019),
-#                           levels = rep(list(c("female", "fluid", "male")), times = 7),
-#                           labels = c("Female", "Other identity", "Male"),
-#                           labelOrder = c("Male", "Female", "Other identity"))
-# gender <- gender[!is.na(gender$est),]
-# gender <- rbind(gender, gender22, gender23)
-# 
-# ggplot(gender, aes(x = year, y = est, color = labels)) +
-#   geom_line(linewidth = 1.5, alpha = 0.7) +
-#   geom_point(size = 2.25) +
-#   # geom_errorbar(aes(ymin = lower, ymax = upper), color = "black", width = 0.2,
-#   #               linewidth = 1) +
-#   theme_bw() +
-#   theme(panel.grid.minor = element_blank()) +
-#   scale_x_continuous(breaks = c(2013:2019, 2022, 2023), labels = c(2013:2019, 2022, 2023)) +
-#   scale_y_continuous(labels = percent, limits = c(0, NA)) +
-#   scale_color_manual(values = c("#EA008B", "#554149", "#BDA5AD")) +
-#   labs(x = "", y = "Burning Man participants (%)",
-#        color = "Current gender")
-# 
-# makeTableData(gender) |>
-#   kbl(col.names = c(2013:2019, 2022, 2023),
-#       row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
-#   kable_styling() |>
-#   column_spec(column = 1:9, width_min = "10.5em") |>
-#   scroll_box(width = "100%")
+gender22.male <- svyciprop(~grepl("(?<!([Ff]e))[Mm]ale", currentGender, perl = TRUE),
+                           design22)
+gender22.male <- data.table(est = as.numeric(gender22.male),
+                            lower = attr(gender22.male, "ci")[1],
+                            upper = attr(gender22.male, "ci")[2],
+                            level = "male",
+                            year = 2022,
+                            labels = factor("Male",
+                                            levels = c("Male", "Female",
+                                                       "Other identity")))
+gender22.female <- svyciprop(~grepl("[Ff]emale", currentGender, perl = TRUE),
+                           design22)
+gender22.female <- data.table(est = as.numeric(gender22.female),
+                            lower = attr(gender22.female, "ci")[1],
+                            upper = attr(gender22.female, "ci")[2],
+                            level = "female",
+                            year = 2022,
+                            labels = factor("Female",
+                                            levels = c("Male", "Female",
+                                                       "Other identity")))
+gender22.other <- svyciprop(~I(!grepl("[Mm]ale", currentGender, perl = TRUE)),
+                           design22)
+gender22.other <- data.table(est = as.numeric(gender22.other),
+                            lower = attr(gender22.other, "ci")[1],
+                            upper = attr(gender22.other, "ci")[2],
+                            level = "male",
+                            year = 2022,
+                            labels = factor("Other identity",
+                                            levels = c("Male", "Female",
+                                                       "Other identity")))
+gender22 <- rbind(gender22.male, gender22.female, gender22.other)
+
+#### 2023
+gender23.male <- svyciprop(~grepl("(?<!([Ff]e))[Mm]ale", currentGender, perl = TRUE),
+                           design23)
+gender23.male <- data.table(est = as.numeric(gender23.male),
+                            lower = attr(gender23.male, "ci")[1],
+                            upper = attr(gender23.male, "ci")[2],
+                            level = "male",
+                            year = 2023,
+                            labels = factor("Male",
+                                            levels = c("Male", "Female",
+                                                       "Other identity")))
+gender23.female <- svyciprop(~grepl("[Ff]emale", currentGender, perl = TRUE),
+                           design23)
+gender23.female <- data.table(est = as.numeric(gender23.female),
+                            lower = attr(gender23.female, "ci")[1],
+                            upper = attr(gender23.female, "ci")[2],
+                            level = "female",
+                            year = 2023,
+                            labels = factor("Female",
+                                            levels = c("Male", "Female",
+                                                       "Other identity")))
+gender23.other <- svyciprop(~I(!grepl("[Mm]ale", currentGender, perl = TRUE)),
+                           design23)
+gender23.other <- data.table(est = as.numeric(gender23.other),
+                            lower = attr(gender23.other, "ci")[1],
+                            upper = attr(gender23.other, "ci")[2],
+                            level = "male",
+                            year = 2023,
+                            labels = factor("Other identity",
+                                            levels = c("Male", "Female",
+                                                       "Other identity")))
+gender23 <- rbind(gender23.male, gender23.female, gender23.other)
+
+#### 2024
+gender24.male <- svyciprop(~grepl("(?<!([Ff]e))[Mm]ale", currentGender, perl = TRUE),
+                           design24)
+gender24.male <- data.table(est = as.numeric(gender24.male),
+                            lower = attr(gender24.male, "ci")[1],
+                            upper = attr(gender24.male, "ci")[2],
+                            level = "male",
+                            year = 2024,
+                            labels = factor("Male",
+                                            levels = c("Male", "Female",
+                                                       "Other identity")))
+gender24.female <- svyciprop(~grepl("[Ff]emale", currentGender, perl = TRUE),
+                           design24)
+gender24.female <- data.table(est = as.numeric(gender24.female),
+                            lower = attr(gender24.female, "ci")[1],
+                            upper = attr(gender24.female, "ci")[2],
+                            level = "female",
+                            year = 2024,
+                            labels = factor("Female",
+                                            levels = c("Male", "Female",
+                                                       "Other identity")))
+gender24.other <- svyciprop(~I(!grepl("[Mm]ale", currentGender, perl = TRUE)),
+                           design24)
+gender24.other <- data.table(est = as.numeric(gender24.other),
+                            lower = attr(gender24.other, "ci")[1],
+                            upper = attr(gender24.other, "ci")[2],
+                            level = "male",
+                            year = 2024,
+                            labels = factor("Other identity",
+                                            levels = c("Male", "Female",
+                                                       "Other identity")))
+gender24 <- rbind(gender24.male, gender24.female, gender24.other)
+
+gender <- makePlotData(varName = "What is your current gender?", varNameTable,
+                          designs = list(design13, design14, design15,
+                                         design16, design17, design18,
+                                         design19),
+                          years = c(2013:2019),
+                          levels = rep(list(c("female", "fluid", "male")), times = 7),
+                          labels = c("Female", "Other identity", "Male"),
+                          labelOrder = c("Male", "Female", "Other identity"))
+gender <- gender[!is.na(gender$est),]
+gender <- rbind(gender, gender22, gender23, gender24)
+
+ggplot(gender, aes(x = year, y = est, color = labels)) +
+  geom_line(linewidth = 1.5, alpha = 0.7) +
+  geom_point(size = 2.25) +
+  # geom_errorbar(aes(ymin = lower, ymax = upper), color = "black", width = 0.2,
+  #               linewidth = 1) +
+  theme_bw() +
+  theme(panel.grid.minor = element_blank()) +
+  scale_x_continuous(breaks = c(2013:2019, 2022:2024), labels = c(2013:2019, 2022:2024)) +
+  scale_y_continuous(labels = percent, limits = c(0, NA)) +
+  scale_color_manual(values = c("#EA008B", "#554149", "#BDA5AD")) +
+  labs(x = "", y = "Burning Man participants (%)",
+       color = "Current gender")
+
+makeTableData(gender) |>
+  kbl(col.names = c(2013:2019, 2022:2024),
+      row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  kable_styling() |>
+  column_spec(column = 1:9, width_min = "10.5em") |>
+  scroll_box(width = "100%")
 
 ```
 
