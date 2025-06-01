@@ -386,7 +386,12 @@ makeTableData(gender) |>
 #   scroll_box(width = "100%")
 ```
 
+### Gender identity
+
+
+
 ### Ethnoracial background
+
 
 ```{r}
 ethnoracial22to24 <- makePlotData("Which category best describes your race?",
@@ -494,7 +499,6 @@ colnames(tableDat) <- tdcn
 
 ### Self-identification as a person of color
 
-
 ```{r}
 personOfColor <- makePlotData("Do you consider yourself to be a person of color?",
                               varNameTable = varNameTable,
@@ -597,8 +601,6 @@ makeTableData(personOfColor) |>
 #   kable_styling() |>
 #   scroll_box(width = "100%")}
 ```
-
-
 
 ### Personal income in 2023
 
@@ -1225,6 +1227,8 @@ makeTableData(rbind(householdIncome, householdIncome24)) |>
 
 <!-- ## Voting and politics -->
 
+## Politics
+
 ### Number of times voted in last four Federal US elections
 
 <!-- Combine with voting eligiblity -->
@@ -1488,6 +1492,63 @@ makeTableData(rbind(householdIncome, householdIncome24)) |>
 #   column_spec(column = 1:4, width_min = "10.5em") |>
 #   kable_styling() |>
 #   scroll_box(width = "100%")
+
+politicalViews <- makePlotData("Generally, in terms of political views, rather than political parties, I consider myself to be primarily",
+                               varNameTable = varNameTable,
+                               designs = list(design19, design22, design23,
+                                              design24),
+                               years = c(2019, 2022:2024),
+                               levels = c(list(c("Anarchist",
+                                                 "Centrist_or_moderate",
+                                                 "Conservative", "Green",
+                                                 "Liberal", "Libertarian",
+                                                 "Non_political", "Other",
+                                                 "Progressive", "Socialist")),
+                                          rep(list(c("Anarchist",
+                                                 "Centrist or moderate",
+                                                 "Conservative", "Green",
+                                                 "Liberal", "Libertarian",
+                                                 "None or non-political",
+                                                 "Other", "Progressive",
+                                                 "Socialist")), times = 2),
+                                          rep(list(c("Anarchist",
+                                                 "Centrist or moderate",
+                                                 "Conservative", "Green",
+                                                 "Liberal", "Libertarian",
+                                                 "None, I consider myself to be apolitical",
+                                                 "Other", "Progressive",
+                                                 "Socialist")), times = 1)),
+                               labels = c("Anarchist",
+                                          "Centrist or moderate",
+                                          "Conservative", "Green",
+                                          "Liberal", "Libertarian",
+                                          "None or apolitical",
+                                          "Other", "Progressive",
+                                          "Socialist"),
+                               labelOrder = c("Liberal", "Progressive",
+                                              "Socialist", "Green",
+                                              "Centrist or moderate",
+                                              "Conservative", "Libertarian",
+                                              "Anarchist",
+                                              "None or apolitical",
+                                              "Other"))
+
+
+# ggplot(politicalViews, aes(x = labels, y = est, fill = as.factor(year))) +
+#   geom_bar(stat = "identity", position = "dodge") +
+#   scale_y_continuous(labels = percent) +
+#   scale_fill_manual(values = discreteColors[1:4]) +
+#   labs(x = "Political view", y = "Burning Man participants (%)", fill = "Year",
+#        title = "Generally, in terms of political views, rather than political parties, \n I consider  myself to be primarily...") +
+#   theme_bw() +
+#   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))
+
+makeTableData(politicalViews) |>
+  kbl(col.names = c(2019, 2022:2024), row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  column_spec(column = 1:5, width_min = "10.5em") |>
+  kable_styling() |>
+  scroll_box(width = "100%")
 ```
 
 ## Spirituality
@@ -1495,42 +1556,43 @@ makeTableData(rbind(householdIncome, householdIncome24)) |>
 ### How do you describe your spirituality?
 
 ```{r}
-# spirituality <- makePlotData("How do you describe your spirituality?",
-#                              varNameTable = varNameTable,
-#                              designs = list(design13, design14, design15,
-#                                                  design16, design17, design18,
-#                                                  design19, design22, design23),
-#                              years = c(2013:2019, 2022:2023),
-#                              levels = c(rep(list(c("Agnostic", "Atheist", "Deist",
-#                                                    "IDK", "Religious",
-#                                                    "Spiritual_not_relig")),
-#                                           times = 7),
-#                                         rep(list(c("Agnostic", "Atheist", "Deist",
-#                                                "Don\'t know", "Religious",
-#                                                "Spiritual, but not religious")), times = 2)),
-#                              labels = c("Agnostic", "Atheist", "Deist",
-#                                         "I don\'t know", "Religious",
-#                                         "Spiritual, but \n not religious"),
-#                              labelOrder = c(6, 2, 1, 5, 3, 4))
-# 
-# ggplot(spirituality, aes(x = year, y = est, color = labels)) +
-#   geom_line(linewidth = 1.5, alpha = 0.7) +
-#   geom_point(size = 2.25) +
-#   theme_bw() +
-#   theme(panel.grid.minor = element_blank()) +
-#   scale_x_continuous(breaks = c(2013:2019, 2022:2023), 
-#                      labels = c(2013:2019, 2022:2023)) +
-#   scale_y_continuous(labels = percent, limits = c(0, NA)) +
-#   scale_color_manual(values = discreteColors[1:6]) +
-#   labs(x = "", y = "Burning Man participants (%)", color = "Language",
-#        "How do you describe your spirituality?")
-# 
-# makeTableData(spirituality) |>
-#   kbl(col.names = c(2013:2019, 2022:2023), row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
-#   column_spec(column = 1:10, width_min = "10.5em") |>
-#   kable_styling() |>
-#   scroll_box(width = "100%")
+spirituality <- makePlotData("How do you describe your spirituality?",
+                             varNameTable = varNameTable,
+                             designs = list(design13, design14, design15,
+                                                 design16, design17, design18,
+                                                 design19, design22, design23,
+                                            design24),
+                             years = c(2013:2019, 2022:2024),
+                             levels = c(rep(list(c("Agnostic", "Atheist", "Deist",
+                                                   "IDK", "Religious",
+                                                   "Spiritual_not_relig")),
+                                          times = 7),
+                                        rep(list(c("Agnostic", "Atheist", "Deist",
+                                               "Don\'t know", "Religious",
+                                               "Spiritual, but not religious")), times = 3)),
+                             labels = c("Agnostic", "Atheist", "Deist",
+                                        "I don\'t know", "Religious",
+                                        "Spiritual, but \n not religious"),
+                             labelOrder = c(6, 2, 1, 5, 3, 4))
+
+ggplot(spirituality, aes(x = year, y = est, color = labels)) +
+  geom_line(linewidth = 1.5, alpha = 0.7) +
+  geom_point(size = 2.25) +
+  theme_bw() +
+  theme(panel.grid.minor = element_blank()) +
+  scale_x_continuous(breaks = c(2013:2019, 2022:2024),
+                     labels = c(2013:2019, 2022:2024)) +
+  scale_y_continuous(labels = percent, limits = c(0, NA)) +
+  scale_color_manual(values = discreteColors[1:6]) +
+  labs(x = "", y = "Burning Man participants (%)", color = "Language",
+       "How do you describe your spirituality?")
+
+makeTableData(spirituality) |>
+  kbl(col.names = c(2013:2019, 2022:2024), row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  column_spec(column = 1:11, width_min = "10.5em") |>
+  kable_styling() |>
+  scroll_box(width = "100%")
 ```
 
 ## Sexuality and Relationships
@@ -1538,147 +1600,119 @@ makeTableData(rbind(householdIncome, householdIncome24)) |>
 ### Sexual orientation
 
 ```{r}
-# sexualOrientation <- makePlotData("Which of these expressions best describes your sexual orientation?",
-#              varNameTable = varNameTable,
-#              designs = list(design22, design23),
-#              years = 2022:2023,
-#              levels = c("Asexual", "Bicurious or heteroflexible",
-#                         "Bisexual or pansexual", "Demi-sexual",
-#                         "Gay, lesbian, or homosexual",
-#                         "Heterosexual or straight",
-#                         "Other", "Refuse labels"),
-#              labels = c("Asexual", "Bicurious or \n heteroflexible",
-#                         "Bisexual or \n pansexual", "Demi-sexual",
-#                         "Gay, lesbian, or \n homosexual",
-#                         "Heterosexual or \n straight",
-#                         "Other", "Refuse labels"),
-#              labelOrder = rev(c(6, 3, 2, 5, 1, 4, 8, 7)))
-# 
-# sexualOrientation2 <- makePlotData("Which of these expressions best describes your sexual orientation?",
-#              varNameTable = varNameTable,
-#              designs = list(design13, design14, design15, design16, design17,
-#                             design18, design19),
-#              years = 2013:2019,
-#              levels = rep(list(c("Asexual", "Bicurious",
-#                         "Bisexual", "demisexual", "Gay_Lesbian",
-#                         "Heterosexual", "other", "Refuse_labels")), times = 7),
-#              labels = c("Asexual", "Bicurious or \n heteroflexible",
-#                         "Bisexual or \n pansexual", "Demi-sexual",
-#                         "Gay, lesbian, or \n homosexual",
-#                         "Heterosexual or \n straight",
-#                         "Other", "Refuse labels"),
-#              labelOrder = c(6, 3, 2, 5, 1, 4, 8, 7))
-# 
-# ggplot(sexualOrientation[sexualOrientation$year == 2023,], 
-#        aes(x = labels, y = est)) +
-#   geom_bar(stat = "identity", fill = "#EA008B") +
-#   scale_y_continuous(labels = percent) +
-#   labs(x = "Sexual orientation", y = "Burning Man participants in 2023 (%)",
-#        title = "Which of these expressions best describes your sexual orientation?") +
-#   theme_bw() +
-#   coord_flip()
-# 
-# allSexualOrientation <- rbind(sexualOrientation2, sexualOrientation)
-# 
-# makeTableData(allSexualOrientation) |>
-#   kbl(col.names = c(2013:2019, "2022^c^", 2023), row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
-#   column_spec(column = 1:10, width_min = "10.5em") |>
-#   footnote(alphabet = c("\'Demi-sexual\' and \'Other\' choices were added in 2022.")) |>
-#   kable_styling() |>
-#   scroll_box(width = "100%")
+soGroups <- list("Bicurious or heteroflexible" = c("Bicurious",
+                                                   "Bicurious or heteroflexible"),
+                 "Bisexual or pansexual" = c("Bisexual", 
+                                             "Bisexual or pansexual"),
+                 "Demi-sexual or aesexual" = c("Asexual", "demisexual",
+                                               "Demi-sexual",
+                                               "Demi-sexual or aesexual"),
+                 "Gay, lesbian, or homosexual" = c("Gay_Lesbian",
+                                                   "Gay, lesbian, or homosexual"),
+                 "Heterosexual or straight" = c("Heterosexual", 
+                                                "Heterosexual or straight"),
+                 "Other or refuse labels" = c("Other", "other",
+                                              "Refuse labels", 
+                                              "Refuse_labels"))
+
+sexualOrientation <- makePlotData("Which of these expressions best describes your sexual orientation?",
+              varNameTable = varNameTable,
+              designs = list(design13, design14, design15,
+                             design16, design17, design18,
+                             design19, design22, design23,
+                             design24),
+              years = c(2013:2019, 2022:2024),
+              levels = c(rep(list(c("Asexual", "Bicurious",
+                                    "Bisexual", "demisexual", "Gay_Lesbian",
+                                    "Heterosexual", "other", "Refuse_labels")), times = 7),
+                        rep(list(c("Asexual", "Bicurious or heteroflexible",
+                                   "Bisexual or pansexual", "Demi-sexual",
+                                   "Gay, lesbian, or homosexual",
+                                   "Heterosexual or straight",
+                                   "Other", "Refuse labels")), times = 2),
+                        rep(list(c("Bicurious or heteroflexible",
+                                   "Bisexual or pansexual",
+                                   "Demi-sexual or aesexual",
+                                   "Gay, lesbian, or homosexual",
+                                   "Heterosexual or straight",
+                                   "Other", "Refuse labels")), times = 1)),
+              labels = c("Bicurious or heteroflexible",
+                         "Bisexual or pansexual",
+                         "Demi-sexual or aesexual",
+                         "Gay, lesbian, or homosexual",
+                         "Heterosexual or straight",
+                         "Other or refuse labels"),
+              labelOrder = c("Heterosexual or straight",
+                             "Bisexual or pansexual",
+                             "Bicurious or heteroflexible",
+                             "Gay, lesbian, or homosexual",
+                             "Demi-sexual or aesexual",
+                             "Other or refuse labels"),
+              groups = soGroups)
+
+
+ggplot(sexualOrientation, aes(x = year, y = est, color = labels)) +
+  geom_line(linewidth = 1.5, alpha = 0.7) +
+  geom_point(size = 2.25) +
+  theme_bw() +
+  theme(panel.grid.minor = element_blank()) +
+  scale_x_continuous(breaks = c(2013:2019, 2022:2024),
+                     labels = c(2013:2019, 2022:2024)) +
+  scale_y_continuous(labels = percent, limits = c(0, NA)) +
+  scale_color_manual(values = discreteColors[1:6]) +
+  labs(x = "", y = "Burning Man participants (%)",
+       color = "Sexual orientation",
+       title = "Which of these expressions best describes your sexual orientation?")
+
+
+makeTableData(sexualOrientation) |>
+  kbl(col.names = c(2013:2019, "2022^c^", 2023:2024), row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  column_spec(column = 1:11, width_min = "10.5em") |>
+  footnote(alphabet = c("\'Demi-sexual\' and \'Other\' choices were added in 2022.")) |>
+  kable_styling() |>
+  scroll_box(width = "100%")
 ```
 
-### Sexuality labels
-
-```{r}
-# design19$variables$graysex[design19$variables$graysex == 11] <- "yes"
-# sexuality <- makePlotData("Some people use specific labels to describe their sexuality. Do you consider that one or more of these labels describe your sexuality?",
-#                            varNameTable = varNameTable,
-#                            designs = list(design15, design16, design17, 
-#                                           design18, design19, design22, 
-#                                           design23),
-#                            years = c(2015:2019, 2022:2023),
-#                            levels = c(as.list(rep("yes", times = 5)),
-#                                       as.list(rep(TRUE, times = 2))),
-#                            labels = c("Kinkster or BDSM participant",
-#                                       "Swinger",
-#                                       "Sex worker",
-#                                       "Gray-sexual or demisexual",
-#                                       "Queer",
-#                                       "Sex/love addict",
-#                                       "Open/curious",
-#                                       "Other"),
-#                           labelOrder = c(8, 3, 4, 2, 6, 5, 1, 7))
-# 
-# 
-# 
-# # sexuality <- sexuality[!(sexuality$labels %in% c("Monogamous",
-# #                                                  "Mostly monogamous",
-# #                                                  "Polyamorous",
-# #                                                  "Relationship anarchist")),]
-# # sexuality$labels <- factor(sexuality$labels, levels = c("Other",
-# #                                                         "Sex worker",
-# #                                                         "Gray-sexual or demisexual",
-# #                                                         "Swinger",
-# #                                                         "Sex/love addict",
-# #                                                         "Queer",
-# #                                                         "Kinkster or BDSM participant",
-# #                                                         "Open/curious"))
-# 
-# ggplot(sexuality[sexuality$year == 2023,], aes(x = labels, y = est)) +
-#   geom_bar(stat = "identity", fill = "#EA008B") +
-#   scale_y_continuous(labels = percent) +
-#   labs(x = "Sexuality label", y = "Burning Man participants in 2023 (%)") +
-#   theme_bw() +
-#   coord_flip()
-# 
-# makeTableData(sexuality)[8:1,] |>
-#   kbl(col.names = c(2015:2019, 2022:2023), row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
-#   column_spec(column = 1:8, width_min = "10.5em") |>
-#   kable_styling() |>
-#   scroll_box(width = "100%")
-```
 
 ### Partner in the default world
 
 ```{r}
-# partner <- makePlotData("In the default world, do you have a partner or partners?",
-#                         varNameTable = varNameTable,
-#                         designs = list(design15, design16, design17,
-#                                        design18, design19, design22,
-#                                        design23),
-#                         years = c(2015:2019, 2022:2023),
-#                         levels = c(rep(list(c("Its_complicated", "No",
-#                                               "Married", "In_relationship")),
-#                                        times = 5),
-#                                    rep(list(c("It\'s complicated", "No",
-#                                           "Yes and we are married",
-#                                           "Yes and we are not married")), times = 2)),
-#                         labels = c("It\'s complicated",
-#                                    "No, I am not in a relationship",
-#                                    "Yes, and we are married",
-#                                    "Yes, and we are not married"),
-#                         labelOrder = c(3, 4, 2, 1))
-# 
-# ggplot(partner, aes(x = year, y = est, color = labels)) +
-#   geom_line(linewidth = 1.5, alpha = 0.7) +
-#   geom_point(size = 2.25) +
-#   theme_bw() +
-#   theme(panel.grid.minor = element_blank()) +
-#   scale_x_continuous(breaks = c(2013:2019, 2022:2023), 
-#                      labels = c(2013:2019, 2022:2023)) +
-#   scale_y_continuous(labels = percent, limits = c(0, NA)) +
-#   scale_color_manual(values = discreteColors[1:7]) +
-#   labs(x = "", y = "Burning Man participants (%)", 
-#        color = "Do you have a partner?",
-#        title = "In the default world, do you have a partner or partners?")
-# 
-# makeTableData(partner) |>
-#   kbl(col.names = c(2015:2019, 2022:2023), row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
-#   column_spec(column = 1:8, width_min = "10.5em") |>
-#   kable_styling() |>
-#   scroll_box(width = "100%")
+partner <- makePlotData("In the default world, do you have a partner or partners?",
+                        varNameTable = varNameTable,
+                        designs = list(design15, design16, design17,
+                                       design18, design19, design22,
+                                       design23, design24),
+                        years = c(2015:2019, 2022:2024),
+                        levels = c(rep(list(c("Its_complicated", "No",
+                                              "Married", "In_relationship")),
+                                       times = 5),
+                                   rep(list(c("It\'s complicated", "No",
+                                          "Yes and we are married",
+                                          "Yes and we are not married")), times = 3)),
+                        labels = c("It\'s complicated",
+                                   "No, I am not in a relationship",
+                                   "Yes, and we are married",
+                                   "Yes, and we are not married"),
+                        labelOrder = c(3, 4, 2, 1))
+
+ggplot(partner, aes(x = year, y = est, color = labels)) +
+  geom_line(linewidth = 1.5, alpha = 0.7) +
+  geom_point(size = 2.25) +
+  theme_bw() +
+  theme(panel.grid.minor = element_blank()) +
+  scale_x_continuous(breaks = c(2013:2019, 2022:2024),
+                     labels = c(2013:2019, 2022:2024)) +
+  scale_y_continuous(labels = percent, limits = c(0, NA)) +
+  scale_color_manual(values = discreteColors[1:7]) +
+  labs(x = "", y = "Burning Man participants (%)",
+       color = "Do you have a partner?",
+       title = "In the default world, do you have a partner or partners?")
+
+makeTableData(partner) |>
+  kbl(col.names = c(2015:2019, 2022:2024), row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  column_spec(column = 1:9, width_min = "10.5em") |>
+  kable_styling() |>
+  scroll_box(width = "100%")
 ```
