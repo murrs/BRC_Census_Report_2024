@@ -3,5 +3,5 @@
 .RData
 .Ruserdata
 /config.yml
-
+/_book/
 /.quarto/

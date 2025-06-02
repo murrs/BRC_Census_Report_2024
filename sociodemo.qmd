@@ -191,15 +191,19 @@ ggplot(myDat, aes(x = Year, y = Percentage, fill = rows)) +
 ### Age
 
 ```{r}
+
 ggplot(subset(census24[,c("age","weights")], !is.na(age)), aes(x = age, y = after_stat(density), weight = weights)) +
   geom_histogram(binwidth = 1, fill = "#EA008B", color = "black") +
   scale_x_continuous(breaks=seq(20,95,5)) +
+
   theme_bw() +
   labs(x = "Age at arrival on playa in 2024", y = "Density")
 
 props <- c(10, 25, 50, 75, 90)/100
 
+
 ageQuantiles <- data.frame(svyquantile(~age, design24, props)[[1]][,1],
+
                       svyquantile(~age, design23, props)[[1]][,1],
                       svyquantile(~age, design22, props)[[1]][,1],
                       rep("",length(props)),
@@ -218,8 +222,10 @@ ageQuantiles |>
   kable_paper("striped", full_width = F) |>
   kable_styling() |>
   #column_spec(column = 1:9, width_min = "10.5em") |>
+
   column_spec(column = 1:11, width_min = "10.5em") |>
   scroll_box(width = "100%")
+
 
 ```
 
@@ -258,6 +264,9 @@ gender22.other <- data.table(est = as.numeric(gender22.other),
                                             levels = c("Male", "Female",
                                                        "Other identity")))
 gender22 <- rbind(gender22.male, gender22.female, gender22.other)
+
+
+
 #### 2023
 gender23.male <- svyciprop(~grepl("(?<!([Ff]e))[Mm]ale", currentGender, perl = TRUE),
                            design23)
@@ -290,7 +299,10 @@ gender23.other <- data.table(est = as.numeric(gender23.other),
                                             levels = c("Male", "Female",
                                                        "Other identity")))
 gender23 <- rbind(gender23.male, gender23.female, gender23.other)
-#### 2023
+
+
+#### 2024
+
 gender24.male <- svyciprop(~grepl("(?<!([Ff]e))[Mm]ale", currentGender, perl = TRUE),
                            design24)
 gender24.male <- data.table(est = as.numeric(gender24.male),
@@ -352,7 +364,9 @@ makeTableData(gender) |>
       row.names = TRUE) |>
   kable_paper("striped", full_width = F) |>
   kable_styling() |>
+
   column_spec(column = 1:11, width_min = "11.5em") |>
+
   scroll_box(width = "100%")
 
 ```
@@ -387,9 +401,12 @@ makeTableData(gender) |>
 ### Gender identity
 
 
+
 ### Ethnoracial background
 
+
 ```{r}
+
 ethnoracial24 <- makePlotData("Which category best describes your race?",
                               varNameTable = varNameTable,
                               designs = list(design24),
@@ -427,6 +444,7 @@ ethnoracial22to23 <- makePlotData("Which category best describes your race?",
                                              "Black (non-Hispanic)",
                                              "Native American","Native Hawaiian or Pacific Islander", "Other"))
 ethnoracial22to23 <- ethnoracial22to23[!ethnoracial22to23$labels == "",] # remove spaces due to addition of Pacific Islander in 2024
+
 ethnoracial17to19 <- makePlotData("ethnoracial 2013 through 2019",
                               varNameTable = varNameTable,
                               designs = list(design17, design18, design19),
@@ -464,6 +482,9 @@ ethnoracial13to16 <- makePlotData("ethnoracial 2013 through 2019",
                                              "Asian",
                                              "Black (non-Hispanic)",
                                              "Native American", "Other"))
+
+
+
 ethnoracial13to16 <- rbind(ethnoracial13to16,
                            data.frame(est = NA, lower = NA, upper = NA,
                                       level = "middleeastern",
@@ -476,6 +497,7 @@ ethnoracial13to16 <- rbind(ethnoracial13to16,
                                                                  "Black (non-Hispanic)",
                                                                  "Native American", "Other"))))
 
+
 ggplot(ethnoracial24, aes(x = labels, y = est)) +
   geom_bar(stat = "identity", position = "dodge", fill = "#EA008B") +
   scale_y_continuous(labels = percent) +
@@ -483,8 +505,6 @@ ggplot(ethnoracial24, aes(x = labels, y = est)) +
        title = "Which category best describes your race?") +
   theme_bw() +
   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))
-
-
 
 
 ## adding pacific islander for 2024
