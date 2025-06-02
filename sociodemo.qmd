@@ -191,16 +191,19 @@ ggplot(myDat, aes(x = Year, y = Percentage, fill = rows)) +
 ### Age
 
 ```{r}
-ggplot(census24, aes(x = age, y = after_stat(density), weight = weights)) +
+
+ggplot(subset(census24[,c("age","weights")], !is.na(age)), aes(x = age, y = after_stat(density), weight = weights)) +
   geom_histogram(binwidth = 1, fill = "#EA008B", color = "black") +
-  scale_x_continuous(breaks=seq(20,90,5)) + 
+  scale_x_continuous(breaks=seq(20,95,5)) +
+
   theme_bw() +
   labs(x = "Age at arrival on playa in 2024", y = "Density")
 
 props <- c(10, 25, 50, 75, 90)/100
 
-ageQuantiles <- data.frame(
-                      svyquantile(~age, design24, props)[[1]][,1],
+
+ageQuantiles <- data.frame(svyquantile(~age, design24, props)[[1]][,1],
+
                       svyquantile(~age, design23, props)[[1]][,1],
                       svyquantile(~age, design22, props)[[1]][,1],
                       rep("",length(props)),
@@ -219,8 +222,11 @@ ageQuantiles |>
   kable_paper("striped", full_width = F) |>
   kable_styling() |>
   #column_spec(column = 1:9, width_min = "10.5em") |>
-  column_spec(column = 1:10, width_min = "10.5em") |>
+
+  column_spec(column = 1:11, width_min = "10.5em") |>
   scroll_box(width = "100%")
+
+
 ```
 
 ### Current gender
@@ -259,6 +265,8 @@ gender22.other <- data.table(est = as.numeric(gender22.other),
                                                        "Other identity")))
 gender22 <- rbind(gender22.male, gender22.female, gender22.other)
 
+
+
 #### 2023
 gender23.male <- svyciprop(~grepl("(?<!([Ff]e))[Mm]ale", currentGender, perl = TRUE),
                            design23)
@@ -292,7 +300,9 @@ gender23.other <- data.table(est = as.numeric(gender23.other),
                                                        "Other identity")))
 gender23 <- rbind(gender23.male, gender23.female, gender23.other)
 
+
 #### 2024
+
 gender24.male <- svyciprop(~grepl("(?<!([Ff]e))[Mm]ale", currentGender, perl = TRUE),
                            design24)
 gender24.male <- data.table(est = as.numeric(gender24.male),
@@ -354,7 +364,9 @@ makeTableData(gender) |>
       row.names = TRUE) |>
   kable_paper("striped", full_width = F) |>
   kable_styling() |>
-  column_spec(column = 1:9, width_min = "10.5em") |>
+
+  column_spec(column = 1:11, width_min = "11.5em") |>
+
   scroll_box(width = "100%")
 
 ```
@@ -394,27 +406,44 @@ makeTableData(gender) |>
 
 
 ```{r}
-ethnoracial22to24 <- makePlotData("Which category best describes your race?",
+
+ethnoracial24 <- makePlotData("Which category best describes your race?",
                               varNameTable = varNameTable,
-                              designs = list(design22, design23, design24),
-                              years = 2022:2024,
-                              levels = rep(list(TRUE), times = 3),
-                              labels = c("Asian",
-                                         "Native American",
-                                         "Hispanic/Latino",
+                              designs = list(design24),
+                              years = 2024,
+                              levels = rep(list(TRUE), times = 1),
+                              labels = c("Asian", "Native American",
                                          "Native Hawaiian or Pacific Islander",
+                                         "Hispanic/Latino",
                                          "White (non-hispanic)",
                                          "Middle Eastern or North African",
-                                         "Black (non-Hispanic)",
-                                         "Other"),
+                                         "Black (non-Hispanic)", "Other"),
                               labelOrder = c("White (non-hispanic)",
                                              "Hispanic/Latino",
-                                             "Native Hawaiian or Pacific Islander",
                                              "Asian",
                                              "Middle Eastern or North African",
                                              "Black (non-Hispanic)",
-                                             "Native American",
+                                             "Native American", 
+                                             "Native Hawaiian or Pacific Islander",
                                              "Other"))
+ethnoracial22to23 <- makePlotData("Which category best describes your race?",
+                              varNameTable = varNameTable,
+                              designs = list(design22, design23),
+                              years = 2022:2023,
+                              levels = rep(list(TRUE), times = 2),
+                              labels = c("Asian", "Native American",
+                                         "Native Hawaiian or Pacific Islander",
+                                         "Hispanic/Latino",
+                                         "White (non-hispanic)",
+                                         "Middle Eastern or North African",
+                                         "Black (non-Hispanic)", "Other"),
+                              labelOrder = c("White (non-hispanic)",
+                                             "Hispanic/Latino",
+                                             "Asian",
+                                             "Middle Eastern or North African",
+                                             "Black (non-Hispanic)",
+                                             "Native American","Native Hawaiian or Pacific Islander", "Other"))
+ethnoracial22to23 <- ethnoracial22to23[!ethnoracial22to23$labels == "",] # remove spaces due to addition of Pacific Islander in 2024
 
 ethnoracial17to19 <- makePlotData("ethnoracial 2013 through 2019",
                               varNameTable = varNameTable,
@@ -454,6 +483,8 @@ ethnoracial13to16 <- makePlotData("ethnoracial 2013 through 2019",
                                              "Black (non-Hispanic)",
                                              "Native American", "Other"))
 
+
+
 ethnoracial13to16 <- rbind(ethnoracial13to16,
                            data.frame(est = NA, lower = NA, upper = NA,
                                       level = "middleeastern",
@@ -466,7 +497,8 @@ ethnoracial13to16 <- rbind(ethnoracial13to16,
                                                                  "Black (non-Hispanic)",
                                                                  "Native American", "Other"))))
 
-ggplot(ethnoracial22to24[ethnoracial22to24$year == 2024,], aes(x = labels, y = est)) +
+
+ggplot(ethnoracial24, aes(x = labels, y = est)) +
   geom_bar(stat = "identity", position = "dodge", fill = "#EA008B") +
   scale_y_continuous(labels = percent) +
   labs(x = "Ethnoracial background", y = "Burning Man participants in 2024 (%)",
@@ -474,27 +506,37 @@ ggplot(ethnoracial22to24[ethnoracial22to24$year == 2024,], aes(x = labels, y = e
   theme_bw() +
   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))
 
-tableDat <- makeTableData(rbind(ethnoracial22to24, ethnoracial17to19, ethnoracial13to16))
+
+## adding pacific islander for 2024
+pacislander13to19 <- data.frame(est=NA, lower=NA, upper=NA, level=NA, 
+                                year=2013:2019, 
+                                labels="Native Hawaiian or Pacific Islander")
+
+tableDat <- makeTableData(rbind(ethnoracial24,ethnoracial22to23,ethnoracial17to19, ethnoracial13to16, pacislander13to19))
+
 tdrn <- rownames(tableDat)
 tdrn[4] <- "Middle Eastern or North African^a^"
-tdrn[7] <- "Other^b^"
+tdrn[7] <- "Native Hawaiian or Pacific Islander^b^"
+tdrn[8] <- "Other^c^"
 rownames(tableDat) <- tdrn
 
 tdcn <- colnames(tableDat)
-tdcn[8] <- "2022^c^"
+
+tdcn[colnames(tableDat)=="2022"] <- "2022^d^"
+
 colnames(tableDat) <- tdcn
 
-# TODO: figure this out
-# tableDat |>
-#   kbl(col.names = c(as.character(2013:2019), "2022^c^", as.character(2024)), 
-#       row.names = TRUE) |>
-#   kable_paper("striped") |>
-#   kable_styling(full_width = F, wraptable_width = "100%") |>
-#   column_spec(column = 1:10, width_min = "10.5em") |>
-#   footnote(alphabet = c("Middle eastern was not an option in 2013-2016.",
-#                         "The \"other or mixed\" option in 2013-2019 changed to \"other\" in 2022.",
-#                         "In 2022 the format changed to allow users to select multiple options. While this improves our data collection, it unfortunately makes it impossible to make direct comparisons to previous years.")) |>
-#   scroll_box(width = "100%")
+tableDat |>
+  kbl(col.names = tdcn,
+      row.names = TRUE) |>
+  kable_paper("striped") |>
+  kable_styling(full_width = F, wraptable_width = "100%") |>
+  column_spec(column = 1:11, width_min = "11.5em") |>
+  footnote(alphabet = c("Middle eastern was not an option from 2013-2016.",
+                        "Pacific Islander was not an option from 2013-2022.",
+                        "The \"other or mixed\" option in 2013-2019 changed to \"other\" in 2022.",
+                        "In 2022 the format changed to allow users to select multiple options. While this improves our data collection, it unfortunately makes it impossible to make direct comparisons to previous years.")) |>
+  scroll_box(width = "100%")
 ```
 
 ### Self-identification as a person of color
@@ -514,7 +556,7 @@ personOfColor <- makePlotData("Do you consider yourself to be a person of color?
 ggplot(personOfColor, aes(x = year, y = est, fill = labels)) +
   geom_area(alpha = 0.65) +
   scale_y_continuous(labels = percent) +
-  scale_x_continuous(breaks = c(2013:2019, 2022:2024), 
+  scale_x_continuous(breaks = c(2013:2019, 2022:2024),
                      labels = c(2013:2019, 2022:2024)) +
   scale_fill_manual(values = gradientColors(3)[3:1]) +
   labs(x = "", y = "Burning Man participants (%)",
@@ -525,7 +567,7 @@ ggplot(personOfColor, aes(x = year, y = est, fill = labels)) +
 makeTableData(personOfColor) |>
   kbl(col.names = c(2013:2019, 2022:2024), row.names = TRUE) |>
   kable_paper("striped", full_width = F) |>
-  column_spec(column = 1:10, width_min = "10.5em") |>
+  column_spec(column = 1:11, width_min = "11.5em") |>
   kable_styling() |>
   scroll_box(width = "100%")
 ```
@@ -533,73 +575,125 @@ makeTableData(personOfColor) |>
 ### First language learned
 
 ```{r}
-# language <- makePlotData("What was the first language you learned and still use (i.e., native language)?",
-#                          varNameTable = varNameTable,
-#                          designs = list(design13, design14, design15,
-#                                         design16, design17, design18,
-#                                         design19, design22, design23,
-#                                         design24),
-#                          years = c(2013:2019, 2022:2024),
-#                          levels = rep(list(c("Arabic", "Chinese", "Danish",
-#                                              "Dutch", "English", "Farsi",
-#                                              "French", "German","Hebrew",
-#                                              "Hindi", "Italian", "Japanese",
-#                                              "Norwegian", "Other", "Polish",
-#                                              "Portuguese", "Punjabi",
-#                                              "Romanian", "Russian", "Spanish",
-#                                              "Swedish", "Tagalog", "Urdu")),
-#                                       times = 9),
-#                          labels = NULL,
-#                          labelOrder = c(5, 20, 7, 8, 19, 2, 16, 4, 9, 11,
-#                                         21, 6, 1, 15, 10, 3, 18, 22, 17, 12,
-#                                         13, 23, 14))
-#  
-# language2 <- makePlotData("What was the first language you learned and still use (i.e., native language)?",
-#                          varNameTable = varNameTable,
-#                          designs = list(design13, design14, design15,
-#                                              design16, design17, design18,
-#                                              design19, design22, design23,
-#                                              design24),
-#                          years = c(2013:2019, 2022:2024),
-#                          levels = rep(list(c("Arabic", "Chinese", "Danish",
-#                                              "Dutch", "English", "Farsi",
-#                                              "French", "German","Hebrew",
-#                                              "Hindi", "Italian", "Japanese",
-#                                              "Norwegian", "Other", "Polish",
-#                                              "Portuguese", "Punjabi",
-#                                              "Romanian", "Russian", "Spanish",
-#                                              "Swedish", "Tagalog", "Urdu")),
-#                                       times = 9),
-#                          labels = c("English", "Other language"),
-#                          labelOrder = 2:1,
-#                          groups = c(2, 2, 2,
-#                                     2, 1, 2,
-#                                     2, 2, 2,
-#                                     2, 2, 2,
-#                                     2, 2, 2,
-#                                     2, 2,
-#                                     2, 2, 2,
-#                                     2, 2, 2))
-# 
-# 
-# 
-# ggplot(language2, aes(x = year, y = est, fill = labels)) +
-#   geom_area(alpha = 0.65) +
-#   theme_bw() +
-#   theme(panel.grid.minor = element_blank()) +
-#   scale_x_continuous(breaks = c(2013:2019, 2022:2024), 
-#                      labels = c(2013:2019, 2022:2024)) +
-#   scale_y_continuous(labels = percent) +
-#   scale_fill_manual(values = gradientColors(2)[2:1]) +
-#   labs(x = "", y = "Burning Man participants (%)", fill = "Language",
-#        title = "What was the first language you learned and still use?")
+language15 <- makePlotData("What was the first language you learned and still use (i.e., native language)?",
+                         varNameTable = varNameTable,
+                         designs = list(design15),
+                         years = c(2015),
+                         levels = rep(list(c("Arabic", "Chinese", "Danish",
+                                             "Dutch", "English", "Farsi",
+                                             "French", "German","Hebrew",
+                                             "Hindi", "Italian", "Japanese",
+                                             "Norwegian", "Other", "Polish",
+                                             "Portuguese",
+                                             "Romanian", "Russian", "Spanish",
+                                             "Swedish", "Tagalog", "Urdu")),
+                                      times = 1),
+                         labels = NULL,
+                         labelOrder = c("English","Spanish","French",
+                                        "German","Russian","Chinese",
+                                        "Portuguese","Dutch","Hebrew",
+                                        "Italian","Swedish","Farsi",
+                                        "Arabic","Polish","Hindi",
+                                        "Danish","Romanian","Tagalog",
+                                        "Japanese",
+                                        "Urdu","Other"))
 
-# makeTableData(language) |>
-#   kbl(col.names = c(2013:2019, 2022:2023), row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
-#   column_spec(column = 1:10, width_min = "10.5em") |>
-#   kable_styling() |>
-#   scroll_box(width = "100%")}
+## 2015 is missing Punjabi for some reason, seems to cause numerical instability?
+language15 <- language15[!is.na(language15$est),]
+
+language15$labels <- language15$level
+
+language15 <- rbind(language15, c(0, 0, 0, "Punjabi", 2015, "Punjabi"))
+
+language13to23less15 <- makePlotData("What was the first language you learned and still use (i.e., native language)?",
+                         varNameTable = varNameTable,
+                         designs = list(design13, design14,
+                                        design16, design17, design18,
+                                        design19, design22, design23),
+                         years = c(2013:2014,2016:2019, 2022:2023),
+                         levels = rep(list(c("Arabic", "Chinese", "Danish",
+                                             "Dutch", "English", "Farsi",
+                                             "French", "German","Hebrew",
+                                             "Hindi", "Italian", "Japanese",
+                                             "Norwegian", "Other", "Polish",
+                                             "Portuguese", "Punjabi",
+                                             "Romanian", "Russian", "Spanish",
+                                             "Swedish", "Tagalog", "Urdu")),
+                                      times = 8),
+                         labels = NULL,
+                         labelOrder = c("English","Spanish","French",
+                                        "German","Russian","Chinese",
+                                        "Portuguese","Dutch","Hebrew",
+                                        "Italian","Swedish","Farsi",
+                                        "Arabic","Polish","Hindi",
+                                        "Danish","Romanian","Tagalog",
+                                        "Punjabi","Japanese","Norwegian",
+                                        "Urdu","Other"))
+
+
+language24 <- makePlotData("What was the first language you learned and still use (i.e., native language)?",
+                         varNameTable = varNameTable,
+                         designs = list(design24),
+                         years = c(2024),
+                         levels = rep(list(c("Arabic", "Chinese", "Danish",
+                                             "Dutch", "English", "Farsi",
+                                             "French", "German","Hebrew",
+                                             "Hindi", "Italian", "Japanese",
+                                              "Other", "Polish",
+                                             "Portuguese", "Punjabi",
+                                             "Romanian", "Russian", "Spanish",
+                                             "Swedish", "Tagalog", "Urdu")),
+                                      times = 1),
+                         labels = NULL,
+                         labelOrder = c("English","Spanish","French",
+                                        "German","Russian","Chinese",
+                                        "Portuguese","Dutch","Hebrew",
+                                        "Italian","Swedish","Farsi",
+                                        "Arabic","Polish","Hindi",
+                                        "Danish","Romanian","Tagalog",
+                                        "Punjabi","Japanese",
+                                        "Urdu","Other"))
+
+language24$labels <- language24$level
+language24 <- rbind(language24, c(0, 0, 0, "Norwegian", 2024, "Norwegian"))
+
+
+language <- rbind(language15,language13to23less15, language24)
+
+
+english <- language[language$level=="English",]
+notEnglish <- english
+notEnglish[,c(1,3,2)] <- sapply(english[,1:3],function(x){1-as.numeric(x)})
+notEnglish$level <- "notEnglish"
+notEnglish$labels <- "Other Language"
+
+language2 <- rbind(notEnglish,english)
+
+language2[,c(1:3,5)] <- sapply(language2[,c(1:3,5)], as.numeric)
+language2$labels <- factor(language2$labels, 
+                           levels = c("Other Language","English")) #reorder factor
+
+ggplot(language2, aes(x = year, y = est, fill = labels)) +
+  geom_area(alpha = 0.65) +
+  theme_bw() +
+  theme(panel.grid.minor = element_blank()) +
+  scale_y_continuous(labels = percent) +
+  scale_x_continuous(breaks = c(2013:2019, 2022:2024),
+                     labels = c(2013:2019, 2022:2024)) +
+  scale_fill_manual(values = gradientColors(2)[2:1]) +
+  labs(x = "", y = "Burning Man participants (%)", fill = "Language",
+       title = "What was the first language you learned and still use?")
+
+tableData <- makeTableData(language)
+tableOrder <- order(tableData[,"2024"], decreasing = TRUE)
+tableData <- tableData[tableOrder,]
+
+tableData |>
+  kbl(col.names = c(2013:2019, 2022:2024), row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  column_spec(column = 1:11, width_min = "11.5em") |>
+  kable_styling() |>
+  scroll_box(width = "100%")
 ```
 
 ### Personal income in 2023
@@ -1035,43 +1129,49 @@ makeTableData(rbind(householdIncome, householdIncome24)) |>
 <!-- need to create 2022 variable for highest level completed to compare to prior years -->
 
 ```{r}
-# education <- makePlotData(varName = "Which level of education have you completed?",
-#                           varNameTable,
-#                           designs = list(design23),
-#                           years = c(2023),
-#                           levels = c(TRUE),
-#                           labels = c("High school diploma \n or equivalent",
-#                                      "Some college",
-#                                      "Associate's degree",
-#                                      "Bachelor's degree",
-#                                      "Graduate degree (Master's, \n Doctorate, or equivalent)",
-#                                      "Technical/vocational \n certification",
-#                                      "Other",
-#                                      "None of these"),
-#                           labelOrder = c("High school diploma \n or equivalent",
-#                                          "Some college",
-#                                          "Associate's degree",
-#                                          "Bachelor's degree",
-#                                          "Graduate degree (Master's, \n Doctorate, or equivalent)",
-#                                          "Technical/vocational \n certification",
-#                                          "Other",
-#                                          "None of these"))
-# 
-# ggplot(education, aes(x = labels, y = est)) +
-#   geom_bar(stat = "identity", fill = "#EA008B") +
-#   scale_y_continuous(labels = percent) +
-#   labs(x = "Level of education competed", 
-#        y = "Burning Man participants in 2023 (%)",
-#        title = "Which level of education have you completed?") +
-#   theme_bw() +
-#   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1))
-# 
-# makeTableData(education) |>
-#   kbl(col.names = c(2023), row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
-#   kable_styling() |>
-#   column_spec(column = 1:1, width_min = "10.5em") |>
-#   scroll_box(width = "100%")
+education <- makePlotData(varName = "What is the highest level of education have you completed?",
+                          varNameTable,
+                          designs = list(design24),
+                          years = c(2024),
+                          levels = c("Associate's degree or equivalent", 
+                                     "Bachelor's degree or equivalent", 
+                                     "Elementary school or equivalent", 
+                                     "Graduate degree (Master's, Doctorate, or equivalent) or equivalent", 
+                                     "High school diploma or equivalent", 
+                                     "None of the above", 
+                                     "Other", 
+                                     "Technical/vocational certification or equivalent"),
+                          labels = c("Associate's degree\n or equivalent", 
+                                     "Bachelor's degree\n or equivalent", 
+                                     "Elementary school\n or equivalent", 
+                                     "Graduate degree (Master's,\n Doctorate, or equivalent)", 
+                                     "High school diploma\n or equivalent", 
+                                     "None of the above", 
+                                     "Other", 
+                                     "Technical/vocational certification\n or equivalent"),
+                          labelOrder = c("Graduate degree (Master's,\n Doctorate, or equivalent)",
+                                         "Technical/vocational certification\n or equivalent",
+                                         "Bachelor's degree\n or equivalent", 
+                                         "Associate's degree\n or equivalent", 
+                                         "High school diploma\n or equivalent", 
+                                         "Elementary school\n or equivalent", 
+                                         "Other","None of the above"))
+
+ggplot(education, aes(x = labels, y = est)) +
+  geom_bar(stat = "identity", fill = "#EA008B") +
+  scale_y_continuous(labels = percent) +
+  labs(x = "Level of education competed",
+       y = "Burning Man participants in 2024 (%)",
+       title = "Which level of education have you completed?") +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1))
+
+makeTableData(education) |>
+  kbl(col.names = c(2024), row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  kable_styling() |>
+  column_spec(column = 1:1, width_min = "10.5em") |>
+  scroll_box(width = "100%")
 ```
 
 ## Residence
@@ -1094,123 +1194,114 @@ makeTableData(rbind(householdIncome, householdIncome24)) |>
 
 ```{r}
 
-# theZipz <- census23$reside.ZIP
-# 
-# theZipz[nchar(theZipz) >5 & !is.na(theZipz)] <- gsub(
-#   "-.{4}$",
-#   "",
-#   theZipz[nchar(theZipz) >5 & !is.na(theZipz)]
-# ) # remove last 4 of zip codes
-# 
-# Zs <- lapply(theZipz, function(u){
-#   if (is.na(u)) {
-#     NA
-#   } else {
-#     reverse_zipcode(u)
-#   }
-# }
-# )
-# 
-# burnerState <- sapply(Zs, function(v){
-#   if (length(v)>1) {
-#     v$state
-#   } else {
-#     NA
-#   }
-# }
-# )
-# 
-# statesWeights <- tapply(census23$weights, burnerState, sum)
-# statesWeights <- statesWeights/sum(statesWeights)*100
-# 
-# statesPercents <- sort(round(statesWeights,2), decreasing=TRUE) # weighted
-# 
-# burnersByState <- data.frame(STATE = names(statesPercents), Percent = statesPercents)
-# 
-# # adding mississippi
-# burnersByState <- rbind(burnersByState, data.frame(STATE="MS",Percent=0))
-# 
-# ## plotting
-# usa <- states(cb = TRUE, progress_bar = FALSE) %>%
-#   shift_geometry()
-# 
-# usa$STATE <- c(state.abb, "DC", "PR")[
-#   match(usa$NAME, c(state.name, "District of Columbia", "Puerto Rico"),)
-#   ]
-# 
-# usa2 <- merge(usa, burnersByState, by="STATE")
-# 
-# usa2 <- st_transform(usa2, 3395)
-# 
-# # construct cartogram
-# usa2_cont <- cartogram_cont(usa2, "Percent", 
-#                             itermax = 15,
-#                             threshold = 0.01,
-#                             verbose=FALSE) %>%
-#   st_cast()
-# 
-# # plot it
-# tm_shape(usa2_cont) + 
-#   tm_polygons("Percent", style = "jenks", 
-#               palette=gradientColors(3)) +
-#   tm_layout("Frequency of US residence",title.position=c(0.5, 0.9),
-#             frame = FALSE, legend.position = c(0.8,0.1),
-#             legend.outside=FALSE) + 
-#   tm_text("STATE", size = 1/2, remove.overlap = FALSE)
-# 
-# ## table of 
-# 
-# # names(statesPercents) <- c(state.name, "District of Columbia", "Puerto Rico")[
-# #   match(names(statesPercents), c(state.abb, "DC", "PR"),)
-# # ]
-# # 
-# # head(data.frame(statesPercents),12) |>
-# #   kbl(col.names = c("Percentage"), row.names = TRUE) |>
-# #   kable_paper("striped", full_width = F) |>
-# #   kable_styling() |>
-# #   column_spec(column = 1:1, width_min = "10.5em") |>
-# #   scroll_box(width = "100%")
-# 
-# 
-# 
-# reside <- makePlotData("Where do you usually reside/live (when not in Black Rock City)?",
-#                        varNameTable = varNameTable,
-#                        designs = list(design13, design14, design15,
-#                                       design16, design17, design18,
-#                                       design19, design22, design23),
-#                        years = c(2013:2019, 2022:2023),
-#                        levels = c(rep(list(c("California",
-#                                              "Canada",
-#                                              "Nevada",
-#                                              "Other",
-#                                              "USA_other")), times = 7),
-#                                   rep(list(c("Within California", "In Canada",
-#                                          "Within Nevada", "Other",
-#                                          "Other location within U.S.")), times = 2)),
-#                        labels = c("Within California", "Within Canada",
-#                                   "Within Nevada", "Other",
-#                                   "Other location within U.S."),
-#                        labelOrder = c(1, 3, 5, 2, 4))
-# 
-# ggplot(reside, aes(x = year, y = est, color = labels)) +
-#   geom_line(linewidth = 1.5, alpha = 0.7) +
-#   geom_point(size = 2.25) +
-#   theme_bw() +
-#   theme(panel.grid.minor = element_blank()) +
-#   scale_x_continuous(breaks = c(2013:2019, 2022:2023), 
-#                      labels = c(2013:2019, 2022:2023)) +
-#   scale_y_continuous(labels = percent, limits = c(0, NA)) +
-#   scale_color_manual(values = discreteColors[1:5]) +
-#   labs(x = "", y = "Burning Man participants (%)", 
-#        color = "Residence (not in BRC)",
-#        title = "Where do you usually reside (when not in Black Rock City)")
-# 
-# makeTableData(reside) |>
-#   kbl(col.names = c(2013:2019, 2022:2023), row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
-#   column_spec(column = 1:10, width_min = "10.5em") |>
-#   kable_styling() |>
-#   scroll_box(width = "100%")
+theZipz <- census24$reside.zip
+
+theZipz[nchar(theZipz) >5 & !is.na(theZipz)] <- gsub(
+  "-.{4}$",
+  "",
+  theZipz[nchar(theZipz) >5 & !is.na(theZipz)]
+) # remove last 4 of zip codes
+
+Zs <- lapply(theZipz, function(u){
+  if (is.na(u)) {
+    NA
+  } else {
+    reverse_zipcode(u)
+  }
+}
+)
+
+burnerState <- sapply(Zs, function(v){
+  if (length(v)>1) {
+    v$state
+  } else {
+    NA
+  }
+}
+)
+
+statesWeights <- tapply(census24$weights, burnerState, sum)
+statesWeights <- statesWeights/sum(statesWeights)*100
+
+statesPercents <- sort(round(statesWeights,2), decreasing=TRUE) # weighted
+
+burnersByState <- data.frame(STATE = names(statesPercents), Percent = statesPercents)
+
+# adding mississippi
+burnersByState <- rbind(burnersByState, data.frame(STATE="MS",Percent=0))
+burnersByState$Percent <- burnersByState$Percent + 0.002 # adjust for numerical convenience in plotting
+
+## plotting
+usa <- states(cb = TRUE, progress_bar = FALSE) %>%
+  shift_geometry()
+
+usa$STATE <- c(state.abb, "DC", "PR")[
+  match(usa$NAME, c(state.name, "District of Columbia", "Puerto Rico"),)
+  ]
+
+usa2 <- merge(usa, burnersByState, by="STATE")
+
+usa2 <- st_transform(usa2, 3395)
+
+# construct cartogram
+usa2_cont <- cartogram_cont(usa2, "Percent",
+                            itermax = 15,
+                            threshold = 0.01,
+                            verbose=FALSE) %>%
+  st_cast()
+
+# plot it
+tm_shape(usa2_cont) +
+  tm_polygons("Percent", 
+              fill.scale = tm_scale_continuous_log(values = rev(gradientColors(3)))) +
+  tm_title("Frequency of US residence by state", position=c(0.35, 1)) + 
+  tm_layout(frame = FALSE, 
+            legend.outside=FALSE) +
+  tm_text("STATE", size = 1/2, remove.overlap = FALSE)
+
+
+
+
+
+reside <- makePlotData("Where do you usually reside/live (when not in Black Rock City)?",
+                       varNameTable = varNameTable,
+                       designs = list(design13, design14, design15,
+                                      design16, design17, design18,
+                                      design19, design22, design23,
+                                      design24),
+                       years = c(2013:2019, 2022:2024),
+                       levels = c(rep(list(c("California",
+                                             "Canada",
+                                             "Nevada",
+                                             "Other",
+                                             "USA_other")), times = 7),
+                                  rep(list(c("Within California", "In Canada",
+                                         "Within Nevada", "Other",
+                                         "Other location within U.S.")), times = 3)),
+                       labels = c("Within California", "Within Canada",
+                                  "Within Nevada", "Other",
+                                  "Other location in U.S."),
+                       labelOrder = c(1, 3, 5, 2, 4))
+
+ggplot(reside, aes(x = year, y = est, color = labels)) +
+  geom_line(linewidth = 1.5, alpha = 0.7) +
+  geom_point(size = 2.25) +
+  theme_bw() +
+  theme(panel.grid.minor = element_blank()) +
+  scale_x_continuous(breaks = c(2013:2019, 2022:2024),
+                     labels = c(2013:2019, 2022:2024)) +
+  scale_y_continuous(labels = percent, limits = c(0, NA)) +
+  scale_color_manual(values = discreteColors[1:5]) +
+  labs(x = "", y = "Burning Man participants (%)",
+       color = "Residence (not in BRC)",
+       title = "Where do you usually reside (when not in Black Rock City)")
+
+makeTableData(reside) |>
+  kbl(col.names = c(2013:2019, 2022:2024), row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  column_spec(column = 1:11, width_min = "11.5em") |>
+  kable_styling() |>
+  scroll_box(width = "100%")
 ```
 
 <!-- ### California and Nevada County Residence -->
