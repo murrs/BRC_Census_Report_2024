@@ -323,6 +323,9 @@ ggplot(myDat, aes(x = Year, y = Percentage, fill = rows)) +
 
 ```
 
+### Gender identity
+
+
 ### Sex assigned at birth
 
 ```{r}

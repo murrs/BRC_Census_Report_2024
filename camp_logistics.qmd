@@ -27,173 +27,211 @@ discreteColors <- c("#EA008B", "#B0AEDC", "#554149", "#A07200", "#AADA91",
 ### Number of people in camps
 
 ```{r}
-# nbcamp <- makePlotData("How many people were in your camp (total, including you)?",
-#                        varNameTable = varNameTable,
-#                        designs = list(design13, design14, design15, design16,
-#                                       design17, design18, design19, design22,
-#                                       design23),
-#                        years = c(2013:2019, 2022:2023),
-#                        levels = c(rep(list(c("_100to199", "_10to19",
-#                                              "_200_or_more", "_20to29",
-#                                              "_30to49", "_3to5", "_50to99",
-#                                              "_6to9", "1", "2")), times = 7),
-#                                   rep(list(c("100-199", "10-19", "200 or more",
-#                                          "20-29", "30-49", "3-5",
-#                                          "50-99", "6-9", "1", "2")), times = 2)),
-#                        labels = c("100-199", "10-19", "200+",
-#                                   "20-29", "30-49", "3-5",
-#                                   "50-99", "6-9", "1", "2"),
-#                        labelOrder = c(9, 10, 6, 8, 2, 4, 5,
-#                                       7, 1, 3))
-# 
-# ggplot(nbcamp, aes(x = labels, y = est)) +
-#   geom_bar(stat = "identity", fill = "#EA008B", color = "#EA008B",
-#            alpha = 0.7) +
-#   scale_y_continuous(labels = percent) +
-#   labs(x = "Number of people in camp", y = "Burning Man participants (%)",
-#        title = "How many people were in your camp (total, including you)?") +
-#   theme_bw() +
-#   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) +
-#   facet_wrap(~year, nrow = 2)
-# 
-# makeTableData(nbcamp) |>
-#   kbl(col.names = c(2013:2019, 2022:2023),
-#       row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
-#   kable_styling() |>
-#   column_spec(column = 1:10, width_min = "10.5em") |>
-#   scroll_box(width = "100%")
+nbcampGroup <- list("100-199" = c("_100to199",
+                                  "100-199",
+                                  "100-149", "150-199"), 
+                    "10-19" = c("_10to19",
+                                "10-19"), 
+                    "200+" = c("_200_or_more", 
+                               "200 or more"),
+                    "20-29" = c("_20to29", 
+                                "20-29"), 
+                    "30-49" = c("_30to49",
+                                "30-49"), 
+                    "3-5" = c("_3to5",
+                              "3-5"),
+                    "50-99" = c("_50to99",
+                                "50-99"), 
+                    "6-9" = c("_6to9",
+                              "6-9"), 
+                    "1" = c("1"), 
+                    "2" = c("2"))
+
+nbcamp <- makePlotData("How many people were in your camp (total, including you)?",
+                       varNameTable = varNameTable,
+                       designs = list(design13, design14, design15, design16,
+                                      design17, design18, design19, design22,
+                                      design23, design24),
+                       years = c(2013:2019, 2022:2024),
+                       levels = c(rep(list(c("_100to199", "_10to19",
+                                             "_200_or_more", "_20to29",
+                                             "_30to49", "_3to5", "_50to99",
+                                             "_6to9", "1", "2")), times = 7),
+                                  rep(list(c("100-199", "10-19", "200 or more",
+                                         "20-29", "30-49", "3-5",
+                                         "50-99", "6-9", "1", "2")), times = 2),
+                                  rep(list(c("100-149", "150-199", "10-19", 
+                                             "200 or more", "20-29", "30-49", 
+                                             "3-5", "50-99", "6-9", "1", "2")), 
+                                      times = 1)),
+                       labels = c("100-199", "10-19", "200+",
+                                  "20-29", "30-49", "3-5",
+                                  "50-99", "6-9", "1", "2"),
+                       labelOrder = rev(c(9, 10, 6, 8, 2, 4, 5,
+                                          7, 1, 3)),
+                       groups = nbcampGroup)
+
+ggplot(nbcamp, aes(x = year, y = est, fill = labels)) +
+  # geom_bar(stat = "identity", fill = "#EA008B", color = "#EA008B",
+  #          alpha = 0.7) +
+  geom_area(alpha = 0.6 , linewidth = 1, colour="black") +
+  scale_y_continuous(labels = percent) +
+  scale_fill_manual(values = gradientColors(10)) +
+  labs(x = "Number of people in camp", y = "Burning Man participants (%)",
+       title = "How many people were in your camp (total, including you)?") +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) #+
+  # facet_wrap(~year, nrow = 2)
+
+nbcamp$labels <- factor(nbcamp$labels, levels = rev(levels(nbcamp$labels)))
+
+makeTableData(nbcamp) |>
+  kbl(col.names = c(2013:2019, 2022:2024),
+      row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  kable_styling() |>
+  column_spec(column = 1:11, width_min = "10.5em") |>
+  scroll_box(width = "100%")
 ```
 
-### RV camping and pumping
+<!-- Question was removed: check this. -->
 
-<!-- Additional (or instead) plot yes/no staying in an RV maybe? -->
+<!-- ### RV camping and pumping -->
 
-```{r}
-# Question options were changed in 2015, need to add 2013 and 2014
-# stayedRV <- makePlotData("Did you stay in an RV or camper-trailer in Black Rock City this year, and was it pumped (serviced) on playa?",
-#                          varNameTable = varNameTable,
-#                          designs = list(design15, design16, design17,
-#                                         design18, design19, design22,
-#                                         design23),
-#                          years = c(2015:2019, 2022:2023),
-#                          levels = c(rep(list(c("No", "Not_sure",
-#                                                "Yes_and_pumped",
-#                                                "Yes_idk_pumped",
-#                                                "Yes_not_pumped")), times = 5),
-#                                     rep(list(c("No", "Not sure",
-#                                            "Yes and pumped",
-#                                            "Yes and don\'t know if pumped",
-#                                            "Yes and not pumped")), times = 2)),
-#                          labels = c("No", "Not sure",
-#                                     "Yes and pumped",
-#                                     "Yes and don\'t know if pumped",
-#                                     "Yes and not pumped"),
-#                          labelOrder = c(3, 5, 4, 1, 2))
-# 
-# ggplot(stayedRV, aes(x = year, y = est, color = labels)) +
-#   geom_line(linewidth = 1.5, alpha = 0.7) +
-#   geom_point(size = 2.25) +
-#   theme_bw() +
-#   theme(panel.grid.minor = element_blank()) +
-#   scale_x_continuous(breaks = c(2014:2019, 2022:2023), 
-#                      labels = c(2014:2019, 2022:2023)) +
-#   scale_y_continuous(labels = percent, limits = c(0, NA)) +
-#   scale_color_manual(values = discreteColors[1:5]) +
-#   labs(x = "", y = "Burning Man Partcipants (%)", color = "",
-#        title = "Did you stay in an RV or camper-trailer in Black Rock City this year, \n and was it pumped (serviced) on playa?")
-# 
-# makeTableData(stayedRV) |>
-#   kbl(col.names = c(2015:2019, 2022:2023),
-#       row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
-#   kable_styling() |>
-#   column_spec(column = 1:8, width_min = "10.5em") |>
-#   scroll_box(width = "100%")
-```
+<!-- <!-- Additional (or instead) plot yes/no staying in an RV maybe? --> -->
 
-### Number of adults in the RV/camper-trailer
+<!-- ```{r} -->
+<!-- # Question options were changed in 2015, need to add 2013 and 2014 -->
+<!-- # stayedRV <- makePlotData("Did you stay in an RV or camper-trailer in Black Rock City this year, and was it pumped (serviced) on playa?", -->
+<!-- #                          varNameTable = varNameTable, -->
+<!-- #                          designs = list(design15, design16, design17, -->
+<!-- #                                         design18, design19, design22, -->
+<!-- #                                         design23), -->
+<!-- #                          years = c(2015:2019, 2022:2023), -->
+<!-- #                          levels = c(rep(list(c("No", "Not_sure", -->
+<!-- #                                                "Yes_and_pumped", -->
+<!-- #                                                "Yes_idk_pumped", -->
+<!-- #                                                "Yes_not_pumped")), times = 5), -->
+<!-- #                                     rep(list(c("No", "Not sure", -->
+<!-- #                                            "Yes and pumped", -->
+<!-- #                                            "Yes and don\'t know if pumped", -->
+<!-- #                                            "Yes and not pumped")), times = 2)), -->
+<!-- #                          labels = c("No", "Not sure", -->
+<!-- #                                     "Yes and pumped", -->
+<!-- #                                     "Yes and don\'t know if pumped", -->
+<!-- #                                     "Yes and not pumped"), -->
+<!-- #                          labelOrder = c(3, 5, 4, 1, 2)) -->
+<!-- #  -->
+<!-- # ggplot(stayedRV, aes(x = year, y = est, color = labels)) + -->
+<!-- #   geom_line(linewidth = 1.5, alpha = 0.7) + -->
+<!-- #   geom_point(size = 2.25) + -->
+<!-- #   theme_bw() + -->
+<!-- #   theme(panel.grid.minor = element_blank()) + -->
+<!-- #   scale_x_continuous(breaks = c(2014:2019, 2022:2023),  -->
+<!-- #                      labels = c(2014:2019, 2022:2023)) + -->
+<!-- #   scale_y_continuous(labels = percent, limits = c(0, NA)) + -->
+<!-- #   scale_color_manual(values = discreteColors[1:5]) + -->
+<!-- #   labs(x = "", y = "Burning Man Partcipants (%)", color = "", -->
+<!-- #        title = "Did you stay in an RV or camper-trailer in Black Rock City this year, \n and was it pumped (serviced) on playa?") -->
+<!-- #  -->
+<!-- # makeTableData(stayedRV) |> -->
+<!-- #   kbl(col.names = c(2015:2019, 2022:2023), -->
+<!-- #       row.names = TRUE) |> -->
+<!-- #   kable_paper("striped", full_width = F) |> -->
+<!-- #   kable_styling() |> -->
+<!-- #   column_spec(column = 1:8, width_min = "10.5em") |> -->
+<!-- #   scroll_box(width = "100%") -->
+<!-- ``` -->
 
-```{r}
-# nbrv <- makePlotData("How many adults (18+years old) stayed in the RV/camper-trailer including you?",
-#                      varNameTable = varNameTable,
-#                      designs = list(design15, design16, design17, design18,
-#                                     design19, design22, design23),
-#                      years = c(2015:2019, 2022:2023),
-#                      levels = c(list(c("only_me", "2", "3", "4", "5",
-#                                        "6", "7", "8", "9", "_10+")),
-#                                 rep(list(c("only_me", "2", "3", "4", "5",
-#                                            "6", "7", "8", "9", "_10_or_more")),
-#                                     times = 4),
-#                                 rep(list(c("1", "2", "3", "4", "5",
-#                                        "6", "7", "8", "9", "10+")), times = 2)),
-#                      labels = c("1", "2", "3", "4", "5",
-#                                 "6", "7", "8", "9", "10+"))
-# 
-# ggplot(nbrv, aes(x = labels, y = est)) +
-#   geom_bar(stat = "identity", fill = "#EA008B", color = "#EA008B",
-#            alpha = 0.7) +
-#   scale_y_continuous(labels = percent) +
-#   labs(x = "Number of people in camp", y = "Burning Man participants (%)",
-#        title = "How many adults stayed in the RV/camper-trailer including you?") +
-#   theme_bw() +
-#   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) +
-#   facet_wrap(~year, nrow = 2)
-# 
-# makeTableData(nbrv) |>
-#   kbl(col.names = c(2015:2019, 2022:2023),
-#       row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
-#   kable_styling() |>
-#   column_spec(column = 1:8, width_min = "10.5em") |>
-#   scroll_box(width = "100%")
-```
+<!-- Question was removed, check this -->
+
+<!-- ### Number of adults in the RV/camper-trailer -->
+
+<!-- ```{r} -->
+<!-- # nbrv <- makePlotData("How many adults (18+years old) stayed in the RV/camper-trailer including you?", -->
+<!-- #                      varNameTable = varNameTable, -->
+<!-- #                      designs = list(design15, design16, design17, design18, -->
+<!-- #                                     design19, design22, design23), -->
+<!-- #                      years = c(2015:2019, 2022:2023), -->
+<!-- #                      levels = c(list(c("only_me", "2", "3", "4", "5", -->
+<!-- #                                        "6", "7", "8", "9", "_10+")), -->
+<!-- #                                 rep(list(c("only_me", "2", "3", "4", "5", -->
+<!-- #                                            "6", "7", "8", "9", "_10_or_more")), -->
+<!-- #                                     times = 4), -->
+<!-- #                                 rep(list(c("1", "2", "3", "4", "5", -->
+<!-- #                                        "6", "7", "8", "9", "10+")), times = 2)), -->
+<!-- #                      labels = c("1", "2", "3", "4", "5", -->
+<!-- #                                 "6", "7", "8", "9", "10+")) -->
+<!-- #  -->
+<!-- # ggplot(nbrv, aes(x = labels, y = est)) + -->
+<!-- #   geom_bar(stat = "identity", fill = "#EA008B", color = "#EA008B", -->
+<!-- #            alpha = 0.7) + -->
+<!-- #   scale_y_continuous(labels = percent) + -->
+<!-- #   labs(x = "Number of people in camp", y = "Burning Man participants (%)", -->
+<!-- #        title = "How many adults stayed in the RV/camper-trailer including you?") + -->
+<!-- #   theme_bw() + -->
+<!-- #   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) + -->
+<!-- #   facet_wrap(~year, nrow = 2) -->
+<!-- #  -->
+<!-- # makeTableData(nbrv) |> -->
+<!-- #   kbl(col.names = c(2015:2019, 2022:2023), -->
+<!-- #       row.names = TRUE) |> -->
+<!-- #   kable_paper("striped", full_width = F) |> -->
+<!-- #   kable_styling() |> -->
+<!-- #   column_spec(column = 1:8, width_min = "10.5em") |> -->
+<!-- #   scroll_box(width = "100%") -->
+<!-- ``` -->
 
 ### Number of family members in Black Rock City
 
 ```{r}
 # 2013 has only up to 4+ and 2015 is missing the 6+ option
-# nbfamily1 <- makePlotData("How many of your family members were in Black Rock City this year? (e.g. relatives, partners, spouses, offspring, in-laws)",
-#                           varNameTable = varNameTable,
-#                           designs = list(design14, design15, design16, design17,
-#                                          design18, design19, design22, design23),
-#                           years = c(2014:2019, 2022:2023),
-#                           levels = c(rep(list(c("0", "1", "2", "3",
-#                                                 "4", "5",
-#                                                 "_6_or_more")), times = 6),
-#                                      rep(list(c("0", "1", "2", "3", "4", "5",
-#                                             "more than 5")), times = 2)),
-#                           groups = c(1, 2, 3, 4, 5, 5, 5),
-#                           labels = c("0", "1", "2", "3", "4+"))
-# 
-# nbfamily2 <- makePlotData("How many of your family members were in Black Rock City this year? (e.g. relatives, partners, spouses, offspring, in-laws)",
-#                           varNameTable = varNameTable,
-#                           designs = list(design13),
-#                           years = c(2013),
-#                           levels = c(rep(list(c("0", "1", "2", "3",
-#                                                 "_4_or_more")), times = 1)),
-#                           labels = c("0", "1", "2", "3", "4+"))
-# nbfamily <- rbind(nbfamily1, nbfamily2)
-# 
-# ggplot(nbfamily, aes(x = year, y = est, color = labels)) +
-#   geom_line(linewidth = 1.5, alpha = 0.7) +
-#   geom_point(size = 2.25) +
-#   theme_bw() +
-#   theme(panel.grid.minor = element_blank()) +
-#   scale_x_continuous(breaks = c(2013:2019, 2022:2023), 
-#                      labels = c(2013:2019, 2022:2023)) +
-#   scale_y_continuous(labels = percent, limits = c(0, NA)) +
-#   scale_color_manual(values = discreteColors[1:5]) +
-#   labs(x = "", y = "Burning Man Partcipants (%)", color = "",
-#        title = "How many of your family members were in \n Black Rock City this year?")
-# 
-# makeTableData(nbfamily) |>
-#   kbl(col.names = c(2013:2019, 2022:2023),
-#       row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
-#   kable_styling() |>
-#   column_spec(column = 1:10, width_min = "10.5em") |>
-#   scroll_box(width = "100%")
+
+#TODO update grouping to new list format and use only one 
+#     call to makePlotData.
+
+nbfamily1 <- makePlotData("How many of your family members were in Black Rock City this year? (e.g. relatives, partners, spouses, offspring, in-laws)",
+                          varNameTable = varNameTable,
+                          designs = list(design14, design15, design16, design17,
+                                         design18, design19, design22, design23,
+                                         design24),
+                          years = c(2014:2019, 2022:2024),
+                          levels = c(rep(list(c("0", "1", "2", "3",
+                                                "4", "5",
+                                                "_6_or_more")), times = 6),
+                                     rep(list(c("0", "1", "2", "3", "4", "5",
+                                            "more than 5")), times = 3)),
+                          groups = c(1, 2, 3, 4, 5, 5, 5),
+                          labels = c("0", "1", "2", "3", "4+"))
+
+nbfamily2 <- makePlotData("How many of your family members were in Black Rock City this year? (e.g. relatives, partners, spouses, offspring, in-laws)",
+                          varNameTable = varNameTable,
+                          designs = list(design13),
+                          years = c(2013),
+                          levels = c(rep(list(c("0", "1", "2", "3",
+                                                "_4_or_more")), times = 1)),
+                          labels = c("0", "1", "2", "3", "4+"))
+nbfamily <- rbind(nbfamily1, nbfamily2)
+
+ggplot(nbfamily, aes(x = year, y = est, color = labels)) +
+  geom_line(linewidth = 1.5, alpha = 0.7) +
+  geom_point(size = 2.25) +
+  theme_bw() +
+  theme(panel.grid.minor = element_blank()) +
+  scale_x_continuous(breaks = c(2013:2019, 2022:2024),
+                     labels = c(2013:2019, 2022:2024)) +
+  scale_y_continuous(labels = percent, limits = c(0, NA)) +
+  scale_color_manual(values = discreteColors[1:5]) +
+  labs(x = "", y = "Burning Man Partcipants (%)", color = "",
+       title = "How many of your family members were in \n Black Rock City this year?")
+
+makeTableData(nbfamily) |>
+  kbl(col.names = c(2013:2019, 2022:2024),
+      row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  kable_styling() |>
+  column_spec(column = 1:11, width_min = "10.5em") |>
+  scroll_box(width = "100%")
 ```
 
 ## Camp placement
@@ -205,33 +243,34 @@ discreteColors <- c("#EA008B", "#B0AEDC", "#554149", "#A07200", "#AADA91",
 ### Camps placed by the Burning Man Placement Team
 
 ```{r}
-# placed <- makePlotData("Was your camp assigned a location by the Burning Man Placement Team before the event?",
-#                        varNameTable = varNameTable,
-#                        designs = list(design14, design15, design16, design17,
-#                                       design18, design19, design22, design23),
-#                        years = c(2014:2019, 2022:2023),
-#                        levels = c(rep(list(c("Yes", "IDK", "No")), times = 6),
-#                                   rep(list(c("Yes","Don\'t know", "No")), times = 2)),
-#                        labels = c("Yes", "I don\'t know", "No"),
-#                        labelOrder = c(3, 2, 1))
-# 
-# ggplot(placed, aes(x = year, y = est, fill = labels)) +
-#   geom_area(alpha = 0.65) +
-#   scale_y_continuous(labels = percent) +
-#   scale_x_continuous(breaks = c(2013:2019, 2022:2023), labels = c(2013:2019, 2022:2023)) +
-#   scale_fill_manual(values = discreteColors[3:1]) +
-#   labs(x = "", y = "Burning Man participants (%)", 
-#        fill = "Was your camp assigned \n a location by the \n Placement Team?",
-#        title = "Was your camp assigned a location by the Burning Man Placement Team \n before the event?") +
-#   theme_bw()
-# 
-# makeTableData(placed) |>
-#   kbl(col.names = c(2014:2019, 2022:2023),
-#       row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
-#   kable_styling() |>
-#   column_spec(column = 1:9, width_min = "10.5em") |>
-#   scroll_box(width = "100%")
+placed <- makePlotData("Was your camp assigned a location by the Burning Man Placement Team before the event?",
+                       varNameTable = varNameTable,
+                       designs = list(design14, design15, design16, design17,
+                                      design18, design19, design22, design23,
+                                      design24),
+                       years = c(2014:2019, 2022:2024),
+                       levels = c(rep(list(c("Yes", "IDK", "No")), times = 6),
+                                  rep(list(c("Yes","Don\'t know", "No")), times = 3)),
+                       labels = c("Yes", "I don\'t know", "No"),
+                       labelOrder = c(3, 2, 1))
+
+ggplot(placed, aes(x = year, y = est, fill = labels)) +
+  geom_area(alpha = 0.60, color = "black") +
+  scale_y_continuous(labels = percent) +
+  scale_x_continuous(breaks = c(2013:2019, 2022:2024), labels = c(2013:2019, 2022:2024)) +
+  scale_fill_manual(values = discreteColors[3:1]) +
+  labs(x = "", y = "Burning Man participants (%)",
+       fill = "Was your camp assigned \n a location by the \n Placement Team?",
+       title = "Was your camp assigned a location by the Burning Man Placement Team \n before the event?") +
+  theme_bw()
+
+makeTableData(placed) |>
+  kbl(col.names = c(2014:2019, 2022:2024),
+      row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  kable_styling() |>
+  column_spec(column = 1:10, width_min = "10.5em") |>
+  scroll_box(width = "100%")
 ```
 
 ### Reason for camp location in Black Rock City
@@ -263,7 +302,7 @@ discreteColors <- c("#EA008B", "#B0AEDC", "#554149", "#A07200", "#AADA91",
 #   geom_bar(stat = "identity", fill = "#EA008B", color = "#EA008B",
 #            alpha = 0.7) +
 #   scale_y_continuous(labels = percent) +
-#   labs(x = "Number of people in camp", 
+#   labs(x = "Number of people in camp",
 #        y = "Burning Man participants in 2023 (%)",
 #        title = "What most determined where you chose to camp in Black Rock City this year?") +
 #   theme_bw() +
@@ -276,6 +315,44 @@ discreteColors <- c("#EA008B", "#B0AEDC", "#554149", "#A07200", "#AADA91",
 #   kable_styling() |>
 #   column_spec(column = 1:9, width_min = "10.5em") |>
 #   scroll_box(width = "100%")
+
+location <- makePlotData("What most determined where you chose to camp in Black Rock City this year?",
+                         varNameTable = varNameTable,
+                         designs = list(design14, design15, design16, design17,
+                                        design18, design19, design22, design23,
+                                        design24),
+                         years = c(2014:2019, 2022:2024),
+                         levels = c(rep(list(c("yes")), times = 6),
+                                    rep(list(c(TRUE)), times = 3)),
+                         labels = c("Nearby attractions",
+                                    "Favorable playa surface conditions",
+                                    "Friends\' choice",
+                                    "Space available",
+                                    "Nice neighbors",
+                                    "Same as last year",
+                                    "Different than last year",
+                                    "Quiet",
+                                    "Access to all-night parties",
+                                    "I don\'t know"),
+                         labelOrder = c(4,3,8,5,6,1,2,7,9,10))
+
+ggplot(location[location$year == 2024,], aes(x = labels, y = est)) +
+  geom_bar(stat = "identity", fill = "#EA008B", color = "#EA008B",
+           alpha = 0.7) +
+  scale_y_continuous(labels = percent) +
+  labs(x = "Number of people in camp",
+       y = "Burning Man participants in 2024 (%)",
+       title = "What most determined where you chose to camp in Black Rock City this year?") +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))
+
+makeTableData(location) |>
+  kbl(col.names = c(2014:2019, 2022:2024),
+      row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  kable_styling() |>
+  column_spec(column = 1:10, width_min = "10.5em") |>
+  scroll_box(width = "100%")
 
 ```
 
