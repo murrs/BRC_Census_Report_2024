@@ -371,6 +371,9 @@ makeTableData(gender) |>
 
 ```
 
+### Gender identity
+
+
 ### Sex assigned at birth
 
 ```{r}

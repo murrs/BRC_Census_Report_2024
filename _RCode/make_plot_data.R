@@ -20,7 +20,7 @@ makePlotData <- function(varName, varNameTable, designs, years, levels,
       ngroups <- max(groups)
       groups <- lapply(1:ngroups, function(i, groups){which(groups == i)},
                        groups = groups)
-      groups <- rep(groups, length = nYears)
+      groups <- rep(list(groups), times = nYears)
     }
     #If groups is a list create appropriate groups list for processing
     else if(is.list(groups)){
