@@ -262,21 +262,20 @@ makeTableData(broughtChildren) |>
 ```{r}
 # TODO question not in census data??
 #
-# restrictAge.2 <- makePlotData("Do you think that Burning Man event attendance should be restricted to participants aged 18 or older?",
-#                               varNameTable = varNameTable,
-#                               designs = list(design16, design17, design18,
-#                                              design19, design22, design23,
-#                                              design24),
-#                               year = c(2016:2019, 2022:2024),
-#                               levels = c(rep(list(c("No", "No_opinion",
-#                                                     "Yes_only18plus")), times = 4),
-#                                          rep(list(c("No, all ages", "No opinion",
-#                                                 "Yes, only 18+")), times = 3)),
-#                               labels = c("No, all ages", "No opinion",
-#                                          "Yes, only 18+"),
-#                               labelOrder = c(1, 3, 2))
-# 
-# 
+#restrictAge.2 <- makePlotData("Do you think that Burning Man event attendance should be restricted to participants aged 18 or older?",
+#                              varNameTable = varNameTable,
+#                              designs = list(design16, design17, design18,
+#                                             design19, design22, design23,
+#                                             design24),
+#                              year = c(2016:2019, 2022:2024),
+#                              levels = c(rep(list(c("No", "No_opinion",
+#                                                    "Yes_only18plus")), times = 4),
+#                                         rep(list(c("No, all ages", "No opinion",
+#                                                "Yes, only 18+")), times = 3)),
+#                              labels = c("No, all ages", "No opinion",
+#                                         "Yes, only 18+"),
+#                              labelOrder = c(1, 3, 2))
+#
 # ggplot(restrictAge.2, aes(x = year, y = est, color = labels)) +
 #  geom_line(linewidth = 1.5, alpha = 0.7) +
 #  geom_point(size = 2.25) +
@@ -1141,37 +1140,37 @@ RIDE <- makePlotData("How did you see Radical Inclusion, Diversity, and Equity (
 ### Creating a more diverse and welcoming Black Rock City
 
 ```{r}
-# diverse <- makePlotData("How did you personally work to create a more diverse and welcoming Black Rock City?",
-#                         designs = list(design22, design23, design24),
-#                         years = 2022:2024,
-#                         varNameTable = varNameTable,
-#                         levels = c(rep(as.list(TRUE), times = 3)),
-#                         labels = c("The camp or project(s) I am involved in \n welcomed new BIPOC participants or \n members of under-represented groups",
-#                                    "My camp or project offers financial assistance \n to low-income Burners or \n other under-represented groups",
-#                                    "My camp, art collective, or group \n organized a R.I.D.E.-related event \n on playa",
-#                                    "I attended events on topics related to \n diversity and Radical Inclusion",
-#                                    "I visited the Multicultural People of Color \n Neighborhood at 6:30+C/D",
-#                                    "I visited the expanded queerborhoods \n in the 4:30 and 7:30 sectors",
-#                                    "Off-playa, I support diversity and \n inclusion in my home community",
-#                                    "I made my camp more accessible for \n Burners with mobility and access needs",
-#                                    "I was engaged in or noticed more \n conversations related to R.I.D.E.",
-#                                    "Other", "I did not do this"),
-#                         labelOrder = c(11,10,3,8,5,4,2,9,6,1,7))
-# 
-# ggplot(diverse, aes(x = labels, y = est, fill = as.factor(year))) +
-#   geom_bar(stat = "identity", position = "dodge") +
-#   scale_y_continuous(labels = percent) +
-#   scale_fill_manual(values = discreteColors[2:1]) +
-#   labs(x = "Personal action", y = "Burning Man participants (%)", fill = "Year",
-#        title = "How did you personally work to create a more \n diverse and welcoming Black Rock City?") +
-#   theme_bw() +
-#   coord_flip() +
-#   guides(fill = guide_legend(reverse = TRUE))
-# 
-# makeTableData(diverse)[11:1,] |>
-#   kbl(col.names = c(2022:2023), row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
-#   column_spec(column = 1:3, width_min = "10.5em") |>
-#   kable_styling() |>
-#   scroll_box(width = "100%")
+diverse <- makePlotData("How did you personally work to create a more diverse and welcoming Black Rock City?",
+                        designs = list(design22, design23, design24),
+                        years = 2022:2024,
+                        varNameTable = varNameTable,
+                        levels = c(rep(as.list(TRUE), times = 3)),
+                        labels = c("The camp or project(s) I am involved in \n welcomed new BIPOC participants or \n members of under-represented groups",
+                                   "My camp or project offers financial assistance \n to low-income Burners or \n other under-represented groups",
+                                   "My camp, art collective, or group \n organized a R.I.D.E.-related event \n on playa",
+                                   "I attended events on topics related to \n diversity and Radical Inclusion",
+                                   "I visited the Multicultural People of Color \n Neighborhood at 6:30+C/D",
+                                   "I visited the expanded queerborhoods \n in the 4:30 and 7:30 sectors",
+                                   "Off-playa, I support diversity and \n inclusion in my home community",
+                                   "I made my camp more accessible for \n Burners with mobility and access needs",
+                                   "I was engaged in or noticed more \n conversations related to R.I.D.E.",
+                                   "Other", "I did not do this"),
+                        labelOrder = c(11,10,3,8,5,4,2,9,6,1,7))
+
+ggplot(diverse, aes(x = labels, y = est, fill = as.factor(year))) +
+  geom_bar(stat = "identity", position = "dodge") +
+  scale_y_continuous(labels = percent) +
+  scale_fill_manual(values = discreteColors[2:4]) +
+  labs(x = "Personal action", y = "Burning Man participants (%)", fill = "Year",
+       title = "How did you personally work to create a more \n diverse and welcoming Black Rock City?") +
+  theme_bw() +
+  coord_flip() +
+  guides(fill = guide_legend(reverse = TRUE))
+
+makeTableData(diverse)[11:1,] |>
+  kbl(col.names = c(2022:2024), row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  column_spec(column = 1:3, width_min = "10.5em") |>
+  kable_styling() |>
+  scroll_box(width = "100%")
 ```
