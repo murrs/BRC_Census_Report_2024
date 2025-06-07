@@ -54,31 +54,6 @@ makeTableData(burnerID) |>
   kable_styling() |>
   column_spec(column = 1:7, width_min = "10.5em") |>
   scroll_box(width = "100%")
-
-burnerID <- makePlotData("Do you identify as a Burner?",
-                         varNameTable = varNameTable,
-                         designs = list(design16, design17, design18, design19,
-                                        design22, design23, design24),
-                         years = c(2016:2019, 2022:2024),
-                         levels = c(rep(list(c("No", "Sort_of", "Yes")), times = 4),
-                                    rep(list(c("No", "Sort of", "Yes")), times = 3)),
-                         labels = c("No", "Sort of", "Yes"))
-
-ggplot(burnerID, aes(x = year, y = est, fill = labels)) +
-  geom_area(alpha = 0.65) +
-  scale_y_continuous(labels = percent) +
-  scale_x_continuous(breaks = c(2016:2019, 2022:2024), labels = c(2016:2019, 2022:2024)) +
-  scale_fill_manual(values = gradientColors(3)[3:1]) +
-  labs(x = "", y = "Burning Man participants (%)", fill = "Do you identify \n as a Burner?") +
-  theme_bw()
-
-makeTableData(burnerID) |>
-  kbl(col.names = c(2016:2019, 2022:2024),
-      row.names = TRUE) |>
-  kable_paper("striped", full_width = F) |>
-  kable_styling() |>
-  column_spec(column = 1:8, width_min = "10.5em") |>
-  scroll_box(width = "100%")
 ```
 
 ### Practicing the 10 Principles in everyday life?
@@ -107,66 +82,6 @@ ggplot(prinFreq[prinFreq$year == 2024,], aes(x = labels, y = est)) +
   coord_flip()
 
 makeTableData(prinFreq)[10:1,] |>
-  kbl(col.names = c(2016:2019, 2022:2024), row.names = TRUE) |>
-  kable_paper("striped", full_width = F) |>
-  column_spec(column = 1:7, width_min = "10.5em") |>
-  kable_styling() |>
-  scroll_box(width = "100%")
-
-prinFreq <- makePlotData(varName = "Which of the 10 Principles do you practice most frequently in your everyday life?",
-                        varNameTable = varNameTable,
-                        designs = list(design16, design17, design18,
-                                       design19, design22, design23,
-                                       design24),
-                        years = c(2016:2019, 2022:2024),
-                        levels = list("yes", "yes", "yes", "yes", TRUE, TRUE, TRUE),
-                        labels = c("Radical Inclusion", "Gifting",
-                                   "Decommodification", "Radical Self-reliance",
-                                   "Radical Self-expression", "Communal Effort",
-                                   "Civic Resposibility","Leave No Trace",
-                                   "Participation", "Immediacy"),
-                        labelOrder = c(3,9,5,6,7,2,10,1,8,4))
-
-ggplot(prinFreq[prinFreq$year == 2024,], aes(x = labels, y = est)) +
-  geom_bar(stat = "identity", fill = "#EA008B") +
-  scale_y_continuous(labels = percent) +
-  labs(x = "10 Principles", y = "Burning Man participants in 2024 (%)",
-       title = "Which of the 10 Principles do you practice most frequently \n in your everyday life?") +
-  theme_bw() +
-  coord_flip()
-
-makeTableData(prinFreq)[10:1,] |>
-  kbl(col.names = c(2016:2019, 2022:2024), row.names = TRUE) |>
-  kable_paper("striped", full_width = F) |>
-  column_spec(column = 1:8, width_min = "10.5em") |>
-  kable_styling() |>
-  scroll_box(width = "100%")
-```
-
-```{r, echo = FALSE}
-prinDif <- makePlotData(varName = "Which of the 10 Principles do you find most difficult to practice in your everyday life?",
-                        varNameTable = varNameTable,
-                        designs = list(design16, design17, design18,
-                                       design19, design22, design23,
-                                       design24),
-                        years = c(2016:2019, 2022:2024),
-                        levels = list("yes", "yes", "yes", "yes", TRUE, TRUE, TRUE),
-                        labels = c("Radical Inclusion", "Gifting",
-                                   "Decommodification", "Radical Self-reliance",
-                                   "Radical Self-expression", "Communal Effort",
-                                   "Civic Resposibility","Leave No Trace",
-                                   "Participation", "Immediacy"),
-                        labelOrder = c(4,9,7,6,1,8,2,10,5,3))
-
-ggplot(prinDif[prinDif$year == 2024,], aes(x = labels, y = est)) +
-  geom_bar(stat = "identity", fill = "#EA008B") +
-  scale_y_continuous(labels = percent) +
-  labs(x = "10 Principles", y = "Burning Man participants in 2024 (%)",
-       title = "Which of the 10 Principles do you find most difficult \n to practice in your everyday life?") +
-  theme_bw() +
-  coord_flip()
-
-makeTableData(prinDif)[10:1,] |>
   kbl(col.names = c(2016:2019, 2022:2024), row.names = TRUE) |>
   kable_paper("striped", full_width = F) |>
   column_spec(column = 1:7, width_min = "10.5em") |>
