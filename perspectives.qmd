@@ -30,31 +30,6 @@ discreteColors <- c("#EA008B", "#B0AEDC", "#554149", "#A07200", "#AADA91",
 ### Do you identify as a Burner?
 
 ```{r}
-# burnerID <- makePlotData("Do you identify as a Burner?",
-#                          varNameTable = varNameTable,
-#                          designs = list(design16, design17, design18, design19,
-#                                         design22, design23),
-#                          years = c(2016:2019, 2022:2023),
-#                          levels = c(rep(list(c("No", "Sort_of", "Yes")), times = 4),
-#                                     rep(list(c("No", "Sort of", "Yes")), times = 2)),
-#                          labels = c("No", "Sort of", "Yes"))
-# 
-# ggplot(burnerID, aes(x = year, y = est, fill = labels)) +
-#   geom_area(alpha = 0.65) +
-#   scale_y_continuous(labels = percent) +
-#   scale_x_continuous(breaks = c(2016:2019, 2022:2023), labels = c(2016:2019, 2022:2023)) +
-#   scale_fill_manual(values = gradientColors(3)[3:1]) +
-#   labs(x = "", y = "Burning Man participants (%)", fill = "Do you identify \n as a Burner?") +
-#   theme_bw()
-# 
-# makeTableData(burnerID) |>
-#   kbl(col.names = c(2016:2019, 2022:2023),
-#       row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
-#   kable_styling() |>
-#   column_spec(column = 1:7, width_min = "10.5em") |>
-#   scroll_box(width = "100%")
-
 burnerID <- makePlotData("Do you identify as a Burner?",
                          varNameTable = varNameTable,
                          designs = list(design16, design17, design18, design19,
@@ -77,41 +52,13 @@ makeTableData(burnerID) |>
       row.names = TRUE) |>
   kable_paper("striped", full_width = F) |>
   kable_styling() |>
-  column_spec(column = 1:8, width_min = "10.5em") |>
+  column_spec(column = 1:7, width_min = "10.5em") |>
   scroll_box(width = "100%")
 ```
 
 ### Practicing the 10 Principles in everyday life?
 
 ```{r}
-# prinFreq <- makePlotData(varName = "Which of the 10 Principles do you practice most frequently in your everyday life?",
-#                         varNameTable = varNameTable,
-#                         designs = list(design16, design17, design18,
-#                                        design19, design22, design23),
-#                         years = c(2016:2019, 2022:2023),
-#                         levels = list("yes", "yes", "yes", "yes", TRUE, TRUE),
-#                         labels = c("Radical Inclusion", "Gifting",
-#                                    "Decommodification", "Radical Self-reliance",
-#                                    "Radical Self-expression", "Communal Effort",
-#                                    "Civic Resposibility","Leave No Trace",
-#                                    "Participation", "Immediacy"),
-#                         labelOrder = c(3,9,5,6,7,2,10,1,8,4))
-# 
-# ggplot(prinFreq[prinFreq$year == 2023,], aes(x = labels, y = est)) +
-#   geom_bar(stat = "identity", fill = "#EA008B") +
-#   scale_y_continuous(labels = percent) +
-#   labs(x = "10 Principles", y = "Burning Man participants in 2023 (%)",
-#        title = "Which of the 10 Principles do you practice most frequently \n in your everyday life?") +
-#   theme_bw() +
-#   coord_flip()
-# 
-# makeTableData(prinFreq)[10:1,] |>
-#   kbl(col.names = c(2016:2019, 2022:2023), row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
-#   column_spec(column = 1:7, width_min = "10.5em") |>
-#   kable_styling() |>
-#   scroll_box(width = "100%")
-
 prinFreq <- makePlotData(varName = "Which of the 10 Principles do you practice most frequently in your everyday life?",
                         varNameTable = varNameTable,
                         designs = list(design16, design17, design18,
@@ -137,161 +84,131 @@ ggplot(prinFreq[prinFreq$year == 2024,], aes(x = labels, y = est)) +
 makeTableData(prinFreq)[10:1,] |>
   kbl(col.names = c(2016:2019, 2022:2024), row.names = TRUE) |>
   kable_paper("striped", full_width = F) |>
-  column_spec(column = 1:8, width_min = "10.5em") |>
+  column_spec(column = 1:7, width_min = "10.5em") |>
   kable_styling() |>
   scroll_box(width = "100%")
-```
-
-```{r, echo = FALSE}
-# prinDif <- makePlotData(varName = "Which of the 10 Principles do you find most difficult to practice in your everyday life?",
-#                         varNameTable = varNameTable,
-#                         designs = list(design16, design17, design18,
-#                                        design19, design22, design23),
-#                         years = c(2016:2019, 2022:2023),
-#                         levels = list("yes", "yes", "yes", "yes", TRUE, TRUE),
-#                         labels = c("Radical Inclusion", "Gifting",
-#                                    "Decommodification", "Radical Self-reliance",
-#                                    "Radical Self-expression", "Communal Effort",
-#                                    "Civic Resposibility","Leave No Trace",
-#                                    "Participation", "Immediacy"),
-#                         labelOrder = c(4,9,7,6,1,8,2,10,5,3))
-# 
-# ggplot(prinDif[prinDif$year == 2023,], aes(x = labels, y = est)) +
-#   geom_bar(stat = "identity", fill = "#EA008B") +
-#   scale_y_continuous(labels = percent) +
-#   labs(x = "10 Principles", y = "Burning Man participants in 2023 (%)",
-#        title = "Which of the 10 Principles do you find most difficult \n to practice in your everyday life?") +
-#   theme_bw() +
-#   coord_flip()
-# 
-# makeTableData(prinDif)[10:1,] |>
-#   kbl(col.names = c(2016:2019, 2022:2023), row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
-#   column_spec(column = 1:7, width_min = "10.5em") |>
-#   kable_styling() |>
-#   scroll_box(width = "100%")
 ```
 
 ### Importance of the 10 Principles
 
 ```{r}
-# importance10p <- makePlotData("How important are the 10 Principles to you?",
-#                              varNameTable = varNameTable,
-#                              designs = list(design15, design16, design17, 
-#                                             design18, design19, design22,
-#                                             design23),
-#                              years = c(2015:2019, 2022:2023),
-#                              levels = c(rep(list(c("Important",
-#                                                    "Moderately_imp",
-#                                                    "Not_imp",
-#                                                    "Slightly_imp",
-#                                                    "Very_imp")), times = 5),
-#                                         rep(list(c("Important",
-#                                                "Moderately important",
-#                                                "Not important",
-#                                                "Slightly important",
-#                                                "Very important")), times = 2)),
-#                              labels = c("Important",
-#                                         "Moderately important",
-#                                         "Not important",
-#                                         "Slightly important",
-#                                         "Very important"),
-#                              labelOrder = c(3, 4, 2, 1, 5))
-# 
-# ggplot(importance10p, aes(x = year, y = est, fill = labels)) +
-#   geom_bar(stat = "identity", position = "dodge") +
-#   scale_y_continuous(labels = percent) +
-#   scale_x_continuous(breaks = c(2015:2019, 2022:2023)) +
-#   labs(x = "", y = "Burning Man participants (%)", fill = "Importance",
-#        title = "How important are the 10 Principles to you?") +
-#   theme_bw() +
-#   scale_fill_manual(values = gradientColors(5)[5:1])
-# 
-# makeTableData(importance10p) |>
-#   kbl(col.names = c(2015:2019, 2022:2023),
-#       row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
-#   kable_styling() |>
-#   column_spec(column = 1:8, width_min = "10.5em") |>
-#   scroll_box(width = "100%")
+importance10p <- makePlotData("How important are the 10 Principles to you?",
+                             varNameTable = varNameTable,
+                             designs = list(design15, design16, design17, 
+                                            design18, design19, design22,
+                                            design23, design24),
+                             years = c(2015:2019, 2022:2024),
+                             levels = c(rep(list(c("Important",
+                                                   "Moderately_imp",
+                                                   "Not_imp",
+                                                   "Slightly_imp",
+                                                   "Very_imp")), times = 5),
+                                        rep(list(c("Important",
+                                               "Moderately important",
+                                               "Not important",
+                                               "Slightly important",
+                                               "Very important")), times = 3)),
+                             labels = c("Important",
+                                        "Moderately important",
+                                        "Not important",
+                                        "Slightly important",
+                                        "Very important"),
+                             labelOrder = c(3, 4, 2, 1, 5))
+
+ ggplot(importance10p, aes(x = year, y = est, fill = labels)) +
+   geom_bar(stat = "identity", position = "dodge") +
+   scale_y_continuous(labels = percent) +
+   scale_x_continuous(breaks = c(2015:2019, 2022:2024)) +
+   labs(x = "", y = "Burning Man participants (%)", fill = "Importance",
+        title = "How important are the 10 Principles to you?") +
+   theme_bw() +
+   scale_fill_manual(values = gradientColors(5)[5:1])
+ 
+makeTableData(importance10p) |>
+  kbl(col.names = c(2015:2019, 2022:2024),
+      row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  kable_styling() |>
+  column_spec(column = 1:8, width_min = "10.5em") |>
+  scroll_box(width = "100%")
 ```
 
 ### 10 Principles essential to creating an authentic Burning Man experience
 
 ```{r}
-# essential10p <- makePlotData("How essential are the 10 Principles to creating an authentic Burning Man experience?",
-#                              varNameTable = varNameTable,
-#                              designs = list(design15, design16, design17, 
-#                                             design18, design19, design22,
-#                                             design23),
-#                              years = c(2015:2019, 2022:2023),
-#                              levels = c(rep(list(c("Important",
-#                                                    "Moderately_imp",
-#                                                    "Not_imp",
-#                                                    "Slightly_imp",
-#                                                    "Very_imp")), times = 5),
-#                                         rep(list(c("Important",
-#                                                "Moderately important",
-#                                                "Not important",
-#                                                "Slightly important",
-#                                                "Very important")), times = 2)),
-#                              labels = c("Essential",
-#                                         "Moderately essential",
-#                                         "Not essential",
-#                                         "Slightly essential",
-#                                         "Very essential"),
-#                              labelOrder = c(3, 4, 2, 1, 5))
-# 
-# ggplot(essential10p, aes(x = year, y = est, fill = labels)) +
-#   geom_bar(stat = "identity", position = "dodge") +
-#   scale_y_continuous(labels = percent) +
-#   scale_x_continuous(breaks = c(2016:2019, 2022:2023)) +
-#   labs(x = "", y = "Burning Man participants (%)", fill = "Essentiality",
-#        title = "How essential are the 10 Principles to creating \n an authentic Burning Man experience?") +
-#   theme_bw() +
-#   scale_fill_manual(values = gradientColors(5)[5:1])
-# 
-# makeTableData(essential10p) |>
-#   kbl(col.names = c(2015:2019, 2022:2023),
-#       row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
-#   kable_styling() |>
-#   column_spec(column = 1:8, width_min = "10.5em") |>
-#   scroll_box(width = "100%")
+essential10p <- makePlotData("How essential are the 10 Principles to creating an authentic Burning Man experience?",
+                             varNameTable = varNameTable,
+                             designs = list(design15, design16, design17, 
+                                            design18, design19, design22,
+                                            design23, design24),
+                             years = c(2015:2019, 2022:2024),
+                             levels = c(rep(list(c("Important",
+                                                   "Moderately_imp",
+                                                   "Not_imp",
+                                                   "Slightly_imp",
+                                                   "Very_imp")), times = 5),
+                                        rep(list(c("Important",
+                                               "Moderately important",
+                                               "Not important",
+                                               "Slightly important",
+                                               "Very important")), times = 3)),
+                             labels = c("Essential",
+                                        "Moderately essential",
+                                        "Not essential",
+                                        "Slightly essential",
+                                        "Very essential"),
+                             labelOrder = c(3, 4, 2, 1, 5))
+
+ggplot(essential10p, aes(x = year, y = est, fill = labels)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  scale_y_continuous(labels = percent) +
+  scale_x_continuous(breaks = c(2016:2019, 2022:2024)) +
+  labs(x = "", y = "Burning Man participants (%)", fill = "Essentiality",
+       title = "How essential are the 10 Principles to creating \n an authentic Burning Man experience?") +
+  theme_bw() +
+  scale_fill_manual(values = gradientColors(5)[5:1])
+
+makeTableData(essential10p) |>
+  kbl(col.names = c(2015:2019, 2022:2024),
+      row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  kable_styling() |>
+  column_spec(column = 1:8, width_min = "10.5em") |>
+  scroll_box(width = "100%")
 ```
 
 ### Incorporation of the 10 Principles in daily life
 
 ```{r}
-# prinDaily <- makePlotData("Are you incorporating any of the 10 Principles in your daily life?",
-#                              varNameTable = varNameTable,
-#                              designs = list(design23),
-#                              years = c(2023),
-#                              levels = list(c("No, I am not",
-#                                                "Not applicable",
-#                                                "Yes, I have modeled my business or professional activity on these\nprinciples",
-#                                                "Yes, I try to practice these principles in my daily life")),
-#                              labels = c("No, I am not",
-#                                         "Not applicable",
-#                                         "Yes, I have modeled \n my business or \n professional activity \n on them",
-#                                         "Yes, I try to practice them \n in my daily life"),
-#                              labelOrder = c(2, 1, 3, 4))
-# 
-# ggplot(prinDaily, aes(x = labels, y = est)) +
-#   geom_bar(stat = "identity", fill = "#EA008B") +
-#   scale_y_continuous(labels = percent) +
-#   labs(x = "Incorporation in daily life", y = "Burning Man participants in 2023 (%)",
-#        title = "Are you incorporating any of the 10 Principles in your daily life?") +
-#   theme_bw() +
-#   coord_flip()
-# 
-# makeTableData(prinDaily) |>
-#   kbl(col.names = c(2023),
-#       row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
-#   kable_styling() |>
-#   column_spec(column = 1:2, width_min = "10.5em") |>
-#   scroll_box(width = "100%")
+prinDaily <- makePlotData("Are you incorporating any of the 10 Principles in your daily life?",
+                             varNameTable = varNameTable,
+                             designs = list(design23),
+                             years = c(2024),
+                             levels = list(c("No, I am not",
+                                               "Not applicable",
+                                               "Yes, I have modeled my business or professional activity on these\nprinciples",
+                                               "Yes, I try to practice these principles in my daily life")),
+                             labels = c("No, I am not",
+                                        "Not applicable",
+                                        "Yes, I have modeled \n my business or \n professional activity \n on them",
+                                        "Yes, I try to practice them \n in my daily life"),
+                             labelOrder = c(2, 1, 3, 4))
+
+ggplot(prinDaily, aes(x = labels, y = est)) +
+  geom_bar(stat = "identity", fill = "#EA008B") +
+  scale_y_continuous(labels = percent) +
+  labs(x = "Incorporation in daily life", y = "Burning Man participants in 2024 (%)",
+       title = "Are you incorporating any of the 10 Principles in your daily life?") +
+  theme_bw() +
+  coord_flip()
+
+makeTableData(prinDaily) |>
+  kbl(col.names = c(2024),
+      row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  kable_styling() |>
+  column_spec(column = 1:2, width_min = "10.5em") |>
+  scroll_box(width = "100%")
 ```
 
 ## Children at Burning Man
@@ -299,79 +216,81 @@ makeTableData(prinFreq)[10:1,] |>
 ### Bringing children under 18 years old
 
 ```{r}
-# broughtChildren <- makePlotData("Have you ever brought children under 18 to Black Rock City?",
-#                                 varNameTable = varNameTable,
-#                                 designs = list(design14, design15, design16,
-#                                                design17, design18, design19,
-#                                                design22, design23),
-#                                 years = c(2014:2019, 2022:2023),
-#                                 levels = c(rep(list(c("No_but_I_would",
-#                                                       "No_I_would_not",
-#                                                       "Yes_and_I_would_again",
-#                                                       "Yes_but_I_would_not")), times = 6),
-#                                            rep(list(c("No, but I would",
-#                                                   "No, and I would never",
-#                                                   "Yes, and I would again",
-#                                                   "Yes, but I would not again")), times = 2)),
-#                                 labels = c("No, but I would",
-#                                                   "No, and I would never",
-#                                                   "Yes, and I would again",
-#                                                   "Yes, but I would not again"),
-#                                 labelOrder = c(1,2,3,4))
-# 
-# ggplot(broughtChildren, aes(x = year, y = est, color = labels)) +
-#   geom_line(linewidth = 1.5, alpha = 0.7) +
-#   geom_point(size = 2.25) +
-#   theme_bw() +
-#   theme(panel.grid.minor = element_blank()) +
-#   scale_x_continuous(breaks = c(2014:2019, 2022:2023), 
-#                      labels = c(2014:2019, 2022:2023)) +
-#   scale_y_continuous(labels = percent, limits = c(0, NA)) +
-#   scale_color_manual(values = gradientColors(4)) +
-#   labs(x = "Year", y = "Burning Man participants (%)", 
-#        color = "Brought children?",
-#        title = "Have you ever brought children under 18 to Black Rock City?")
-# 
-# makeTableData(broughtChildren) |>
-#   kbl(col.names = c(2014:2019, 2022:2023), row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
-#   column_spec(column = 1:9, width_min = "10.5em") |>
-#   kable_styling() |>
-#   scroll_box(width = "100%")
+broughtChildren <- makePlotData("Have you ever brought children under 18 to Black Rock City?",
+                                varNameTable = varNameTable,
+                                designs = list(design14, design15, design16,
+                                               design17, design18, design19,
+                                               design22, design23, design24),
+                                years = c(2014:2019, 2022:2024),
+                                levels = c(rep(list(c("No_but_I_would",
+                                                      "No_I_would_not",
+                                                      "Yes_and_I_would_again",
+                                                      "Yes_but_I_would_not")), times = 6),
+                                           rep(list(c("No, but I would",
+                                                  "No, and I would never",
+                                                  "Yes, and I would again",
+                                                  "Yes, but I would not again")), times = 3)),
+                                labels = c("No, but I would",
+                                                  "No, and I would never",
+                                                  "Yes, and I would again",
+                                                  "Yes, but I would not again"),
+                                labelOrder = c(1,2,3,4))
+
+ggplot(broughtChildren, aes(x = year, y = est, color = labels)) +
+  geom_line(linewidth = 1.5, alpha = 0.7) +
+  geom_point(size = 2.25) +
+  theme_bw() +
+  theme(panel.grid.minor = element_blank()) +
+  scale_x_continuous(breaks = c(2014:2019, 2022:2024), 
+                     labels = c(2014:2019, 2022:2024)) +
+  scale_y_continuous(labels = percent, limits = c(0, NA)) +
+  scale_color_manual(values = gradientColors(4)) +
+  labs(x = "Year", y = "Burning Man participants (%)", 
+       color = "Brought children?",
+       title = "Have you ever brought children under 18 to Black Rock City?")
+
+makeTableData(broughtChildren) |>
+  kbl(col.names = c(2014:2019, 2022:2024), row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  column_spec(column = 1:9, width_min = "10.5em") |>
+  kable_styling() |>
+  scroll_box(width = "100%")
 ```
 
 ### Age restriction of participants
 
 ```{r}
-# restrictAge.2 <- makePlotData("Do you think that Burning Man event attendance should be restricted to participants aged 18 or older?",
-#                               varNameTable = varNameTable,
-#                               designs = list(design16, design17, design18,
-#                                              design19, design22, design23),
-#                               year = c(2016:2019, 2022:2023),
-#                               levels = c(rep(list(c("No", "No_opinion",
-#                                                     "Yes_only18plus")), times = 4),
-#                                          rep(list(c("No, all ages", "No opinion",
-#                                                 "Yes, only 18+")), times = 2)),
-#                               labels = c("No, all ages", "No opinion",
-#                                          "Yes, only 18+"),
-#                               labelOrder = c(1, 3, 2))
-# 
-# 
+# TODO question not in census data??
+#
+#restrictAge.2 <- makePlotData("Do you think that Burning Man event attendance should be restricted to participants aged 18 or older?",
+#                              varNameTable = varNameTable,
+#                              designs = list(design16, design17, design18,
+#                                             design19, design22, design23,
+#                                             design24),
+#                              year = c(2016:2019, 2022:2024),
+#                              levels = c(rep(list(c("No", "No_opinion",
+#                                                    "Yes_only18plus")), times = 4),
+#                                         rep(list(c("No, all ages", "No opinion",
+#                                                "Yes, only 18+")), times = 3)),
+#                              labels = c("No, all ages", "No opinion",
+#                                         "Yes, only 18+"),
+#                              labelOrder = c(1, 3, 2))
+#
 # ggplot(restrictAge.2, aes(x = year, y = est, color = labels)) +
-#   geom_line(linewidth = 1.5, alpha = 0.7) +
-#   geom_point(size = 2.25) +
-#   theme_bw() +
-#   theme(panel.grid.minor = element_blank()) +
-#   scale_x_continuous(breaks = c(2016:2019, 2022:2023), 
-#                      labels = c(2016:2019, 2022:2023)) +
-#   scale_y_continuous(labels = percent, limits = c(0, NA)) +
-#   scale_color_manual(values = gradientColors(4)) +
-#   labs(x = "Year", y = "Burning Man participants (%)", 
-#        color = "Age restriction",
-#        title = "Do you think that Burning Man event attendance should be \n restricted to participants aged 18 or older?")
-# 
+#  geom_line(linewidth = 1.5, alpha = 0.7) +
+#  geom_point(size = 2.25) +
+#  theme_bw() +
+#  theme(panel.grid.minor = element_blank()) +
+#  scale_x_continuous(breaks = c(2016:2019, 2022:2024), 
+#                     labels = c(2016:2019, 2022:2024)) +
+#  scale_y_continuous(labels = percent, limits = c(0, NA)) +
+#  scale_color_manual(values = gradientColors(4)) +
+#  labs(x = "Year", y = "Burning Man participants (%)", 
+#       color = "Age restriction",
+#       title = "Do you think that Burning Man event attendance should be \n restricted to participants aged 18 or older?")
+
 # makeTableData(restrictAge.2) |>
-#   kbl(col.names = c(2016:2019, 2022:2023), row.names = TRUE) |>
+#   kbl(col.names = c(2016:2019, 2022:2024), row.names = TRUE) |>
 #   kable_paper("striped", full_width = F) |>
 #   column_spec(column = 1:7, width_min = "10.5em") |>
 #   kable_styling() |>
@@ -383,84 +302,86 @@ makeTableData(prinFreq)[10:1,] |>
 ### Familiarity with programs and affiliates of the nonprofit Burning Man Project
 
 ```{r}
-# familiarity.yes <- makePlotData("Are you familiar with the following programs and affiliates of the nonprofit Burning Man Project?",
-#                             varNameTable = varNameTable,
-#                             designs = list(design15, design16, design17,
-#                                            design18, design19, design22,
-#                                            design23),
-#                             years = c(2015:2019, 2022:2023),
-#                             levels = c(as.list(rep("Yes", times = 7))),
-#                             labels = c("Burners Without Borders",
-#                                        "Burning Man Arts",
-#                                        "Black Rock Labs (formerly \n Black Rock Solar)",
-#                                        "Burning Man Regional Network",
-#                                        "Fly Ranch Project",
-#                                        "Philosophical Center",
-#                                        "Burning Man HIVE"))
-# 
-# familiarity.hoi <- makePlotData("Are you familiar with the following programs and affiliates of the nonprofit Burning Man Project?",
-#                             varNameTable = varNameTable,
-#                             designs = list(design15, design16, design17,
-#                                            design18, design19, design22,
-#                                            design23),
-#                             years = c(2015:2019, 2022:2023),
-#                             levels = c(as.list(rep("Heard_of_it", times = 5)),
-#                                        as.list(rep("Heard of it", times = 2))),
-#                             labels = c("Burners Without Borders",
-#                                        "Burning Man Arts",
-#                                        "Black Rock Labs (formerly \n Black Rock Solar)",
-#                                        "Burning Man Regional Network",
-#                                        "Fly Ranch Project",
-#                                        "Philosophical Center",
-#                                        "Burning Man HIVE"))
-# 
-# familiarity.no <- makePlotData("Are you familiar with the following programs and affiliates of the nonprofit Burning Man Project?",
-#                             varNameTable = varNameTable,
-#                             designs = list(design15, design16, design17,
-#                                            design18, design19, design22,
-#                                            design23),
-#                             years = c(2015:2019, 2022:2023),
-#                             levels = c(as.list(rep("No", times = 7))),
-#                             labels = c("Burners Without Borders",
-#                                        "Burning Man Arts",
-#                                        "Black Rock Labs (formerly \n Black Rock Solar)",
-#                                        "Burning Man Regional Network",
-#                                        "Fly Ranch Project",
-#                                        "Philosophical Center",
-#                                        "Burning Man HIVE"))
-# 
-# familiarity <- rbind(familiarity.yes, familiarity.hoi, familiarity.no)
-# familiarity$level[familiarity$level == "Heard_of_it"] <- "Heard of it"
-# familiarity$level <- factor(familiarity$level, levels = c("Yes", "Heard of it", "No"))
-# 
-# ggplot(familiarity, aes(x = year, y = est, color = level)) +
-#   geom_line(linewidth = 1.5, alpha = 0.7) +
-#   geom_point(size = 2.25) +
-#   theme_bw(11) +
-#   theme(panel.grid.minor = element_blank()) +
-#   scale_x_continuous(breaks = c(2015:2019, 2022:2023), 
-#                      labels = c(2015:2019, 2022:2023)) +
-#   scale_y_continuous(labels = percent, limits = c(0, NA)) +
-#   scale_color_manual(values = gradientColors(3)) +
-#   labs(x = "", y = "Burning Man participants (%)", color = "Familiarity",
-#        title = "Are you familiar with the following programs and \n affiliates of the nonprofit
-# Burning Man Project?") +
-#   theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
-#   facet_wrap(~labels)
-# 
-# familiarity$labels <- paste(familiarity$labels, familiarity$level, sep = " - ")
-# 
-# makeTableData(familiarity) |>
-#   kbl(col.names = c(2015:2019, 2022:2023), row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
-#   column_spec(column = 1:8, width_min = "10.5em") |>
-#   kable_styling() |>
-#   scroll_box(width = "100%")
+familiarity.yes <- makePlotData("Are you familiar with the following programs and affiliates of the nonprofit Burning Man Project?",
+                            varNameTable = varNameTable,
+                            designs = list(design15, design16, design17,
+                                           design18, design19, design22,
+                                           design23, design24),
+                            years = c(2015:2019, 2022:2024),
+                            levels = c(as.list(rep("Yes", times = 8))),
+                            labels = c("Burners Without Borders",
+                                       "Burning Man Arts",
+                                       "Black Rock Labs (formerly \n Black Rock Solar)",
+                                       "Burning Man Regional Network",
+                                       "Fly Ranch Project",
+                                       "Philosophical Center",
+                                       "Burning Man HIVE"))
+
+familiarity.hoi <- makePlotData("Are you familiar with the following programs and affiliates of the nonprofit Burning Man Project?",
+                            varNameTable = varNameTable,
+                            designs = list(design15, design16, design17,
+                                           design18, design19, design22,
+                                           design23, design24),
+                            years = c(2015:2019, 2022:2024),
+                            levels = c(as.list(rep("Heard_of_it", times = 5)),
+                                       as.list(rep("Heard of it", times = 3))),
+                            labels = c("Burners Without Borders",
+                                       "Burning Man Arts",
+                                       "Black Rock Labs (formerly \n Black Rock Solar)",
+                                       "Burning Man Regional Network",
+                                       "Fly Ranch Project",
+                                       "Philosophical Center",
+                                       "Burning Man HIVE"))
+
+familiarity.no <- makePlotData("Are you familiar with the following programs and affiliates of the nonprofit Burning Man Project?",
+                            varNameTable = varNameTable,
+                            designs = list(design15, design16, design17,
+                                           design18, design19, design22,
+                                           design23, design24),
+                            years = c(2015:2019, 2022:2024),
+                            levels = c(as.list(rep("No", times = 8))),
+                            labels = c("Burners Without Borders",
+                                       "Burning Man Arts",
+                                       "Black Rock Labs (formerly \n Black Rock Solar)",
+                                       "Burning Man Regional Network",
+                                       "Fly Ranch Project",
+                                       "Philosophical Center",
+                                       "Burning Man HIVE"))
+
+familiarity <- rbind(familiarity.yes, familiarity.hoi, familiarity.no)
+familiarity$level[familiarity$level == "Heard_of_it"] <- "Heard of it"
+familiarity$level <- factor(familiarity$level, levels = c("Yes", "Heard of it", "No"))
+
+ggplot(familiarity, aes(x = year, y = est, color = level)) +
+  geom_line(linewidth = 1.5, alpha = 0.7) +
+  geom_point(size = 2.25) +
+  theme_bw(11) +
+  theme(panel.grid.minor = element_blank()) +
+  scale_x_continuous(breaks = c(2015:2019, 2022:2023), 
+                     labels = c(2015:2019, 2022:2023)) +
+  scale_y_continuous(labels = percent, limits = c(0, NA)) +
+  scale_color_manual(values = gradientColors(3)) +
+  labs(x = "", y = "Burning Man participants (%)", color = "Familiarity",
+       title = "Are you familiar with the following programs and \n affiliates of the nonprofit
+Burning Man Project?") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1)) +
+  facet_wrap(~labels)
+
+familiarity$labels <- paste(familiarity$labels, familiarity$level, sep = " - ")
+
+makeTableData(familiarity) |>
+  kbl(col.names = c(2015:2019, 2022:2024), row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  column_spec(column = 1:8, width_min = "10.5em") |>
+  kable_styling() |>
+  scroll_box(width = "100%")
 ```
 
 ### The Burning Man Project involvement in year-round activites
 
 ```{r}
+# TODO question not in data?
+#
 # yearRound <- makePlotData("Do you think Burning Man Project should be involved in facilitating and producing year-round activities, and not just the event in Black Rock City?",
 #                           varNameTable = varNameTable,
 #                           designs = list(design15, design16, design17,
@@ -500,506 +421,554 @@ makeTableData(prinFreq)[10:1,] |>
 <!-- Want to do donation profiles, PCA |> clustering -->
 
 ```{r}
-# donate23 <- data.frame(dollars = c(census23$donate1k.publicArtUS,
-#                                    census23$donate1k.publicArtAbroad,
-#                                    census23$donate1k.disasterRelief,
-#                                    census23$donate1k.planInfrastructureBRC,
-#                                    census23$donate1k.lowIncomeTickets,
-#                                    census23$donate1k.artBRC,
-#                                    census23$donate1k.multimediaBRC,
-#                                    census23$donate1k.regionals,
-#                                    census23$donate1k.RIDE,
-#                                    census23$donate1k.sustainability,
-#                                    census23$donate1k.other),
-#                        weights = census23$weights,
-#                        year = 2023,
-#                        labels = rep(c("Public art \n in the US",
-#                                       "Public art \n abroad",
-#                                       "Disaster relief and \n community building",
-#                                       "BRC planning and \n infrastructure",
-#                                       "Low income \n ticket program",
-#                                       "BRC art",
-#                                       "BRC multimedia",
-#                                       "Regional \n network",
-#                                       "R.I.D.E. \n efforts",
-#                                       "Sustainability \n efforts",
-#                                       "Other"), each = nrow(census23)))
-# 
-# donate22 <- data.frame(dollars = c(census22$donate1k.publicArtUS,
-#                                    census22$donate1k.publicArtAbroad,
-#                                    census22$donate1k.disasterRelief,
-#                                    census22$donate1k.planInfrastructureBRC,
-#                                    census22$donate1k.lowIncomeTickets,
-#                                    census22$donate1k.artBRC,
-#                                    census22$donate1k.multimediaBRC,
-#                                    census22$donate1k.regionals,
-#                                    census22$donate1k.RIDE,
-#                                    census22$donate1k.sustainability,
-#                                    census22$donate1k.other),
-#                        weights = census22$weights,
-#                        year = 2022,
-#                        labels = rep(c("Public art \n in the US",
-#                                       "Public art \n abroad",
-#                                       "Disaster relief and \n community building",
-#                                       "BRC planning and \n infrastructure",
-#                                       "Low income \n ticket program",
-#                                       "BRC art",
-#                                       "BRC multimedia",
-#                                       "Regional \n network",
-#                                       "R.I.D.E. \n efforts",
-#                                       "Sustainability \n efforts",
-#                                       "Other"), each = nrow(census22)))
-# 
-# 
-# donate19 <- data.frame(dollars = c(census19$don_artus,
-#                                    census19$don_artabroad,
-#                                    census19$don_commun,
-#                                    census19$don_brcplan,
-#                                    census19$don_lowincome,
-#                                    census19$don_artplaya,
-#                                    census19$don_multimedia,
-#                                    census19$don_regional,
-#                                    census19$don_other),
-#                        weights = census19$weightbfarrival,
-#                        year = 2019,
-#                        labels = rep(c("Public art \n in the US",
-#                                       "Public art \n abroad",
-#                                       "Disaster relief and \n community building",
-#                                       "BRC planning and \n infrastructure",
-#                                       "Low income \n ticket program",
-#                                       "BRC art",
-#                                       "BRC multimedia",
-#                                       "Regional \n network",
-#                                       "Other"), each = nrow(census19)))
-# 
-# 
-# donate18 <- data.frame(dollars = c(census18$don_artus,
-#                                    census18$don_artabroad,
-#                                    census18$don_commun,
-#                                    census18$don_brcplan,
-#                                    census18$don_lowincome,
-#                                    census18$don_artplaya,
-#                                    census18$don_multimedia,
-#                                    census18$don_regional,
-#                                    census18$don_other) * 10,
-#                        weights = census18$weightbfarrival,
-#                        year = 2018,
-#                        labels = rep(c("Public art \n in the US",
-#                                       "Public art \n abroad",
-#                                       "Disaster relief and \n community building",
-#                                       "BRC planning and \n infrastructure",
-#                                       "Low income \n ticket program",
-#                                       "BRC art",
-#                                       "BRC multimedia",
-#                                       "Regional \n network",
-#                                       "Other"), each = nrow(census18)))
-# 
-# donate17 <- data.frame(dollars = c(census17$don_artus,
-#                                    census17$don_artabroad,
-#                                    census17$don_commun,
-#                                    census17$don_brcplan,
-#                                    census17$don_lowincome,
-#                                    census17$don_artplaya,
-#                                    census17$don_regional,
-#                                    census17$don_other) * 10,
-#                        weights = census17$weightbfarrival,
-#                        year = 2017,
-#                        labels = rep(c("Public art \n in the US",
-#                                       "Public art \n abroad",
-#                                       "Disaster relief and \n community building",
-#                                       "BRC planning and \n infrastructure",
-#                                       "Low income \n ticket program",
-#                                       "BRC art",
-#                                       "Regional \n network",
-#                                       "Other"), each = nrow(census17)))
-# 
-# donate16 <- data.frame(dollars = c(census16$don_artus,
-#                                    census16$don_artabroad,
-#                                    census16$don_commun,
-#                                    census16$don_brcplan,
-#                                    census16$don_lowincome,
-#                                    census16$don_artplaya,
-#                                    census16$don_regional,
-#                                    census16$don_other) * 10,
-#                        weights = census16$weightbmorg1,
-#                        year = 2016,
-#                        labels = rep(c("Public art \n in the US",
-#                                       "Public art \n abroad",
-#                                       "Disaster relief and \n community building",
-#                                       "BRC planning and \n infrastructure",
-#                                       "Low income \n ticket program",
-#                                       "BRC art",
-#                                       "Regional \n network",
-#                                       "Other"), each = nrow(census16)))
-# 
-# donate15 <- data.frame(dollars = c(census15$don_artus,
-#                                    census15$don_artabroad,
-#                                    census15$don_commun,
-#                                    census15$don_brcplan,
-#                                    census15$don_lowincome,
-#                                    census15$don_artplaya,
-#                                    census15$don_regional,
-#                                    census15$don_other) * 10,
-#                        weights = census15$weightbmorg1,
-#                        year = 2015,
-#                        labels = rep(c("Public art \n in the US",
-#                                       "Public art \n abroad",
-#                                       "Disaster relief and \n community building",
-#                                       "BRC planning and \n infrastructure",
-#                                       "Low income \n ticket program",
-#                                       "BRC art",
-#                                       "Regional \n network",
-#                                       "Other"), each = nrow(census15)))
-# 
-# donate <- rbind(donate15, donate16, donate17, donate18, donate19, donate22,
-#                 donate23)
-# donate$year <- factor(donate$year, levels = c(2023:2022, 2019:2015))
-# donate$labels <- factor(donate$labels, levels = c("Public art \n in the US",
-#                                       "Public art \n abroad",
-#                                       "Disaster relief and \n community building",
-#                                       "BRC planning and \n infrastructure",
-#                                       "Low income \n ticket program",
-#                                       "BRC art",
-#                                       "BRC multimedia",
-#                                       "Regional \n network",
-#                                       "R.I.D.E. \n efforts",
-#                                       "Sustainability \n efforts",
-#                                       "Other")[c(6,10,4,5,3,1,9,7,2,8,11)])
-# 
-# wm23 <- c(as.numeric(svymean(~donate1k.publicArtUS, design23, na.rm = TRUE)),
-#           as.numeric(svymean(~donate1k.publicArtAbroad, design23, na.rm = TRUE)),
-#           as.numeric(svymean(~donate1k.disasterRelief, design23, na.rm = TRUE)),
-#           as.numeric(svymean(~donate1k.planInfrastructureBRC, design23, na.rm = TRUE)),
-#           as.numeric(svymean(~donate1k.lowIncomeTickets, design23, na.rm = TRUE)),
-#           as.numeric(svymean(~donate1k.artBRC, design23, na.rm = TRUE)),
-#           as.numeric(svymean(~donate1k.multimediaBRC, design23, na.rm = TRUE)),
-#           as.numeric(svymean(~donate1k.regionals, design23, na.rm = TRUE)),
-#           as.numeric(svymean(~donate1k.RIDE, design23, na.rm = TRUE)),
-#           as.numeric(svymean(~donate1k.sustainability, design23, na.rm = TRUE)),
-#           as.numeric(svymean(~donate1k.other, design23, na.rm = TRUE)))
-# 
-# se23 <- c(sqrt(attr(svymean(~donate1k.publicArtUS, design23, na.rm = TRUE), "var")),
-#           sqrt(attr(svymean(~donate1k.publicArtAbroad, design23, na.rm = TRUE), "var")),
-#           sqrt(attr(svymean(~donate1k.disasterRelief, design23, na.rm = TRUE), "var")),
-#           sqrt(attr(svymean(~donate1k.planInfrastructureBRC, design23, na.rm = TRUE), "var")),
-#           sqrt(attr(svymean(~donate1k.lowIncomeTickets, design23, na.rm = TRUE), "var")),
-#           sqrt(attr(svymean(~donate1k.artBRC, design23, na.rm = TRUE), "var")),
-#           sqrt(attr(svymean(~donate1k.multimediaBRC, design23, na.rm = TRUE), "var")),
-#           sqrt(attr(svymean(~donate1k.regionals, design23, na.rm = TRUE), "var")),
-#           sqrt(attr(svymean(~donate1k.RIDE, design23, na.rm = TRUE), "var")),
-#           sqrt(attr(svymean(~donate1k.sustainability, design23, na.rm = TRUE), "var")),
-#           sqrt(attr(svymean(~donate1k.other, design23, na.rm = TRUE), "var")))
-# 
-# wm23 <- data.frame(est = wm23, year = 2023,
-#                    lower = wm23 - 1.965 * se23,
-#                    upper = wm23 + 1.965 * se23,
-#                    labels = factor(c("Public art \n in the US",
-#                                     "Public art \n abroad",
-#                                     "Disaster relief and \n community building",
-#                                     "BRC planning and \n infrastructure",
-#                                     "Low income \n ticket program",
-#                                     "BRC art",
-#                                     "BRC multimedia",
-#                                     "Regional \n network",
-#                                     "R.I.D.E. \n efforts",
-#                                     "Sustainability \n efforts",
-#                                     "Other"),
-#                                   levels = c("Public art \n in the US",
-#                                              "Public art \n abroad",
-#                                              "Disaster relief and \n community building",
-#                                              "BRC planning and \n infrastructure",
-#                                              "Low income \n ticket program",
-#                                              "BRC art",
-#                                              "BRC multimedia",
-#                                              "Regional \n network",
-#                                              "R.I.D.E. \n efforts",
-#                                              "Sustainability \n efforts",
-#                                              "Other")[c(6,10,4,5,3,1,9,7,2,8,11)]))
-# 
-# wm22 <- c(as.numeric(svymean(~donate1k.publicArtUS, design22, na.rm = TRUE)),
-#           as.numeric(svymean(~donate1k.publicArtAbroad, design22, na.rm = TRUE)),
-#           as.numeric(svymean(~donate1k.disasterRelief, design22, na.rm = TRUE)),
-#           as.numeric(svymean(~donate1k.planInfrastructureBRC, design22, na.rm = TRUE)),
-#           as.numeric(svymean(~donate1k.lowIncomeTickets, design22, na.rm = TRUE)),
-#           as.numeric(svymean(~donate1k.artBRC, design22, na.rm = TRUE)),
-#           as.numeric(svymean(~donate1k.multimediaBRC, design22, na.rm = TRUE)),
-#           as.numeric(svymean(~donate1k.regionals, design22, na.rm = TRUE)),
-#           as.numeric(svymean(~donate1k.RIDE, design22, na.rm = TRUE)),
-#           as.numeric(svymean(~donate1k.sustainability, design22, na.rm = TRUE)),
-#           as.numeric(svymean(~donate1k.other, design22, na.rm = TRUE)))
-# 
-# se22 <- c(sqrt(attr(svymean(~donate1k.publicArtUS, design22, na.rm = TRUE), "var")),
-#           sqrt(attr(svymean(~donate1k.publicArtAbroad, design22, na.rm = TRUE), "var")),
-#           sqrt(attr(svymean(~donate1k.disasterRelief, design22, na.rm = TRUE), "var")),
-#           sqrt(attr(svymean(~donate1k.planInfrastructureBRC, design22, na.rm = TRUE), "var")),
-#           sqrt(attr(svymean(~donate1k.lowIncomeTickets, design22, na.rm = TRUE), "var")),
-#           sqrt(attr(svymean(~donate1k.artBRC, design22, na.rm = TRUE), "var")),
-#           sqrt(attr(svymean(~donate1k.multimediaBRC, design22, na.rm = TRUE), "var")),
-#           sqrt(attr(svymean(~donate1k.regionals, design22, na.rm = TRUE), "var")),
-#           sqrt(attr(svymean(~donate1k.RIDE, design22, na.rm = TRUE), "var")),
-#           sqrt(attr(svymean(~donate1k.sustainability, design22, na.rm = TRUE), "var")),
-#           sqrt(attr(svymean(~donate1k.other, design22, na.rm = TRUE), "var")))
-# 
-# wm22 <- data.frame(est = wm22, year = 2022,
-#                    lower = wm22 - 1.965 * se22,
-#                    upper = wm22 + 1.965 * se22,
-#                    labels = factor(c("Public art \n in the US",
-#                                     "Public art \n abroad",
-#                                     "Disaster relief and \n community building",
-#                                     "BRC planning and \n infrastructure",
-#                                     "Low income \n ticket program",
-#                                     "BRC art",
-#                                     "BRC multimedia",
-#                                     "Regional \n network",
-#                                     "R.I.D.E. \n efforts",
-#                                     "Sustainability \n efforts",
-#                                     "Other"),
-#                                   levels = c("Public art \n in the US",
-#                                              "Public art \n abroad",
-#                                              "Disaster relief and \n community building",
-#                                              "BRC planning and \n infrastructure",
-#                                              "Low income \n ticket program",
-#                                              "BRC art",
-#                                              "BRC multimedia",
-#                                              "Regional \n network",
-#                                              "R.I.D.E. \n efforts",
-#                                              "Sustainability \n efforts",
-#                                              "Other")[c(6,10,4,5,3,1,9,7,2,8,11)]))
-# 
-# 
-# wm19 <- c(as.numeric(svymean(~don_artus, design19, na.rm = TRUE)),
-#           as.numeric(svymean(~don_artabroad, design19, na.rm = TRUE)),
-#           as.numeric(svymean(~don_commun, design19, na.rm = TRUE)),
-#           as.numeric(svymean(~don_brcplan, design19, na.rm = TRUE)),
-#           as.numeric(svymean(~don_lowincome, design19, na.rm = TRUE)),
-#           as.numeric(svymean(~don_artplaya, design19, na.rm = TRUE)),
-#           as.numeric(svymean(~don_multimedia, design19, na.rm = TRUE)),
-#           as.numeric(svymean(~don_regional, design19, na.rm = TRUE)),
-#           as.numeric(svymean(~don_other, design19, na.rm = TRUE)))
-# 
-# se19 <- c(sqrt(attr(svymean(~don_artus, design19, na.rm = TRUE), "var")),
-#           sqrt(attr(svymean(~don_artabroad, design19, na.rm = TRUE), "var")),
-#           sqrt(attr(svymean(~don_commun, design19, na.rm = TRUE), "var")),
-#           sqrt(attr(svymean(~don_brcplan, design19, na.rm = TRUE), "var")),
-#           sqrt(attr(svymean(~don_lowincome, design19, na.rm = TRUE), "var")),
-#           sqrt(attr(svymean(~don_artplaya, design19, na.rm = TRUE), "var")),
-#           sqrt(attr(svymean(~don_multimedia, design19, na.rm = TRUE), "var")),
-#           sqrt(attr(svymean(~don_regional, design19, na.rm = TRUE), "var")),
-#           sqrt(attr(svymean(~don_other, design19, na.rm = TRUE), "var")))
-# 
-# wm19 <- data.frame(est = wm19, year = 2019,
-#                    lower = wm19 - 1.965 * se19,
-#                    upper = wm19 + 1.965 * se19,
-#                    labels = factor(c("Public art \n in the US",
-#                                     "Public art \n abroad",
-#                                     "Disaster relief and \n community building",
-#                                     "BRC planning and \n infrastructure",
-#                                     "Low income \n ticket program",
-#                                     "BRC art",
-#                                     "BRC multimedia",
-#                                     "Sustainability \n efforts",
-#                                     "Other"),
-#                                   levels = c("Public art \n in the US",
-#                                              "Public art \n abroad",
-#                                              "Disaster relief and \n community building",
-#                                              "BRC planning and \n infrastructure",
-#                                              "Low income \n ticket program",
-#                                              "BRC art",
-#                                              "BRC multimedia",
-#                                              "Regional \n network",
-#                                              "R.I.D.E. \n efforts",
-#                                              "Sustainability \n efforts",
-#                                              "Other")[c(6,10,4,5,3,1,9,7,2,8,11)]))
-# 
-# wm18 <- c(as.numeric(svymean(~don_artus, design18, na.rm = TRUE)),
-#           as.numeric(svymean(~don_artabroad, design18, na.rm = TRUE)),
-#           as.numeric(svymean(~don_commun, design18, na.rm = TRUE)),
-#           as.numeric(svymean(~don_brcplan, design18, na.rm = TRUE)),
-#           as.numeric(svymean(~don_lowincome, design18, na.rm = TRUE)),
-#           as.numeric(svymean(~don_artplaya, design18, na.rm = TRUE)),
-#           as.numeric(svymean(~don_multimedia, design18, na.rm = TRUE)),
-#           as.numeric(svymean(~don_regional, design18, na.rm = TRUE)),
-#           as.numeric(svymean(~don_other, design18, na.rm = TRUE)))
-# 
-# se18 <- c(sqrt(attr(svymean(~don_artus, design18, na.rm = TRUE), "var")),
-#           sqrt(attr(svymean(~don_artabroad, design18, na.rm = TRUE), "var")),
-#           sqrt(attr(svymean(~don_commun, design18, na.rm = TRUE), "var")),
-#           sqrt(attr(svymean(~don_brcplan, design18, na.rm = TRUE), "var")),
-#           sqrt(attr(svymean(~don_lowincome, design18, na.rm = TRUE), "var")),
-#           sqrt(attr(svymean(~don_artplaya, design18, na.rm = TRUE), "var")),
-#           sqrt(attr(svymean(~don_multimedia, design18, na.rm = TRUE), "var")),
-#           sqrt(attr(svymean(~don_regional, design18, na.rm = TRUE), "var")),
-#           sqrt(attr(svymean(~don_other, design18, na.rm = TRUE), "var")))
-# 
-# wm18 <- data.frame(est = wm18, year = 2018,
-#                    lower = wm18 - 1.965 * se18,
-#                    upper = wm18 + 1.965 * se18,
-#                    labels = factor(c("Public art \n in the US",
-#                                     "Public art \n abroad",
-#                                     "Disaster relief and \n community building",
-#                                     "BRC planning and \n infrastructure",
-#                                     "Low income \n ticket program",
-#                                     "BRC art",
-#                                     "BRC multimedia",
-#                                     "Sustainability \n efforts",
-#                                     "Other"),
-#                                   levels = c("Public art \n in the US",
-#                                              "Public art \n abroad",
-#                                              "Disaster relief and \n community building",
-#                                              "BRC planning and \n infrastructure",
-#                                              "Low income \n ticket program",
-#                                              "BRC art",
-#                                              "BRC multimedia",
-#                                              "Regional \n network",
-#                                              "R.I.D.E. \n efforts",
-#                                              "Sustainability \n efforts",
-#                                              "Other")[c(6,10,4,5,3,1,9,7,2,8,11)]))
-# 
-# wm17 <- c(as.numeric(svymean(~don_artus, design17, na.rm = TRUE)),
-#           as.numeric(svymean(~don_artabroad, design17, na.rm = TRUE)),
-#           as.numeric(svymean(~don_commun, design17, na.rm = TRUE)),
-#           as.numeric(svymean(~don_brcplan, design17, na.rm = TRUE)),
-#           as.numeric(svymean(~don_lowincome, design17, na.rm = TRUE)),
-#           as.numeric(svymean(~don_artplaya, design17, na.rm = TRUE)),
-#           as.numeric(svymean(~don_regional, design17, na.rm = TRUE)),
-#           as.numeric(svymean(~don_other, design17, na.rm = TRUE)))
-# 
-# se17 <- c(sqrt(attr(svymean(~don_artus, design17, na.rm = TRUE), "var")),
-#           sqrt(attr(svymean(~don_artabroad, design17, na.rm = TRUE), "var")),
-#           sqrt(attr(svymean(~don_commun, design17, na.rm = TRUE), "var")),
-#           sqrt(attr(svymean(~don_brcplan, design17, na.rm = TRUE), "var")),
-#           sqrt(attr(svymean(~don_lowincome, design17, na.rm = TRUE), "var")),
-#           sqrt(attr(svymean(~don_artplaya, design17, na.rm = TRUE), "var")),
-#           sqrt(attr(svymean(~don_regional, design17, na.rm = TRUE), "var")),
-#           sqrt(attr(svymean(~don_other, design17, na.rm = TRUE), "var")))
-# 
-# wm17 <- data.frame(est = wm17, year = 2017,
-#                    lower = wm17 - 1.965 * se17,
-#                    upper = wm17 + 1.965 * se17,
-#                    labels = factor(c("Public art \n in the US",
-#                                     "Public art \n abroad",
-#                                     "Disaster relief and \n community building",
-#                                     "BRC planning and \n infrastructure",
-#                                     "Low income \n ticket program",
-#                                     "BRC art",
-#                                     "Sustainability \n efforts",
-#                                     "Other"),
-#                                   levels = c("Public art \n in the US",
-#                                              "Public art \n abroad",
-#                                              "Disaster relief and \n community building",
-#                                              "BRC planning and \n infrastructure",
-#                                              "Low income \n ticket program",
-#                                              "BRC art",
-#                                              "BRC multimedia",
-#                                              "Regional \n network",
-#                                              "R.I.D.E. \n efforts",
-#                                              "Sustainability \n efforts",
-#                                              "Other")[c(6,10,4,5,3,1,9,7,2,8,11)]))
-# 
-# wm16 <- c(as.numeric(svymean(~don_artus, design16, na.rm = TRUE)),
-#           as.numeric(svymean(~don_artabroad, design16, na.rm = TRUE)),
-#           as.numeric(svymean(~don_commun, design16, na.rm = TRUE)),
-#           as.numeric(svymean(~don_brcplan, design16, na.rm = TRUE)),
-#           as.numeric(svymean(~don_lowincome, design16, na.rm = TRUE)),
-#           as.numeric(svymean(~don_artplaya, design16, na.rm = TRUE)),
-#           as.numeric(svymean(~don_regional, design16, na.rm = TRUE)),
-#           as.numeric(svymean(~don_other, design16, na.rm = TRUE)))
-# 
-# se16 <- c(sqrt(attr(svymean(~don_artus, design16, na.rm = TRUE), "var")),
-#           sqrt(attr(svymean(~don_artabroad, design16, na.rm = TRUE), "var")),
-#           sqrt(attr(svymean(~don_commun, design16, na.rm = TRUE), "var")),
-#           sqrt(attr(svymean(~don_brcplan, design16, na.rm = TRUE), "var")),
-#           sqrt(attr(svymean(~don_lowincome, design16, na.rm = TRUE), "var")),
-#           sqrt(attr(svymean(~don_artplaya, design16, na.rm = TRUE), "var")),
-#           sqrt(attr(svymean(~don_regional, design16, na.rm = TRUE), "var")),
-#           sqrt(attr(svymean(~don_other, design16, na.rm = TRUE), "var")))
-# 
-# wm16 <- data.frame(est = wm16, year = 2016,
-#                    lower = wm16 - 1.965 * se16,
-#                    upper = wm16 + 1.965 * se16,
-#                    labels = factor(c("Public art \n in the US",
-#                                     "Public art \n abroad",
-#                                     "Disaster relief and \n community building",
-#                                     "BRC planning and \n infrastructure",
-#                                     "Low income \n ticket program",
-#                                     "BRC art",
-#                                     "Sustainability \n efforts",
-#                                     "Other"),
-#                                   levels = c("Public art \n in the US",
-#                                              "Public art \n abroad",
-#                                              "Disaster relief and \n community building",
-#                                              "BRC planning and \n infrastructure",
-#                                              "Low income \n ticket program",
-#                                              "BRC art",
-#                                              "BRC multimedia",
-#                                              "Regional \n network",
-#                                              "R.I.D.E. \n efforts",
-#                                              "Sustainability \n efforts",
-#                                              "Other")[c(6,10,4,5,3,1,9,7,2,8,11)]))
-# 
-# wm15 <- c(as.numeric(svymean(~don_artus, design15, na.rm = TRUE)),
-#           as.numeric(svymean(~don_artabroad, design15, na.rm = TRUE)),
-#           as.numeric(svymean(~don_commun, design15, na.rm = TRUE)),
-#           as.numeric(svymean(~don_brcplan, design15, na.rm = TRUE)),
-#           as.numeric(svymean(~don_lowincome, design15, na.rm = TRUE)),
-#           as.numeric(svymean(~don_artplaya, design15, na.rm = TRUE)),
-#           as.numeric(svymean(~don_regional, design15, na.rm = TRUE)),
-#           as.numeric(svymean(~don_other, design15, na.rm = TRUE)))
-# 
-# se15 <- c(sqrt(attr(svymean(~don_artus, design15, na.rm = TRUE), "var")),
-#           sqrt(attr(svymean(~don_artabroad, design15, na.rm = TRUE), "var")),
-#           sqrt(attr(svymean(~don_commun, design15, na.rm = TRUE), "var")),
-#           sqrt(attr(svymean(~don_brcplan, design15, na.rm = TRUE), "var")),
-#           sqrt(attr(svymean(~don_lowincome, design15, na.rm = TRUE), "var")),
-#           sqrt(attr(svymean(~don_artplaya, design15, na.rm = TRUE), "var")),
-#           sqrt(attr(svymean(~don_regional, design15, na.rm = TRUE), "var")),
-#           sqrt(attr(svymean(~don_other, design15, na.rm = TRUE), "var")))
-# 
-# wm15 <- data.frame(est = wm15, year = 2015,
-#                    lower = wm15 - 1.965 * se15,
-#                    upper = wm15 + 1.965 * se15,
-#                    labels = factor(c("Public art \n in the US",
-#                                     "Public art \n abroad",
-#                                     "Disaster relief and \n community building",
-#                                     "BRC planning and \n infrastructure",
-#                                     "Low income \n ticket program",
-#                                     "BRC art",
-#                                     "Sustainability \n efforts",
-#                                     "Other"),
-#                                   levels = c("Public art \n in the US",
-#                                              "Public art \n abroad",
-#                                              "Disaster relief and \n community building",
-#                                              "BRC planning and \n infrastructure",
-#                                              "Low income \n ticket program",
-#                                              "BRC art",
-#                                              "BRC multimedia",
-#                                              "Regional \n network",
-#                                              "R.I.D.E. \n efforts",
-#                                              "Sustainability \n efforts",
-#                                              "Other")[c(6,10,4,5,3,1,9,7,2,8,11)]))
-# 
-# donateMean <- rbind(wm23, wm22, wm19, wm18, wm17, wm16, wm15)
-# 
-# 
-# ggplot(donate[donate$year == 2023,], aes(x = labels, y = dollars, weight = weights,
-#                                          group = labels)) +
-#   geom_boxplot(width=0.6,  fill = "#EA008B", color = "black", alpha = 0.7) +
-#   geom_point(data = donateMean[donateMean$year == 2023,], aes(x = labels, y = est), shape = 23,
-#              size = 3, fill = "grey", inherit.aes = FALSE) +
-#   theme_bw() +
-#   labs(x = "Program", y = "Dollars", caption = "Diamond indicates weighted mean",
-#        title = "How would you distribute $1,000 to donate to \n programs of the nonprofit Burning Man Project?") +
-#   scale_y_continuous(labels = dollar) +
-#   theme(axis.text.x = element_text(angle = 45, hjust = 1))
+donate24 <- data.frame(dollars = c(census24$donate1k.publicArtUS,
+                                   census24$donate1k.publicArtAbroad,
+                                   census24$donate1k.disasterRelief,
+                                   census24$donate1k.planInfrastructureBRC,
+                                   census24$donate1k.lowIncomeTickets,
+                                   census24$donate1k.artBRC,
+                                   census24$donate1k.multimediaBRC,
+                                   census24$donate1k.regionals,
+                                   census24$donate1k.RIDE,
+                                   census24$donate1k.sustainability,
+                                   census24$donate1k.other),
+                       weights = census24$weights,
+                       year = 2024,
+                       labels = rep(c("Public art \n in the US",
+                                      "Public art \n abroad",
+                                      "Disaster relief and \n community building",
+                                      "BRC planning and \n infrastructure",
+                                      "Low income \n ticket program",
+                                      "BRC art",
+                                      "BRC multimedia",
+                                      "Regional \n network",
+                                      "R.I.D.E. \n efforts",
+                                      "Sustainability \n efforts",
+                                      "Other"), each = nrow(census24)))
+
+donate23 <- data.frame(dollars = c(census23$donate1k.publicArtUS,
+                                   census23$donate1k.publicArtAbroad,
+                                   census23$donate1k.disasterRelief,
+                                   census23$donate1k.planInfrastructureBRC,
+                                   census23$donate1k.lowIncomeTickets,
+                                   census23$donate1k.artBRC,
+                                   census23$donate1k.multimediaBRC,
+                                   census23$donate1k.regionals,
+                                   census23$donate1k.RIDE,
+                                   census23$donate1k.sustainability,
+                                   census23$donate1k.other),
+                       weights = census23$weights,
+                       year = 2023,
+                       labels = rep(c("Public art \n in the US",
+                                      "Public art \n abroad",
+                                      "Disaster relief and \n community building",
+                                      "BRC planning and \n infrastructure",
+                                      "Low income \n ticket program",
+                                      "BRC art",
+                                      "BRC multimedia",
+                                      "Regional \n network",
+                                      "R.I.D.E. \n efforts",
+                                      "Sustainability \n efforts",
+                                      "Other"), each = nrow(census23)))
+
+donate22 <- data.frame(dollars = c(census22$donate1k.publicArtUS,
+                                   census22$donate1k.publicArtAbroad,
+                                   census22$donate1k.disasterRelief,
+                                   census22$donate1k.planInfrastructureBRC,
+                                   census22$donate1k.lowIncomeTickets,
+                                   census22$donate1k.artBRC,
+                                   census22$donate1k.multimediaBRC,
+                                   census22$donate1k.regionals,
+                                   census22$donate1k.RIDE,
+                                   census22$donate1k.sustainability,
+                                   census22$donate1k.other),
+                       weights = census22$weights,
+                       year = 2022,
+                       labels = rep(c("Public art \n in the US",
+                                      "Public art \n abroad",
+                                      "Disaster relief and \n community building",
+                                      "BRC planning and \n infrastructure",
+                                      "Low income \n ticket program",
+                                      "BRC art",
+                                      "BRC multimedia",
+                                      "Regional \n network",
+                                      "R.I.D.E. \n efforts",
+                                      "Sustainability \n efforts",
+                                      "Other"), each = nrow(census22)))
+
+
+donate19 <- data.frame(dollars = c(census19$don_artus,
+                                   census19$don_artabroad,
+                                   census19$don_commun,
+                                   census19$don_brcplan,
+                                   census19$don_lowincome,
+                                   census19$don_artplaya,
+                                   census19$don_multimedia,
+                                   census19$don_regional,
+                                   census19$don_other),
+                       weights = census19$weightbfarrival,
+                       year = 2019,
+                       labels = rep(c("Public art \n in the US",
+                                      "Public art \n abroad",
+                                      "Disaster relief and \n community building",
+                                      "BRC planning and \n infrastructure",
+                                      "Low income \n ticket program",
+                                      "BRC art",
+                                      "BRC multimedia",
+                                      "Regional \n network",
+                                      "Other"), each = nrow(census19)))
+
+
+donate18 <- data.frame(dollars = c(census18$don_artus,
+                                   census18$don_artabroad,
+                                   census18$don_commun,
+                                   census18$don_brcplan,
+                                   census18$don_lowincome,
+                                   census18$don_artplaya,
+                                   census18$don_multimedia,
+                                   census18$don_regional,
+                                   census18$don_other) * 10,
+                       weights = census18$weightbfarrival,
+                       year = 2018,
+                       labels = rep(c("Public art \n in the US",
+                                      "Public art \n abroad",
+                                      "Disaster relief and \n community building",
+                                      "BRC planning and \n infrastructure",
+                                      "Low income \n ticket program",
+                                      "BRC art",
+                                      "BRC multimedia",
+                                      "Regional \n network",
+                                      "Other"), each = nrow(census18)))
+
+donate17 <- data.frame(dollars = c(census17$don_artus,
+                                   census17$don_artabroad,
+                                   census17$don_commun,
+                                   census17$don_brcplan,
+                                   census17$don_lowincome,
+                                   census17$don_artplaya,
+                                   census17$don_regional,
+                                   census17$don_other) * 10,
+                       weights = census17$weightbfarrival,
+                       year = 2017,
+                       labels = rep(c("Public art \n in the US",
+                                      "Public art \n abroad",
+                                      "Disaster relief and \n community building",
+                                      "BRC planning and \n infrastructure",
+                                      "Low income \n ticket program",
+                                      "BRC art",
+                                      "Regional \n network",
+                                      "Other"), each = nrow(census17)))
+
+donate16 <- data.frame(dollars = c(census16$don_artus,
+                                   census16$don_artabroad,
+                                   census16$don_commun,
+                                   census16$don_brcplan,
+                                   census16$don_lowincome,
+                                   census16$don_artplaya,
+                                   census16$don_regional,
+                                   census16$don_other) * 10,
+                       weights = census16$weightbmorg1,
+                       year = 2016,
+                       labels = rep(c("Public art \n in the US",
+                                      "Public art \n abroad",
+                                      "Disaster relief and \n community building",
+                                      "BRC planning and \n infrastructure",
+                                      "Low income \n ticket program",
+                                      "BRC art",
+                                      "Regional \n network",
+                                      "Other"), each = nrow(census16)))
+
+donate15 <- data.frame(dollars = c(census15$don_artus,
+                                   census15$don_artabroad,
+                                   census15$don_commun,
+                                   census15$don_brcplan,
+                                   census15$don_lowincome,
+                                   census15$don_artplaya,
+                                   census15$don_regional,
+                                   census15$don_other) * 10,
+                       weights = census15$weightbmorg1,
+                       year = 2015,
+                       labels = rep(c("Public art \n in the US",
+                                      "Public art \n abroad",
+                                      "Disaster relief and \n community building",
+                                      "BRC planning and \n infrastructure",
+                                      "Low income \n ticket program",
+                                      "BRC art",
+                                      "Regional \n network",
+                                      "Other"), each = nrow(census15)))
+
+donate <- rbind(donate15, donate16, donate17, donate18, donate19, donate22,
+                donate23, donate24)
+donate$year <- factor(donate$year, levels = c(2024:2022, 2019:2015))
+donate$labels <- factor(donate$labels, levels = c("Public art \n in the US",
+                                      "Public art \n abroad",
+                                      "Disaster relief and \n community building",
+                                      "BRC planning and \n infrastructure",
+                                      "Low income \n ticket program",
+                                      "BRC art",
+                                      "BRC multimedia",
+                                      "Regional \n network",
+                                      "R.I.D.E. \n efforts",
+                                      "Sustainability \n efforts",
+                                      "Other")[c(6,10,4,5,3,1,9,7,2,8,11)])
+
+wm24 <- c(as.numeric(svymean(~donate1k.publicArtUS, design24, na.rm = TRUE)),
+          as.numeric(svymean(~donate1k.publicArtAbroad, design24, na.rm = TRUE)),
+          as.numeric(svymean(~donate1k.disasterRelief, design24, na.rm = TRUE)),
+          as.numeric(svymean(~donate1k.planInfrastructureBRC, design24, na.rm = TRUE)),
+          as.numeric(svymean(~donate1k.lowIncomeTickets, design24, na.rm = TRUE)),
+          as.numeric(svymean(~donate1k.artBRC, design24, na.rm = TRUE)),
+          as.numeric(svymean(~donate1k.multimediaBRC, design24, na.rm = TRUE)),
+          as.numeric(svymean(~donate1k.regionals, design24, na.rm = TRUE)),
+          as.numeric(svymean(~donate1k.RIDE, design24, na.rm = TRUE)),
+          as.numeric(svymean(~donate1k.sustainability, design24, na.rm = TRUE)),
+          as.numeric(svymean(~donate1k.other, design24, na.rm = TRUE)))
+
+se24 <- c(sqrt(attr(svymean(~donate1k.publicArtUS, design24, na.rm = TRUE), "var")),
+          sqrt(attr(svymean(~donate1k.publicArtAbroad, design24, na.rm = TRUE), "var")),
+          sqrt(attr(svymean(~donate1k.disasterRelief, design24, na.rm = TRUE), "var")),
+          sqrt(attr(svymean(~donate1k.planInfrastructureBRC, design24, na.rm = TRUE), "var")),
+          sqrt(attr(svymean(~donate1k.lowIncomeTickets, design24, na.rm = TRUE), "var")),
+          sqrt(attr(svymean(~donate1k.artBRC, design24, na.rm = TRUE), "var")),
+          sqrt(attr(svymean(~donate1k.multimediaBRC, design24, na.rm = TRUE), "var")),
+          sqrt(attr(svymean(~donate1k.regionals, design24, na.rm = TRUE), "var")),
+          sqrt(attr(svymean(~donate1k.RIDE, design24, na.rm = TRUE), "var")),
+          sqrt(attr(svymean(~donate1k.sustainability, design24, na.rm = TRUE), "var")),
+          sqrt(attr(svymean(~donate1k.other, design24, na.rm = TRUE), "var")))
+
+wm23 <- c(as.numeric(svymean(~donate1k.publicArtUS, design23, na.rm = TRUE)),
+          as.numeric(svymean(~donate1k.publicArtAbroad, design23, na.rm = TRUE)),
+          as.numeric(svymean(~donate1k.disasterRelief, design23, na.rm = TRUE)),
+          as.numeric(svymean(~donate1k.planInfrastructureBRC, design23, na.rm = TRUE)),
+          as.numeric(svymean(~donate1k.lowIncomeTickets, design23, na.rm = TRUE)),
+          as.numeric(svymean(~donate1k.artBRC, design23, na.rm = TRUE)),
+          as.numeric(svymean(~donate1k.multimediaBRC, design23, na.rm = TRUE)),
+          as.numeric(svymean(~donate1k.regionals, design23, na.rm = TRUE)),
+          as.numeric(svymean(~donate1k.RIDE, design23, na.rm = TRUE)),
+          as.numeric(svymean(~donate1k.sustainability, design23, na.rm = TRUE)),
+          as.numeric(svymean(~donate1k.other, design23, na.rm = TRUE)))
+
+se23 <- c(sqrt(attr(svymean(~donate1k.publicArtUS, design23, na.rm = TRUE), "var")),
+          sqrt(attr(svymean(~donate1k.publicArtAbroad, design23, na.rm = TRUE), "var")),
+          sqrt(attr(svymean(~donate1k.disasterRelief, design23, na.rm = TRUE), "var")),
+          sqrt(attr(svymean(~donate1k.planInfrastructureBRC, design23, na.rm = TRUE), "var")),
+          sqrt(attr(svymean(~donate1k.lowIncomeTickets, design23, na.rm = TRUE), "var")),
+          sqrt(attr(svymean(~donate1k.artBRC, design23, na.rm = TRUE), "var")),
+          sqrt(attr(svymean(~donate1k.multimediaBRC, design23, na.rm = TRUE), "var")),
+          sqrt(attr(svymean(~donate1k.regionals, design23, na.rm = TRUE), "var")),
+          sqrt(attr(svymean(~donate1k.RIDE, design23, na.rm = TRUE), "var")),
+          sqrt(attr(svymean(~donate1k.sustainability, design23, na.rm = TRUE), "var")),
+          sqrt(attr(svymean(~donate1k.other, design23, na.rm = TRUE), "var")))
+
+wm23 <- data.frame(est = wm23, year = 2023,
+                   lower = wm23 - 1.965 * se23,
+                   upper = wm23 + 1.965 * se23,
+                   labels = factor(c("Public art \n in the US",
+                                    "Public art \n abroad",
+                                    "Disaster relief and \n community building",
+                                    "BRC planning and \n infrastructure",
+                                    "Low income \n ticket program",
+                                    "BRC art",
+                                    "BRC multimedia",
+                                    "Regional \n network",
+                                    "R.I.D.E. \n efforts",
+                                    "Sustainability \n efforts",
+                                    "Other"),
+                                  levels = c("Public art \n in the US",
+                                             "Public art \n abroad",
+                                             "Disaster relief and \n community building",
+                                             "BRC planning and \n infrastructure",
+                                             "Low income \n ticket program",
+                                             "BRC art",
+                                             "BRC multimedia",
+                                             "Regional \n network",
+                                             "R.I.D.E. \n efforts",
+                                             "Sustainability \n efforts",
+                                             "Other")[c(6,10,4,5,3,1,9,7,2,8,11)]))
+
+wm22 <- c(as.numeric(svymean(~donate1k.publicArtUS, design22, na.rm = TRUE)),
+          as.numeric(svymean(~donate1k.publicArtAbroad, design22, na.rm = TRUE)),
+          as.numeric(svymean(~donate1k.disasterRelief, design22, na.rm = TRUE)),
+          as.numeric(svymean(~donate1k.planInfrastructureBRC, design22, na.rm = TRUE)),
+          as.numeric(svymean(~donate1k.lowIncomeTickets, design22, na.rm = TRUE)),
+          as.numeric(svymean(~donate1k.artBRC, design22, na.rm = TRUE)),
+          as.numeric(svymean(~donate1k.multimediaBRC, design22, na.rm = TRUE)),
+          as.numeric(svymean(~donate1k.regionals, design22, na.rm = TRUE)),
+          as.numeric(svymean(~donate1k.RIDE, design22, na.rm = TRUE)),
+          as.numeric(svymean(~donate1k.sustainability, design22, na.rm = TRUE)),
+          as.numeric(svymean(~donate1k.other, design22, na.rm = TRUE)))
+
+se22 <- c(sqrt(attr(svymean(~donate1k.publicArtUS, design22, na.rm = TRUE), "var")),
+          sqrt(attr(svymean(~donate1k.publicArtAbroad, design22, na.rm = TRUE), "var")),
+          sqrt(attr(svymean(~donate1k.disasterRelief, design22, na.rm = TRUE), "var")),
+          sqrt(attr(svymean(~donate1k.planInfrastructureBRC, design22, na.rm = TRUE), "var")),
+          sqrt(attr(svymean(~donate1k.lowIncomeTickets, design22, na.rm = TRUE), "var")),
+          sqrt(attr(svymean(~donate1k.artBRC, design22, na.rm = TRUE), "var")),
+          sqrt(attr(svymean(~donate1k.multimediaBRC, design22, na.rm = TRUE), "var")),
+          sqrt(attr(svymean(~donate1k.regionals, design22, na.rm = TRUE), "var")),
+          sqrt(attr(svymean(~donate1k.RIDE, design22, na.rm = TRUE), "var")),
+          sqrt(attr(svymean(~donate1k.sustainability, design22, na.rm = TRUE), "var")),
+          sqrt(attr(svymean(~donate1k.other, design22, na.rm = TRUE), "var")))
+
+wm22 <- data.frame(est = wm22, year = 2022,
+                   lower = wm22 - 1.965 * se22,
+                   upper = wm22 + 1.965 * se22,
+                   labels = factor(c("Public art \n in the US",
+                                    "Public art \n abroad",
+                                    "Disaster relief and \n community building",
+                                    "BRC planning and \n infrastructure",
+                                    "Low income \n ticket program",
+                                    "BRC art",
+                                    "BRC multimedia",
+                                    "Regional \n network",
+                                    "R.I.D.E. \n efforts",
+                                    "Sustainability \n efforts",
+                                    "Other"),
+                                  levels = c("Public art \n in the US",
+                                             "Public art \n abroad",
+                                             "Disaster relief and \n community building",
+                                             "BRC planning and \n infrastructure",
+                                             "Low income \n ticket program",
+                                             "BRC art",
+                                             "BRC multimedia",
+                                             "Regional \n network",
+                                             "R.I.D.E. \n efforts",
+                                             "Sustainability \n efforts",
+                                             "Other")[c(6,10,4,5,3,1,9,7,2,8,11)]))
+
+
+wm19 <- c(as.numeric(svymean(~don_artus, design19, na.rm = TRUE)),
+          as.numeric(svymean(~don_artabroad, design19, na.rm = TRUE)),
+          as.numeric(svymean(~don_commun, design19, na.rm = TRUE)),
+          as.numeric(svymean(~don_brcplan, design19, na.rm = TRUE)),
+          as.numeric(svymean(~don_lowincome, design19, na.rm = TRUE)),
+          as.numeric(svymean(~don_artplaya, design19, na.rm = TRUE)),
+          as.numeric(svymean(~don_multimedia, design19, na.rm = TRUE)),
+          as.numeric(svymean(~don_regional, design19, na.rm = TRUE)),
+          as.numeric(svymean(~don_other, design19, na.rm = TRUE)))
+
+se19 <- c(sqrt(attr(svymean(~don_artus, design19, na.rm = TRUE), "var")),
+          sqrt(attr(svymean(~don_artabroad, design19, na.rm = TRUE), "var")),
+          sqrt(attr(svymean(~don_commun, design19, na.rm = TRUE), "var")),
+          sqrt(attr(svymean(~don_brcplan, design19, na.rm = TRUE), "var")),
+          sqrt(attr(svymean(~don_lowincome, design19, na.rm = TRUE), "var")),
+          sqrt(attr(svymean(~don_artplaya, design19, na.rm = TRUE), "var")),
+          sqrt(attr(svymean(~don_multimedia, design19, na.rm = TRUE), "var")),
+          sqrt(attr(svymean(~don_regional, design19, na.rm = TRUE), "var")),
+          sqrt(attr(svymean(~don_other, design19, na.rm = TRUE), "var")))
+
+wm19 <- data.frame(est = wm19, year = 2019,
+                   lower = wm19 - 1.965 * se19,
+                   upper = wm19 + 1.965 * se19,
+                   labels = factor(c("Public art \n in the US",
+                                    "Public art \n abroad",
+                                    "Disaster relief and \n community building",
+                                    "BRC planning and \n infrastructure",
+                                    "Low income \n ticket program",
+                                    "BRC art",
+                                    "BRC multimedia",
+                                    "Sustainability \n efforts",
+                                    "Other"),
+                                  levels = c("Public art \n in the US",
+                                             "Public art \n abroad",
+                                             "Disaster relief and \n community building",
+                                             "BRC planning and \n infrastructure",
+                                             "Low income \n ticket program",
+                                             "BRC art",
+                                             "BRC multimedia",
+                                             "Regional \n network",
+                                             "R.I.D.E. \n efforts",
+                                             "Sustainability \n efforts",
+                                             "Other")[c(6,10,4,5,3,1,9,7,2,8,11)]))
+
+wm18 <- c(as.numeric(svymean(~don_artus, design18, na.rm = TRUE)),
+          as.numeric(svymean(~don_artabroad, design18, na.rm = TRUE)),
+          as.numeric(svymean(~don_commun, design18, na.rm = TRUE)),
+          as.numeric(svymean(~don_brcplan, design18, na.rm = TRUE)),
+          as.numeric(svymean(~don_lowincome, design18, na.rm = TRUE)),
+          as.numeric(svymean(~don_artplaya, design18, na.rm = TRUE)),
+          as.numeric(svymean(~don_multimedia, design18, na.rm = TRUE)),
+          as.numeric(svymean(~don_regional, design18, na.rm = TRUE)),
+          as.numeric(svymean(~don_other, design18, na.rm = TRUE)))
+
+se18 <- c(sqrt(attr(svymean(~don_artus, design18, na.rm = TRUE), "var")),
+          sqrt(attr(svymean(~don_artabroad, design18, na.rm = TRUE), "var")),
+          sqrt(attr(svymean(~don_commun, design18, na.rm = TRUE), "var")),
+          sqrt(attr(svymean(~don_brcplan, design18, na.rm = TRUE), "var")),
+          sqrt(attr(svymean(~don_lowincome, design18, na.rm = TRUE), "var")),
+          sqrt(attr(svymean(~don_artplaya, design18, na.rm = TRUE), "var")),
+          sqrt(attr(svymean(~don_multimedia, design18, na.rm = TRUE), "var")),
+          sqrt(attr(svymean(~don_regional, design18, na.rm = TRUE), "var")),
+          sqrt(attr(svymean(~don_other, design18, na.rm = TRUE), "var")))
+
+wm18 <- data.frame(est = wm18, year = 2018,
+                   lower = wm18 - 1.965 * se18,
+                   upper = wm18 + 1.965 * se18,
+                   labels = factor(c("Public art \n in the US",
+                                    "Public art \n abroad",
+                                    "Disaster relief and \n community building",
+                                    "BRC planning and \n infrastructure",
+                                    "Low income \n ticket program",
+                                    "BRC art",
+                                    "BRC multimedia",
+                                    "Sustainability \n efforts",
+                                    "Other"),
+                                  levels = c("Public art \n in the US",
+                                             "Public art \n abroad",
+                                             "Disaster relief and \n community building",
+                                             "BRC planning and \n infrastructure",
+                                             "Low income \n ticket program",
+                                             "BRC art",
+                                             "BRC multimedia",
+                                             "Regional \n network",
+                                             "R.I.D.E. \n efforts",
+                                             "Sustainability \n efforts",
+                                             "Other")[c(6,10,4,5,3,1,9,7,2,8,11)]))
+
+wm17 <- c(as.numeric(svymean(~don_artus, design17, na.rm = TRUE)),
+          as.numeric(svymean(~don_artabroad, design17, na.rm = TRUE)),
+          as.numeric(svymean(~don_commun, design17, na.rm = TRUE)),
+          as.numeric(svymean(~don_brcplan, design17, na.rm = TRUE)),
+          as.numeric(svymean(~don_lowincome, design17, na.rm = TRUE)),
+          as.numeric(svymean(~don_artplaya, design17, na.rm = TRUE)),
+          as.numeric(svymean(~don_regional, design17, na.rm = TRUE)),
+          as.numeric(svymean(~don_other, design17, na.rm = TRUE)))
+
+se17 <- c(sqrt(attr(svymean(~don_artus, design17, na.rm = TRUE), "var")),
+          sqrt(attr(svymean(~don_artabroad, design17, na.rm = TRUE), "var")),
+          sqrt(attr(svymean(~don_commun, design17, na.rm = TRUE), "var")),
+          sqrt(attr(svymean(~don_brcplan, design17, na.rm = TRUE), "var")),
+          sqrt(attr(svymean(~don_lowincome, design17, na.rm = TRUE), "var")),
+          sqrt(attr(svymean(~don_artplaya, design17, na.rm = TRUE), "var")),
+          sqrt(attr(svymean(~don_regional, design17, na.rm = TRUE), "var")),
+          sqrt(attr(svymean(~don_other, design17, na.rm = TRUE), "var")))
+
+wm17 <- data.frame(est = wm17, year = 2017,
+                   lower = wm17 - 1.965 * se17,
+                   upper = wm17 + 1.965 * se17,
+                   labels = factor(c("Public art \n in the US",
+                                    "Public art \n abroad",
+                                    "Disaster relief and \n community building",
+                                    "BRC planning and \n infrastructure",
+                                    "Low income \n ticket program",
+                                    "BRC art",
+                                    "Sustainability \n efforts",
+                                    "Other"),
+                                  levels = c("Public art \n in the US",
+                                             "Public art \n abroad",
+                                             "Disaster relief and \n community building",
+                                             "BRC planning and \n infrastructure",
+                                             "Low income \n ticket program",
+                                             "BRC art",
+                                             "BRC multimedia",
+                                             "Regional \n network",
+                                             "R.I.D.E. \n efforts",
+                                             "Sustainability \n efforts",
+                                             "Other")[c(6,10,4,5,3,1,9,7,2,8,11)]))
+
+wm16 <- c(as.numeric(svymean(~don_artus, design16, na.rm = TRUE)),
+          as.numeric(svymean(~don_artabroad, design16, na.rm = TRUE)),
+          as.numeric(svymean(~don_commun, design16, na.rm = TRUE)),
+          as.numeric(svymean(~don_brcplan, design16, na.rm = TRUE)),
+          as.numeric(svymean(~don_lowincome, design16, na.rm = TRUE)),
+          as.numeric(svymean(~don_artplaya, design16, na.rm = TRUE)),
+          as.numeric(svymean(~don_regional, design16, na.rm = TRUE)),
+          as.numeric(svymean(~don_other, design16, na.rm = TRUE)))
+
+se16 <- c(sqrt(attr(svymean(~don_artus, design16, na.rm = TRUE), "var")),
+          sqrt(attr(svymean(~don_artabroad, design16, na.rm = TRUE), "var")),
+          sqrt(attr(svymean(~don_commun, design16, na.rm = TRUE), "var")),
+          sqrt(attr(svymean(~don_brcplan, design16, na.rm = TRUE), "var")),
+          sqrt(attr(svymean(~don_lowincome, design16, na.rm = TRUE), "var")),
+          sqrt(attr(svymean(~don_artplaya, design16, na.rm = TRUE), "var")),
+          sqrt(attr(svymean(~don_regional, design16, na.rm = TRUE), "var")),
+          sqrt(attr(svymean(~don_other, design16, na.rm = TRUE), "var")))
+
+wm16 <- data.frame(est = wm16, year = 2016,
+                   lower = wm16 - 1.965 * se16,
+                   upper = wm16 + 1.965 * se16,
+                   labels = factor(c("Public art \n in the US",
+                                    "Public art \n abroad",
+                                    "Disaster relief and \n community building",
+                                    "BRC planning and \n infrastructure",
+                                    "Low income \n ticket program",
+                                    "BRC art",
+                                    "Sustainability \n efforts",
+                                    "Other"),
+                                  levels = c("Public art \n in the US",
+                                             "Public art \n abroad",
+                                             "Disaster relief and \n community building",
+                                             "BRC planning and \n infrastructure",
+                                             "Low income \n ticket program",
+                                             "BRC art",
+                                             "BRC multimedia",
+                                             "Regional \n network",
+                                             "R.I.D.E. \n efforts",
+                                             "Sustainability \n efforts",
+                                             "Other")[c(6,10,4,5,3,1,9,7,2,8,11)]))
+
+wm15 <- c(as.numeric(svymean(~don_artus, design15, na.rm = TRUE)),
+          as.numeric(svymean(~don_artabroad, design15, na.rm = TRUE)),
+          as.numeric(svymean(~don_commun, design15, na.rm = TRUE)),
+          as.numeric(svymean(~don_brcplan, design15, na.rm = TRUE)),
+          as.numeric(svymean(~don_lowincome, design15, na.rm = TRUE)),
+          as.numeric(svymean(~don_artplaya, design15, na.rm = TRUE)),
+          as.numeric(svymean(~don_regional, design15, na.rm = TRUE)),
+          as.numeric(svymean(~don_other, design15, na.rm = TRUE)))
+
+se15 <- c(sqrt(attr(svymean(~don_artus, design15, na.rm = TRUE), "var")),
+          sqrt(attr(svymean(~don_artabroad, design15, na.rm = TRUE), "var")),
+          sqrt(attr(svymean(~don_commun, design15, na.rm = TRUE), "var")),
+          sqrt(attr(svymean(~don_brcplan, design15, na.rm = TRUE), "var")),
+          sqrt(attr(svymean(~don_lowincome, design15, na.rm = TRUE), "var")),
+          sqrt(attr(svymean(~don_artplaya, design15, na.rm = TRUE), "var")),
+          sqrt(attr(svymean(~don_regional, design15, na.rm = TRUE), "var")),
+          sqrt(attr(svymean(~don_other, design15, na.rm = TRUE), "var")))
+
+wm15 <- data.frame(est = wm15, year = 2015,
+                   lower = wm15 - 1.965 * se15,
+                   upper = wm15 + 1.965 * se15,
+                   labels = factor(c("Public art \n in the US",
+                                    "Public art \n abroad",
+                                    "Disaster relief and \n community building",
+                                    "BRC planning and \n infrastructure",
+                                    "Low income \n ticket program",
+                                    "BRC art",
+                                    "Sustainability \n efforts",
+                                    "Other"),
+                                  levels = c("Public art \n in the US",
+                                             "Public art \n abroad",
+                                             "Disaster relief and \n community building",
+                                             "BRC planning and \n infrastructure",
+                                             "Low income \n ticket program",
+                                             "BRC art",
+                                             "BRC multimedia",
+                                             "Regional \n network",
+                                             "R.I.D.E. \n efforts",
+                                             "Sustainability \n efforts",
+                                             "Other")[c(6,10,4,5,3,1,9,7,2,8,11)]))
+
+donateMean <- rbind(wm24, wm23, wm22, wm19, wm18, wm17, wm16, wm15)
+
+ggplot(donate[donate$year == 2024,], aes(x = labels, y = dollars, weight = weights,
+                                         group = labels)) +
+  geom_boxplot(width=0.6,  fill = "#EA008B", color = "black", alpha = 0.7) +
+  geom_point(data = donateMean[donateMean$year == 2023,], aes(x = labels, y = est), shape = 23,
+             size = 3, fill = "grey", inherit.aes = FALSE) +
+  theme_bw() +
+  labs(x = "Program", y = "Dollars", caption = "Diamond indicates weighted mean",
+       title = "How would you distribute $1,000 to donate to \n programs of the nonprofit Burning Man Project?") +
+  scale_y_continuous(labels = dollar) +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1))
 ```
 
 ```{r results="as.is"}
-# makeTableData(donateMean, format = "dollar", digits = 0) |>
-#   kbl(col.names = c(2015:2019, 2022:2023), row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
-#   column_spec(column = 1:8, width_min = "10.5em") |>
-#   kable_styling() |>
-#   scroll_box(width = "100%")
+makeTableData(donateMean, format = "dollar", digits = 0) |>
+  kbl(col.names = c(2015:2019, 2022:2024), row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  column_spec(column = 1:8, width_min = "10.5em") |>
+  kable_styling() |>
+  scroll_box(width = "100%")
 ```
 
 ## Sustainability
@@ -1007,43 +976,43 @@ makeTableData(prinFreq)[10:1,] |>
 ### Sustainability projects in Black Rock City
 
 ```{r}
-# sustainabilityNotice <- makePlotData("Emerging sustainability projects are taking center stage in Black Rock City. What new sustainability projects did you notice while in BRC in 2023?",
-#                                      varNameTable = varNameTable,
-#                                      designs = list(design22, design23),
-#                                      years = 2022:2023,
-#                                      levels = c(as.list(rep(TRUE, times = 2))),
-#                                      labels = c("The solar-powered Man",
-#                                                 "Fewer gas and diesel generators \n around the city",
-#                                                 "More solar power and battery \n technologies at camps",
-#                                                 "Solar-powered trailers \n in staff locations",
-#                                                 "Camps reducing their \n environmental impact",
-#                                                 "Honoraria and other \n art projects reducing \n their environmental impact",
-#                                                 "More art projects with \n ecological or sustainability-related \n conceptual themes",
-#                                                 "More educational programming \n from camps or projects \n about sustainability",
-#                                                 "I heard or was engaged in \n more conversations around \n environmental sustainability \n than previous years",
-#                                                 "More MOOP sweeps",
-#                                                 "More electric mutant vehicles",
-#                                                 "Other",
-#                                                 "I didn\'t notice anything new"),
-#                                      labelOrder = c(13,12,11,8,10,4,9,2,6,7,5,1,3))
-# 
-# ggplot(sustainabilityNotice, aes(x = labels, y = est, fill = as.factor(year))) +
-#   geom_bar(stat = "identity", position = "dodge") +
-#   scale_y_continuous(labels = percent) +
-#   scale_fill_manual(values = discreteColors[2:1]) +
-#   labs(x = "Sustainability projects", 
-#        y = "Burning Man participants (%)", fill = "Year",
-#        title = "What new sustainability projects did you notice while in BRC?") +
-#   theme_bw() +
-#   coord_flip() +
-#   guides(fill = guide_legend(reverse = TRUE))
-# 
-# makeTableData(sustainabilityNotice)[13:1,] |>
-#   kbl(col.names = c(2022:2023), row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
-#   column_spec(column = 1:3, width_min = "10.5em") |>
-#   kable_styling() |>
-#   scroll_box(width = "100%")
+sustainabilityNotice <- makePlotData("Emerging sustainability projects are taking center stage in Black Rock City. What new sustainability projects did you notice while in BRC in 2024?",
+                                     varNameTable = varNameTable,
+                                     designs = list(design22, design23, design24),
+                                     years = 2022:2024,
+                                     levels = c(as.list(rep(TRUE, times = 3))),
+                                     labels = c("The solar-powered Man",
+                                                "Fewer gas and diesel generators \n around the city",
+                                                "More solar power and battery \n technologies at camps",
+                                                "Solar-powered trailers \n in staff locations",
+                                                "Camps reducing their \n environmental impact",
+                                                "Honoraria and other \n art projects reducing \n their environmental impact",
+                                                "More art projects with \n ecological or sustainability-related \n conceptual themes",
+                                                "More educational programming \n from camps or projects \n about sustainability",
+                                                "I heard or was engaged in \n more conversations around \n environmental sustainability \n than previous years",
+                                                "More MOOP sweeps",
+                                                "More electric mutant vehicles",
+                                                "Other",
+                                                "I didn\'t notice anything new"),
+                                     labelOrder = c(13,12,11,8,10,4,9,2,6,7,5,1,3))
+
+ggplot(sustainabilityNotice, aes(x = labels, y = est, fill = as.factor(year))) +
+  geom_bar(stat = "identity", position = "dodge") +
+  scale_y_continuous(labels = percent) +
+  scale_fill_manual(values = discreteColors[2:5]) +
+  labs(x = "Sustainability projects", 
+       y = "Burning Man participants (%)", fill = "Year",
+       title = "What new sustainability projects did you notice while in BRC?") +
+  theme_bw() +
+  coord_flip() +
+  guides(fill = guide_legend(reverse = TRUE))
+
+makeTableData(sustainabilityNotice)[13:1,] |>
+  kbl(col.names = c(2022:2024), row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  column_spec(column = 1:3, width_min = "10.5em") |>
+  kable_styling() |>
+  scroll_box(width = "100%")
 ```
 
 ### How did you (and your camp or project) begin to address sustainability in Black Rock City?
@@ -1051,9 +1020,9 @@ makeTableData(prinFreq)[10:1,] |>
 ```{r}
 # sustainabilityAddress <- makePlotData("How did you (and your camp or project, if applicable) begin to address sustainability in Black Rock City?",
 #                                       varNameTable = varNameTable,
-#                                       design = list(design22, design23),
-#                                       years = 2022:2023,
-#                                       levels = c(as.list(rep(TRUE, times = 2))),
+#                                       design = list(design22, design23, design24),
+#                                       years = 2022:2024,
+#                                       levels = c(as.list(rep(TRUE, times = 3))),
 #                                       labels = c("How did you begin to address sustainability \n in Black Rock City?",
 #                                                  "I purchased carbon offsets to offset \n my travel to and from BRC",
 #                                                  "I have a container with the BRC storage program or \n store camp materials close to BRC in another location",
@@ -1102,32 +1071,32 @@ makeTableData(prinFreq)[10:1,] |>
 ### How important to you is it that the Burning Man Project visibly engages in best practices in environmental sustainability?
 
 ```{r}
-# sustainabilityImportant <- makePlotData("How important to you is it that the Burning Man Project visibly engages in best practices in environmental sustainability?",
-#                                         varNameTable = varNameTable,
-#                                         designs = list(design22, design23),
-#                                         years = 2022:2023,
-#                                         levels = c("Essential",
-#                                                    "Not important",
-#                                                    "Somewhat important",
-#                                                    "Very important"),
-#                                         labels = NULL,
-#                                         labelOrder = c(1,4,3,2))
-# 
-# ggplot(sustainabilityImportant, aes(x = labels, y = est, fill = as.factor(year))) +
-#   geom_bar(stat = "identity", position = "dodge") +
-#   scale_y_continuous(labels = percent) +
-#   scale_fill_manual(values = discreteColors[2:1]) +
-#   labs(x = "Importance", y = "Burning Man participants (%)", 
-#        fill = "Year",
-#        title = "How important to you is it that Burning Man Project visibly engages \n in best practices in environmental sustainability?") +
-#   theme_bw()
-# 
-# makeTableData(sustainabilityImportant) |>
-#   kbl(col.names = c(2022:2023), row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
-#   column_spec(column = 1:3, width_min = "10.5em") |>
-#   kable_styling() |>
-#   scroll_box(width = "100%")
+sustainabilityImportant <- makePlotData("How important to you is it that the Burning Man Project visibly engages in best practices in environmental sustainability?",
+                                        varNameTable = varNameTable,
+                                        designs = list(design22, design23, design24),
+                                        years = 2022:2024,
+                                        levels = c("Essential",
+                                                   "Not important",
+                                                   "Somewhat important",
+                                                   "Very important"),
+                                        labels = NULL,
+                                        labelOrder = c(1,4,3,2))
+
+ggplot(sustainabilityImportant, aes(x = labels, y = est, fill = as.factor(year))) +
+  geom_bar(stat = "identity", position = "dodge") +
+  scale_y_continuous(labels = percent) +
+  scale_fill_manual(values = discreteColors[2:4]) +
+  labs(x = "Importance", y = "Burning Man participants (%)", 
+       fill = "Year",
+       title = "How important to you is it that Burning Man Project visibly engages \n in best practices in environmental sustainability?") +
+  theme_bw()
+
+makeTableData(sustainabilityImportant) |>
+  kbl(col.names = c(2022:2024), row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  column_spec(column = 1:3, width_min = "10.5em") |>
+  kable_styling() |>
+  scroll_box(width = "100%")
 ```
 
 ## Radical Inclusion, Diversity, and Equity (R.I.D.E.)
@@ -1135,24 +1104,24 @@ makeTableData(prinFreq)[10:1,] |>
 ### R.I.D.E. in Black Rock City
 
 ```{r}
-# RIDE <- makePlotData("How did you see Radical Inclusion, Diversity, and Equity (R.I.D.E.) in action while in BRC in 2023?",
-#                      varNameTable = varNameTable,
-#                      designs = list(design22, design23),
-#                      levels = c(rep(as.list(TRUE), times = 2)),
-#                      years = 2022:2023,
-#                      labels = c("I saw a more diverse BRC citizenry",
-#                                 "I saw new content from theme camps \n centering or celebrating Burners of Color, \n Queer Burners, Burners with diverse mobility and \n access needs, and other communities",
-#                                 "I saw more art projects related to \n diversity and Radical Inclusion or \n led by Artists of Color",
-#                                 "I saw camps, art projects, or mutant vehicles \n be more accessible for Burners with  \n diverse mobility and access needs",
-#                                 "I was engaged in or noticed more \n conversations related to R.I.D.E.",
-#                                 "Other",
-#                                 "I didn\'t notice anything new or different"),
-#                      labelOrder = c(7,6,5,4,2,3,1))
-# 
+RIDE <- makePlotData("How did you see Radical Inclusion, Diversity, and Equity (R.I.D.E.) in action while in BRC in 2023?",
+                     varNameTable = varNameTable,
+                     designs = list(design22, design23, design24),
+                     levels = c(rep(as.list(TRUE), times = 3)),
+                     years = 2022:2024,
+                     labels = c("I saw a more diverse BRC citizenry",
+                                "I saw new content from theme camps \n centering or celebrating Burners of Color, \n Queer Burners, Burners with diverse mobility and \n access needs, and other communities",
+                                "I saw more art projects related to \n diversity and Radical Inclusion or \n led by Artists of Color",
+                                "I saw camps, art projects, or mutant vehicles \n be more accessible for Burners with  \n diverse mobility and access needs",
+                                "I was engaged in or noticed more \n conversations related to R.I.D.E.",
+                                "Other",
+                                "I didn\'t notice anything new or different"),
+                     labelOrder = c(7,6,5,4,2,3,1))
+
 # ggplot(RIDE, aes(x = labels, y = est, fill = as.factor(year))) +
 #   geom_bar(stat = "identity", position = "dodge") +
 #   scale_y_continuous(labels = percent) +
-#   scale_fill_manual(values = discreteColors[2:1]) +
+#   scale_fill_manual(values = discreteColors[2:4]) +
 #   labs(x = "R.I.D.E. in BRC", y = "Burning Man participants (%)", 
 #        fill = "Year",
 #        title = "How did you see Radical Inclusion, Diversity, \n and Equity (R.I.D.E.) in action while \n in BRC?") +
@@ -1161,7 +1130,7 @@ makeTableData(prinFreq)[10:1,] |>
 #   guides(fill = guide_legend(reverse = TRUE))
 # 
 # makeTableData(RIDE)[7:1,] |>
-#   kbl(col.names = c(2022:2023), row.names = TRUE) |>
+#   kbl(col.names = c(2022:2024), row.names = TRUE) |>
 #   kable_paper("striped", full_width = F) |>
 #   column_spec(column = 1:3, width_min = "10.5em") |>
 #   kable_styling() |>
@@ -1171,37 +1140,37 @@ makeTableData(prinFreq)[10:1,] |>
 ### Creating a more diverse and welcoming Black Rock City
 
 ```{r}
-# diverse <- makePlotData("How did you personally work to create a more diverse and welcoming Black Rock City?",
-#                         designs = list(design22, design23),
-#                         years = 2022:2023,
-#                         varNameTable = varNameTable,
-#                         levels = c(rep(as.list(TRUE), times = 2)),
-#                         labels = c("The camp or project(s) I am involved in \n welcomed new BIPOC participants or \n members of under-represented groups",
-#                                    "My camp or project offers financial assistance \n to low-income Burners or \n other under-represented groups",
-#                                    "My camp, art collective, or group \n organized a R.I.D.E.-related event \n on playa",
-#                                    "I attended events on topics related to \n diversity and Radical Inclusion",
-#                                    "I visited the Multicultural People of Color \n Neighborhood at 6:30+C/D",
-#                                    "I visited the expanded queerborhoods \n in the 4:30 and 7:30 sectors",
-#                                    "Off-playa, I support diversity and \n inclusion in my home community",
-#                                    "I made my camp more accessible for \n Burners with mobility and access needs",
-#                                    "I was engaged in or noticed more \n conversations related to R.I.D.E.",
-#                                    "Other", "I did not do this"),
-#                         labelOrder = c(11,10,3,8,5,4,2,9,6,1,7))
-# 
-# ggplot(diverse, aes(x = labels, y = est, fill = as.factor(year))) +
-#   geom_bar(stat = "identity", position = "dodge") +
-#   scale_y_continuous(labels = percent) +
-#   scale_fill_manual(values = discreteColors[2:1]) +
-#   labs(x = "Personal action", y = "Burning Man participants (%)", fill = "Year",
-#        title = "How did you personally work to create a more \n diverse and welcoming Black Rock City?") +
-#   theme_bw() +
-#   coord_flip() +
-#   guides(fill = guide_legend(reverse = TRUE))
-# 
-# makeTableData(diverse)[11:1,] |>
-#   kbl(col.names = c(2022:2023), row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
-#   column_spec(column = 1:3, width_min = "10.5em") |>
-#   kable_styling() |>
-#   scroll_box(width = "100%")
+diverse <- makePlotData("How did you personally work to create a more diverse and welcoming Black Rock City?",
+                        designs = list(design22, design23, design24),
+                        years = 2022:2024,
+                        varNameTable = varNameTable,
+                        levels = c(rep(as.list(TRUE), times = 3)),
+                        labels = c("The camp or project(s) I am involved in \n welcomed new BIPOC participants or \n members of under-represented groups",
+                                   "My camp or project offers financial assistance \n to low-income Burners or \n other under-represented groups",
+                                   "My camp, art collective, or group \n organized a R.I.D.E.-related event \n on playa",
+                                   "I attended events on topics related to \n diversity and Radical Inclusion",
+                                   "I visited the Multicultural People of Color \n Neighborhood at 6:30+C/D",
+                                   "I visited the expanded queerborhoods \n in the 4:30 and 7:30 sectors",
+                                   "Off-playa, I support diversity and \n inclusion in my home community",
+                                   "I made my camp more accessible for \n Burners with mobility and access needs",
+                                   "I was engaged in or noticed more \n conversations related to R.I.D.E.",
+                                   "Other", "I did not do this"),
+                        labelOrder = c(11,10,3,8,5,4,2,9,6,1,7))
+
+ggplot(diverse, aes(x = labels, y = est, fill = as.factor(year))) +
+  geom_bar(stat = "identity", position = "dodge") +
+  scale_y_continuous(labels = percent) +
+  scale_fill_manual(values = discreteColors[2:4]) +
+  labs(x = "Personal action", y = "Burning Man participants (%)", fill = "Year",
+       title = "How did you personally work to create a more \n diverse and welcoming Black Rock City?") +
+  theme_bw() +
+  coord_flip() +
+  guides(fill = guide_legend(reverse = TRUE))
+
+makeTableData(diverse)[11:1,] |>
+  kbl(col.names = c(2022:2024), row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  column_spec(column = 1:3, width_min = "10.5em") |>
+  kable_styling() |>
+  scroll_box(width = "100%")
 ```
