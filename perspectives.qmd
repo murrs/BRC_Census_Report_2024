@@ -1018,54 +1018,54 @@ makeTableData(sustainabilityNotice)[13:1,] |>
 ### How did you (and your camp or project) begin to address sustainability in Black Rock City?
 
 ```{r}
-# sustainabilityAddress <- makePlotData("How did you (and your camp or project, if applicable) begin to address sustainability in Black Rock City?",
-#                                       varNameTable = varNameTable,
-#                                       design = list(design22, design23, design24),
-#                                       years = 2022:2024,
-#                                       levels = c(as.list(rep(TRUE, times = 3))),
-#                                       labels = c("How did you begin to address sustainability \n in Black Rock City?",
-#                                                  "I purchased carbon offsets to offset \n my travel to and from BRC",
-#                                                  "I have a container with the BRC storage program or \n store camp materials close to BRC in another location",
-#                                                  "I am a member of a camp that creates sustainability-related \n content for other participants to experience",
-#                                                  "I am a member of the Green \n Theme Camp Community",
-#                                                  "I carpooled or used rideshare",
-#                                                  "I took Burner Express Bus or Air",
-#                                                  "I pooled resources with my neighbors",
-#                                                  "I participated in the resource-sharing system \n HUBS (Humans Uniting for Better Sustainability)",
-#                                                  "I used renewable energy at \n my camp or project",
-#                                                  "I had a waste-reduction plan \n with my camp or crew",
-#                                                  "I minimized food waste by planning carefully, \n feeding others, and/or composting",
-#                                                  "I collected my greywater to \n be repurposed",
-#                                                  "I reduced the use of single-use plastic for \n drinking water and other consumable items",
-#                                                  "I removed and recycled packaging before \n arriving in Black Rock City",
-#                                                  "I planned ahead and disposed of waste appropriately when leaving \n Black Rock City, including collecting items for recycling off playa",
-#                                                  "I actively helped others learn \n to reduce their environmental impact",
-#                                                  "I brought my aluminum cans \n to Recycle Camp",
-#                                                  "I engaged in Leave No Trace and did more \n MOOP sweeps on playa",
-#                                                  "Other",
-#                                                  "I haven\'t done any of this"),
-#                                       labelOrder = c(21, 5, 20, 2, 9, 1, 4, 17,
-#                                                      3, 7, 18, 11, 13, 8, 6,
-#                                                      16, 10, 14, 12, 19, 15))
-# 
-# ggplot(sustainabilityAddress, aes(x = labels, y = est, fill = as.factor(year))) +
-#   geom_bar(stat = "identity", position = "dodge") +
-#   scale_y_continuous(labels = percent) +
-#   scale_fill_manual(values = discreteColors[2:1]) +
-#   labs(x = "Sustainability projects", 
-#        y = "Burning Man participants (%)", fill = "Year",
-#        title = "How did you (and your camp or project) begin to \n address sustainability in Black Rock City?") +
-#   theme_bw() +
-#   theme(axis.text.y = element_text(size = 6)) +
-#   coord_flip() +
-#   guides(fill = guide_legend(reverse = TRUE))
-# 
-# makeTableData(sustainabilityAddress)[11:1,] |>
-#   kbl(col.names = c(2022:2023), row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
-#   column_spec(column = 1:3, width_min = "10.5em") |>
-#   kable_styling() |>
-#   scroll_box(width = "100%")
+sustainabilityAddress <- makePlotData("How did you (and your camp or project, if applicable) begin to address sustainability in Black Rock City?",
+                                      varNameTable = varNameTable,
+                                      design = list(design22, design23, design24),
+                                      years = 2022:2024,
+                                      levels = c(as.list(rep(TRUE, times = 3))),
+                                      labels = c("How did you begin to address sustainability \n in Black Rock City?",
+                                                 "I purchased carbon offsets to offset \n my travel to and from BRC",
+                                                 "I have a container with the BRC storage program or \n store camp materials close to BRC in another location",
+                                                 "I am a member of a camp that creates sustainability-related \n content for other participants to experience",
+                                                 "I am a member of the Green \n Theme Camp Community",
+                                                 "I carpooled or used rideshare",
+                                                 "I took Burner Express Bus or Air",
+                                                 "I pooled resources with my neighbors",
+                                                 "I participated in the resource-sharing system \n HUBS (Humans Uniting for Better Sustainability)",
+                                                 "I used renewable energy at \n my camp or project",
+                                                 "I had a waste-reduction plan \n with my camp or crew",
+                                                 "I minimized food waste by planning carefully, \n feeding others, and/or composting",
+                                                 "I collected my greywater to \n be repurposed",
+                                                 "I reduced the use of single-use plastic for \n drinking water and other consumable items",
+                                                 "I removed and recycled packaging before \n arriving in Black Rock City",
+                                                 "I planned ahead and disposed of waste appropriately when leaving \n Black Rock City, including collecting items for recycling off playa",
+                                                 "I actively helped others learn \n to reduce their environmental impact",
+                                                 "I brought my aluminum cans \n to Recycle Camp",
+                                                 "I engaged in Leave No Trace and did more \n MOOP sweeps on playa",
+                                                 "Other",
+                                                 "I haven\'t done any of this"),
+                                      labelOrder = c(21, 5, 20, 2, 9, 1, 4, 17,
+                                                     3, 7, 18, 11, 13, 8, 6,
+                                                     16, 10, 14, 12, 19, 15))
+
+ggplot(sustainabilityAddress, aes(x = labels, y = est, fill = as.factor(year))) +
+  geom_bar(stat = "identity", position = "dodge") +
+  scale_y_continuous(labels = percent) +
+  scale_fill_manual(values = discreteColors[2:4]) +
+  labs(x = "Sustainability projects", 
+       y = "Burning Man participants (%)", fill = "Year",
+       title = "How did you (and your camp or project) begin to \n address sustainability in Black Rock City?") +
+  theme_bw() +
+  theme(axis.text.y = element_text(size = 6)) +
+  coord_flip() +
+  guides(fill = guide_legend(reverse = TRUE))
+
+makeTableData(sustainabilityAddress)[11:1,] |>
+  kbl(col.names = c(2022:2024), row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  column_spec(column = 1:3, width_min = "10.5em") |>
+  kable_styling() |>
+  scroll_box(width = "100%")
 ```
 
 ### How important to you is it that the Burning Man Project visibly engages in best practices in environmental sustainability?
