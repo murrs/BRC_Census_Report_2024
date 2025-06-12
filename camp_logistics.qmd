@@ -948,3 +948,149 @@ makeTableData(genOutput) |>
   column_spec(column = 1:8, width_min = "10.5em") |>
   scroll_box(width = "100%")
 ```
+
+## Bikes
+
+### Bike use in Black Rock City
+
+
+
+```{r}
+# Need to check 2023 data
+
+# bikeUse <- makePlotData("Did you ride a bike in Black Rock City?",
+#                           varNameTable = varNameTable,
+#                           designs = list(design23, design24),
+#                           years = c(2023:2024),
+#                           levels = c(list(c("3", "2", "1")),
+#                                      list(c("I don\'t know", "No", "Yes"))),
+#                           labels = c(c("I don\'t know", "No", "Yes")),
+#                           labelOrder = c(3, 1, 2))
+
+bikeUse <- makePlotData("Did you ride a bike in Black Rock City?",
+                          varNameTable = varNameTable,
+                          designs = list(design24),
+                          years = c(2024),
+                          levels = c(list(c("I don\'t know", "No", "Yes"))),
+                          labels = c(c("I don\'t know", "No", "Yes")),
+                          labelOrder = c(3, 2, 1))
+
+ggplot(bikeUse, aes(x = labels, y = est)) +
+  geom_bar(stat = "identity", fill = "#EA008B", color = "#EA008B") +
+  scale_y_continuous(labels = percent) +
+  labs(x = "", y = "Burning Man participants in 2024 (%)",
+       title = "Did you ride a bike in Black Rock City?") +
+  theme_bw()
+
+makeTableData(bikeUse) |>
+  kbl(col.names = c(2024),
+      row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  kable_styling() |>
+  column_spec(column = 1:2, width_min = "10.5em") |>
+  scroll_box(width = "100%")
+```
+
+### Bike ownership
+```{r}
+bikeWhose <- makePlotData("Whose bike did you ride in Black Rock City?",
+                          varNameTable = varNameTable,
+                          designs = list(design24),
+                          years = c(2024),
+                          levels = c(list(c("A yellow bike", 
+                                            "My own I brought to Black Rock City", 
+                                            "Other",
+                                            "Someone else's I borrowed with their consent",
+                                            "Someone else's I borrowed without their consent"))),
+                          labels = c("A yellow bike", 
+                                     "My own I brought to Black Rock City", 
+                                     "Other",
+                                     "Someone else's I borrowed with their consent",
+                                     "Someone else's I borrowed without their consent"),
+                          labelOrder = c(2, 1, 4, 5, 3))
+
+ggplot(bikeWhose, aes(x = labels, y = est)) +
+  geom_bar(stat = "identity", fill = "#EA008B", color = "#EA008B") +
+  scale_y_continuous(labels = percent) +
+  labs(x = "", y = "Burning Man participants in 2024 (%)",
+       title = "Whose bike did you ride in Black Rock City?") +
+  theme_bw()
+
+makeTableData(bikeWhose) |>
+  kbl(col.names = c(2024),
+      row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  kable_styling() |>
+  column_spec(column = 1:2, width_min = "10.5em") |>
+  scroll_box(width = "100%")
+```
+
+
+### Needed bike repair
+```{r}
+bikeRepairNeed <- makePlotData("Did your bike need repair while in Black Rock City?",
+                          varNameTable = varNameTable,
+                          designs = list(design24),
+                          years = c(2024),
+                          levels = c(list(c("No", 
+                                            "Other",
+                                            "Yes, I was able to get it fixed",
+                                            "Yes, I was unable to get it fixed"))),
+                          labels = c("No", 
+                                     "Other",
+                                     "Yes, I was able to get it fixed",
+                                     "Yes, I was unable to get it fixed"),
+                          labelOrder = rev(c(3, 4, 1, 2)))
+
+ggplot(bikeRepairNeed, aes(x = labels, y = est)) +
+  geom_bar(stat = "identity", fill = "#EA008B", color = "#EA008B") +
+  scale_y_continuous(labels = percent) +
+  labs(x = "", y = "Burning Man participants in 2024 (%)",
+       title = "Did your bike need repair while in Black Rock City?") +
+  theme_bw() +
+  coord_flip()
+
+makeTableData(bikeRepairNeed) |>
+  kbl(col.names = c(2024),
+      row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  kable_styling() |>
+  column_spec(column = 1:2, width_min = "10.5em") |>
+  scroll_box(width = "100%")
+```
+
+
+### How bikes were repaired
+```{r}
+bikeRepairHow <- makePlotData("How did you get your bike repaired?",
+                          varNameTable = varNameTable,
+                          designs = list(design24),
+                          years = c(2024),
+                          levels = c(list(c("By a stranger (not affiliated with an identified bike repair camp)", 
+                                            "By an identified bike repair camp",
+                                            "By someone I know",
+                                            "I did it myself",
+                                            "Other"))),
+                          labels = c("By a stranger",
+                                     "By an identified bike repair camp",
+                                     "By someone I know",
+                                     "I did it myself",
+                                     "Other"),
+                          labelOrder = rev(c(4, 3, 2, 1, 5)))
+
+ggplot(bikeRepairHow, aes(x = labels, y = est)) +
+  geom_bar(stat = "identity", fill = "#EA008B", color = "#EA008B") +
+  scale_y_continuous(labels = percent) +
+  labs(x = "", y = "Burning Man participants in 2024 (%)",
+       title = "How did you get your bike repaired?") +
+  theme_bw() +
+  coord_flip()
+
+makeTableData(bikeRepairHow) |>
+  kbl(col.names = c(2024),
+      row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  kable_styling() |>
+  column_spec(column = 1:2, width_min = "10.5em") |>
+  scroll_box(width = "100%")
+```
