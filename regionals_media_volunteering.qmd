@@ -152,41 +152,46 @@ design22.regionalInvolved <- subset(design22, !regionalInvolved.notInvolved)
 design23.regionalInvolved <- subset(design23, !regionalInvolved.notInvolved)
 design24.regionalInvolved <- subset(design24, !regionalInvolved.notInvolved)
 
-# regionalInvolve <- makePlotData("In what ways have you been involved with a Regional Burning Man Event?",
-#                                 varNameTable = varNameTable,
-#                                 designs = list(design15.regionalInvolved, 
-#                                                design16.regionalInvolved, 
-#                                                design17.regionalInvolved,
-#                                                design18.regionalInvolved, 
-#                                                design19.regionalInvolved, 
-#                                                design22.regionalInvolved,
-#                                                design23.regionalInvolved,
-#                                                design24.regionalInvolved),
-#                                 years = c(2015:2019, 2022:2024),
-#                                 levels = c(as.list(rep("yes", times = 5)),
-#                                            rep(list(TRUE), times = 3)),
-#                                 labels = c("Production",
-#                                            "Staff/volunteer",
-#                                            "Medical services",
-#                                            "Art project",
-#                                            "Theme camp",
-#                                            "Vendor",
-#                                            "Performance",
-#                                            "Other",
-#                                            "Not involved"))
+regionalInvolve <- makePlotData("In what ways have you been involved with a Regional Burning Man Event?",
+                                varNameTable = varNameTable,
+                                designs = list(design15.regionalInvolved, 
+                                               design16.regionalInvolved, 
+                                               design17.regionalInvolved,
+                                               design18.regionalInvolved, 
+                                               design19.regionalInvolved, 
+                                               design22.regionalInvolved,
+                                               design23.regionalInvolved,
+                                               design24.regionalInvolved),
+                                years = c(2015:2019, 2022:2024),
+                                levels = c(as.list(rep("yes", times = 5)),
+                                           rep(list(TRUE), times = 3)),
+                                labels = c("Production",
+                                           "Staff/volunteer",
+                                           "Medical services",
+                                           "Art project",
+                                           "Theme camp",
+                                           "Vendor",
+                                           "Performance",
+                                           "Other",
+                                           "Donor",
+                                           "Supporter",
+                                           "Not involved"))
 
 # #2022 and 2023 results are all false for Not involved, dropping from analysis
-# regionalInvolve <- regionalInvolve[regionalInvolve$labels != "Not involved",]
-# regionalInvolve$labels <- factor(regionalInvolve$labels,
-#                                  levels = c("Staff/volunteer",
-#                                             "Theme camp",
-#                                             "Art project",
-#                                             "Production",
-#                                             "Performance",
-#                                             "Medical services",
-#                                             "Vendor",
-#                                             "Other"))
-# 
+regionalInvolve <- regionalInvolve[regionalInvolve$labels != "Not involved",]
+regionalInvolve$labels <- factor(regionalInvolve$labels,
+                                 levels = c("Staff/volunteer",
+                                            "Theme camp",
+                                            "Art project",
+                                            "Production",
+                                            "Performance",
+                                            "Medical services",
+                                            "Vendor",
+                                            "Not involved",
+                                            "Donor",
+                                            "Supporter",
+                                            "Other"))
+
 # # ggplot(regionalInvolve, aes(x = year, y = est, color = labels)) +
 # #   geom_line(linewidth = 1.5, alpha = 0.7) +
 # #   geom_point(size = 2.25) +
@@ -199,45 +204,48 @@ design24.regionalInvolved <- subset(design24, !regionalInvolved.notInvolved)
 # #   labs(x = "Year", y = "Burning Man participants with involvement in regionals (%)", 
 # #        color = "Brought children?",
 # #        title = "Have you ever brought children under 18 to Black Rock City?")
-# 
-# ggplot(regionalInvolve[regionalInvolve$year == 2023,], aes(x = labels, y = est)) +
-#   geom_bar(stat = "identity", fill = "#EA008B") +
-#   scale_y_continuous(labels = percent) +
-#   labs(x = "Involvement with a Burning Man regional", 
-#        y = "Burning Man participants with involvement \n in regional events in 2023 (%)",
-#        title = "In what ways have you been involved with a Regional Burning Man Event?") +
-#   theme_bw() +
-#   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))
-# 
-# regionalInvolve2 <- makePlotData("In what ways have you been involved with a Regional Burning Man Event?",
-#                                 varNameTable = varNameTable,
-#                                 designs = list(design15, 
-#                                                design16, 
-#                                                design17,
-#                                                design18, 
-#                                                design19, 
-#                                                design22,
-#                                                design23),
-#                                 years = c(2015:2019, 2022:2023),
-#                                 levels = c(as.list(rep("yes", times = 5)),
-#                                            rep(list(TRUE), times = 2)),
-#                                 labels = c("Production",
-#                                            "Staff/volunteer",
-#                                            "Medical services",
-#                                            "Art project",
-#                                            "Theme camp",
-#                                            "Vendor",
-#                                            "Performance",
-#                                            "Other",
-#                                            "Not involved"))
-# 
-# makeTableData(regionalInvolve2) |>
-#   kbl(col.names = c(2015:2019, 2022:2023),
-#       row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
-#   kable_styling() |>
-#   column_spec(column = 1:8, width_min = "10.5em") |>
-#   scroll_box(width = "100%")
+
+ggplot(regionalInvolve[regionalInvolve$year == 2024,], aes(x = labels, y = est)) +
+  geom_bar(stat = "identity", fill = "#EA008B") +
+  scale_y_continuous(labels = percent) +
+  labs(x = "Involvement with a Burning Man regional", 
+       y = "Burning Man participants with involvement \n in regional events in 2023 (%)",
+       title = "In what ways have you been involved with a Regional Burning Man Event?") +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))
+
+regionalInvolve2 <- makePlotData("In what ways have you been involved with a Regional Burning Man Event?",
+                                varNameTable = varNameTable,
+                                designs = list(design15, 
+                                               design16, 
+                                               design17,
+                                               design18, 
+                                               design19, 
+                                               design22,
+                                               design23,
+                                               design24),
+                                years = c(2015:2019, 2022:2024),
+                                levels = c(as.list(rep("yes", times = 5)),
+                                           rep(list(TRUE), times = 3)),
+                                labels = c("Production",
+                                           "Staff/volunteer",
+                                           "Medical services",
+                                           "Art project",
+                                           "Theme camp",
+                                           "Vendor",
+                                           "Performance",
+                                           "Other",
+                                           "Donor",
+                                           "Supporter",
+                                           "Not involved"))
+
+makeTableData(regionalInvolve2) |>
+  kbl(col.names = c(2015:2019, 2022:2024),
+      row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  kable_styling() |>
+  column_spec(column = 1:8, width_min = "10.5em") |>
+  scroll_box(width = "100%")
 ```
 
 ## Burning Man Media
@@ -292,20 +300,20 @@ BMMedia.often <- makePlotData("Which of the following media managed by Burning M
 BMMedia <- rbind(BMMedia.never, BMMedia.rarely, BMMedia.often)
 BMMedia$level <- factor(BMMedia$level, levels = c("Never", "Rarely", "Often"))
 
-#ggplot(BMMedia, aes(x = year, y = est, fill = level)) +
-#  geom_bar(stat = "identity") +
-#  scale_y_continuous(labels = percent) +
-#  scale_x_continuous(breaks = c(2014:2019, 2022:2024),
-#                     labels = c(2014:2019, 2022:2024)) +
-#  scale_fill_manual(values = gradientColors(3)[3:1]) +
-#  labs(x = "Media source", y = "",
-#       fill = "Frequency",
-#       title = "Which of the following media managed by Burning Man Project do you use \n to receive news, information, and events related to Burning Man, \n and to engage in discussion on Burning Man topics?") +
-#  theme_bw() +
-#  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1),
-#        panel.grid.minor = element_blank()) +
-#  guides(fill = guide_legend(reverse = TRUE)) +
-#  facet_wrap(~labels, nrow = 2)
+ggplot(BMMedia, aes(x = year, y = est, fill = level)) +
+ geom_bar(stat = "identity") +
+ scale_y_continuous(labels = percent) +
+ scale_x_continuous(breaks = c(2014:2019, 2022:2024),
+                    labels = c(2014:2019, 2022:2024)) +
+ scale_fill_manual(values = gradientColors(3)[4:1]) +
+ labs(x = "Media source", y = "",
+      fill = "Frequency",
+      title = "Which of the following media managed by Burning Man Project do you use \n to receive news, information, and events related to Burning Man, \n and to engage in discussion on Burning Man topics?") +
+ theme_bw() +
+ theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1),
+       panel.grid.minor = element_blank()) +
+ guides(fill = guide_legend(reverse = TRUE)) +
+ facet_wrap(~labels, nrow = 2)
 
 BMMedia2 <- BMMedia
 
@@ -320,13 +328,13 @@ BMMedia2$labels <- factor(BMMedia2$labels,
                                                                 40,42,41,43,45,44,
                                                                 46,48,47)])
 
-# makeTableData(BMMedia2) |>
-#   kbl(col.names = c(2015:2019, 2022:2024),
-#       row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
-#   kable_styling() |>
-#   column_spec(column = 1:8, width_min = "10.5em") |>
-#   scroll_box(width = "100%")
+makeTableData(BMMedia2) |>
+  kbl(col.names = c(2015:2019, 2022:2024),
+      row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  kable_styling() |>
+  column_spec(column = 1:8, width_min = "10.5em") |>
+  scroll_box(width = "100%")
 ```
 
 ### Media not managed by Burning Man Project
