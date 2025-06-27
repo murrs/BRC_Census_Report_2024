@@ -34,94 +34,94 @@ discreteColors <- c("#EA008B", "#B0AEDC", "#554149", "#A07200", "#AADA91",
 <!-- TODO: bargraphs for each year comparing arrival date -->
 
 ```{r}
-# arrival <- makePlotData("I arrived in Black Rock City the first time in 2023…",
-#                         varNameTable = varNameTable,
-#                         designs = list(design23),
-#                         years = 2023,
-#                         levels = c("Wed 8/23 (pre-event)", "Sun 8/27",
-#                                    "Tue 8/29", "Sat 8/26 (pre-event)",
-#                                    "Mon 8/28", "Thu 8/24 (pre-event)",
-#                                    "Fri 8/25 (pre-event)", "Wed 8/30",
-#                                    "Before Wed 8/23 (pre-event)", "Thu 8/31",
-#                                    "Fri 9/01", "Sat 9/02", "Sun 9/03",
-#                                    "Tue 9/05 (post-event)", 
-#                                    "After Tue 9/05 (post-event)"),
-#                         labels = c("Wed 8/23 \n (pre-event)", "Sun 8/27",
-#                                    "Tue 8/29", "Sat 8/26 \n (pre-event)",
-#                                    "Mon 8/28", "Thu 8/24 \n (pre-event)",
-#                                    "Fri 8/25 \n (pre-event)", "Wed 8/30",
-#                                    "Before Wed 8/23 \n (pre-event)", "Thu 8/31",
-#                                    "Fri 9/01", "Sat 9/02", "Sun 9/03",
-#                                    "Tue 9/05 \n (post-event)", 
-#                                    "After Tue 9/05 \n (post-event)"),
-#                         labelOrder = c("Before Wed 8/23 \n (pre-event)", 
-#                                        "Wed 8/23 \n (pre-event)",
-#                                        "Thu 8/24 \n (pre-event)", 
-#                                        "Fri 8/25 \n (pre-event)",
-#                                        "Sat 8/26 \n (pre-event)", "Sun 8/27",
-#                                        "Mon 8/28", "Tue 8/29", "Wed 8/30",
-#                                        "Thu 8/31", "Fri 9/01", "Sat 9/02",
-#                                        "Sun 9/03", "Mon 9/04", 
-#                                        "Tue 9/05 \n (post-event)",
-#                                        "After Tue 9/05 \n (post-event)"))
-# 
-# ggplot(arrival, aes(x = labels, y = est)) +
-#   geom_bar(stat = "identity", fill = "#EA008B") +
-#   scale_y_continuous(labels = percent) +
-#   labs(x = "Arrival date", y = "Burning Man participants in 2023 (%)",
-#        title = "I arrived in Black Rock City the first time in 2023…") +
-#   theme_bw() +
-#   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))
-# 
-# makeTableData(arrival) |>
-#   kbl(col.names = c(2022),
-#       row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
-#   kable_styling() |>
-#   column_spec(column = 1:2, width_min = "10.5em") |>
-#   scroll_box(width = "100%")
+arrival <- makePlotData("I arrived in Black Rock City the first time in 2024",
+                        varNameTable = varNameTable,
+                        designs = list(design24),
+                        years = 2024,
+                        levels = c("Wed 8/21 (pre-event)", "Sun 8/25",
+                                   "Tue 8/27", "Sat 8/24 (pre-event)",
+                                   "Mon 8/26", "Thu 8/22 (pre-event)",
+                                   "Fri 8/23 (pre-event)", "Wed 8/28",
+                                   "Before Wed 8/21 (pre-event)", "Thu 8/29",
+                                   "Fri 8/30", "Sat 8/31", "Sun 9/01",
+                                   "Mon 9/02", "Tue 9/03 (post-event)",
+                                   "After Tue 9/03 (post-event)"),
+                        labels = c("Wed 8/21 (pre-event)", "Sun 8/25",
+                                   "Tue 8/27", "Sat 8/24 (pre-event)",
+                                   "Mon 8/26", "Thu 8/22 (pre-event)",
+                                   "Fri 8/23 (pre-event)", "Wed 8/28",
+                                   "Before Wed 8/21 (pre-event)", "Thu 8/29",
+                                   "Fri 8/30", "Sat 8/31", "Sun 9/01",
+                                   "Mon 9/02", "Tue 9/03 (post-event)",
+                                   "After Tue 9/03 (post-event)"),
+                        labelOrder = c("Before Wed 8/21 \n (pre-event)",
+                                       "Wed 8/21 \n (pre-event)",
+                                       "Thu 8/22 \n (pre-event)",
+                                       "Fri 8/23 \n (pre-event)",
+                                       "Sat 8/24 \n (pre-event)", "Sun 8/25",
+                                       "Mon 8/26", "Tue 8/27", "Wed 8/28",
+                                       "Thu 8/29", "Fri 8/30", "Sat 8/31",
+                                       "Sun 9/01", "Mon 9/02",
+                                       "Tue 9/03 \n (post-event)",
+                                       "After Tue 9/03 \n (post-event)"))
+
+ggplot(arrival, aes(x = labels, y = est)) +
+  geom_bar(stat = "identity", fill = "#EA008B") +
+  scale_y_continuous(labels = percent) +
+  labs(x = "Arrival date", y = "Burning Man participants in 2024 (%)",
+       title = "I arrived in Black Rock City the first time in 2024…") +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))
+
+makeTableData(arrival) |>
+  kbl(col.names = c(2024),
+      row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  kable_styling() |>
+  column_spec(column = 1:2, width_min = "10.5em") |>
+  scroll_box(width = "100%")
 ```
 
 ### Point of entry
 
 ```{r}
-# pointOfEntry <- makePlotData("How did you arrive at Black Rock City? Select the best answer.",
-#                              varNameTable = varNameTable,
-#                              designs = list(design15, design16, design17,
-#                                             design18, design19, design22,
-#                                             design23),
-#                              years = c(2015:2019, 2022:2023),
-#                              levels = c(rep(list(c("Airport", "Burner_Express",
-#                                                    "Gate", "Other",
-#                                                    "Other_shuttle",
-#                                                    "Point_1")), times = 5),
-#                                         rep(list(c("BRC airport",
-#                                         "Gate in a Burner Express Bus",
-#                                         "Gate in a vehicle",
-#                                         "Gate with another shuttle service",
-#                                         "Other", "Point 1")), times = 2)),
-#                              labels = c("BRC airport",
-#                                         "Gate in a Burner Express Bus",
-#                                         "Gate in a vehicle",
-#                                         "Gate with another shuttle service",
-#                                         "Other", "Point 1"),
-#                              labelOrder = c(3,2,6,1,4,5))
-# 
-# ggplot(pointOfEntry, aes(x = labels, y = est)) +
-#   geom_bar(stat = "identity", fill = "#EA008B") +
-#   scale_y_continuous(labels = percent) +
-#   labs(x = "Point of entry", y = "Burning Man participants (%)",
-#        title = "How did you arrive at Black Rock City?") +
-#   theme_bw() +
-#   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))
-# 
-# makeTableData(pointOfEntry) |>
-#   kbl(col.names = c(2015:2019, 2022:2023),
-#       row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
-#   kable_styling() |>
-#   column_spec(column = 1:8, width_min = "10.5em") |>
-#   scroll_box(width = "100%")
+pointOfEntry <- makePlotData("How did you arrive at Black Rock City? Select the best answer.",
+                             varNameTable = varNameTable,
+                             designs = list(design15, design16, design17,
+                                            design18, design19, design22,
+                                            design23, design24),
+                             years = c(2015:2019, 2022:2024),
+                             levels = c(rep(list(c("Airport", "Burner_Express",
+                                                   "Gate", "Other",
+                                                   "Other_shuttle",
+                                                   "Point_1")), times = 5),
+                                        rep(list(c("BRC airport",
+                                        "Gate in a Burner Express Bus",
+                                        "Gate in a vehicle",
+                                        "Gate with another shuttle service",
+                                        "Other", "Point 1")), times = 3)),
+                             labels = c("BRC airport",
+                                        "Gate in a Burner Express Bus",
+                                        "Gate in a vehicle",
+                                        "Gate with another shuttle service",
+                                        "Other", "Point 1"),
+                             labelOrder = c(3,2,6,1,4,5))
+
+ggplot(pointOfEntry, aes(x = labels, y = est)) +
+  geom_bar(stat = "identity", fill = "#EA008B") +
+  scale_y_continuous(labels = percent) +
+  labs(x = "Point of entry", y = "Burning Man participants (%)",
+       title = "How did you arrive at Black Rock City?") +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))
+
+makeTableData(pointOfEntry) |>
+  kbl(col.names = c(2015:2019, 2022:2024),
+      row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  kable_styling() |>
+  column_spec(column = 1:9, width_min = "10.5em") |>
+  scroll_box(width = "100%")
 ```
 
 ### Departure date
@@ -129,152 +129,157 @@ discreteColors <- c("#EA008B", "#B0AEDC", "#554149", "#A07200", "#AADA91",
 <!-- TODO: bargraphs for each year comparing departure date -->
 
 ```{r}
-# plannedDeparture <- makePlotData("I planned to leave Black Rock City…",
-#                           varNameTable = varNameTable,
-#                           designs = list(design23),
-#                           years = 2023,
-#                           levels = c("Tue 9/05 (post-event)", "Sun 9/03", 
-#                                      "Mon 9/04", "Tue 8/29", "Sat 9/02",
-#                                      "Mon 8/28", "Sun 8/27", "Fri 9/01", 
-#                                      "Thu 8/31", "After Tue 9/05 (post-event)",
-#                                      "Wed 8/30", "Before Sun 8/27 (pre-event)"),
-#                           labels = c("Tue 9/05 \n (post-event)", "Sun 9/03", 
-#                                      "Mon 9/04", "Tue 8/29", "Sat 9/02",
-#                                      "Mon 8/28", "Sun 8/27", "Fri 9/01", 
-#                                      "Thu 8/31", "After Tue 9/05 \n (post-event)",
-#                                      "Wed 8/30", "Before Sun 8/27 \n (pre-event)"),
-#                           labelOrder = c("Before Sun 8/27 \n (pre-event)", 
-#                                          "Sun 8/27", "Mon 8/28", "Tue 8/29", 
-#                                          "Wed 8/30", "Thu 8/31", "Fri 9/01", 
-#                                          "Sat 9/02", "Sun 9/03", "Mon 9/04", 
-#                                          "Tue 9/05 \n (post-event)", 
-#                                          "After Tue 9/05 \n (post-event)"))
-# 
-# actualDeparture <- makePlotData("I actually left Black Rock City…",
-#                           varNameTable = varNameTable,
-#                           designs = list(design23),
-#                           years = 2023,
-#                           levels = c("Tue 9/05 (post-event)", "Sun 9/03", 
-#                                      "Mon 9/04", "Tue 8/29", "Sat 9/02",
-#                                      "Mon 8/28", "Sun 8/27", "Fri 9/01", 
-#                                      "Thu 8/31", "After Tue 9/05 (post-event)",
-#                                      "Wed 8/30", "Before Sun 8/27 (pre-event)"),
-#                           labels = c("Tue 9/05 \n (post-event)", "Sun 9/03", 
-#                                      "Mon 9/04", "Tue 8/29", "Sat 9/02",
-#                                      "Mon 8/28", "Sun 8/27", "Fri 9/01", 
-#                                      "Thu 8/31", "After Tue 9/05 \n (post-event)",
-#                                      "Wed 8/30", "Before Sun 8/27 \n (pre-event)"),
-#                           labelOrder = c("Before Sun 8/27 \n (pre-event)", 
-#                                          "Sun 8/27", "Mon 8/28", "Tue 8/29", 
-#                                          "Wed 8/30", "Thu 8/31", "Fri 9/01", 
-#                                          "Sat 9/02", "Sun 9/03", "Mon 9/04", 
-#                                          "Tue 9/05 \n (post-event)", 
-#                                          "After Tue 9/05 \n (post-event)"))
-# 
-# departure <- rbind(plannedDeparture, actualDeparture)
-# departure$`Planned or actual` <- rep(c("Planned", "Actual"), each = 12, 
-#                                      times = 1)
-# 
-# ggplot(departure, aes(x = labels, y = est, fill = `Planned or actual`)) +
-#   geom_bar(stat = "identity", position = "dodge") +
-#   scale_y_continuous(labels = percent) +
-#   scale_fill_manual(values = discreteColors) +
-#   labs(x = "Departure date", y = "Burning Man participants in 2023 (%)",
-#        title = "I planned to leave Black Rock City…") +
-#   theme_bw() +
-#   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))
-# 
-# plannedDepartureTable <- makeTableData(plannedDeparture) 
-# actualDepartureTable <- makeTableData(actualDeparture)
-# cbind(plannedDepartureTable, actualDepartureTable) |>
-#   kbl(col.names = c("2023 (planned)", "2023 (actual)"),
-#       row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
-#   kable_styling() |>
-#   column_spec(column = 1:3, width_min = "10.5em") |>
-#   scroll_box(width = "100%")
+
+
+plannedDeparture <- makePlotData("I planned to leave Black Rock City",
+                          varNameTable = varNameTable,
+                          designs = list(design24),
+                          years = 2024,
+                          levels = c("Tue 9/03 (post-event)", "Sun 9/01",
+                                     "Mon 9/02", "Tue 8/27", "Sat 8/31",
+                                     "Mon 8/26", "Sun 8/25", "Fri 8/30",
+                                     "Thu 8/29", "After Tue 9/03 (post-event)",
+                                     "Wed 8/28", "Before Sun 8/25 (pre-event)"),
+                          labels = c("Tue 9/03 \n (post-event)", "Sun 9/01",
+                                     "Mon 9/02", "Tue 8/27", "Sat 8/31",
+                                     "Mon 8/26", "Sun 8/25", "Fri 8/30",
+                                     "Thu 8/29", "After Tue 9/03 \n (post-event)",
+                                     "Wed 8/28", "Before Sun 8/25 \n (pre-event)"),
+                          labelOrder = c("Before Sun 8/25 \n (pre-event)",
+                                         "Sun 8/25", "Mon 8/26", "Tue 8/27",
+                                         "Wed 8/28", "Thu 8/29", "Fri 8/30",
+                                         "Sat 8/31", "Sun 9/01", "Mon 9/02",
+                                         "Tue 9/03 \n (post-event)",
+                                         "After Tue 9/03 \n (post-event)"))
+
+actualDeparture <- makePlotData("I actually left Black Rock City",
+                          varNameTable = varNameTable,
+                          designs = list(design24),
+                          years = 2024,
+                          levels = c("Tue 9/03 (post-event)", "Sun 9/01",
+                                     "Mon 9/02", "Tue 8/27", "Sat 8/31",
+                                     "Mon 8/26", "Sun 8/25", "Fri 8/30",
+                                     "Thu 8/29", "After Tue 9/03 (post-event)",
+                                     "Wed 8/28", "Before Sun 8/25 (pre-event)"),
+                          labels = c("Tue 9/03 \n (post-event)", "Sun 9/01",
+                                     "Mon 9/02", "Tue 8/27", "Sat 8/31",
+                                     "Mon 8/26", "Sun 8/25", "Fri 8/30",
+                                     "Thu 8/29", "After Tue 9/03 \n (post-event)",
+                                     "Wed 8/28", "Before Sun 8/25 \n (pre-event)"),
+                          labelOrder = c("Before Sun 8/25 \n (pre-event)",
+                                         "Sun 8/25", "Mon 8/26", "Tue 8/27",
+                                         "Wed 8/28", "Thu 8/29", "Fri 8/30",
+                                         "Sat 8/31", "Sun 9/01", "Mon 9/02",
+                                         "Tue 9/03 \n (post-event)",
+                                         "After Tue 9/03 \n (post-event)"))
+
+departure <- rbind(plannedDeparture, actualDeparture)
+departure$`Planned or actual` <- rep(c("Planned", "Actual"), each = 12,
+                                     times = 1)
+
+ggplot(departure, aes(x = labels, y = est, fill = `Planned or actual`)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  scale_y_continuous(labels = percent) +
+  scale_fill_manual(values = discreteColors) +
+  labs(x = "Departure date", y = "Burning Man participants in 2024 (%)",
+       title = "I planned to leave Black Rock City…") +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))
+
+plannedDepartureTable <- makeTableData(plannedDeparture)
+actualDepartureTable <- makeTableData(actualDeparture)
+cbind(plannedDepartureTable, actualDepartureTable) |>
+  kbl(col.names = c("2024 (planned)", "2024 (actual)"),
+      row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  kable_styling() |>
+  column_spec(column = 1:3, width_min = "10.5em") |>
+  scroll_box(width = "100%")
 ```
 
 ### Departure delay
 
 ```{r}
-# departureCodeSwitch <- function(x){
-#   if(is.na(x)){return(NA)}
-#   switch(as.character(x),
-#          "Before Sun 8/27 (pre-event)" = 0, 
-#          "Sun 8/27" = 1, 
-#          "Mon 8/28" = 2, 
-#          "Tue 8/29" = 3, 
-#          "Wed 8/30" = 4, 
-#          "Thu 8/31" = 5, 
-#          "Fri 9/01" = 6, 
-#          "Sat 9/02" = 7, 
-#          "Sun 9/03" = 8, 
-#          "Mon 9/04" = 9, 
-#          "Tue 9/05 (post-event)" = 10, 
-#          "After Tue 9/05 (post-event)" = 11)
-# }
-#   
-# codedPlanned <- sapply(census23$plannedLeaveBRC, departureCodeSwitch)
-# codedActual <- sapply(census23$leftBRC, departureCodeSwitch)
-# delayDays <- data.frame(daysDelayed = codedActual - codedPlanned,
-#                         cweights = census23$weights)
-# # design23$variables$daysDelayed <- codedActual - codedPlanned
-# 
-# ggplot(delayDays, aes(x = daysDelayed, weight = cweights)) +
-#   geom_bar(fill = "#EA008B") +
-#   labs(x = "Days delayed", y = "Burning Man participants (%)",
-#        title = "Days difference between planned and actual departure") +
-#   scale_y_continuous(breaks = c(0, 753, 1501, 2258), 
-#                      labels = c("0%", "10%", "20%", "30%")) +
-#   theme_bw() +
-#   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))
+
+
+departureCodeSwitch <- function(x){
+  if(is.na(x)){return(NA)}
+  switch(as.character(x),
+         "Before Sun 8/25 (pre-event)" = 0,
+         "Sun 8/25" = 1,
+         "Mon 8/26" = 2,
+         "Tue 8/27" = 3,
+         "Wed 8/28" = 4,
+         "Thu 8/29" = 5,
+         "Fri 8/30" = 6,
+         "Sat 8/31" = 7,
+         "Sun 9/01" = 8,
+         "Mon 9/02" = 9,
+         "Tue 9/03 (post-event)" = 10,
+         "After Tue 9/03 (post-event)" = 11)
+}
+
+codedPlanned <- sapply(census24$plannedLeaveBRC, departureCodeSwitch)
+codedActual <- sapply(census24$leftBRC, departureCodeSwitch)
+delayDays <- data.frame(daysDelayed = codedActual - codedPlanned,
+                        cweights = census24$weights)
+# design23$variables$daysDelayed <- codedActual - codedPlanned
+
+ggplot(delayDays, aes(x = daysDelayed, weight = cweights)) +
+  geom_bar(fill = "#EA008B") +
+  labs(x = "Days delayed", y = "Burning Man participants (%)",
+       title = "Days difference between planned and actual departure") +
+  scale_y_continuous(breaks = c(0, 753, 1501, 2258),
+                     labels = c("0%", "10%", "20%", "30%")) +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))
 ```
 
 ### Point of departure
 
 ```{r}
-# pointOfDeparture <- makePlotData("How did you depart from Black Rock City? Select the best answer.",
-#                                  varNameTable = varNameTable,
-#                                  designs = list(design18, design19, design22,
-#                                                 design23),
-#                                  years = c(2018:2019, 2022:2023),
-#                                  levels = c(rep(list(c("Airport",
-#                                                        "Burner_Express",
-#                                                        "Gate_diffvehicle",
-#                                                        "Gate_samevehicle",
-#                                                        "Other",
-#                                                        "Other_shuttle",
-#                                                        "Point_1")), times = 2),
-#                                             rep(list(c("BRC airport",
-#                                             "Gate in a Burner Express Bus",
-#                                             "Gate in a different vehicle",
-#                                             "Gate in the same vehicle",
-#                                             "Gate with another shuttle service",
-#                                             "Other", "Point 1")), times = 2)),
-#                                  labels = c("BRC airport",
-#                                             "Gate in a Burner Express Bus",
-#                                             "Gate in a different vehicle",
-#                                             "Gate in the same vehicle",
-#                                             "Gate with another shuttle service",
-#                                             "Other", "Point 1"),
-#                                  labelOrder = c(4, 3, 2, 7, 1, 5, 6))
-# 
-# ggplot(pointOfDeparture, aes(x = labels, y = est)) +
-#   geom_bar(stat = "identity", fill = "#EA008B") +
-#   scale_y_continuous(labels = percent) +
-#   labs(x = "Point of departure", y = "Burning Man participants (%)",
-#        title = "How did you depart from Black Rock City?") +
-#   theme_bw() +
-#   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))
-# 
-# makeTableData(pointOfDeparture) |>
-#   kbl(col.names = c(2018:2019, 2022:2023),
-#       row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
-#   kable_styling() |>
-#   column_spec(column = 1:5, width_min = "10.5em") |>
-#   scroll_box(width = "100%")
+
+pointOfDeparture <- makePlotData("How did you depart from Black Rock City? Select the best answer.",
+                                 varNameTable = varNameTable,
+                                 designs = list(design18, design19, design22,
+                                                design23, design24),
+                                 years = c(2018:2019, 2022:2024),
+                                 levels = c(rep(list(c("Airport",
+                                                       "Burner_Express",
+                                                       "Gate_diffvehicle",
+                                                       "Gate_samevehicle",
+                                                       "Other",
+                                                       "Other_shuttle",
+                                                       "Point_1")), times = 2),
+                                            rep(list(c("BRC airport",
+                                            "Gate in a Burner Express Bus",
+                                            "Gate in a different vehicle",
+                                            "Gate in the same vehicle",
+                                            "Gate with another shuttle service",
+                                            "Other", "Point 1")), times = 3)),
+                                 labels = c("BRC airport",
+                                            "Gate in a Burner Express Bus",
+                                            "Gate in a different vehicle",
+                                            "Gate in the same vehicle",
+                                            "Gate with another shuttle service",
+                                            "Other", "Point 1"),
+                                 labelOrder = c(4, 3, 2, 7, 1, 5, 6))
+
+ggplot(pointOfDeparture, aes(x = labels, y = est)) +
+  geom_bar(stat = "identity", fill = "#EA008B") +
+  scale_y_continuous(labels = percent) +
+  labs(x = "Point of departure", y = "Burning Man participants (%)",
+       title = "How did you depart from Black Rock City?") +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))
+
+makeTableData(pointOfDeparture) |>
+  kbl(col.names = c(2018:2019, 2022:2024),
+      row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  kable_styling() |>
+  column_spec(column = 1:5, width_min = "10.5em") |>
+  scroll_box(width = "100%")
 ```
 
 ## Flying to Black Rock City
@@ -317,6 +322,43 @@ discreteColors <- c("#EA008B", "#B0AEDC", "#554149", "#A07200", "#AADA91",
 #   kable_styling() |>
 #   column_spec(column = 1:9, width_min = "10.5em") |>
 #   scroll_box(width = "100%")
+
+# The flyyn variable was not created in the data sets from Hunter in 2014-2017.
+
+design14$variables$flyyn <- ifelse(design14$variables$fly == "No", "no", "yes")
+design15$variables$flyyn <- ifelse(design15$variables$fly == "No", "no", "yes")
+design16$variables$flyyn <- ifelse(design16$variables$fly == "No", "no", "yes")
+design17$variables$flyyn <- ifelse(design17$variables$fly == "No", "no", "yes")
+
+flyyn <- makePlotData("Did you fly in an airplane to get (at least part of the way) to Black Rock City this year?",
+                      varNameTable = varNameTable,
+                      designs = list(design14, design15, design16, design17,
+                                     design18, design19, design22, design23,
+                                     design24),
+                      years = c(2014:2019, 2022:2024),
+                      levels = c(rep(list("yes"), times = 6),
+                                 rep(list("Yes"), times = 3)),
+                      labels = "Flew (at least partway) \n to Black Rock City")
+
+ggplot(flyyn, aes(x = year, y = est, color = labels)) +
+  geom_line(linewidth = 1.5, alpha = 0.7) +
+  geom_point(size = 2.25) +
+  theme_bw(13) +
+  theme(panel.grid.minor = element_blank()) +
+  scale_x_continuous(breaks = c(2014:2019, 2022:2024),
+                     labels = c(2014:2019, 2022:2024)) +
+  scale_y_continuous(labels = percent, limits = c(0, NA)) +
+  scale_color_manual(values = c("#EA008B")) +
+  guides(color = "none") +
+  labs(x = "", y = "", color = "Burning Man participants (%)")
+
+makeTableData(flyyn) |>
+  kbl(col.names = c(2014:2019, 2022:2024),
+      row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  kable_styling() |>
+  column_spec(column = 1:10, width_min = "10.5em") |>
+  scroll_box(width = "100%")
 ```
 
 ### If you flew, what was your final arrival airport?
@@ -429,6 +471,116 @@ discreteColors <- c("#EA008B", "#B0AEDC", "#554149", "#A07200", "#AADA91",
 #   kable_styling() |>
 #   column_spec(column = 1:9, width_min = "10.5em") |>
 #   scroll_box(width = "100%")
+
+#In previous years the airport variables was processed afterwards
+# to add the "no" and "BRC" options pulled from flyyn and travelbrc questions.
+# I am just modifying it here post-hoc.  Additionally, 2015 has an error in
+# the creation of this variable.
+
+# Salt Lake City wasn't added as an option until 2019.  I am adding results from
+#   previous years using qaulitative response.  TODO: make footnote
+
+# I am also making the No category NA since the population of interest here is
+#   people who flew.
+
+design24$variables$arrivalAirport <- ifelse(design24$variables$howArriveBRC == "BRC airport",
+                                            "BRC", design24$variables$arrivalAirport)
+design23$variables$arrivalAirport <- ifelse(design23$variables$howArriveBRC == "BRC airport",
+                                            "BRC", design23$variables$arrivalAirport)
+design22$variables$arrivalAirport <- ifelse(design22$variables$howArriveBRC == "BRC airport",
+                                            "BRC", design22$variables$arrivalAirport)
+design15$variables$fly <- ifelse(design15$variables$travelbrc == "Airport",
+                                 "BRC", design15$variables$fly)
+
+design14$variables$fly <- ifelse(grepl("([Ss][Ll][Cc])|([Ss]alt)",
+                                       design14$variables$fly_TEXT),
+                                 "Salt_Lake_City", design14$variables$fly)
+design15$variables$fly <- ifelse(grepl("([Ss][Ll][Cc])|([Ss]alt)",
+                                       design15$variables$fly_TEXT),
+                                 "Salt_Lake_City", design15$variables$fly)
+design16$variables$fly <- ifelse(grepl("([Ss][Ll][Cc])|([Ss]alt)",
+                                       design16$variables$flyother),
+                                 "Salt_Lake_City", design16$variables$fly)
+design17$variables$fly <- ifelse(grepl("([Ss][Ll][Cc])|([Ss]alt)",
+                                       design17$variables$flyother),
+                                 "Salt_Lake_City", design17$variables$fly)
+design18$variables$fly <- ifelse(grepl("([Ss][Ll][Cc])|([Ss]alt)",
+                                       design18$variables$flyother),
+                                 "Salt_Lake_City", design18$variables$fly)
+
+design14$variables$fly <- ifelse(design14$variables$fly == "No", NA,
+                                 design14$variables$fly)
+design15$variables$fly <- ifelse(design15$variables$fly == "No", NA,
+                                 design15$variables$fly)
+design16$variables$fly <- ifelse(design16$variables$fly == "No", NA,
+                                 design16$variables$fly)
+design17$variables$fly <- ifelse(design17$variables$fly == "No", NA,
+                                 design17$variables$fly)
+design18$variables$fly <- ifelse(design18$variables$fly == "No", NA,
+                                 design18$variables$fly)
+design19$variables$fly <- ifelse(design19$variables$fly == "No", NA,
+                                 design19$variables$fly)
+
+# airport <- makePlotData("What was your final arrival airport?",
+#                         varNameTable = varNameTable,
+#                         designs = list(design14, design15, design16,
+#                                        design17, design18, design19,
+#                                        design22, design23, design24),
+#                         years = c(2014:2019, 2022:2024),
+#                         levels = c(rep(list(c("BRC", "Las_Vegas", "LA",
+#                                               "Oakland", "Other", "Reno",
+#                                               "Sacramento", "Salt_Lake_City",
+#                                               "SF")), times = 6),
+#                                    rep(list(c("BRC","Las Vegas", "Los Angeles",
+#                                           "Oakland", "Other", "Reno",
+#                                           "Sacramento", "Salt Lake City",
+#                                           "San Francisco")), times = 3)),
+#                         labels = c("BRC (88NV)","Las Vegas", "Los Angeles",
+#                                    "Oakland", "Other", "Reno",
+#                                    "Sacramento", "Salt Lake City",
+#                                    "San Francisco"),
+#                         labelOrder = c(6, 9, 8, 3, 7, 2, 1, 4, 5))
+
+airport2 <- makePlotData("What was your final arrival airport?",
+                        varNameTable = varNameTable,
+                        designs = list(design14, design15, design16,
+                                       design17, design18, design19,
+                                       design22, design23, design24),
+                        years = c(2014:2019, 2022:2024),
+                        levels = c(rep(list(c("BRC", "Las_Vegas", "LA",
+                                              "Oakland", "Other", "Reno",
+                                              "Sacramento", "Salt_Lake_City",
+                                              "SF")), times = 6),
+                                   rep(list(c("BRC","Las Vegas", "Los Angeles",
+                                          "Oakland", "Other", "Reno",
+                                          "Sacramento", "Salt Lake City",
+                                          "San Francisco")), times = 3)),
+                        groups = c(1, 2, 3, 2, 2, 4, 5, 6, 7),
+                        labels = c("BRC (88NV)","Other", "Los Angeles",
+                                   "Reno", "Sacramento", "Salt Lake City",
+                                   "San Francisco"),
+                        labelOrder = c(4, 7, 6, 3, 5, 1, 2))
+
+
+ggplot(airport2, aes(x = year, y = est, color = labels)) +
+  geom_line(linewidth = 1.5, alpha = 0.7) +
+  geom_point(size = 2.25) +
+  theme_bw(13) +
+  theme(panel.grid.minor = element_blank()) +
+  scale_x_continuous(breaks = c(2014:2019, 2022:2024),
+                     labels = c(2014:2019, 2022:2024)) +
+  scale_y_continuous(labels = percent, limits = c(0, NA)) +
+  scale_color_manual(values = discreteColors) +
+  labs(x = "", y = "Burning Man Partcipants who flew (%)", color = "")
+
+
+makeTableData(airport2) |>
+  kbl(col.names = c(2014:2019, 2022:2024),
+      row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  kable_styling() |>
+  column_spec(column = 1:10, width_min = "10.5em") |>
+  scroll_box(width = "100%")
 ```
 
 ## Vehicle logistics
@@ -483,6 +635,58 @@ discreteColors <- c("#EA008B", "#B0AEDC", "#554149", "#A07200", "#AADA91",
 #   column_spec(column = 1:10, width_min = "10.5em") |>
 #   kable_styling() |>
 #   scroll_box(width = "100%")
+
+nbvehicle24 <- makePlotData("How many people were in your vehicle when you arrived at the Gate (including you)?",
+                            varNameTable = varNameTable,
+                            years = 2024,
+                            designs = list(design24),
+                            levels = as.character(c(0:10, 16, 20, 22, 33)),
+                            groups = c(1,1,2,3,4,5,6,6,7,7,8,8,9,9,9),
+                            labels = c("1", "2", "3", "4", "5", "6-7", "8-9",
+                                       "10-19", "20 or more"))
+nbvehicle23 <- makePlotData("How many people were in your vehicle when you arrived at the Gate (including you)?",
+                            varNameTable = varNameTable,
+                            years = 2023,
+                            designs = list(design23),
+                            levels = as.character(c(0:10, 16, 20, 22, 33)),
+                            groups = c(1,1,2,3,4,5,6,6,7,7,8,8,9,9,9),
+                            labels = c("1", "2", "3", "4", "5", "6-7", "8-9",
+                                       "10-19", "20 or more"))
+nbvehicle22 <- makePlotData("How many people were in your vehicle when you arrived at the Gate (including you)?",
+                            varNameTable = varNameTable,
+                            years = 2022,
+                            designs = list(design22),
+                            levels = as.character(c(0:13, 21, 22)),
+                            groups = c(1,1,2,3,4,5,6,6,7,7,8,8,8,8,9,9),
+                            labels = c("1", "2", "3", "4", "5", "6-7", "8-9",
+                                       "10-19", "20 or more"))
+nbvehicle13to19 <- makePlotData("How many people were in your vehicle when you arrived at the Gate (including you)?",
+                            varNameTable = varNameTable,
+                            years = 2013:2019,
+                            designs = list(design13, design14, design15,
+                                           design16, design17, design18,
+                                           design19),
+                            levels = as.character(c("1", "2", "3", "4", "5",
+                                                    "_6or7", "_8or9", "_10to19",
+                                                    "_20_or_more")),
+                            labels = c("1", "2", "3", "4", "5", "6-7", "8-9",
+                                       "10-19", "20 or more"))
+nbvehicle <- rbind(nbvehicle13to19, nbvehicle22, nbvehicle23, nbvehicle24)
+
+ggplot(nbvehicle[nbvehicle$year == 2024,], aes(x = labels, y = est)) +
+  geom_bar(stat = "identity", fill = "#EA008B") +
+  scale_y_continuous(labels = percent) +
+  labs(x = "Number of people",
+       y = "Burning Man participants who entered through main gate (%)",
+       title = "How many people were in your vehicle when you arrived at the Gate?") +
+  theme_bw()
+
+makeTableData(nbvehicle) |>
+  kbl(col.names = c(2013:2019, 2022:2024), row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  column_spec(column = 1:11, width_min = "10.5em") |>
+  kable_styling() |>
+  scroll_box(width = "100%")
 ```
 
 ### Vehicle passengers under 18 years old
@@ -563,6 +767,86 @@ discreteColors <- c("#EA008B", "#B0AEDC", "#554149", "#A07200", "#AADA91",
 #   column_spec(column = 1:10, width_min = "10.5em") |>
 #   kable_styling() |>
 #   scroll_box(width = "100%")
+
+nb0to12 <- rbind(c(as.numeric(svyciprop(~nb012vehicle > 0, design13)),
+                   attr(svyciprop(~nb012vehicle > 0, design13), "ci")),
+                 c(as.numeric(svyciprop(~nb012vehicle > 0, design14)),
+                   attr(svyciprop(~nb012vehicle > 0, design14), "ci")),
+                 c(as.numeric(svyciprop(~nb012vehicle2 != 0, design15)),
+                   attr(svyciprop(~nb012vehicle2 != 0, design15), "ci")),
+                 c(as.numeric(svyciprop(~nb012vehicle2 != 0, design16)),
+                   attr(svyciprop(~nb012vehicle2 != 0, design16), "ci")),
+                 c(as.numeric(svyciprop(~nb012vehicle > 0, design17)),
+                   attr(svyciprop(~nb012vehicle > 0, design17), "ci")),
+                 c(as.numeric(svyciprop(~nb012vehicle > 0, design18)),
+                   attr(svyciprop(~nb012vehicle > 0, design18), "ci")),
+                 c(as.numeric(svyciprop(~nb012vehicle > 0, design19)),
+                   attr(svyciprop(~nb012vehicle > 0, design19), "ci")),
+                 c(as.numeric(svyciprop(~vehicleUnder13 > 0, design22)),
+                   attr(svyciprop(~vehicleUnder13 > 0, design22), "ci")),
+                 c(as.numeric(svyciprop(~vehicleUnder13 > 0, design23)),
+                   attr(svyciprop(~vehicleUnder13 > 0, design23), "ci")),
+                 c(as.numeric(svyciprop(~vehicleUnder13 > 0, design24)),
+                   attr(svyciprop(~vehicleUnder13 > 0, design24), "ci")))
+nb0to12 <- as.data.frame(nb0to12)
+names(nb0to12) <- c("est", "lower", "upper")
+nb0to12$year <- c(2013:2019, 2022:2024)
+nb0to12$labels <- "At least one person under 13 \n years old in car"
+
+
+nb13to17 <- rbind(c(as.numeric(svyciprop(~nb1317vehicle > 0, design13)),
+                   attr(svyciprop(~nb1317vehicle > 0, design13), "ci")),
+                 c(as.numeric(svyciprop(~nb1317vehicle > 0, design14)),
+                   attr(svyciprop(~nb1317vehicle > 0, design14), "ci")),
+                 c(as.numeric(svyciprop(~nb1317vehicle2 != 0, design15)),
+                   attr(svyciprop(~nb1317vehicle2 != 0, design15), "ci")),
+                 c(as.numeric(svyciprop(~nb1317vehicle2 != 0, design16)),
+                   attr(svyciprop(~nb1317vehicle2 != 0, design16), "ci")),
+                 c(as.numeric(svyciprop(~nb1317vehicle > 0, design17)),
+                   attr(svyciprop(~nb1317vehicle > 0, design17), "ci")),
+                 c(as.numeric(svyciprop(~nb1317vehicle > 0, design18)),
+                   attr(svyciprop(~nb1317vehicle > 0, design18), "ci")),
+                 c(as.numeric(svyciprop(~nb1317vehicle > 0, design19)),
+                   attr(svyciprop(~nb1317vehicle > 0, design19), "ci")),
+                 c(as.numeric(svyciprop(~vehicle13to17 > 0, design22)),
+                   attr(svyciprop(~vehicle13to17 > 0, design22), "ci")),
+                 c(as.numeric(svyciprop(~vehicle13to17 > 0, design23)),
+                   attr(svyciprop(~vehicle13to17 > 0, design23), "ci")),
+                 c(as.numeric(svyciprop(~vehicle13to17 > 0, design24)),
+                   attr(svyciprop(~vehicle13to17 > 0, design24), "ci")))
+
+nb13to17 <- as.data.frame(nb13to17)
+names(nb13to17) <- c("est", "lower", "upper")
+nb13to17$year <- c(2013:2019, 2022:2024)
+nb13to17$labels <- "At least one person 13 to 17 \n years old in car"
+
+minorInVehicle <- rbind(nb0to12, nb13to17)
+
+minorInVehicle$labels <- factor(minorInVehicle$labels,
+                                levels = c("At least one person under 13 \n years old in car",
+                                           "At least one person 13 to 17 \n years old in car"))
+
+ggplot(minorInVehicle, aes(x = year, y = est, fill = labels, color = labels)) +
+  geom_area(linewidth = 1.05, alpha = 0.7) +
+  theme_bw(13) +
+  theme(panel.grid.minor = element_blank(),
+        axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1)) +
+  scale_x_continuous(breaks = c(2013:2019, 2022:2024),
+                     labels = c(2013:2019, 2022:2024)) +
+  scale_y_continuous(labels = percent, limits = c(0, 0.1)) +
+  scale_fill_manual(values = gradientColors(2)[2:1]) +
+  scale_color_manual(values = gradientColors(2)[2:1]) +
+  guides(color = "none") +
+  labs(x = "", y = "Burning Man participants who entered through main gate (%)", color = "",
+       fill = "Minors in the car",
+       title = "Were any people in your vehicle under age 18?")
+
+makeTableData(minorInVehicle) |>
+  kbl(col.names = c(2013:2019, 2022:2024), row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  column_spec(column = 1:11, width_min = "10.5em") |>
+  kable_styling() |>
+  scroll_box(width = "100%")
 ```
 
 ### Vehicle type
@@ -597,6 +881,32 @@ discreteColors <- c("#EA008B", "#B0AEDC", "#554149", "#A07200", "#AADA91",
 #   column_spec(column = 1:2, width_min = "10.5em") |>
 #   kable_styling() |>
 #   scroll_box(width = "100%")
+
+vehicleType <- makePlotData("In what type of vehicle did you travel to Black Rock City this year?",
+                            varNameTable = varNameTable,
+                            designs = list(design22, design23, design24),
+                            years = 2022:2024,
+                            levels = c("Bus", "Car", "Full-size van",
+                                       "Mini-van", "Motorcycle",
+                                       "Moving truck or box truck", "Other",
+                                       "Pick-up truck", "RV",
+                                       "Semi-truck towing trailer", "SUV"),
+                            labelOrder = c(7,5,4,3,10,9,1,2,11,6,8))
+
+ggplot(vehicleType[vehicleType$year == 2024,], aes(x = labels, y = est)) +
+  geom_bar(stat = "identity", fill = "#EA008B") +
+  scale_y_continuous(labels = percent) +
+  labs(x = "Vehicle type", y = "Burning Man participants in 2024 (%)",
+       title = "In what type of vehicle did you travel in to Black Rock City this year?") +
+  theme_bw() +
+  coord_flip()
+
+makeTableData(vehicleType)[11:1,] |>
+  kbl(col.names = c(2022:2024), row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  column_spec(column = 1:4, width_min = "10.5em") |>
+  kable_styling() |>
+  scroll_box(width = "100%")
 ```
 
 ### Towing a trailer
@@ -632,6 +942,31 @@ discreteColors <- c("#EA008B", "#B0AEDC", "#554149", "#A07200", "#AADA91",
 #   column_spec(column = 1:2, width_min = "10.5em") |>
 #   kable_styling() |>
 #   scroll_box(width = "100%")
+
+towing <- makePlotData("Was your vehicle towing a trailer?",
+                       varNameTable = varNameTable,
+                       designs = list(design22, design23, design24),
+                       years = 2022:2024,
+                       levels = c("Don\'t remember", "Large", "Medium",
+                                  "No trailer", "Small", "Very large"),
+                       labels = c("I don\'t remember", "Large", "Medium",
+                                  "No trailer", "Small", "Very large"),
+                       labelOrder = rev(c(4, 5, 3, 2, 6, 1)))
+
+ggplot(towing[towing$year == 2024,], aes(x = labels, y = est)) +
+  geom_bar(stat = "identity", fill = "#EA008B") +
+  scale_y_continuous(labels = percent) +
+  labs(x = "Vehicle type", y = "Burning Man participants in 2023 (%)",
+       title = "Was your vehicle towing a trailer?") +
+  theme_bw() +
+  coord_flip()
+
+makeTableData(towing)[6:1,] |>
+  kbl(col.names = c(2022:2024), row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  column_spec(column = 1:4, width_min = "10.5em") |>
+  kable_styling() |>
+  scroll_box(width = "100%")
 ```
 
 ### Vehicle fuel type
@@ -666,6 +1001,32 @@ discreteColors <- c("#EA008B", "#B0AEDC", "#554149", "#A07200", "#AADA91",
 #   column_spec(column = 1:2, width_min = "10.5em") |>
 #   kable_styling() |>
 #   scroll_box(width = "100%")
+
+vehicleFuelType <- makePlotData("What kind of fuel did your vehicle run on?",
+                                varNameTable = varNameTable,
+                                designs = list(design22, design23, design24),
+                                years = 2022:2024,
+                                levels = c("Battery powered",
+                                           "Bio-diesel or other bio-fuel",
+                                           "Diesel", "I don't know",
+                                           "Premium gasoline",
+                                           "Regular gasoline"),
+                                labelOrder = rev(c(6, 5, 3, 2, 1, 4)))
+
+ggplot(vehicleFuelType[vehicleFuelType$year == 2024,], aes(x = labels, y = est)) +
+  geom_bar(stat = "identity", fill = "#EA008B") +
+  scale_y_continuous(labels = percent) +
+  labs(x = "Vehicle type", y = "Burning Man participants in 2023 (%)",
+       title = "What kind of fuel did your vehicle run on?") +
+  theme_bw() +
+  coord_flip()
+
+makeTableData(vehicleFuelType)[6:1,] |>
+  kbl(col.names = c(2022:2024), row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  column_spec(column = 1:4, width_min = "10.5em") |>
+  kable_styling() |>
+  scroll_box(width = "100%")
 ```
 
 ### Approximately how many miles to the gallon did your vehicle get on the way to Black Rock City?
@@ -744,6 +1105,92 @@ discreteColors <- c("#EA008B", "#B0AEDC", "#554149", "#A07200", "#AADA91",
 #   column_spec(column = 1:3, width_min = "10.5em") |>
 #   kable_styling() |>
 #   scroll_box(width = "100%")
+
+design24$variables$mpg2 <- ifelse(design24$variables$vehicleMPG > 100, NA,
+                                  design24$variables$vehicleMPG)
+design23$variables$mpg2 <- ifelse(design23$variables$vehicleMPG > 100, NA,
+                                  design23$variables$vehicleMPG)
+design22$variables$mpg2 <- ifelse(design22$variables$vehicleMPG > 100, NA,
+                                  design22$variables$vehicleMPG)
+design19$variables$mpg2 <- ifelse(design19$variables$mpgtobrc > 100, NA,
+                                  design19$variables$mpgtobrc)
+mpg <- data.frame(mpg = c(design24$variables$mpg2, design23$variables$mpg2, 
+                          design22$variables$mpg2, design19$variables$mpg2),
+                  weights = c(design24$variables$weights,
+                              design23$variables$weights,
+                              design22$variables$weights,
+                              design19$variables$weightbfpublic),
+                  year = c(rep(2024, times = nrow(census24)),
+                           rep(2023, times = nrow(census23)),
+                           rep(2022, times = nrow(census22)),
+                           rep(2019, times = nrow(census19))))
+
+
+mpg.mean.24 <- svymean(~mpg2, design24, na.rm = TRUE)
+mpg.se.24 <- sqrt(attr(mpg.mean.24, "var"))
+mpg.mean.23 <- svymean(~mpg2, design23, na.rm = TRUE)
+mpg.se.23 <- sqrt(attr(mpg.mean.23, "var"))
+mpg.mean.22 <- svymean(~mpg2, design22, na.rm = TRUE)
+mpg.se.22 <- sqrt(attr(mpg.mean.22, "var"))
+mpg.mean.19 <- svymean(~mpg2, design19, na.rm = TRUE)
+mpg.se.19 <- sqrt(attr(mpg.mean.19, "var"))
+mpg.means <- data.frame(mpg = c(as.numeric(mpg.mean.24),
+                                as.numeric(mpg.mean.23),
+                                as.numeric(mpg.mean.22),
+                                as.numeric(mpg.mean.19)),
+                        lower = c(as.numeric(mpg.mean.24) - 1.965 * mpg.se.24,
+                                  as.numeric(mpg.mean.23) - 1.965 * mpg.se.23,
+                                  as.numeric(mpg.mean.22) - 1.965 * mpg.se.22,
+                                  as.numeric(mpg.mean.19) - 1.965 * mpg.se.19),
+                        upper = c(as.numeric(mpg.mean.24) + 1.965 * mpg.se.24,
+                                  as.numeric(mpg.mean.23) + 1.965 * mpg.se.23,
+                                  as.numeric(mpg.mean.22) + 1.965 * mpg.se.22,
+                                  as.numeric(mpg.mean.19) + 1.965 * mpg.se.19),
+                        year = c(2024, 2023, 2022, 2019))
+
+ggplot(mpg[mpg$year == 2024,], aes(x = mpg, weight = weights)) +
+  geom_density(fill = "#EA008B", alpha = 0.5, bw = 3, linewidth = 1.01) +
+  geom_segment(x = mpg.means$mpg[mpg.means$year == 2024],
+               xend = mpg.means$mpg[mpg.means$year == 2024],
+               y = 0, yend = 0.045, color = "#4C4C4C",
+             linewidth = 1.1) +
+  annotate("text", x = 40, y = 0.0418, label = "Average miles per gallon to Black Rock City (19.0 MPG)") +
+  theme_bw(13) +
+  labs(x = "Miles per gallon to Black Rock City in 2024", y = "Density")
+
+mpg.qs19 <- svyquantile(~mpgtobrc, design19, c(0.25, 0.5, 0.75), na.rm = TRUE)$mpgtobrc
+mpg.qs19 <- apply(mpg.qs19, 1, function(x){paste0(x[1], " (", x[2], ", ", x[3], ")")})
+mpg.qs22 <- svyquantile(~vehicleMPG, design22, c(0.25, 0.5, 0.75), na.rm = TRUE)$vehicleMPG
+mpg.qs22 <- apply(mpg.qs22, 1, function(x){paste0(x[1], " (", x[2], ", ", x[3], ")")})
+mpg.qs23 <- svyquantile(~vehicleMPG, design23, c(0.25, 0.5, 0.75), na.rm = TRUE)$vehicleMPG
+mpg.qs23 <- apply(mpg.qs23, 1, function(x){paste0(x[1], " (", x[2], ", ", x[3], ")")})
+mpg.qs24 <- svyquantile(~vehicleMPG, design24, c(0.25, 0.5, 0.75), na.rm = TRUE)$vehicleMPG
+mpg.qs24 <- apply(mpg.qs24, 1, function(x){paste0(x[1], " (", x[2], ", ", x[3], ")")})
+
+fdf <- paste0("%.", 1, "f")
+mpg.mn19 <- paste0(sprintf(fdf, round(mpg.means$mpg[4],1)), " (",
+                   sprintf(fdf, round(mpg.means$lower[4], 1)), ", ",
+                   sprintf(fdf, round(mpg.means$upper[4], 1)), ")")
+mpg.mn22 <- paste0(sprintf(fdf, round(mpg.means$mpg[3],1)), " (",
+                   sprintf(fdf, round(mpg.means$lower[3], 1)), ", ",
+                   sprintf(fdf, round(mpg.means$upper[3], 1)), ")")
+mpg.mn23 <- paste0(sprintf(fdf, round(mpg.means$mpg[2],1)), " (",
+                   sprintf(fdf, round(mpg.means$lower[2], 1)), ", ",
+                   sprintf(fdf, round(mpg.means$upper[2], 1)), ")")
+mpg.mn24 <- paste0(sprintf(fdf, round(mpg.means$mpg[1],1)), " (",
+                   sprintf(fdf, round(mpg.means$lower[1], 1)), ", ",
+                   sprintf(fdf, round(mpg.means$upper[1], 1)), ")")
+mpg.tab <- as.table(cbind(c(mpg.mn19, mpg.qs19), c(mpg.mn22, mpg.qs22),
+                          c(mpg.mn23, mpg.qs23)))
+rownames(mpg.tab) <- c("Mean (Miles per gallon)", "25^th^ percentile",
+                       "Median", "75^th^ percentile")
+
+mpg.tab |>
+  kbl(col.names = c(2019, 2022, 2023, 2024), row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  column_spec(column = 1:4, width_min = "10.5em") |>
+  kable_styling() |>
+  scroll_box(width = "100%")
 ```
 
 ## Route to BRC
@@ -921,458 +1368,6 @@ discreteColors <- c("#EA008B", "#B0AEDC", "#554149", "#A07200", "#AADA91",
 #   scroll_box(width = "100%")
 ```
 
-## Burner Express Bus (BXB)
-
-### BXB routes
-
-```{r}
-# design14$variables$bxb_anyRoute <- (design14$variables$bxb_sftobrc == "yes") |
-#   (design14$variables$bxb_renotobrc == "yes") |
-#   (design14$variables$bxb_brctosf == "yes") |
-#   (design14$variables$bxb_brctoreno == "yes")
-# design14$variables$bxb_anyRoute[is.na(design14$variables$bxb_anyRoute)] <- FALSE
-# 
-# design15$variables$bxb_anyRoute <- (design15$variables$bxb_sftobrc == "yes") |
-#   (design15$variables$bxb_renotobrc == "yes") |
-#   (design15$variables$bxb_brctosf == "yes") |
-#   (design15$variables$bxb_brctoreno == "yes")
-# design15$variables$bxb_anyRoute[is.na(design15$variables$bxb_anyRoute)] <- FALSE
-# 
-# design16$variables$bxb_anyRoute <- (design16$variables$bxb_sftobrc == "yes") |
-#   (design16$variables$bxb_renotobrc == "yes") |
-#   (design16$variables$bxb_brctosf == "yes") |
-#   (design16$variables$bxb_brctoreno == "yes")
-# design16$variables$bxb_anyRoute[is.na(design16$variables$bxb_anyRoute)] <- FALSE
-# 
-# design17$variables$bxb_anyRoute <- (design17$variables$bxb_sftobrc == "yes") |
-#   (design17$variables$bxb_renotobrc == "yes") |
-#   (design17$variables$bxb_brctosf == "yes") |
-#   (design17$variables$bxb_brctoreno == "yes")
-# design17$variables$bxb_anyRoute[is.na(design17$variables$bxb_anyRoute)] <- FALSE
-# 
-# design18$variables$bxb_anyRoute <- (design18$variables$bxb_sftobrc == "yes") |
-#   (design18$variables$bxb_renotobrc == "yes") |
-#   (design18$variables$bxb_brctosf == "yes") |
-#   (design18$variables$bxb_brctoreno == "yes")
-# design18$variables$bxb_anyRoute[is.na(design18$variables$bxb_anyRoute)] <- FALSE
-# 
-# design19$variables$bxb_anyRoute <- (design19$variables$bxb_sftobrc == "yes") |
-#   (design19$variables$bxb_renotobrc == "yes") |
-#   (design19$variables$bxb_brctosf == "yes") |
-#   (design19$variables$bxb_brctoreno == "yes")
-# design19$variables$bxb_anyRoute[is.na(design19$variables$bxb_anyRoute)] <- FALSE
-# 
-# design22$variables$BXBRoute.any <- design22$variables$BXBRoute.SFToBRC |
-#   design22$variables$BXBRoute.RenoToBRC |
-#   design22$variables$BXBRoute.BRCToSF |
-#   design22$variables$BXBRoute.BRCToReno
-# 
-# design23$variables$BXBRoute.any <- design23$variables$BXBRoute.SFToBRC |
-#   design23$variables$BXBRoute.RenoToBRC |
-#   design23$variables$BXBRoute.BRCToSF |
-#   design23$variables$BXBRoute.BRCToReno
-# 
-# bxbDesign14 <- subset(design14, bxb_anyRoute)
-# bxbDesign14$variables$bxb_sftobrc[is.na(bxbDesign14$variables$bxb_sftobrc)] <- "no"
-# bxbDesign14$variables$bxb_renotobrc[is.na(bxbDesign14$variables$bxb_renotobrc)] <- "no"
-# bxbDesign14$variables$bxb_brctosf[is.na(bxbDesign14$variables$bxb_brctosf)] <- "no"
-# bxbDesign14$variables$bxb_brctoreno[is.na(bxbDesign14$variables$bxb_brctoreno)] <- "no"
-# 
-# bxbDesign15 <- subset(design15, bxb_anyRoute)
-# bxbDesign15$variables$bxb_sftobrc[is.na(bxbDesign15$variables$bxb_sftobrc)] <- "no"
-# bxbDesign15$variables$bxb_renotobrc[is.na(bxbDesign15$variables$bxb_renotobrc)] <- "no"
-# bxbDesign15$variables$bxb_brctosf[is.na(bxbDesign15$variables$bxb_brctosf)] <- "no"
-# bxbDesign15$variables$bxb_brctoreno[is.na(bxbDesign15$variables$bxb_brctoreno)] <- "no"
-# 
-# bxbDesign16 <- subset(design16, bxb_anyRoute)
-# bxbDesign16$variables$bxb_sftobrc[is.na(bxbDesign16$variables$bxb_sftobrc)] <- "no"
-# bxbDesign16$variables$bxb_renotobrc[is.na(bxbDesign16$variables$bxb_renotobrc)] <- "no"
-# bxbDesign16$variables$bxb_brctosf[is.na(bxbDesign16$variables$bxb_brctosf)] <- "no"
-# bxbDesign16$variables$bxb_brctoreno[is.na(bxbDesign16$variables$bxb_brctoreno)] <- "no"
-# 
-# bxbDesign17 <- subset(design17, bxb_anyRoute)
-# bxbDesign17$variables$bxb_sftobrc[is.na(bxbDesign17$variables$bxb_sftobrc)] <- "no"
-# bxbDesign17$variables$bxb_renotobrc[is.na(bxbDesign17$variables$bxb_renotobrc)] <- "no"
-# bxbDesign17$variables$bxb_brctosf[is.na(bxbDesign17$variables$bxb_brctosf)] <- "no"
-# bxbDesign17$variables$bxb_brctoreno[is.na(bxbDesign17$variables$bxb_brctoreno)] <- "no"
-# 
-# bxbDesign18 <- subset(design18, bxb_anyRoute)
-# bxbDesign18$variables$bxb_sftobrc[is.na(bxbDesign18$variables$bxb_sftobrc)] <- "no"
-# bxbDesign18$variables$bxb_renotobrc[is.na(bxbDesign18$variables$bxb_renotobrc)] <- "no"
-# bxbDesign18$variables$bxb_brctosf[is.na(bxbDesign18$variables$bxb_brctosf)] <- "no"
-# bxbDesign18$variables$bxb_brctoreno[is.na(bxbDesign18$variables$bxb_brctoreno)] <- "no"
-# 
-# bxbDesign19 <- subset(design19, bxb_anyRoute)
-# bxbDesign19$variables$bxb_sftobrc[is.na(bxbDesign19$variables$bxb_sftobrc)] <- "no"
-# bxbDesign19$variables$bxb_renotobrc[is.na(bxbDesign19$variables$bxb_renotobrc)] <- "no"
-# bxbDesign19$variables$bxb_brctosf[is.na(bxbDesign19$variables$bxb_brctosf)] <- "no"
-# bxbDesign19$variables$bxb_brctoreno[is.na(bxbDesign19$variables$bxb_brctoreno)] <- "no"
-# 
-# bxbDesign22 <- subset(design22, BXBRoute.any)
-# bxbDesign23 <- subset(design23, BXBRoute.any)
-# 
-# bxbroute <- makePlotData("Which route(s) did you take on the Burner Express Bus?",
-#                           varNameTable = varNameTable,
-#                           designs = list(bxbDesign14, bxbDesign15, bxbDesign16,
-#                                          bxbDesign17, bxbDesign18, bxbDesign19,
-#                                          bxbDesign22, bxbDesign23),
-#                           years = c(2014:2019, 2022:2023),
-#                           levels = c(rep(list("yes"), times = 6),
-#                                      rep(list(TRUE), times = 2)),
-#                           labels = c("From San Francisco to Black Rock City",
-#                                      "From Reno to Black Rock City",
-#                                      "From Black Rock City to San Francisco",
-#                                      "From Black Rock City to Reno"))
-#  
-# ggplot(bxbroute, aes(x = year, y = est, color = labels)) +
-#   geom_line(linewidth = 1.5, alpha = 0.7) +
-#   geom_point(size = 2.25) +
-#   theme_bw(13) +
-#   theme(panel.grid.minor = element_blank(),
-#         axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1)) +
-#   scale_x_continuous(breaks = c(2014:2019, 2022:2023), labels = c(2014:2019, 2022:2023)) +
-#   scale_y_continuous(labels = percent) +
-#   scale_color_manual(values = discreteColors) +
-#   labs(x = "", y = "", color = "BXB route",
-#        title = "Which route(s) did you take on the Burner Express Bus?")
-# 
-# makeTableData(bxbroute) |>
-#   kbl(col.names = c(2014:2019, 2022:2023),
-#       row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
-#   kable_styling() |>
-#   column_spec(column = 1:9, width_min = "10.5em") |>
-#   scroll_box(width = "100%")
-
-```
-
-### BXB camping
-
-```{r}
-# 
-# #TODO make foot note for response option change in 2016
-# 
-# bxbcamp <- makePlotData("Did you camp in Burner Express Camping?",
-#                         varNameTable = varNameTable,
-#                         designs = list(bxbDesign16, bxbDesign17, bxbDesign18,
-#                                        bxbDesign19, bxbDesign22, bxbDesign23),
-#                         years = c(2016:2019, 2022:2023),
-#                         levels = c(rep(list(c("idk", "no",
-#                                               "yes_and_would_again",
-#                                               "yes_but_would_not_again")), times = 4),
-#                                    rep(list(c("I don't know",
-#                                           "No, I did not camp in Burner Express Camping",
-#                                           "Yes, and I would camp there again",
-#                                           "Yes, but I would not camp there again")), times = 2)),
-#                         labels = c("I don\'t know",
-#                                           "No, I did not camp in \n Burner Express Camping",
-#                                           "Yes, and I would \n camp there again",
-#                                           "Yes, but I would not \n camp there again"),
-#                         labelOrder = c(3,4,2,1))
-# 
-# ggplot(bxbcamp, aes(x = year, y = est, color = labels)) +
-#   geom_line(linewidth = 1.5, alpha = 0.7) +
-#   geom_point(size = 2.25) +
-#   theme_bw(13) +
-#   theme(panel.grid.minor = element_blank()) +
-#   scale_x_continuous(breaks = c(2016:2019, 2022:2023), 
-#                      labels = c(2016:2019, 2022:2023)) +
-#   scale_y_continuous(labels = percent) +
-#   scale_color_manual(values = discreteColors) +
-#   labs(x = "", y = "BXB Riders (%)", color = "BXB camping",
-#        title = "Did you camp in Burner Express Camping?")
-# 
-# makeTableData(bxbcamp) |>
-#   kbl(col.names = c(2016:2019, 2022:2023),
-#       row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
-#   kable_styling() |>
-#   column_spec(column = 1:7, width_min = "10.5em") |>
-#   scroll_box(width = "100%")
-
-```
-
-### BXB satellitte shuttle
-
-```{r}
-
-# bxbshuttle <- makePlotData("Did you ride the satellite shuttle that operates within Black Rock City?",
-#                         varNameTable = varNameTable,
-#                         designs = list(bxbDesign16, bxbDesign17, bxbDesign18,
-#                                        bxbDesign19, bxbDesign22, bxbDesign23),
-#                         years = c(2016:2019, 2022:2023),
-#                         levels = c(rep(list(c("idk", "no", "yes")), times = 4),
-#                                    rep(list(c("Don't know", "No", "Yes")), times = 2)),
-#                         labels = c("I don\'t know", "No", "Yes"),
-#                         labelOrder = c(3,2,1))
-# 
-# ggplot(bxbshuttle, aes(x = year, y = est, color = labels)) +
-#   geom_line(linewidth = 1.5, alpha = 0.7) +
-#   geom_point(size = 2.25) +
-#   theme_bw(13) +
-#   theme(panel.grid.minor = element_blank()) +
-#   scale_x_continuous(breaks = c(2016:2019, 2022:2023), 
-#                      labels = c(2016:2019, 2022:2023)) +
-#   scale_y_continuous(labels = percent) +
-#   scale_color_manual(values = discreteColors) +
-#   labs(x = "", y = "BXB Riders", color = "Took the BXB \n satellite shuttle",
-#        title = "Did you ride the satellite shuttle that \n operates within Black Rock City?")
-# 
-# makeTableData(bxbshuttle) |>
-#   kbl(col.names = c(2016:2019, 2022:2023),
-#       row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
-#   kable_styling() |>
-#   column_spec(column = 1:7, width_min = "10.5em") |>
-#   scroll_box(width = "100%")
-
-```
-
-### Reasons for choosing to take BXB
-
-```{r}
-# 
-# bxbreason <- makePlotData("What were your main reasons for choosing to take a Burner Express Bus?",
-#                           varNameTable = varNameTable,
-#                           designs = list(bxbDesign16,
-#                                          bxbDesign17, bxbDesign18, bxbDesign19,
-#                                          bxbDesign22, bxbDesign23),
-#                           years = c(2016:2019, 2022:2023),
-#                           levels = c(rep(list("yes"), times = 4),
-#                                      rep(list(TRUE), times = 2)),
-#                           labels = c("Cost",
-#                                      "Do not have to drive",
-#                                      "Avoid gate traffic",
-#                                      "Help reduce road congestion",
-#                                      "I\'ve used Burner Express in the past \n and wanted to do it again",
-#                                      "Other"),
-#                           labelOrder = c(1,2,3,4,5,6))
-# 
-# ggplot(bxbreason, aes(x = year, y = est, color = labels)) +
-#   geom_line(linewidth = 1.5, alpha = 0.7) +
-#   geom_point(size = 2.25) +
-#   theme_bw(13) +
-#   theme(panel.grid.minor = element_blank()) +
-#   scale_x_continuous(breaks = c(2016:2019, 2022:2023), labels = c(2016:2019, 2022:2023)) +
-#   scale_y_continuous(labels = percent) +
-#   scale_color_manual(values = discreteColors) +
-#   labs(x = "", y = "", color = "Reason to take BXB",
-#        title = "What were your main reasons for choosing \n to take a Burner Express Bus?")
-# 
-# makeTableData(bxbreason) |>
-#   kbl(col.names = c(2016:2019, 2022:2023),
-#       row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
-#   kable_styling() |>
-#   column_spec(column = 1:7, width_min = "10.5em") |>
-#   scroll_box(width = "100%")
-```
-
-### Value of Burner Express Bus ticket based on satisfaction
-
-```{r}
-# 
-# bxbprice <- makePlotData("Based on your level of satisfaction with the program, would you say that the price of a Burner Express Bus ticket was",
-#                         varNameTable = varNameTable,
-#                         designs = list(bxbDesign14, bxbDesign15, bxbDesign16,
-#                                        bxbDesign17, bxbDesign18,
-#                                        bxbDesign19, bxbDesign22, bxbDesign23),
-#                         years = c(2014:2019, 2022:2023),
-#                         levels = c(rep(list(c("overpriced", "right_price", "underpriced")), times = 6),
-#                                    rep(list(c("Overpriced", "Just right", "Underpriced")), times = 2)),
-#                         labels = c("Overpriced", "Just right", "Underpriced"),
-#                         labelOrder = c(1,2,3))
-# 
-# ggplot(bxbprice, aes(x = year, y = est, color = labels)) +
-#   geom_line(linewidth = 1.5, alpha = 0.7) +
-#   geom_point(size = 2.25) +
-#   theme_bw(13) +
-#   theme(panel.grid.minor = element_blank()) +
-#   scale_x_continuous(breaks = c(2014:2019, 2022:2023), labels = c(2014:2019, 2022:2023)) +
-#   scale_y_continuous(labels = percent) +
-#   scale_color_manual(values = gradientColors(3)) +
-#   labs(x = "", y = "", color = "Took the BXB \n satellite shuttle",
-#        title = "Would you say that the price of a Burner Express Bus ticket was...")
-# 
-# makeTableData(bxbprice) |>
-#   kbl(col.names = c(2014:2019, 2022:2023),
-#       row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
-#   kable_styling() |>
-#   column_spec(column = 1:9, width_min = "10.5em") |>
-#   scroll_box(width = "100%")
-
-```
-
-### How would you rate your Burner Express Bus ticket purchase experience?
-
-```{r}
-# 
-# bxbticketexp <- makePlotData("How would you rate your ticket purchasing experience on a scale of 1-10, where 1 = terrible and 10 = absolutely fantastic?",
-#                              varNameTable = varNameTable,
-#                              designs = list(bxbDesign16, bxbDesign17, bxbDesign18,
-#                                             bxbDesign19, bxbDesign22, bxbDesign23),
-#                              years = c(2016:2019, 2022:2023),
-#                              levels = c(rep(list(c("terrible",
-#                                                    as.character(2:9),
-#                                                    "absolutely_fantastic")),
-#                                             times = 4),
-#                                         rep(list(c(as.character(1:10))), times = 2)),
-#                              labels = c("1 (terrible)", as.character(2:9),
-#                                         "10 (absolutely fantastic)"),
-#                              labelOrder = 10:1)
-# 
-# bxbDesign16$variables$bxbticketexp2 <- as.numeric(ifelse(
-#   bxbDesign16$variables$bxbticketexp == "terrible", 1,
-#   ifelse(bxbDesign16$variables$bxbticketexp == "absolutely_fantastic", 10,
-#          bxbDesign16$variables$bxbticketexp)))
-# bxbDesign17$variables$bxbticketexp2 <- as.numeric(ifelse(
-#   bxbDesign17$variables$bxbticketexp == "terrible", 1,
-#   ifelse(bxbDesign17$variables$bxbticketexp == "absolutely_fantastic", 10,
-#          bxbDesign17$variables$bxbticketexp)))
-# bxbDesign18$variables$bxbticketexp2 <- as.numeric(ifelse(
-#   bxbDesign18$variables$bxbticketexp == "terrible", 1,
-#   ifelse(bxbDesign18$variables$bxbticketexp == "absolutely_fantastic", 10,
-#          bxbDesign18$variables$bxbticketexp)))
-# bxbDesign19$variables$bxbticketexp2 <- as.numeric(ifelse(
-#   bxbDesign19$variables$bxbticketexp == "terrible", 1,
-#   ifelse(bxbDesign19$variables$bxbticketexp == "absolutely_fantastic", 10,
-#          bxbDesign19$variables$bxbticketexp)))
-# 
-# 
-# 
-# bxbTicketExpPlotDat <- data.frame(score = c(bxbDesign16$variables$bxbticketexp2,
-#                                             bxbDesign17$variables$bxbticketexp2,
-#                                             bxbDesign18$variables$bxbticketexp2,
-#                                             bxbDesign19$variables$bxbticketexp2,
-#                                             bxbDesign22$variables$BXBPurchasingExperience,
-#                                             bxbDesign23$variables$BXBPurchasingExperience),
-#                                   year = c(rep(2016, times = nrow(bxbDesign16$variables)),
-#                                            rep(2017, times = nrow(bxbDesign17$variables)),
-#                                            rep(2018, times = nrow(bxbDesign18$variables)),
-#                                            rep(2019, times = nrow(bxbDesign19$variables)),
-#                                            rep(2022, times = nrow(bxbDesign22$variables)),
-#                                            rep(2023, times = nrow(bxbDesign23$variables))),
-#                                   weights = c(bxbDesign16$variables$weightbmorg1,
-#                                               bxbDesign17$variables$weightbfarrival,
-#                                               bxbDesign18$variables$weightbfarrival,
-#                                               bxbDesign19$variables$weightbfarrival,
-#                                               bxbDesign22$variables$weights,
-#                                               bxbDesign23$variables$weights))
-# 
-# ggplot(bxbTicketExpPlotDat, aes(x = as.factor(year), y = score, weight = weights)) +
-#   geom_violin(bw = 1, fill  = "#EA008B", alpha = 0.7) +
-#   theme_bw() +
-#   labs(y = "Satisfaction score", x = "",
-#        title = "How would you rate your Burner Express Bus \n ticket purchasing experience?") +
-#   scale_y_continuous(breaks = 1:10, labels = c("1 (Terrible)", 
-#                                                as.character(2:9),
-#                                                "10 (Absolutely fantastic)")) +
-#   theme(panel.grid.minor.y = element_blank())
-# 
-# makeTableData(bxbticketexp) |>
-#   kbl(col.names = c(2016:2019, 2022:2023),
-#       row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
-#   kable_styling() |>
-#   column_spec(column = 1:7, width_min = "10.5em") |>
-#   scroll_box(width = "100%")
-
-```
-
-### How would you rate your overall Burner Express Bus experience?
-
-```{r}
-# 
-# bxbexp <- makePlotData("How would you rate your overall Burner Express Bus experience on a scale of 1-10, where 1 = terrible and 10 = absolutely fantastic?",
-#                              varNameTable = varNameTable,
-#                              designs = list(bxbDesign14, bxbDesign15, bxbDesign16,
-#                                             bxbDesign17, bxbDesign18,
-#                                             bxbDesign19, bxbDesign22, bxbDesign23),
-#                              years = c(2014:2019, 2022:2023),
-#                              levels = c(rep(list(c("terrible",
-#                                                    as.character(2:9),
-#                                                    "absolutely_fantastic")),
-#                                             times = 6),
-#                                         rep(list(c(as.character(1:10))), times = 2)),
-#                              labels = c("1 (terrible)", as.character(2:9),
-#                                         "10 (absolutely fantastic)"),
-#                              labelOrder = 10:1)
-# 
-# bxbDesign14$variables$bxbexp2 <- as.numeric(ifelse(
-#   bxbDesign14$variables$bxbexp == "terrible", 1,
-#   ifelse(design14$variables$bxbexp == "absolutely_fantastic", 10,
-#          design14$variables$bxbexp)))
-# 
-# bxbDesign15$variables$bxbexp2 <- as.numeric(ifelse(
-#   bxbDesign15$variables$bxbexp == "terrible", 1,
-#   ifelse(design15$variables$bxbexp == "absolutely_fantastic", 10,
-#          design15$variables$bxbexp)))
-# 
-# bxbDesign16$variables$bxbexp2 <- as.numeric(ifelse(
-#   bxbDesign16$variables$bxbexp == "terrible", 1,
-#   ifelse(design16$variables$bxbexp == "absolutely_fantastic", 10,
-#          design16$variables$bxbexp)))
-# 
-# bxbDesign17$variables$bxbexp2 <- as.numeric(ifelse(
-#   bxbDesign17$variables$bxbexp == "terrible", 1,
-#   ifelse(design17$variables$bxbexp == "absolutely_fantastic", 10,
-#          design17$variables$bxbexp)))
-# 
-# bxbDesign18$variables$bxbexp2 <- as.numeric(ifelse(
-#   bxbDesign18$variables$bxbexp == "terrible", 1,
-#   ifelse(design18$variables$bxbexp == "absolutely_fantastic", 10,
-#          design18$variables$bxbexp)))
-# 
-# bxbDesign19$variables$bxbexp2 <- as.numeric(ifelse(
-#   bxbDesign19$variables$bxbexp == "terrible", 1,
-#   ifelse(design19$variables$bxbexp == "absolutely_fantastic", 10,
-#          design19$variables$bxbexp)))
-# 
-# bxbExpPlotDat <- data.frame(score = c(bxbDesign14$variables$bxbexp2,
-#                                       bxbDesign15$variables$bxbexp2,
-#                                       bxbDesign16$variables$bxbexp2,
-#                                       bxbDesign17$variables$bxbexp2,
-#                                       bxbDesign18$variables$bxbexp2,
-#                                       bxbDesign19$variables$bxbexp2,
-#                                       bxbDesign22$variables$BXBOverallExperience,
-#                                       bxbDesign23$variables$BXBOverallExperience),
-#                             year = c(rep(2014, times = nrow(bxbDesign14$variables)),
-#                                      rep(2015, times = nrow(bxbDesign15$variables)),
-#                                      rep(2016, times = nrow(bxbDesign16$variables)),
-#                                      rep(2017, times = nrow(bxbDesign17$variables)),
-#                                      rep(2018, times = nrow(bxbDesign18$variables)),
-#                                      rep(2019, times = nrow(bxbDesign19$variables)),
-#                                      rep(2022, times = nrow(bxbDesign22$variables)),
-#                                      rep(2023, times = nrow(bxbDesign23$variables))),
-#                             weights = c(bxbDesign14$variables$weightbmorg,
-#                                         bxbDesign15$variables$weightbmorg1,
-#                                         bxbDesign16$variables$weightbmorg1,
-#                                         bxbDesign17$variables$weightbfarrival,
-#                                         bxbDesign18$variables$weightbfarrival,
-#                                         bxbDesign19$variables$weightbfarrival,
-#                                         bxbDesign22$variables$weights,
-#                                         bxbDesign23$variables$weights))
-# 
-# ggplot(bxbExpPlotDat, aes(x = as.factor(year), y = score, weight = weights)) +
-#   geom_violin(bw = 1, fill  = "#EA008B", alpha = 0.7) +
-#   theme_bw() +
-#   labs(y = "Satisfaction score", x = "",
-#        title = "How would you rate your overall Burner Express Bus experience?") +
-#   scale_y_continuous(breaks = 1:10, labels = c("1 (Terrible)", 
-#                                                as.character(2:9),
-#                                                "10 (Absolutely fantastic)")) +
-#   theme(panel.grid.minor.y = element_blank())
-# 
-# makeTableData(bxbexp) |>
-#   kbl(col.names = c(2014:2019, 2022:2023),
-#       row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
-#   kable_styling() |>
-#   column_spec(column = 1:9, width_min = "10.5em") |>
-#   scroll_box(width = "100%")
-
-```
 
 ## Visiting Nevada
 
