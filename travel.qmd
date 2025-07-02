@@ -1306,6 +1306,125 @@ mpg.tab |>
 #   column_spec(column = 1:8, width_min = "10.5em") |>
 #   kable_styling() |>
 #   scroll_box(width = "100%")
+
+med15 <- svyquantile(~milestotal, design15, 0.5, na.rm = TRUE)[[1]]
+med16 <- svyquantile(~milestotal, design16, 0.5, na.rm = TRUE)[[1]]
+med17 <- svyquantile(~as.numeric(milestotal), design17, 0.5, na.rm = TRUE)[[1]]
+med18 <- svyquantile(~milestotal, design18, 0.5, na.rm = TRUE)[[1]]
+med19 <- svyquantile(~milestotal, design19, 0.5, na.rm = TRUE)[[1]]
+med22 <- svyquantile(~vehicleMiles, design22, 0.5, na.rm = TRUE)[[1]]
+med23 <- svyquantile(~vehicleMiles, design23, 0.5, na.rm = TRUE)[[1]]
+med24 <- svyquantile(~vehicleMiles, design24, 0.5, na.rm = TRUE)[[1]]
+miles.median <- rbind(med15, med16, med17, med18, med19, med22, med23, med24)
+miles.median <- apply(miles.median, 1, function(x){
+  paste0(x[1], " (", x[2], ", ", x[3], ")")})
+
+q2515 <- svyquantile(~milestotal, design15, 0.25, na.rm = TRUE)[[1]]
+q2516 <- svyquantile(~milestotal, design16, 0.25, na.rm = TRUE)[[1]]
+q2517 <- svyquantile(~as.numeric(milestotal), design17, 0.25, na.rm = TRUE)[[1]]
+q2518 <- svyquantile(~milestotal, design18, 0.25, na.rm = TRUE)[[1]]
+q2519 <- svyquantile(~milestotal, design19, 0.25, na.rm = TRUE)[[1]]
+q2522 <- svyquantile(~vehicleMiles, design22, 0.25, na.rm = TRUE)[[1]]
+q2523 <- svyquantile(~vehicleMiles, design23, 0.25, na.rm = TRUE)[[1]]
+q2524 <- svyquantile(~vehicleMiles, design24, 0.25, na.rm = TRUE)[[1]]
+miles.q25 <- rbind(q2515, q2516, q2517, q2518, q2519, q2522, q2523, q2524)
+miles.q25 <- apply(miles.q25, 1, function(x){
+  paste0(x[1], " (", x[2], ", ", x[3], ")")})
+
+q7515 <- svyquantile(~milestotal, design15, 0.75, na.rm = TRUE)[[1]]
+q7516 <- svyquantile(~milestotal, design16, 0.75, na.rm = TRUE)[[1]]
+q7517 <- svyquantile(~as.numeric(milestotal), design17, 0.75, na.rm = TRUE)[[1]]
+q7518 <- svyquantile(~milestotal, design18, 0.75, na.rm = TRUE)[[1]]
+q7519 <- svyquantile(~milestotal, design19, 0.75, na.rm = TRUE)[[1]]
+q7522 <- svyquantile(~vehicleMiles, design22, 0.75, na.rm = TRUE)[[1]]
+q7523 <- svyquantile(~vehicleMiles, design23, 0.75, na.rm = TRUE)[[1]]
+q7524 <- svyquantile(~vehicleMiles, design23, 0.75, na.rm = TRUE)[[1]]
+miles.q75 <- rbind(q7515, q7516, q7517, q7518, q7519, q7522, q7523, q7524)
+miles.q75 <- apply(miles.q75, 1, function(x){
+  paste0(x[1], " (", x[2], ", ", x[3], ")")})
+
+q9915 <- svyquantile(~milestotal, design15, 0.99, na.rm = TRUE)[[1]]
+q9916 <- svyquantile(~milestotal, design16, 0.99, na.rm = TRUE)[[1]]
+q9917 <- svyquantile(~as.numeric(milestotal), design17, 0.99, na.rm = TRUE)[[1]]
+q9918 <- svyquantile(~milestotal, design18, 0.99, na.rm = TRUE)[[1]]
+q9919 <- svyquantile(~milestotal, design19, 0.99, na.rm = TRUE)[[1]]
+q9922 <- svyquantile(~vehicleMiles, design22, 0.99, na.rm = TRUE)[[1]]
+q9923 <- svyquantile(~vehicleMiles, design23, 0.99, na.rm = TRUE)[[1]]
+q9924 <- svyquantile(~vehicleMiles, design24, 0.99, na.rm = TRUE)[[1]]
+
+
+design15$variables$miles2 <- ifelse(design15$variables$milestotal < q9915[1],
+                                    design15$variables$milestotal, NA)
+design16$variables$miles2 <- ifelse(design16$variables$milestotal < q9916[1],
+                                    design16$variables$milestotal, NA)
+design17$variables$miles2 <- ifelse(as.numeric(design17$variables$milestotal) < q9917[1],
+                                    as.numeric(design17$variables$milestotal), NA)
+design18$variables$miles2 <- ifelse(design18$variables$milestotal < q9918[1],
+                                    design18$variables$milestotal, NA)
+design19$variables$miles2 <- ifelse(design19$variables$milestotal < q9919[1],
+                                    design19$variables$milestotal, NA)
+design22$variables$miles2 <- ifelse(design22$variables$vehicleMiles < q9922[1],
+                                    design22$variables$vehicleMiles, NA)
+design23$variables$miles2 <- ifelse(design23$variables$vehicleMiles < q9923[1],
+                                    design23$variables$vehicleMiles, NA)
+design24$variables$miles2 <- ifelse(design24$variables$vehicleMiles < q9924[1],
+                                    design24$variables$vehicleMiles, NA)
+mean15 <- svymean(~miles2, design15, na.rm = TRUE)
+mean16 <- svymean(~miles2, design16, na.rm = TRUE)
+mean17 <- svymean(~miles2, design17, na.rm = TRUE)
+mean18 <- svymean(~miles2, design18, na.rm = TRUE)
+mean19 <- svymean(~miles2, design19, na.rm = TRUE)
+mean22 <- svymean(~miles2, design22, na.rm = TRUE)
+mean23 <- svymean(~miles2, design23, na.rm = TRUE)
+mean24 <- svymean(~miles2, design24, na.rm = TRUE)
+
+milesMeans <- c(paste0(sprintf(fdf, round(as.numeric(mean15), 1)), " (",
+                       sprintf(fdf, round(as.numeric(mean15) - 1.965 * sqrt(attr(mean15, "var")), 1)), ", ",
+                       sprintf(fdf, round(as.numeric(mean15) + 1.965 * sqrt(attr(mean15, "var")), 1)), ")"),
+                paste0(sprintf(fdf, round(as.numeric(mean16), 1)), " (",
+                       sprintf(fdf, round(as.numeric(mean16) - 1.965 * sqrt(attr(mean16, "var")), 1)), ", ",
+                       sprintf(fdf, round(as.numeric(mean16) + 1.965 * sqrt(attr(mean16, "var")), 1)), ")"),
+                paste0(sprintf(fdf, round(as.numeric(mean17), 1)), " (",
+                       sprintf(fdf, round(as.numeric(mean17) - 1.965 * sqrt(attr(mean17, "var")), 1)), ", ",
+                       sprintf(fdf, round(as.numeric(mean17) + 1.965 * sqrt(attr(mean17, "var")), 1)), ")"),
+                paste0(sprintf(fdf, round(as.numeric(mean18), 1)), " (",
+                       sprintf(fdf, round(as.numeric(mean18) - 1.965 * sqrt(attr(mean18, "var")), 1)), ", ",
+                       sprintf(fdf, round(as.numeric(mean18) + 1.965 * sqrt(attr(mean18, "var")), 1)), ")"),
+                paste0(sprintf(fdf, round(as.numeric(mean19), 1)), " (",
+                       sprintf(fdf, round(as.numeric(mean19) - 1.965 * sqrt(attr(mean19, "var")), 1)), ", ",
+                       sprintf(fdf, round(as.numeric(mean19) + 1.965 * sqrt(attr(mean19, "var")), 1)), ")"),
+                paste0(sprintf(fdf, round(as.numeric(mean22), 1)), " (",
+                       sprintf(fdf, round(as.numeric(mean22) - 1.965 * sqrt(attr(mean22, "var")), 1)), ", ",
+                       sprintf(fdf, round(as.numeric(mean22) + 1.965 * sqrt(attr(mean22, "var")), 1)), ")"),
+                paste0(sprintf(fdf, round(as.numeric(mean23), 1)), " (",
+                       sprintf(fdf, round(as.numeric(mean23) - 1.965 * sqrt(attr(mean23, "var")), 1)), ", ",
+                       sprintf(fdf, round(as.numeric(mean23) + 1.965 * sqrt(attr(mean23, "var")), 1)), ")"),
+                paste0(sprintf(fdf, round(as.numeric(mean24), 1)), " (",
+                       sprintf(fdf, round(as.numeric(mean24) - 1.965 * sqrt(attr(mean24, "var")), 1)), ", ",
+                       sprintf(fdf, round(as.numeric(mean24) + 1.965 * sqrt(attr(mean24, "var")), 1)), ")"))
+
+ggplot(design24$variables, aes(x = miles2, weight = weights)) +
+  geom_density(fill = "#EA008B", alpha = 0.5, bw = 300, linewidth = 1.01) +
+  geom_segment(x = mean24[1],
+               xend = mean24[1],
+               y = 0, yend = 0.000545, color = "#4C4C4C",
+               linewidth = 1.1) +
+  scale_y_continuous(labels = number) +
+  scale_x_continuous(labels = comma) +
+  annotate("text", x = 2850, y = 0.000545, label = "Average miles driven (1,077 miles)") +
+  theme_bw(13) +
+  labs(x = "Miles driven to Black Rock City in 2024", y = "Density",
+       title = "How many total miles did you drive to get to Black Rock City?")
+
+milesTable <- as.table(rbind(milesMeans, miles.q25, miles.median, miles.q75))
+rownames(milesTable) <- c("Mean (Miles)", "25^th^ percentile",
+                          "Median", "75^th^ percentil")
+milesTable |>
+  kbl(col.names = c(2015:2019, 2022:2024), row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  column_spec(column = 1:9, width_min = "10.5em") |>
+  kable_styling() |>
+  scroll_box(width = "100%")
 ```
 
 ### Route through Nevada to Black Rock City
@@ -1366,6 +1485,62 @@ mpg.tab |>
 #   column_spec(column = 1:4, width_min = "10.5em") |>
 #   kable_styling() |>
 #   scroll_box(width = "100%")
+
+route <- makePlotData("From the list below, select the option that best describes the route through Nevada that you took to get to BRC.",
+                      designs = list(design19, design22, design23, design24),
+                      varNameTable = varNameTable,
+                      years = c(2019, 2022:2024),
+                      levels = c(list(c("Another_route", "From_AZ_border",
+                                        "From_CA_via_US6_US95",
+                                        "From_LA_to_BRC_via_US395",
+                                        "From_LA_to_Reno_to_BRC_via_US395",
+                                        "From_Las_Vegas",
+                                        "From_North_via_route447",
+                                        "From_Reno",
+                                        "From_SF_to_Reno_to_BRC_via_I80",
+                                        "From_South_CA_via_I15",
+                                        "From_Utah_border", "IDK")),
+                                 rep(list(c("Different route",
+                                        "From the Arizona border via US-93/US-95",
+                                        "From Central or Southern California via US-6/US-95",
+                                        "From Los Angeles / San Diego DIRECT to BRC via US-395",
+                                        "From Los Angeles / San Diego to RENO to BRC via US-395",
+                                        "From Las Vegas, NV",
+                                        "From Washington/Oregon/Northern California on Route 447",
+                                        "From Reno, NV",
+                                        "From San Francisco/Sacramento to RENO to BRC via I-80",
+                                        "From Southern California to Las Vegas to BRC via I-15",
+                                        "From the Utah border via I-80",
+                                        "Don't know")), times = 3)),
+                      labels = c("Different route",
+                                 "From the Arizona border \n via US-93/US-95",
+                                 "From Central or \n Southern California \n via US-6/US-95",
+                                 "From Los Angeles \n or San Diego DIRECT \n to BRC via US-395",
+                                 "From Los Angeles or \n San Diego to RENO \n to BRC via US-395",
+                                 "From Las Vegas, NV",
+                                 "From Washington, Oregon, \n Northern California \n on Route 447",
+                                 "From Reno, NV",
+                                 "From San Francisco or \n Sacrament to RENO \n to BRC via I-80",
+                                 "From Southern California \n to Las Vegas \n to BRC via I-15",
+                                 "From the Utah border \n via I-80",
+                                 "I don\'t know"),
+                      labelOrder = c(12, 10, 3, 2, 1, 6, 5, 4, 11, 7, 8, 9))
+
+ggplot(route, aes(x = labels, y = est, fill = as.factor(year))) +
+  geom_bar(stat = "identity", position = "dodge") +
+  scale_y_continuous(labels = percent) +
+  scale_fill_manual(values = discreteColors[1:4]) +
+  labs(x = "Route to Black Rock City", y = "Burning Man participants who entered through the main gate (%)", fill = "",
+       title = "Which route did you take through Nevada to get to BRC?") +
+  theme_bw() +
+  coord_flip()
+
+makeTableData(route)[12:1,] |>
+  kbl(col.names = c(2019, 2022:2024), row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  column_spec(column = 1:5, width_min = "10.5em") |>
+  kable_styling() |>
+  scroll_box(width = "100%")
 ```
 
 
@@ -1450,6 +1625,103 @@ mpg.tab |>
 #   column_spec(column = 1:3, width_min = "10.5em") |>
 #   kable_styling() |>
 #   scroll_box(width = "100%")
+
+gerlachStops24 <- makePlotData("As you passed through the town of Gerlach, did you stop at/visit any of the following locations?",
+                             varNameTable = varNameTable,
+                             designs = list(design24),
+                             years = 2024,
+                             levels = rep(list(TRUE), times = 1),
+                             labels = c("The Gerlach Burning Man Project office",
+                                        "The 360",
+                                        "The Oasis",
+                                        "The Desert Club (Hotel)",
+                                        "High Rock Pizza",
+                                        "Granite Point RV Park",
+                                        "Miners Club",
+                                        "Bruno\'s Country Club",
+                                        "Joe\'s Gerlach Club",
+                                        "Gas station",
+                                        "Roadside vendors (food)",
+                                        "Roadside vendors (non-food)",
+                                        "Friends of Black Rock City",
+                                        "Other",
+                                        "I did not stop"),
+                             labelOrder = c(10, 12, 5, 11, 8, 1, 7, 9, 13, 3, 4, 2, 6, 14, 15)[15:1])
+
+# gerlachStops23 <- makePlotData("As you passed through the town of Gerlach, did you stop at/visit any of the following locations?",
+#                              varNameTable = varNameTable,
+#                              designs = list(design23),
+#                              years = 2023,
+#                              levels = rep(list(TRUE), times = 1),
+#                              labels = c("The Gerlach Burning Man Project office",
+#                                         "The 360",
+#                                         "The Oasis",
+#                                         "The Desert Club (Hotel)",
+#                                         "High Rock Pizza",
+#                                         "Granite Point RV Park",
+#                                         "Miners Club",
+#                                         "Bruno\'s Country Club",
+#                                         "Joe\'s Gerlach Club",
+#                                         "Roadside vendors (food)",
+#                                         "Roadside vendors (non-food)",
+#                                         "Friends of Black Rock City",
+#                                         "Other",
+#                                         "I did not stop"),
+#                              labelOrder = c(11, 5, 8, 10, 1, 7, 3, 9, 12, 4, 2, 6, 13, 14)[14:1])
+# 
+# gerlachStops22 <- makePlotData("As you passed through the town of Gerlach, did you stop at/visit any of the following locations?",
+#                                #Removing friends of black rock
+#                                varNameTable = varNameTable[!grepl("Friends of Black Rock City",
+#                                                                   varNameTable$option),],
+#                              designs = list(design22),
+#                              years = 2022,
+#                              levels = rep(list(TRUE), times = 1),
+#                              labels = c("The Gerlach Burning Man Project office",
+#                                         "The 360",
+#                                         "The Oasis",
+#                                         "The Desert Club (Hotel)",
+#                                         "High Rock Pizza",
+#                                         "Granite Point RV Park",
+#                                         "Miners Club",
+#                                         "Bruno\'s Country Club",
+#                                         "Joe\'s Gerlach Club",
+#                                         "Roadside vendors (food)",
+#                                         "Roadside vendors (non-food)",
+#                                         "Other",
+#                                         "I did not stop"),
+#                              labelOrder = c(13,12,4,6,9,2,3,7,1,5,8,10,11))
+
+# gerlachStops22$labels <- factor(gerlachStops22$labels,
+#                                 levels = levels(gerlachStops23$labels))
+# gerlachStops <- rbind(gerlachStops23, gerlachStops22)
+
+
+ggplot(gerlachStops24, aes(x = labels, y = est)) +
+  geom_bar(stat = "identity", position = "dodge", fill = "#EA008B") +
+  scale_y_continuous(labels = percent) +
+  labs(x = "Stops in Gerlach", y = "Percent of participants in 2024",
+       fill = "",
+       title = "As you passed through the town of Gerlach, \n did you visit any of the following locations?") +
+  theme_bw() +
+  coord_flip() +
+  guides(fill = guide_legend(reverse = TRUE))
+
+# table22 <- makeTableData(gerlachStops22)
+# t22 <- matrix(c(table22[1:5, 1], "N/A", table22[6:13, 1]))
+# t22 <- as.table(t22)
+# colnames(t22) <- "2022"
+# rownames(t22) <- c(rownames(table22)[1:5], "Friends of Black Rock City",
+#                    rownames(table22)[6:13])
+table24 <- makeTableData(gerlachStops24)
+
+#TODO add footnote for FoBRC option being added
+
+table24[14:1,] |>
+  kbl(col.names = c(2024), row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  column_spec(column = 1:2, width_min = "10.5em") |>
+  kable_styling() |>
+  scroll_box(width = "100%")
 ```
 
 ### Visiting parks or recreation areas
@@ -1495,40 +1767,88 @@ mpg.tab |>
 #   kable_styling() |>
 #   column_spec(column = 1:8, width_min = "10.5em") |>
 #   scroll_box(width = "100%")
+
+#TODO add in 2013 and 2014.  Question options changed in 2015
+
+parks <- makePlotData("Did you visit any parks and/or recreation areas this year on your way to and/or from Black Rock City?",
+                      varNameTable = varNameTable,
+                      designs = list(design15, design16, design17, design18,
+                                     design19, design22, design23, design24),
+                      years = c(2015:2019, 2022:2024),
+                      levels = c(list(c("No", "Not_sure", "Yes_2+_places",
+                                        "Yes_one_place")),
+                                 rep(list(c("No", "Not_sure",
+                                            "Yes_2places_or_more",
+                                            "Yes_one_place")), times = 4),
+                                 rep(list(c("No", "Not sure",
+                                        "More than one place",
+                                        "One place")), times = 3)),
+                      labels = c("No", "Not sure",
+                                 "Yes, more than one place",
+                                 "Yes, one place"),
+                      labelOrder = c(4,3,1,2))
+
+ggplot(parks, aes(x = year, y = est, color = labels)) +
+  geom_line(linewidth = 1.5, alpha = 0.7) +
+  geom_point(size = 2.25) +
+  theme_bw(13) +
+  theme(panel.grid.minor = element_blank()) +
+  scale_x_continuous(breaks = c(2015:2019, 2022:2024), labels = c(2015:2019, 2022:2024)) +
+  scale_y_continuous(labels = percent, limits = c(0, NA)) +
+  scale_color_manual(values = discreteColors) +
+  labs(x = "Burning Man participants (%)", y = "",
+       color = "Parks or recreation visited",
+       title = "Did you visit any parks or recreation areas this year \n on your way to or from Black Rock City?")
+
+
+makeTableData(parks) |>
+  kbl(col.names = c(2015:2019, 2022:2024),
+      row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  kable_styling() |>
+  column_spec(column = 1:9, width_min = "10.5em") |>
+  scroll_box(width = "100%")
 ```
 
 ### Reasons for visiting public lands
 
 ```{r}
-# publicLands <- makePlotData("On your trip to and/or from the Burning Man event, are you visiting (or did you visit) public lands within a 30-mile radius of Black Rock City for any of the following reasons?",
-#                             varNameTable = varNameTable,
-#                             designs = list(design17, design18, design19,
-#                                            design22, design23),
-#                             years = c(2017:2019, 2022:2023),
-#                             levels = c(rep(list(c("yes")), times = 3),
-#                                        rep(list(c(TRUE)), times = 2)),
-#                             labels = c("Camping", "Hiking",
-#                                        "Boating or swimming",
-#                                        "Hotsprings", "Wind sailing",
-#                                        "Burning Man only", "Other"),
-#                             labelOrder = c(6, 1, 3, 4, 2, 5, 7))
-# 
-# ggplot(publicLands[publicLands$year == 2023,], aes(x = labels, y = est)) +
-#   geom_bar(stat = "identity", fill = "#EA008B") +
-#   scale_y_continuous(labels = percent) +
-#   labs(x = "Reason for public lands visit", y = "Burning Man participants (%)",
-#        title = "Are you visiting public lands within a 30-mile radius of Black Rock City \n for any of the following reasons?") +
-#   theme_bw() +
-#   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))
-#   # facet_wrap(~as.factor(year), nrow = 1)
-# 
-# makeTableData(publicLands) |>
-#   kbl(col.names = c(2017:2019, 2022:2023),
-#       row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
-#   kable_styling() |>
-#   column_spec(column = 1:6, width_min = "10.5em") |>
-#   scroll_box(width = "100%")
+#TODO make a line chart of reasons by year excluding Burning Man only
+
+publicLands <- makePlotData("On your trip to and/or from the Burning Man event, are you visiting (or did you visit) public lands within a 30-mile radius of Black Rock City for any of the following reasons?",
+                            varNameTable = varNameTable,
+                            designs = list(design17, design18, design19,
+                                           design22, design23, design24),
+                            years = c(2017:2019, 2022:2024),
+                            levels = c(rep(list(c("yes")), times = 3),
+                                       rep(list(c(TRUE)), times = 3)),
+                            labels = c("Camping", "Hiking",
+                                       "Boating or swimming",
+                                       "Hotsprings", "Wind sailing",
+                                       "Burning Man only", "Other"),
+                            labelOrder = c(6, 1, 3, 4, 2, 5, 7))
+
+
+
+ggplot(publicLands[publicLands$labels != "Burning Man only",], 
+       aes(x = year, y = est, color = labels)) +
+  geom_line(linewidth = 1.5, alpha = 0.7) +
+  geom_point(size = 2.25) +
+  theme_bw(13) +
+  theme(panel.grid.minor = element_blank()) +
+  scale_x_continuous(breaks = c(2017:2019, 2022:2024),
+                     labels = c(2017:2019, 2022:2024)) +
+  scale_y_continuous(labels = percent, limits = c(0, NA)) +
+  scale_color_manual(values = discreteColors) +
+  labs(x = "", y = "Burning Man Partcipants (%)", color = "")
+
+makeTableData(publicLands) |>
+  kbl(col.names = c(2017:2019, 2022:2024),
+      row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  kable_styling() |>
+  column_spec(column = 1:7, width_min = "10.5em") |>
+  scroll_box(width = "100%")
 ```
 
 <!-- ### Most visited Nevada cities or communities going to or from the Burning Man Event -->
@@ -1565,6 +1885,45 @@ mpg.tab |>
 #   kable_styling() |>
 #   column_spec(column = 1:5, width_min = "10.5em") |>
 #   scroll_box(width = "100%")
+
+returnBRD <- makePlotData("Do you intend to come back to the Black Rock Desert outside of the Burning Man event?",
+                          varNameTable = varNameTable,
+                          designs = list(design17, design18, design19,
+                                         design22, design23, design24),
+                          years = c(2017:2019, 2022:2024),
+                          levels = c(rep(list(c("maybe", "no", "yes")), times = 3),
+                                     rep(list(c("Maybe", "No", "Yes")), times = 3)),
+                          labels = c("Maybe", "No", "Yes"),
+                          labelOrder = c(3, 1, 2)[3:1])
+
+# ggplot(returnBRD, aes(x = labels, y = est)) +
+#   geom_bar(stat = "identity", fill = "#EA008B") +
+#   scale_y_continuous(labels = percent) +
+#   labs(x = "Intend to return to Black Rock Desert",
+#        y = "Burning Man participants (%)",
+#        title = "Do you intend to come back to the Black Rock Desert \n outside of the Burning Man event?") +
+#   theme_bw() +
+#   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) +
+#   facet_wrap(~as.factor(year), nrow = 1)
+
+ggplot(returnBRD, aes(x = year, y = est, fill = labels)) +
+  geom_area(alpha = 0.65) +
+  scale_y_continuous(labels = percent) +
+  scale_x_continuous(breaks = c(2017:2019, 2022:2024),
+                     labels = c(2017:2019, 2022:2024)) +
+  scale_fill_manual(values = gradientColors(3)[3:1]) +
+  labs(x = "", y = "Burning Man participants (%)",
+       fill = "Intend to return to \nBlack Rock Desert",
+       title = "Do you intend to come back to the Black Rock Desert \n outside of the Burning Man event?") +
+  theme_bw()
+
+makeTableData(returnBRD) |>
+  kbl(col.names = c(2017:2019, 2022:2024),
+      row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  kable_styling() |>
+  column_spec(column = 1:7, width_min = "10.5em") |>
+  scroll_box(width = "100%")
 ```
 
 ## Expenses
@@ -1639,6 +1998,77 @@ mpg.tab |>
 #   kable_styling() |>
 #   column_spec(column = 1:8, width_min = "10.5em") |>
 #   scroll_box(width = "100%")
+
+qs15 <- svyquantile(~bmspending, design15,
+                    c(0.01, 0.10, 0.25, 0.5, 0.75, 0.9, 0.99),
+                    na.rm = TRUE)[[1]]
+qs16 <- svyquantile(~bmspending, design16,
+                     c(0.01, 0.10, 0.25, 0.5, 0.75, 0.9, 0.99),
+                     na.rm = TRUE)[[1]]
+qs17 <- svyquantile(~bmspending, design17,
+                    c(0.01, 0.10, 0.25, 0.5, 0.75, 0.9, 0.99),
+                    na.rm = TRUE)[[1]]
+qs18 <- svyquantile(~bmspending, design18,
+                    c(0.01, 0.10, 0.25, 0.5, 0.75, 0.9, 0.99),
+                    na.rm = TRUE)[[1]]
+qs19 <- svyquantile(~bmspending, design19,
+                      c(0.01, 0.10, 0.25, 0.5, 0.75, 0.9, 0.99),
+                      na.rm = TRUE)[[1]]
+qs22 <- svyquantile(~spendToGoToBRC, design22,
+                    c(0.01, 0.10, 0.25, 0.5, 0.75, 0.9, 0.99),
+                    na.rm = TRUE)[[1]]
+qs23 <- svyquantile(~spendToGoToBRC, design23,
+                    c(0.01, 0.10, 0.25, 0.5, 0.75, 0.9, 0.99),
+                    na.rm = TRUE)[[1]]
+qs24 <- svyquantile(~spendToGoToBRC, design24,
+                    c(0.01, 0.10, 0.25, 0.5, 0.75, 0.9, 0.99),
+                    na.rm = TRUE)[[1]]
+spend <- rbind(qs15, qs16, qs17, qs18, qs19, qs22, qs23, qs24)
+
+spend2 <- data.frame(est = spend[,1], year = rep(c(2015:2019, 2022:2024), each = 7),
+                     percentiles = factor(c("1%", "10%", "25%", "50% (median)",
+                                            "75%", "90%", "99%"),
+                                          levels = c("99%", "90%",
+                                                     "75%", "50% (median)",
+                                                     "25%", "10%", "1%")))
+spend2$est[spend2$percentiles == "99%"] <- spend2$est[spend2$percentiles == "99%"] -
+  spend2$est[spend2$percentiles == "90%"]
+spend2$est[spend2$percentiles == "90%"] <- spend2$est[spend2$percentiles == "90%"] -
+  spend2$est[spend2$percentiles == "75%"]
+spend2$est[spend2$percentiles == "75%"] <- spend2$est[spend2$percentiles == "75%"] -
+  spend2$est[spend2$percentiles == "50% (median)"]
+spend2$est[spend2$percentiles == "50% (median)"] <- spend2$est[spend2$percentiles == "50% (median)"] -
+  spend2$est[spend2$percentiles == "25%"]
+spend2$est[spend2$percentiles == "25%"] <- spend2$est[spend2$percentiles == "25%"] -
+  spend2$est[spend2$percentiles == "10%"]
+spend2$est[spend2$percentiles == "10%"] <- spend2$est[spend2$percentiles == "10%"] -
+  spend2$est[spend2$percentiles == "1%"]
+
+ggplot(spend2, aes(x = year, y = est, color = percentiles, fill = percentiles)) +
+  geom_area(linewidth = 1.05, alpha = 0.7) +
+  theme_bw(13) +
+  labs(x = "", y = "Amount spent to go to Burning Man (USD)",
+       fill = "Percentile",
+       title = "How much did you spend this year to travel \n to and from Black Rock City?") +
+  guides(color = "none") +
+  scale_y_continuous(labels = scales::dollar) +
+  scale_x_continuous(breaks = c(2015:2019, 2022:2024),
+                     labels = c(2015:2019, 2022:2024))
+
+spendTableValues <- matrix(apply(spend, 1, function(x){
+  paste0("$", x[1], " ( $", x[2], ", $", x[3], ")")}),
+  nrow = 7)
+
+rownames(spendTableValues) <- c("1%", "10%", "25%", "50% (median)",
+                                "75%", "90%", "99%")
+
+spendTableValues |>
+  kbl(col.names = c(2015:2019, 2022:2024),
+      row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  kable_styling() |>
+  column_spec(column = 1:9, width_min = "10.5em") |>
+  scroll_box(width = "100%")
 
 ```
 
@@ -1790,6 +2220,393 @@ mpg.tab |>
 #   kable_styling() |>
 #   column_spec(column = 1:8, width_min = "10.5em") |>
 #   scroll_box(width = "100%")
+
+
+fuel15 <- svymean(~sqrt(nvspendfuel), design15, na.rm = TRUE)
+food15 <- svymean(~sqrt(nvspendfood), design15, na.rm = TRUE)
+lodging15 <- svymean(~sqrt(nvspendlodging), design15, na.rm = TRUE)
+survival15 <- svymean(~sqrt(nvspendsurvival), design15, na.rm = TRUE)
+fun15 <- svymean(~sqrt(nvspendfun), design15, na.rm = TRUE)
+
+fuel16 <- svymean(~sqrt(nvspendfuel), design16, na.rm = TRUE)
+food16 <- svymean(~sqrt(nvspendfood), design16, na.rm = TRUE)
+lodging16 <- svymean(~sqrt(nvspendlodging), design16, na.rm = TRUE)
+survival16 <- svymean(~sqrt(nvspendsurvival), design16, na.rm = TRUE)
+fun16 <- svymean(~sqrt(nvspendfun), design16, na.rm = TRUE)
+
+fuel17 <- svymean(~sqrt(nvspendfuel), design17, na.rm = TRUE)
+food17 <- svymean(~sqrt(nvspendfood), design17, na.rm = TRUE)
+lodging17 <- svymean(~sqrt(nvspendlodging), design17, na.rm = TRUE)
+survival17 <- svymean(~sqrt(nvspendsurvival), design17, na.rm = TRUE)
+fun17 <- svymean(~sqrt(nvspendfun), design17, na.rm = TRUE)
+
+fuel18 <- svymean(~sqrt(nvspendfuel), design18, na.rm = TRUE)
+food18 <- svymean(~sqrt(nvspendfood), design18, na.rm = TRUE)
+lodging18 <- svymean(~sqrt(nvspendlodging), design18, na.rm = TRUE)
+survival18 <- svymean(~sqrt(nvspendsurvival), design18, na.rm = TRUE)
+fun18 <- svymean(~sqrt(nvspendfun), design18, na.rm = TRUE)
+
+fuel19 <- svymean(~sqrt(nvspendfuel), design19, na.rm = TRUE)
+food19 <- svymean(~sqrt(nvspendfood), design19, na.rm = TRUE)
+lodging19 <- svymean(~sqrt(nvspendlodging), design19, na.rm = TRUE)
+survival19 <- svymean(~sqrt(nvspendsurvival), design19, na.rm = TRUE)
+fun19 <- svymean(~sqrt(nvspendfun), design19, na.rm = TRUE)
+
+fuel22 <- svymean(~sqrt(spendNevada.fuel), design22, na.rm = TRUE)
+food22 <- svymean(~sqrt(spendNevada.food), design22, na.rm = TRUE)
+lodging22 <- svymean(~sqrt(spendNevada.lodging), design22, na.rm = TRUE)
+survival22 <- svymean(~sqrt(spendNevada.survival), design22, na.rm = TRUE)
+fun22 <- svymean(~sqrt(spendNevada.fun), design22, na.rm = TRUE)
+
+fuel23 <- svymean(~sqrt(spendNevada.fuel), design23, na.rm = TRUE)
+food23 <- svymean(~sqrt(spendNevada.food), design23, na.rm = TRUE)
+lodging23 <- svymean(~sqrt(spendNevada.lodging), design23, na.rm = TRUE)
+survival23 <- svymean(~sqrt(spendNevada.survival), design23, na.rm = TRUE)
+fun23 <- svymean(~sqrt(spendNevada.fun), design23, na.rm = TRUE)
+
+design24$variables$spendNevada.lodging <- ifelse(design24$variables$spendNevada.lodging < quantile(design24$variables$spendNevada.lodging, 0.999, na.rm = TRUE), design24$variables$spendNevada.lodging, NA)
+
+fuel24 <- svymean(~sqrt(spendNevada.fuel), design24, na.rm = TRUE)
+food24 <- svymean(~sqrt(spendNevada.food), design24, na.rm = TRUE)
+lodging24 <- svymean(~sqrt(spendNevada.lodging), design24, na.rm = TRUE)
+survival24 <- svymean(~sqrt(spendNevada.survival), design24, na.rm = TRUE)
+fun24 <- svymean(~sqrt(spendNevada.fun), design24, na.rm = TRUE)
+
+
+# fuel15 <- weighted.mean2(sqrt(census15$nvspendfuel), census15$weightbmorg1,
+#                          trim = c(NA, 0.999), na.rm = TRUE)^2
+# food15 <- weighted.mean2(sqrt(census15$nvspendfood), census15$weightbmorg1,
+#                          trim = c(NA, 0.999), na.rm = TRUE)^2
+# lodging15 <- weighted.mean2(sqrt(census15$nvspendlodging), census15$weightbmorg1,
+#                             trim = c(NA, 0.999), na.rm = TRUE)^2
+# survival15 <- weighted.mean2(sqrt(census15$nvspendsurvival), census15$weightbmorg1,
+#                              trim = c(NA, 0.999), na.rm = TRUE)^2
+# fun15 <- weighted.mean2(sqrt(census15$nvspendfun), census15$weightbmorg1,
+#                         trim = c(NA, 0.999), na.rm = TRUE)^2
+# 
+# fuel16 <- weighted.mean2(sqrt(census16$nvspendfuel), census16$weightbmorg1,
+#                          trim = c(NA, 0.999), na.rm = TRUE)^2
+# food16 <- weighted.mean2(sqrt(census16$nvspendfood), census16$weightbmorg1,
+#                          trim = c(NA, 0.999), na.rm = TRUE)^2
+# lodging16 <- weighted.mean2(sqrt(census16$nvspendlodging), census16$weightbmorg1,
+#                             trim = c(NA, 0.999), na.rm = TRUE)^2
+# survival16 <- weighted.mean2(sqrt(census16$nvspendsurvival), census16$weightbmorg1,
+#                              trim = c(NA, 0.999), na.rm = TRUE)^2
+# fun16 <- weighted.mean2(sqrt(census16$nvspendfun), census16$weightbmorg1,
+#                         trim = c(NA, 0.999), na.rm = TRUE)^2
+# 
+# fuel17 <- weighted.mean2(sqrt(census17$nvspendfuel), census17$weightbfarrival,
+#                          trim = c(NA, 0.999), na.rm = TRUE)^2
+# food17 <- weighted.mean2(sqrt(census17$nvspendfood), census17$weightbfarrival,
+#                          trim = c(NA, 0.999), na.rm = TRUE)^2
+# lodging17 <- weighted.mean2(sqrt(census17$nvspendlodging), census17$weightbfarrival,
+#                             trim = c(NA, 0.999), na.rm = TRUE)^2
+# survival17 <- weighted.mean2(sqrt(census17$nvspendsurvival), census17$weightbfarrival,
+#                              trim = c(NA, 0.999), na.rm = TRUE)^2
+# fun17 <- weighted.mean2(sqrt(census17$nvspendfun), census17$weightbfarrival,
+#                         trim = c(NA, 0.999), na.rm = TRUE)^2
+# 
+# fuel18 <- weighted.mean2(sqrt(census18$nvspendfuel), census18$weightbfarrival,
+#                          trim = c(NA, 0.999), na.rm = TRUE)^2
+# food18 <- weighted.mean2(sqrt(census18$nvspendfood), census18$weightbfarrival,
+#                          trim = c(NA, 0.999), na.rm = TRUE)^2
+# lodging18 <- weighted.mean2(sqrt(census18$nvspendlodging), census18$weightbfarrival,
+#                             trim = c(NA, 0.999), na.rm = TRUE)^2
+# survival18 <- weighted.mean2(sqrt(census18$nvspendsurvival), census18$weightbfarrival,
+#                              trim = c(NA, 0.999), na.rm = TRUE)^2
+# fun18 <- weighted.mean2(sqrt(census18$nvspendfun), census18$weightbfarrival,
+#                         trim = c(NA, 0.999), na.rm = TRUE)^2
+# 
+# fuel19 <- weighted.mean2(sqrt(census19$nvspendfuel), census19$weightbfarrival,
+#                          trim = c(NA, 0.999), na.rm = TRUE)^2
+# food19 <- weighted.mean2(sqrt(census19$nvspendfood), census19$weightbfarrival,
+#                          trim = c(NA, 0.999), na.rm = TRUE)^2
+# lodging19 <- weighted.mean2(sqrt(census19$nvspendlodging), census19$weightbfarrival,
+#                             trim = c(NA, 0.999), na.rm = TRUE)^2
+# survival19 <- weighted.mean2(sqrt(census19$nvspendsurvival), census19$weightbfarrival,
+#                              trim = c(NA, 0.999), na.rm = TRUE)^2
+# fun19 <- weighted.mean2(sqrt(census19$nvspendfun), census19$weightbfarrival,
+#                         trim = c(NA, 0.999), na.rm = TRUE)^2
+# 
+# fuel22 <- weighted.mean2(sqrt(census22$spendNevada.fuel), census22$weights,
+#                          trim = c(NA, 0.999), na.rm = TRUE)^2
+# food22 <- weighted.mean2(sqrt(census22$spendNevada.food), census22$weights,
+#                          trim = c(NA, 0.999), na.rm = TRUE)^2
+# lodging22 <- weighted.mean2(sqrt(census22$spendNevada.lodging), census22$weights,
+#                             trim = c(NA, 0.999), na.rm = TRUE)^2
+# survival22 <- weighted.mean2(sqrt(census22$spendNevada.survival), census22$weights,
+#                              trim = c(NA, 0.999), na.rm = TRUE)^2
+# fun22 <- weighted.mean2(sqrt(census22$spendNevada.fun), census22$weights,
+#                         trim = c(NA, 0.999), na.rm = TRUE)^2
+# 
+# fuel23 <- weighted.mean2(sqrt(census23$spendNevada.fuel), census23$weights,
+#                          trim = c(NA, 0.999), na.rm = TRUE)^2
+# food23 <- weighted.mean2(sqrt(census23$spendNevada.food), census23$weights,
+#                          trim = c(NA, 0.999), na.rm = TRUE)^2
+# lodging23 <- weighted.mean2(sqrt(census23$spendNevada.lodging), census23$weights,
+#                             trim = c(NA, 0.999), na.rm = TRUE)^2
+# survival23 <- weighted.mean2(sqrt(census23$spendNevada.survival), census23$weights,
+#                              trim = c(NA, 0.999), na.rm = TRUE)^2
+# fun23 <- weighted.mean2(sqrt(census23$spendNevada.fun), census23$weights,
+#                         trim = c(NA, 0.999), na.rm = TRUE)^2
+# 
+# fuel24 <- weighted.mean2(sqrt(census24$spendNevada.fuel), census24$weights,
+#                          trim = c(NA, 0.999), na.rm = TRUE)^2
+# food24 <- weighted.mean2(sqrt(census24$spendNevada.food), census24$weights,
+#                          trim = c(NA, 0.999), na.rm = TRUE)^2
+# lodging24 <- weighted.mean2(sqrt(census24$spendNevada.lodging), census24$weights,
+#                             trim = c(NA, 0.999), na.rm = TRUE)^2
+# survival24 <- weighted.mean2(sqrt(census24$spendNevada.survival), census24$weights,
+#                              trim = c(NA, 0.999), na.rm = TRUE)^2
+# fun24 <- weighted.mean2(sqrt(census24$spendNevada.fun), census24$weights,
+#                         trim = c(NA, 0.999), na.rm = TRUE)^2
+
+fuel15 <- c(est = fuel15[1], se = sqrt(attr(fuel15, "var")))
+fuel15 <- c(est = fuel15[1]^2, lower.ci = (fuel15[1] - 1.96 * fuel15[2])^2,
+            upper.ci = (fuel15[1] + 1.96 * fuel15[2])^2)
+food15 <- c(est = food15[1], se = sqrt(attr(food15, "var")))
+food15 <- c(est = food15[1]^2, 
+            lower.ci = (food15[1] - 1.96 * food15[2])^2,
+            upper.ci = (food15[1] + 1.96 * food15[2])^2)
+lodging15 <- c(est = lodging15[1], se = sqrt(attr(lodging15, "var")))
+lodging15 <- c(est = lodging15[1]^2, 
+               lower.ci = (lodging15[1] - 1.96 * lodging15[2])^2,
+               upper.ci = (lodging15[1] + 1.96 * lodging15[2])^2)
+survival15 <- c(est = survival15[1], se = sqrt(attr(survival15, "var")))
+survival15 <- c(est = survival15[1]^2, 
+                lower.ci = (survival15[1] - 1.96 * survival15[2])^2,
+                upper.ci = (survival15[1] + 1.96 * survival15[2])^2)
+fun15 <- c(est = fun15[1], se = sqrt(attr(fun15, "var")))
+fun15 <- c(est = fun15[1]^2, 
+           lower.ci = (fun15[1] - 1.96 * fun15[2])^2,
+           upper.ci = (fun15[1] + 1.96 * fun15[2])^2)
+
+fuel16 <- c(est = fuel16[1], se = sqrt(attr(fuel16, "var")))
+fuel16 <- c(est = fuel16[1]^2, lower.ci = (fuel16[1] - 1.96 * fuel16[2])^2,
+            upper.ci = (fuel16[1] + 1.96 * fuel16[2])^2)
+food16 <- c(est = food16[1], se = sqrt(attr(food16, "var")))
+food16 <- c(est = food16[1]^2, 
+            lower.ci = (food16[1] - 1.96 * food16[2])^2,
+            upper.ci = (food16[1] + 1.96 * food16[2])^2)
+lodging16 <- c(est = lodging16[1], se = sqrt(attr(lodging16, "var")))
+lodging16 <- c(est = lodging16[1]^2, 
+               lower.ci = (lodging16[1] - 1.96 * lodging16[2])^2,
+               upper.ci = (lodging16[1] + 1.96 * lodging16[2])^2)
+survival16 <- c(est = survival16[1], se = sqrt(attr(survival16, "var")))
+survival16 <- c(est = survival16[1]^2, 
+                lower.ci = (survival16[1] - 1.96 * survival16[2])^2,
+                upper.ci = (survival16[1] + 1.96 * survival16[2])^2)
+fun16 <- c(est = fun16[1], se = sqrt(attr(fun16, "var")))
+fun16 <- c(est = fun16[1]^2, 
+           lower.ci = (fun16[1] - 1.96 * fun16[2])^2,
+           upper.ci = (fun16[1] + 1.96 * fun16[2])^2)
+
+fuel17 <- c(est = fuel17[1], se = sqrt(attr(fuel17, "var")))
+fuel17 <- c(est = fuel17[1]^2, lower.ci = (fuel17[1] - 1.96 * fuel17[2])^2,
+            upper.ci = (fuel17[1] + 1.96 * fuel17[2])^2)
+food17 <- c(est = food17[1], se = sqrt(attr(food17, "var")))
+food17 <- c(est = food17[1]^2, 
+            lower.ci = (food17[1] - 1.96 * food17[2])^2,
+            upper.ci = (food17[1] + 1.96 * food17[2])^2)
+lodging17 <- c(est = lodging17[1], se = sqrt(attr(lodging17, "var")))
+lodging17 <- c(est = lodging17[1]^2, 
+               lower.ci = (lodging17[1] - 1.96 * lodging17[2])^2,
+               upper.ci = (lodging17[1] + 1.96 * lodging17[2])^2)
+survival17 <- c(est = survival17[1], se = sqrt(attr(survival17, "var")))
+survival17 <- c(est = survival17[1]^2, 
+                lower.ci = (survival17[1] - 1.96 * survival17[2])^2,
+                upper.ci = (survival17[1] + 1.96 * survival17[2])^2)
+fun17 <- c(est = fun17[1], se = sqrt(attr(fun17, "var")))
+fun17 <- c(est = fun17[1]^2, 
+           lower.ci = (fun17[1] - 1.96 * fun17[2])^2,
+           upper.ci = (fun17[1] + 1.96 * fun17[2])^2)
+
+fuel18 <- c(est = fuel18[1], se = sqrt(attr(fuel18, "var")))
+fuel18 <- c(est = fuel18[1]^2, lower.ci = (fuel18[1] - 1.96 * fuel18[2])^2,
+            upper.ci = (fuel18[1] + 1.96 * fuel18[2])^2)
+food18 <- c(est = food18[1], se = sqrt(attr(food18, "var")))
+food18 <- c(est = food18[1]^2, 
+            lower.ci = (food18[1] - 1.96 * food18[2])^2,
+            upper.ci = (food18[1] + 1.96 * food18[2])^2)
+lodging18 <- c(est = lodging18[1], se = sqrt(attr(lodging18, "var")))
+lodging18 <- c(est = lodging18[1]^2, 
+               lower.ci = (lodging18[1] - 1.96 * lodging18[2])^2,
+               upper.ci = (lodging18[1] + 1.96 * lodging18[2])^2)
+survival18 <- c(est = survival18[1], se = sqrt(attr(survival18, "var")))
+survival18 <- c(est = survival18[1]^2, 
+                lower.ci = (survival18[1] - 1.96 * survival18[2])^2,
+                upper.ci = (survival18[1] + 1.96 * survival18[2])^2)
+fun18 <- c(est = fun18[1], se = sqrt(attr(fun18, "var")))
+fun18 <- c(est = fun18[1]^2, 
+           lower.ci = (fun18[1] - 1.96 * fun18[2])^2,
+           upper.ci = (fun18[1] + 1.96 * fun18[2])^2)
+
+fuel19 <- c(est = fuel19[1], se = sqrt(attr(fuel19, "var")))
+fuel19 <- c(est = fuel19[1]^2, lower.ci = (fuel19[1] - 1.96 * fuel19[2])^2,
+            upper.ci = (fuel19[1] + 1.96 * fuel19[2])^2)
+food19 <- c(est = food19[1], se = sqrt(attr(food19, "var")))
+food19 <- c(est = food19[1]^2, 
+            lower.ci = (food19[1] - 1.96 * food19[2])^2,
+            upper.ci = (food19[1] + 1.96 * food19[2])^2)
+lodging19 <- c(est = lodging19[1], se = sqrt(attr(lodging19, "var")))
+lodging19 <- c(est = lodging19[1]^2, 
+               lower.ci = (lodging19[1] - 1.96 * lodging19[2])^2,
+               upper.ci = (lodging19[1] + 1.96 * lodging19[2])^2)
+survival19 <- c(est = survival19[1], se = sqrt(attr(survival19, "var")))
+survival19 <- c(est = survival19[1]^2, 
+                lower.ci = (survival19[1] - 1.96 * survival19[2])^2,
+                upper.ci = (survival19[1] + 1.96 * survival19[2])^2)
+fun19 <- c(est = fun19[1], se = sqrt(attr(fun19, "var")))
+fun19 <- c(est = fun19[1]^2, 
+           lower.ci = (fun19[1] - 1.96 * fun19[2])^2,
+           upper.ci = (fun19[1] + 1.96 * fun19[2])^2)
+
+fuel22 <- c(est = fuel22[1], se = sqrt(attr(fuel22, "var")))
+fuel22 <- c(est = fuel22[1]^2, lower.ci = (fuel22[1] - 1.96 * fuel22[2])^2,
+            upper.ci = (fuel22[1] + 1.96 * fuel22[2])^2)
+food22 <- c(est = food22[1], se = sqrt(attr(food22, "var")))
+food22 <- c(est = food22[1]^2, 
+            lower.ci = (food22[1] - 1.96 * food22[2])^2,
+            upper.ci = (food22[1] + 1.96 * food22[2])^2)
+lodging22 <- c(est = lodging22[1], se = sqrt(attr(lodging22, "var")))
+lodging22 <- c(est = lodging22[1]^2, 
+               lower.ci = (lodging22[1] - 1.96 * lodging22[2])^2,
+               upper.ci = (lodging22[1] + 1.96 * lodging22[2])^2)
+survival22 <- c(est = survival22[1], se = sqrt(attr(survival22, "var")))
+survival22 <- c(est = survival22[1]^2, 
+                lower.ci = (survival22[1] - 1.96 * survival22[2])^2,
+                upper.ci = (survival22[1] + 1.96 * survival22[2])^2)
+fun22 <- c(est = fun22[1], se = sqrt(attr(fun22, "var")))
+fun22 <- c(est = fun22[1]^2, 
+           lower.ci = (fun22[1] - 1.96 * fun22[2])^2,
+           upper.ci = (fun22[1] + 1.96 * fun22[2])^2)
+
+fuel23 <- c(est = fuel23[1], se = sqrt(attr(fuel23, "var")))
+fuel23 <- c(est = fuel23[1]^2, lower.ci = (fuel23[1] - 1.96 * fuel23[2])^2,
+            upper.ci = (fuel23[1] + 1.96 * fuel23[2])^2)
+food23 <- c(est = food23[1], se = sqrt(attr(food23, "var")))
+food23 <- c(est = food23[1]^2, 
+            lower.ci = (food23[1] - 1.96 * food23[2])^2,
+            upper.ci = (food23[1] + 1.96 * food23[2])^2)
+lodging23 <- c(est = lodging23[1], se = sqrt(attr(lodging23, "var")))
+lodging23 <- c(est = lodging23[1]^2, 
+               lower.ci = (lodging23[1] - 1.96 * lodging23[2])^2,
+               upper.ci = (lodging23[1] + 1.96 * lodging23[2])^2)
+survival23 <- c(est = survival23[1], se = sqrt(attr(survival23, "var")))
+survival23 <- c(est = survival23[1]^2, 
+                lower.ci = (survival23[1] - 1.96 * survival23[2])^2,
+                upper.ci = (survival23[1] + 1.96 * survival23[2])^2)
+fun23 <- c(est = fun23[1], se = sqrt(attr(fun23, "var")))
+fun23 <- c(est = fun23[1]^2, 
+           lower.ci = (fun23[1] - 1.96 * fun23[2])^2,
+           upper.ci = (fun23[1] + 1.96 * fun23[2])^2)
+
+fuel24 <- c(est = fuel24[1], se = sqrt(attr(fuel24, "var")))
+fuel24 <- c(est = fuel24[1]^2, lower.ci = (fuel24[1] - 1.96 * fuel24[2])^2,
+            upper.ci = (fuel24[1] + 1.96 * fuel24[2])^2)
+food24 <- c(est = food24[1], se = sqrt(attr(food24, "var")))
+food24 <- c(est = food24[1]^2, 
+            lower.ci = (food24[1] - 1.96 * food24[2])^2,
+            upper.ci = (food24[1] + 1.96 * food24[2])^2)
+lodging24 <- c(est = lodging24[1], se = sqrt(attr(lodging24, "var")))
+lodging24 <- c(est = lodging24[1]^2, 
+               lower.ci = (lodging24[1] - 1.96 * lodging24[2])^2,
+               upper.ci = (lodging24[1] + 1.96 * lodging24[2])^2)
+survival24 <- c(est = survival24[1], se = sqrt(attr(survival24, "var")))
+survival24 <- c(est = survival24[1]^2, 
+                lower.ci = (survival24[1] - 1.96 * survival24[2])^2,
+                upper.ci = (survival24[1] + 1.96 * survival24[2])^2)
+fun24 <- c(est = fun24[1], se = sqrt(attr(fun24, "var")))
+fun24 <- c(est = fun24[1]^2, 
+           lower.ci = (fun24[1] - 1.96 * fun24[2])^2,
+           upper.ci = (fun24[1] + 1.96 * fun24[2])^2)
+
+nvspend <- data.frame(meanSpend = c(fuel15[1], food15[1], lodging15[1],
+                                    survival15[1], fun15[1], fuel16[1],
+                                    food16[1], lodging16[1], survival16[1],
+                                    fun16[1], fuel17[1], food17[1],
+                                    lodging17[1], survival17[1], fun17[1],
+                                    fuel18[1], food18[1], lodging18[1],
+                                    survival18[1], fun18[1], fuel19[1],
+                                    food19[1], lodging19[1], survival19[1],
+                                    fun19[1], fuel22[1], food22[1],
+                                    lodging22[1], survival22[1], fun22[1],
+                                    fuel23[1], food23[1],
+                                    lodging23[1], survival23[1], fun23[1],
+                                    fuel24[1], food24[1],
+                                    lodging24[1], survival24[1], fun24[1]),
+                      category = rep(c("Fuel", "Food", "Lodging", "Survival",
+                                       "Fun"), times = 8),
+                      year = rep(c(2015:2019, 2022:2024), each = 5))
+nvspend$totalspend <- ifelse(nvspend$year == 2015, nvspend$meanSpend * 70000,
+                      ifelse(nvspend$year == 2016, nvspend$meanSpend * 70000,
+                      ifelse(nvspend$year == 2017, nvspend$meanSpend * 70000,
+                      ifelse(nvspend$year == 2018, nvspend$meanSpend * 70000,
+                      ifelse(nvspend$year == 2019, nvspend$meanSpend * 80000,
+                      ifelse(nvspend$year == 2022, nvspend$meanSpend * 87000,
+                      ifelse(nvspend$year == 2023, nvspend$meanSpend * 72000,
+                      ifelse(nvspend$year == 2024, nvspend$meanSpend * 73000,
+                             NA))))))))
+ggplot(nvspend, aes(x = year, y = totalspend, fill = category,
+                    color = category)) +
+  geom_area(linewidth = 1.05, alpha = 0.7) +
+  theme_bw(13) +
+  scale_fill_manual(values = discreteColors[1:5]) +
+  scale_color_manual(values = discreteColors[1:5]) +
+  labs(x = "", y = "Dollars (USD) spent in Nevada",
+       fill = "Percentile",
+       title = "Total spending in Nevada of all participants") +
+  guides(color = "none") +
+  scale_y_continuous(labels = scales::dollar) +
+  scale_x_continuous(breaks = c(2015:2019, 2022:2024),
+                     labels = c(2015:2019, 2022:2024))
+
+
+ggplot(nvspend, aes(x = year, y = meanSpend, fill = category,
+                    color = category)) +
+  geom_area(linewidth = 1.05, alpha = 0.7) +
+  theme_bw(13) +
+  scale_fill_manual(values = discreteColors[1:5]) +
+  scale_color_manual(values = discreteColors[1:5]) +
+  labs(x = "", y = "Dollars (USD) spent in Nevada",
+       fill = "Percentile",
+       title = "Average spending in Nevada per participant") +
+  guides(color = "none") +
+  scale_y_continuous(labels = scales::dollar) +
+  scale_x_continuous(breaks = c(2015:2019, 2022:2024),
+                     labels = c(2015:2019, 2022:2024))
+
+
+nvSpendTableDat <- cbind(list(fuel15, food15, lodging15, survival15, fun15),
+                       list(fuel16, food16, lodging16, survival16, fun16),
+                       list(fuel17, food17, lodging17, survival17, fun17),
+                       list(fuel18, food18, lodging18, survival18, fun18),
+                       list(fuel19, food19, lodging19, survival19, fun19),
+                       list(fuel22, food22, lodging22, survival22, fun22),
+                       list(fuel23, food23, lodging23, survival23, fun23),
+                       list(fuel24, food24, lodging24, survival24, fun24))
+fdf <- paste0("%.", 1, "f")
+nvSpendTableDat <- apply(nvSpendTableDat, 2, function(x){
+  sapply(x, function(y){
+    paste0("$" ,sprintf(fdf, round(y[1],1)), " (",
+           sprintf(fdf, round(y[2], 1)), ", ",
+           sprintf(fdf, round(y[3], 1)), ")")
+  })
+})
+
+rownames(nvSpendTableDat) <- c("Average fuel spending",
+                               "Average food spending",
+                               "Average lodging spending",
+                               "Average survival spending",
+                               "Average fun spending")
+
+nvSpendTableDat |>
+  kbl(col.names = c(2015:2019, 2022:2024),
+      row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  kable_styling() |>
+  column_spec(column = 1:9, width_min = "10.5em") |>
+  scroll_box(width = "100%")
 ```
 
 <!-- Could get creative in how to summarize this, average, total -->
