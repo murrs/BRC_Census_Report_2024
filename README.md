@@ -10,7 +10,7 @@ Install Mac [Homebrew](https://brew.sh/).
 
 ```
 brew install r udunits gdal cmake ffmpeg rust librsvg
-brew install --cask quadro
+brew install --cask quarto
 
 R
 pkgs = c(
