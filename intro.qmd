@@ -50,12 +50,12 @@ Response rates for all surveys are given in the table below.
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
 library(kableExtra)
 responseTable <- matrix(cbind(c("11,919", "11,676", "9,585", "7,137", 
-                                "9,168", "8,745", "7,737", "8,382", "7,712"),
+                                "9,168", "8,745", "7,737", "8,382", "7,712", "update for 2024"),
                               c("68,000", "68,000", "70,000", "70,000", 
-                                "70,000", "70,000", "80,000", "87,000", "77,000"),
+                                "70,000", "70,000", "80,000", "87,000", "77,000", "update for 2024"),
                               c("17%", "18%", "14%", "11%", "13%", "12%",
-                              "10%", "10%", "10%")), ncol = 3)
-rownames(responseTable) <- c(2013:2019, 2022:2023)
+                              "10%", "10%", "10%", "update for 2024")), ncol = 3)
+rownames(responseTable) <- c(2013:2019, 2022:2024)
 responseTable |>
   kbl(col.names = c("Survey responses (n)", "BRC Population", "Response rate"),
       row.names = TRUE) |>
