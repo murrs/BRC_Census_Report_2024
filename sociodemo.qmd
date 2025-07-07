@@ -39,103 +39,150 @@ discreteColors <- c("#EA008B", "#B0AEDC", "#554149", "#A07200", "#AADA91",
 
 ```{r}
 
-# virgin <- makePlotData(varName = "Was this your first time visiting Black Rock City?", 
-#                        varNameTable,
-#                        designs = list(design13, design14, design15, 
-#                                       design16, design17, design18, 
-#                                       design19, design22, design23),
-#                        years = c(2013:2019, 2022:2023), 
-#                        levels = list(c("no", "yes"), c("no", "yes"),
-#                                      c("no", "yes"), c("no", "yes"),
-#                                      c("no", "yes"), c("no", "yes"),
-#                                      c("no", "yes"), c(FALSE, TRUE),
-#                                      c(FALSE, TRUE)),
-#                        labels = c("Not virgin", "Virgin"),
-#                        labelOrder = c("Virgin", "Not virgin"))
-# 
-# 
-# ggplot(virgin[virgin$labels == "Virgin",], aes(x = year, y = est)) +
-#   geom_line(linewidth = 1.5, color = "#EA008B", alpha = 0.7) +
-#   geom_point(size = 2.25, color = "#EA008B") +
-#   theme_bw() +
-#   theme(panel.grid.minor = element_blank()) +
-#   scale_x_continuous(breaks = c(2013:2019, 2022:2023), 
-#                      labels = c(2013:2019, 2022:2023)) +
-#   scale_y_continuous(labels = percent, limits = c(0, NA)) +
-#   labs(x = "", y = "Burning Man Participants (%)")
-# 
-# virginTable <- makeTableData(virgin)
-# virginTable <- virginTable[1,] |>
-#   matrix(nrow = 1) |>
-#   as.table()
-# rownames(virginTable) = "Virgin"
-# colnames(virginTable) = c(2013:2019, 2022:2023)
-# kbl(virginTable, col.names = c(2013:2019, 2022:2023),
-#       row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
-#   kable_styling() |>
-#   column_spec(column = 1:10, width_min = "10.5em") |>
-#   scroll_box(width = "100%")
+yearrange <- c(2013:2019, 2022:2024)
+
+virgin <- makePlotData(varName = "Was this your first time visiting Black Rock City?", 
+                       varNameTable,
+                       designs = list(design13, design14, design15, 
+                                      design16, design17, design18, 
+                                      design19, design22, design23,
+                                      design24),
+                       years = yearrange,
+                       levels = list(c("no", "yes"), c("no", "yes"),
+                                     c("no", "yes"), c("no", "yes"),
+                                     c("no", "yes"), c("no", "yes"),
+                                     c("no", "yes"), c(FALSE, TRUE),
+                                     c(FALSE, TRUE), c(FALSE, TRUE)),
+                       labels = c("Not virgin", "Virgin"),
+                       labelOrder = c("Virgin", "Not virgin"))
+
+
+ggplot(virgin[virgin$labels == "Virgin",], aes(x = year, y = est)) +
+  geom_line(linewidth = 1.5, color = "#EA008B", alpha = 0.7) +
+  geom_point(size = 2.25, color = "#EA008B") +
+  theme_bw() +
+  theme(panel.grid.minor = element_blank()) +
+  scale_x_continuous(breaks = yearrange, 
+                     labels = yearrange) +
+  scale_y_continuous(labels = percent, limits = c(0, NA)) +
+  labs(x = "", y = "Burning Man Participants (%)")
+
+virginTable <- makeTableData(virgin)
+virginTable <- virginTable[1,] |>
+  matrix(nrow = 1) |>
+  as.table()
+rownames(virginTable) = "Virgin"
+colnames(virginTable) = yearrange
+kbl(virginTable, col.names = yearrange,
+      row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  kable_styling() |>
+  column_spec(column = 1:10, width_min = "10.5em") |>
+  scroll_box(width = "100%")
+
+virgin <- makePlotData(varName = "Was this your first time visiting Black Rock City?",
+                       varNameTable,
+                       designs = list(design13, design14, design15,
+                                      design16, design17, design18,
+                                      design19, design22, design23,
+                                      design24),
+                       years = c(2013:2019, 2022:2024),
+                       levels = list(c("no", "yes"), c("no", "yes"),
+                                     c("no", "yes"), c("no", "yes"),
+                                     c("no", "yes"), c("no", "yes"),
+                                     c("no", "yes"), c(FALSE, TRUE),
+                                     c(FALSE, TRUE), c(FALSE, TRUE)),
+                       labels = c("Not virgin", "Virgin"),
+                       labelOrder = c("Virgin", "Not virgin"))
+
+
+ggplot(virgin[virgin$labels == "Virgin",], aes(x = year, y = est)) +
+  geom_line(linewidth = 1.5, color = "#EA008B", alpha = 0.7) +
+  geom_point(size = 2.25, color = "#EA008B") +
+  theme_bw() +
+  theme(panel.grid.minor = element_blank()) +
+  scale_x_continuous(breaks = c(2013:2019, 2022:2024),
+                     labels = c(2013:2019, 2022:2024)) +
+  scale_y_continuous(labels = percent, limits = c(0, NA)) +
+  labs(x = "", y = "Burning Man Participants (%)")
+
+virginTable <- makeTableData(virgin)
+virginTable <- virginTable[1,] |>
+  matrix(nrow = 1) |>
+  as.table()
+rownames(virginTable) = "Virgin"
+colnames(virginTable) = c(2013:2019, 2022:2024)
+kbl(virginTable, col.names = c(2013:2019, 2022:2024),
+      row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  kable_styling() |>
+  column_spec(column = 1:11, width_min = "10.5em") |>
+  scroll_box(width = "100%")
 
 ```
 
 ### Number of burns attended
 
 ```{r}
-# ggplot(census23, 
-#        aes(x = nburns, y = after_stat(density), weight = weights)) +
-#   geom_histogram(fill = "#EA008B", color = "black", binwidth = 1) +
-#   theme_bw() +
-#   labs(x = "Number of burns attended (including 2023)", y = "Proportion") +
-#   coord_cartesian(xlim = c(0, 30))
-# 
-# 
-# empCDFs <- list(svycdf(~nburns, design23)[[1]],
-#                  svycdf(~numberBurns, design22)[[1]],
-#                  svycdf(~nbburns, design19)[[1]],
-#                  svycdf(~nbburns, design18)[[1]],
-#                  svycdf(~nbburns, design17)[[1]],
-#                  svycdf(~nbburns, design16)[[1]],
-#                  svycdf(~nbburns, design15)[[1]],
-#                  svycdf(~nbburns, design14)[[1]])
-# names(empCDFs) <- c(2023:2022, 2019:2014)
-# ## todo: use nbburns2-6 to add 2013 data
-# 
-# myQuantiles <- c(0, 1, 2, 4, 10, Inf) # account for time looping burners!
-# rangeNames <- c("1","2","3-4","5-10",">10")
-# 
-# ## number burns >=2022 are inclusive, but <= 2019 are not inclusive
-# cumulProportions1 <- sapply(
-#   empCDFs[c("2023", "2022")], 
-#   mapply, 
-#   myQuantiles)
-# cumulProportions2 <- sapply(
-#   empCDFs[c("2019", "2018", "2017", "2016", "2015", "2014")], 
-#   mapply, 
-#   myQuantiles-1) # -1 to make these inclusive
-# cumulProportions <- cbind(cumulProportions1, cumulProportions2)
-# 
-# myProportions <- diff(cumulProportions)
-# rownames(myProportions) <- rangeNames
-# 
-# myDat <- data.frame(
-#   rows=factor(rownames(myProportions)[row(myProportions)],
-#               levels=rev(rangeNames)), 
-#   Year=factor(colnames(myProportions)[col(myProportions)],
-#               levels=2014:2023),
-#   Percentage=c(myProportions))
-# 
-# ggplot(myDat, aes(x = Year, y = Percentage, fill = rows)) + 
-#   geom_bar(position = "fill",stat = "identity") +
-#   scale_y_continuous(labels = scales::percent_format()) +
-#   scale_x_discrete(drop = FALSE) + 
-#   labs(fill="Number\n of burns\n attended\n (inclusive)",
-#        x = "") +
-#   scale_fill_manual(values = gradientColors(5)) +
-#   # scale_fill_manual(values=c("#EA008B", "#d460c7", "#bc8ce0", "#b0aedc",
-#   #                               "#c3c4c6")[1:5]) +
-#   theme_bw()
+ggplot(census24, 
+       aes(x = numberBurns, y = after_stat(density), weight = weights)) +
+  geom_histogram(fill = "#EA008B", color = "black", binwidth = 1) +
+  theme_bw() +
+  labs(x = "Number of burns attended (including 2024)", y = "Proportion") +
+  coord_cartesian(xlim = c(0, 30))
+
+
+empCDFs <- list(svycdf(~numberBurns, design24)[[1]],
+                 svycdf(~nburns, design23)[[1]],
+                 svycdf(~numberBurns, design22)[[1]],
+                 svycdf(~nbburns, design19)[[1]],
+                 svycdf(~nbburns, design18)[[1]],
+                 svycdf(~nbburns, design17)[[1]],
+                 svycdf(~nbburns, design16)[[1]],
+                 svycdf(~nbburns, design15)[[1]],
+                 svycdf(~nbburns, design14)[[1]])
+names(empCDFs) <- c(2024:2022, 2019:2014)
+## todo: use nbburns2-6 to add 2013 data
+
+myQuantiles <- c(0, 1, 2, 4, 10, Inf) # account for time looping burners!
+rangeNames <- c("1","2","3-4","5-10",">10")
+
+## number burns >=2022 are inclusive, but <= 2019 are not inclusive
+cumulProportions1 <- sapply(
+  empCDFs[c("2024", "2023", "2022")], 
+  mapply, 
+  myQuantiles)
+cumulProportions2 <- sapply(
+  empCDFs[c("2019", "2018", "2017", "2016", "2015", "2014")], 
+  mapply, 
+  myQuantiles-1) # -1 to make these inclusive
+cumulProportions <- cbind(cumulProportions1, cumulProportions2)
+
+myProportions <- diff(cumulProportions)
+rownames(myProportions) <- rangeNames
+ 
+myDat <- data.frame(
+  rows=factor(rownames(myProportions)[row(myProportions)],
+              levels=rev(rangeNames)), 
+  Year=factor(colnames(myProportions)[col(myProportions)],
+              levels=2014:2024),
+  Percentage=c(myProportions))
+
+ggplot(myDat, aes(x = Year, y = Percentage, fill = rows)) + 
+  geom_bar(position = "fill",stat = "identity") +
+  scale_y_continuous(labels = scales::percent_format()) +
+  scale_x_discrete(drop = FALSE) + 
+  labs(fill="Number\n of burns\n attended\n (inclusive)",
+       x = "") +
+  scale_fill_manual(values = gradientColors(5)) +
+  # scale_fill_manual(values=c("#EA008B", "#d460c7", "#bc8ce0", "#b0aedc",
+  #                               "#c3c4c6")[1:5]) +
+  theme_bw()
 ```
+
+### Plans to Return to Black Rock City
+
+### Reason for Returning to Black Rock City
 
 <!-- Other ideas?  Average number of burns attended without a break? -->
 
@@ -144,137 +191,188 @@ discreteColors <- c("#EA008B", "#B0AEDC", "#554149", "#A07200", "#AADA91",
 ### Age
 
 ```{r}
-# ggplot(census23, aes(x = age, y = after_stat(density), weight = weights)) +
-#   geom_histogram(binwidth = 1, fill = "#EA008B", color = "black") +
-#   scale_x_continuous(breaks=seq(20,90,5)) + 
-#   theme_bw() +
-#   labs(x = "Age at arrival on playa in 2023", y = "Density")
-# 
-# props <- c(10, 25, 50, 75, 90)/100
-# 
-# ageQuantiles <- data.frame(svyquantile(~age, design23, props)[[1]][,1],
-#                       svyquantile(~age, design22, props)[[1]][,1],
-#                       rep("",length(props)),
-#                       svyquantile(~age, design19, props)[[1]][,1],
-#                       svyquantile(~age, design18, props)[[1]][,1],
-#                       svyquantile(~age, design17, props)[[1]][,1],
-#                       svyquantile(~age, design16, props)[[1]][,1],
-#                       svyquantile(~age, design15, props)[[1]][,1],
-#                       svyquantile(~age, design14, props)[[1]][,1]
-#                       ) |>
-# rev()
-# row.names(ageQuantiles) <- paste0(props*100, "th percentile")
-# ageQuantiles |>
-#   kbl(col.names = c(2014:2019,"", 2022:2023),
-#       row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
-#   kable_styling() |>
-#   #column_spec(column = 1:9, width_min = "10.5em") |>
-#   column_spec(column = 1:10, width_min = "10.5em") |>
-#   scroll_box(width = "100%")
+
+ggplot(subset(census24[,c("age","weights")], !is.na(age)), aes(x = age, y = after_stat(density), weight = weights)) +
+  geom_histogram(binwidth = 1, fill = "#EA008B", color = "black") +
+  scale_x_continuous(breaks=seq(20,95,5)) +
+
+  theme_bw() +
+  labs(x = "Age at arrival on playa in 2024", y = "Density")
+
+props <- c(10, 25, 50, 75, 90)/100
+
+
+ageQuantiles <- data.frame(svyquantile(~age, design24, props)[[1]][,1],
+
+                      svyquantile(~age, design23, props)[[1]][,1],
+                      svyquantile(~age, design22, props)[[1]][,1],
+                      rep("",length(props)),
+                      svyquantile(~age, design19, props)[[1]][,1],
+                      svyquantile(~age, design18, props)[[1]][,1],
+                      svyquantile(~age, design17, props)[[1]][,1],
+                      svyquantile(~age, design16, props)[[1]][,1],
+                      svyquantile(~age, design15, props)[[1]][,1],
+                      svyquantile(~age, design14, props)[[1]][,1]
+                      ) |>
+rev()
+row.names(ageQuantiles) <- paste0(props*100, "th percentile")
+ageQuantiles |>
+  kbl(col.names = c(2014:2019,"", 2022:2024),
+      row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  kable_styling() |>
+  #column_spec(column = 1:9, width_min = "10.5em") |>
+
+  column_spec(column = 1:11, width_min = "10.5em") |>
+  scroll_box(width = "100%")
+
+
 ```
 
 ### Current gender
 
 ```{r}
 #### 2022
-# gender22.male <- svyciprop(~grepl("(?<!([Ff]e))[Mm]ale", currentGender, perl = TRUE),
-#                            design22)
-# gender22.male <- data.table(est = as.numeric(gender22.male),
-#                             lower = attr(gender22.male, "ci")[1],
-#                             upper = attr(gender22.male, "ci")[2],
-#                             level = "male",
-#                             year = 2022,
-#                             labels = factor("Male",
-#                                             levels = c("Male", "Female",
-#                                                        "Other identity")))
-# gender22.female <- svyciprop(~grepl("[Ff]emale", currentGender, perl = TRUE),
-#                            design22)
-# gender22.female <- data.table(est = as.numeric(gender22.female),
-#                             lower = attr(gender22.female, "ci")[1],
-#                             upper = attr(gender22.female, "ci")[2],
-#                             level = "female",
-#                             year = 2022,
-#                             labels = factor("Female",
-#                                             levels = c("Male", "Female",
-#                                                        "Other identity")))
-# gender22.other <- svyciprop(~I(!grepl("[Mm]ale", currentGender, perl = TRUE)),
-#                            design22)
-# gender22.other <- data.table(est = as.numeric(gender22.other),
-#                             lower = attr(gender22.other, "ci")[1],
-#                             upper = attr(gender22.other, "ci")[2],
-#                             level = "male",
-#                             year = 2022,
-#                             labels = factor("Other identity",
-#                                             levels = c("Male", "Female",
-#                                                        "Other identity")))
-# gender22 <- rbind(gender22.male, gender22.female, gender22.other)
-# #### 2023
-# gender23.male <- svyciprop(~grepl("(?<!([Ff]e))[Mm]ale", currentGender, perl = TRUE),
-#                            design23)
-# gender23.male <- data.table(est = as.numeric(gender23.male),
-#                             lower = attr(gender23.male, "ci")[1],
-#                             upper = attr(gender23.male, "ci")[2],
-#                             level = "male",
-#                             year = 2023,
-#                             labels = factor("Male",
-#                                             levels = c("Male", "Female",
-#                                                        "Other identity")))
-# gender23.female <- svyciprop(~grepl("[Ff]emale", currentGender, perl = TRUE),
-#                            design23)
-# gender23.female <- data.table(est = as.numeric(gender23.female),
-#                             lower = attr(gender23.female, "ci")[1],
-#                             upper = attr(gender23.female, "ci")[2],
-#                             level = "female",
-#                             year = 2023,
-#                             labels = factor("Female",
-#                                             levels = c("Male", "Female",
-#                                                        "Other identity")))
-# gender23.other <- svyciprop(~I(!grepl("[Mm]ale", currentGender, perl = TRUE)),
-#                            design23)
-# gender23.other <- data.table(est = as.numeric(gender23.other),
-#                             lower = attr(gender23.other, "ci")[1],
-#                             upper = attr(gender23.other, "ci")[2],
-#                             level = "male",
-#                             year = 2023,
-#                             labels = factor("Other identity",
-#                                             levels = c("Male", "Female",
-#                                                        "Other identity")))
-# gender23 <- rbind(gender23.male, gender23.female, gender23.other)
-# 
-# gender <- makePlotData(varName = "What is your current gender?", varNameTable,
-#                           designs = list(design13, design14, design15,
-#                                          design16, design17, design18,
-#                                          design19),
-#                           years = c(2013:2019),
-#                           levels = rep(list(c("female", "fluid", "male")), times = 7),
-#                           labels = c("Female", "Other identity", "Male"),
-#                           labelOrder = c("Male", "Female", "Other identity"))
-# gender <- gender[!is.na(gender$est),]
-# gender <- rbind(gender, gender22, gender23)
-# 
-# ggplot(gender, aes(x = year, y = est, color = labels)) +
-#   geom_line(linewidth = 1.5, alpha = 0.7) +
-#   geom_point(size = 2.25) +
-#   # geom_errorbar(aes(ymin = lower, ymax = upper), color = "black", width = 0.2,
-#   #               linewidth = 1) +
-#   theme_bw() +
-#   theme(panel.grid.minor = element_blank()) +
-#   scale_x_continuous(breaks = c(2013:2019, 2022, 2023), labels = c(2013:2019, 2022, 2023)) +
-#   scale_y_continuous(labels = percent, limits = c(0, NA)) +
-#   scale_color_manual(values = c("#EA008B", "#554149", "#BDA5AD")) +
-#   labs(x = "", y = "Burning Man participants (%)",
-#        color = "Current gender")
-# 
-# makeTableData(gender) |>
-#   kbl(col.names = c(2013:2019, 2022, 2023),
-#       row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
-#   kable_styling() |>
-#   column_spec(column = 1:9, width_min = "10.5em") |>
-#   scroll_box(width = "100%")
+gender22.male <- svyciprop(~grepl("(?<!([Ff]e))[Mm]ale", currentGender, perl = TRUE),
+                           design22)
+gender22.male <- data.table(est = as.numeric(gender22.male),
+                            lower = attr(gender22.male, "ci")[1],
+                            upper = attr(gender22.male, "ci")[2],
+                            level = "male",
+                            year = 2022,
+                            labels = factor("Male",
+                                            levels = c("Male", "Female",
+                                                       "Other identity")))
+gender22.female <- svyciprop(~grepl("[Ff]emale", currentGender, perl = TRUE),
+                           design22)
+gender22.female <- data.table(est = as.numeric(gender22.female),
+                            lower = attr(gender22.female, "ci")[1],
+                            upper = attr(gender22.female, "ci")[2],
+                            level = "female",
+                            year = 2022,
+                            labels = factor("Female",
+                                            levels = c("Male", "Female",
+                                                       "Other identity")))
+gender22.other <- svyciprop(~I(!grepl("[Mm]ale", currentGender, perl = TRUE)),
+                           design22)
+gender22.other <- data.table(est = as.numeric(gender22.other),
+                            lower = attr(gender22.other, "ci")[1],
+                            upper = attr(gender22.other, "ci")[2],
+                            level = "male",
+                            year = 2022,
+                            labels = factor("Other identity",
+                                            levels = c("Male", "Female",
+                                                       "Other identity")))
+gender22 <- rbind(gender22.male, gender22.female, gender22.other)
+
+
+
+#### 2023
+gender23.male <- svyciprop(~grepl("(?<!([Ff]e))[Mm]ale", currentGender, perl = TRUE),
+                           design23)
+gender23.male <- data.table(est = as.numeric(gender23.male),
+                            lower = attr(gender23.male, "ci")[1],
+                            upper = attr(gender23.male, "ci")[2],
+                            level = "male",
+                            year = 2023,
+                            labels = factor("Male",
+                                            levels = c("Male", "Female",
+                                                       "Other identity")))
+gender23.female <- svyciprop(~grepl("[Ff]emale", currentGender, perl = TRUE),
+                           design23)
+gender23.female <- data.table(est = as.numeric(gender23.female),
+                            lower = attr(gender23.female, "ci")[1],
+                            upper = attr(gender23.female, "ci")[2],
+                            level = "female",
+                            year = 2023,
+                            labels = factor("Female",
+                                            levels = c("Male", "Female",
+                                                       "Other identity")))
+gender23.other <- svyciprop(~I(!grepl("[Mm]ale", currentGender, perl = TRUE)),
+                           design23)
+gender23.other <- data.table(est = as.numeric(gender23.other),
+                            lower = attr(gender23.other, "ci")[1],
+                            upper = attr(gender23.other, "ci")[2],
+                            level = "male",
+                            year = 2023,
+                            labels = factor("Other identity",
+                                            levels = c("Male", "Female",
+                                                       "Other identity")))
+gender23 <- rbind(gender23.male, gender23.female, gender23.other)
+
+
+#### 2024
+
+gender24.male <- svyciprop(~grepl("(?<!([Ff]e))[Mm]ale", currentGender, perl = TRUE),
+                           design24)
+gender24.male <- data.table(est = as.numeric(gender24.male),
+                            lower = attr(gender24.male, "ci")[1],
+                            upper = attr(gender24.male, "ci")[2],
+                            level = "male",
+                            year = 2024,
+                            labels = factor("Male",
+                                            levels = c("Male", "Female",
+                                                       "Other identity")))
+gender24.female <- svyciprop(~grepl("[Ff]emale", currentGender, perl = TRUE),
+                           design24)
+gender24.female <- data.table(est = as.numeric(gender24.female),
+                            lower = attr(gender24.female, "ci")[1],
+                            upper = attr(gender24.female, "ci")[2],
+                            level = "female",
+                            year = 2024,
+                            labels = factor("Female",
+                                            levels = c("Male", "Female",
+                                                       "Other identity")))
+gender24.other <- svyciprop(~I(!grepl("[Mm]ale", currentGender, perl = TRUE)),
+                           design24)
+gender24.other <- data.table(est = as.numeric(gender24.other),
+                            lower = attr(gender24.other, "ci")[1],
+                            upper = attr(gender24.other, "ci")[2],
+                            level = "male",
+                            year = 2024,
+                            labels = factor("Other identity",
+                                            levels = c("Male", "Female",
+                                                       "Other identity")))
+gender24 <- rbind(gender24.male, gender24.female, gender24.other)
+
+gender <- makePlotData(varName = "What is your current gender?", varNameTable,
+                          designs = list(design13, design14, design15,
+                                         design16, design17, design18,
+                                         design19),
+                          years = c(2013:2019),
+                          levels = rep(list(c("female", "fluid", "male")), times = 7),
+                          labels = c("Female", "Other identity", "Male"),
+                          labelOrder = c("Male", "Female", "Other identity"))
+gender <- gender[!is.na(gender$est),]
+gender <- rbind(gender, gender22, gender23, gender24)
+
+ggplot(gender, aes(x = year, y = est, color = labels)) +
+  geom_line(linewidth = 1.5, alpha = 0.7) +
+  geom_point(size = 2.25) +
+  # geom_errorbar(aes(ymin = lower, ymax = upper), color = "black", width = 0.2,
+  #               linewidth = 1) +
+  theme_bw() +
+  theme(panel.grid.minor = element_blank()) +
+  scale_x_continuous(breaks = c(2013:2019, 2022:2024), labels = c(2013:2019, 2022:2024)) +
+  scale_y_continuous(labels = percent, limits = c(0, NA)) +
+  scale_color_manual(values = c("#EA008B", "#554149", "#BDA5AD")) +
+  labs(x = "", y = "Burning Man participants (%)",
+       color = "Current gender")
+
+makeTableData(gender) |>
+  kbl(col.names = c(2013:2019, 2022:2024),
+      row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  kable_styling() |>
+
+  column_spec(column = 1:11, width_min = "11.5em") |>
+
+  scroll_box(width = "100%")
 
 ```
+
+### Gender identity
+
 
 ### Sex assigned at birth
 
@@ -305,455 +403,728 @@ discreteColors <- c("#EA008B", "#B0AEDC", "#554149", "#A07200", "#AADA91",
 
 ### Gender identity
 
+
+
+### Ethnoracial background
+
+
 ```{r}
-# genderID <- makePlotData(varName = "What is your current gender?", varNameTable,
-#                             designs = list(design23),
-#                           years = c(2023),
-#                           levels = list(c("Female", "Male", "Gender queer",
-#                                           "Cisgender male", "Cisgender female",
-#                                           "Transgender female/Trans female",
-#                                           "Non-binary",
-#                                           "Transgender male/ Trans male",
-#                                           "Prefer to self-describe",
-#                                           "Two-spirit")),
-#                           labels = c("Female", "Male", "Gender queer",
-#                                      "Cisgender male", "Cisgender female",
-#                                      "Transgender female", "Non-binary",
-#                                      "Transgender male", "Other", "Two-spirit"),
-#                           labelOrder = c("Male", "Female", "Cisgender male",
-#                                              "Cisgender female",
-#                                              "Transgender female", "Non-binary",
-#                                              "Gender queer", "Transgender male",
-#                                              "Other", "Two-spirit"))
-# 
-# ggplot(genderID, aes(x = labels, y = est)) +
-#   geom_bar(stat = "identity", fill = "#EA008B") +
-#   scale_y_continuous(labels = percent) +
-#   labs(x = "Gender identity", y = "Burning Man participants (%)") +
-#   theme_bw() +
-#   theme(axis.text.x = element_text(angle = 45, hjust = 1))
-# 
-# makeTableData(genderID) |>
-#   kbl(col.names = c(2023),
-#       row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
-#   kable_styling() |>
-#   column_spec(column = 1:1, width_min = "10.5em") |>
-#   scroll_box(width = "100%")
+
+ethnoracial24 <- makePlotData("Which category best describes your race?",
+                              varNameTable = varNameTable,
+                              designs = list(design24),
+                              years = 2024,
+                              levels = rep(list(TRUE), times = 1),
+                              labels = c("Asian", "Native American",
+                                         "Native Hawaiian or Pacific Islander",
+                                         "Hispanic/Latino",
+                                         "White (non-hispanic)",
+                                         "Middle Eastern or North African",
+                                         "Black (non-Hispanic)", "Other"),
+                              labelOrder = c("White (non-hispanic)",
+                                             "Hispanic/Latino",
+                                             "Asian",
+                                             "Middle Eastern or North African",
+                                             "Black (non-Hispanic)",
+                                             "Native American", 
+                                             "Native Hawaiian or Pacific Islander",
+                                             "Other"))
+ethnoracial22to23 <- makePlotData("Which category best describes your race?",
+                              varNameTable = varNameTable,
+                              designs = list(design22, design23),
+                              years = 2022:2023,
+                              levels = rep(list(TRUE), times = 2),
+                              labels = c("Asian", "Native American",
+                                         "Native Hawaiian or Pacific Islander",
+                                         "Hispanic/Latino",
+                                         "White (non-hispanic)",
+                                         "Middle Eastern or North African",
+                                         "Black (non-Hispanic)", "Other"),
+                              labelOrder = c("White (non-hispanic)",
+                                             "Hispanic/Latino",
+                                             "Asian",
+                                             "Middle Eastern or North African",
+                                             "Black (non-Hispanic)",
+                                             "Native American","Native Hawaiian or Pacific Islander", "Other"))
+ethnoracial22to23 <- ethnoracial22to23[!ethnoracial22to23$labels == "",] # remove spaces due to addition of Pacific Islander in 2024
+
+ethnoracial17to19 <- makePlotData("ethnoracial 2013 through 2019",
+                              varNameTable = varNameTable,
+                              designs = list(design17, design18, design19),
+                              years = 2017:2019,
+                              levels = rep(list(c("asian", "black", "hispanic",
+                                                  "middleeastern", "native",
+                                                  "other_or_mix", "white")),
+                                           times = 3),
+                              labels = c("Asian", "Black (non-Hispanic)",
+                                         "Hispanic/Latino",
+                                         "Middle Eastern or North African",
+                                         "Native American",
+                                         "Other", "White (non-hispanic)"),
+                              labelOrder = c("White (non-hispanic)",
+                                             "Hispanic/Latino",
+                                             "Asian",
+                                             "Middle Eastern or North African",
+                                             "Black (non-Hispanic)",
+                                             "Native American", "Other"))
+
+ethnoracial13to16 <- makePlotData("ethnoracial 2013 through 2019",
+                              varNameTable = varNameTable,
+                              designs = list(design13, design14, design15,
+                                             design16),
+                              years = 2013:2016,
+                              levels = rep(list(c("asian", "black", "hispanic",
+                                                  "native", "other_or_mix",
+                                                  "white")), times = 4),
+                              labels = c("Asian", "Black (non-Hispanic)",
+                                         "Hispanic/Latino",
+                                         "Native American",
+                                         "Other", "White (non-hispanic)"),
+                              labelOrder = c("White (non-hispanic)",
+                                             "Hispanic/Latino",
+                                             "Asian",
+                                             "Black (non-Hispanic)",
+                                             "Native American", "Other"))
+
+
+
+ethnoracial13to16 <- rbind(ethnoracial13to16,
+                           data.frame(est = NA, lower = NA, upper = NA,
+                                      level = "middleeastern",
+                                      year = 2013:2016,
+                                      labels = factor("Middle Eastern or North African",
+                                                      levels = c("White (non-hispanic)",
+                                                                 "Hispanic/Latino",
+                                                                 "Asian",
+                                                                 "Middle Eastern or North African",
+                                                                 "Black (non-Hispanic)",
+                                                                 "Native American", "Other"))))
+
+
+ggplot(ethnoracial24, aes(x = labels, y = est)) +
+  geom_bar(stat = "identity", position = "dodge", fill = "#EA008B") +
+  scale_y_continuous(labels = percent) +
+  labs(x = "Ethnoracial background", y = "Burning Man participants in 2024 (%)",
+       title = "Which category best describes your race?") +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))
+
+
+## adding pacific islander for 2024
+pacislander13to19 <- data.frame(est=NA, lower=NA, upper=NA, level=NA, 
+                                year=2013:2019, 
+                                labels="Native Hawaiian or Pacific Islander")
+
+tableDat <- makeTableData(rbind(ethnoracial24,ethnoracial22to23,ethnoracial17to19, ethnoracial13to16, pacislander13to19))
+
+tdrn <- rownames(tableDat)
+tdrn[4] <- "Middle Eastern or North African^a^"
+tdrn[7] <- "Native Hawaiian or Pacific Islander^b^"
+tdrn[8] <- "Other^c^"
+rownames(tableDat) <- tdrn
+
+tdcn <- colnames(tableDat)
+
+tdcn[colnames(tableDat)=="2022"] <- "2022^d^"
+
+colnames(tableDat) <- tdcn
+
+tableDat |>
+  kbl(col.names = tdcn,
+      row.names = TRUE) |>
+  kable_paper("striped") |>
+  kable_styling(full_width = F, wraptable_width = "100%") |>
+  column_spec(column = 1:11, width_min = "11.5em") |>
+  footnote(alphabet = c("Middle eastern was not an option from 2013-2016.",
+                        "Pacific Islander was not an option from 2013-2022.",
+                        "The \"other or mixed\" option in 2013-2019 changed to \"other\" in 2022.",
+                        "In 2022 the format changed to allow users to select multiple options. While this improves our data collection, it unfortunately makes it impossible to make direct comparisons to previous years.")) |>
+  scroll_box(width = "100%")
 ```
 
-<!--  Do you consider yourself to be any of the following (transperson etc.) -->
-
-### Chosen pronouns
+### Self-identification as a person of color
 
 ```{r}
-# pronouns <- makePlotData(varName = "What are your pronouns?", varNameTable,
-#                          designs = list(design23),
-#                          years = c(2023),
-#                          levels = list(c(TRUE)),
-#                          labels = c("She/her", "They/them", "He/him", "Other"),
-#                          labelOrder = c("He/him", "She/her", "They/them",
-#                                          "Other"))
-# 
-# ggplot(pronouns, aes(x = labels, y = est)) +
-#   geom_bar(stat = "identity", fill = "#EA008B") +
-#   scale_y_continuous(labels = percent) +
-#   labs(x = "Chosen pronouns", y = "Burning Man participants (%)") +
-#   theme_bw()
-#   # theme(axis.text.x = element_text(angle = 45, hjust = 1))
-# 
-# makeTableData(pronouns) |>
-#   kbl(col.names = c(2023), row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
-#   kable_styling() |>
-#   column_spec(column = 1:1, width_min = "10.5em") |>
-#   scroll_box(width = "100%")
+personOfColor <- makePlotData("Do you consider yourself to be a person of color?",
+                              varNameTable = varNameTable,
+                              designs = list(design13, design14, design15,
+                                             design16, design17, design18,
+                                             design19, design22, design23,
+                                             design24),
+                              years = c(2013:2019, 2022:2024),
+                              levels = c("No", "Sometimes", "Yes"),
+                              labels = c("No", "Sometimes", "Yes"),
+                              labelOrder = 1:3)
+
+ggplot(personOfColor, aes(x = year, y = est, fill = labels)) +
+  geom_area(alpha = 0.65) +
+  scale_y_continuous(labels = percent) +
+  scale_x_continuous(breaks = c(2013:2019, 2022:2024),
+                     labels = c(2013:2019, 2022:2024)) +
+  scale_fill_manual(values = gradientColors(3)[3:1]) +
+  labs(x = "", y = "Burning Man participants (%)",
+       fill = "Person of color",
+       title = "Do you consider yourself a person of color?") +
+  theme_bw()
+
+makeTableData(personOfColor) |>
+  kbl(col.names = c(2013:2019, 2022:2024), row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  column_spec(column = 1:11, width_min = "11.5em") |>
+  kable_styling() |>
+  scroll_box(width = "100%")
+```
+
+### First language learned
+
+```{r}
+language15 <- makePlotData("What was the first language you learned and still use (i.e., native language)?",
+                         varNameTable = varNameTable,
+                         designs = list(design15),
+                         years = c(2015),
+                         levels = rep(list(c("Arabic", "Chinese", "Danish",
+                                             "Dutch", "English", "Farsi",
+                                             "French", "German","Hebrew",
+                                             "Hindi", "Italian", "Japanese",
+                                             "Norwegian", "Other", "Polish",
+                                             "Portuguese",
+                                             "Romanian", "Russian", "Spanish",
+                                             "Swedish", "Tagalog", "Urdu")),
+                                      times = 1),
+                         labels = NULL,
+                         labelOrder = c("English","Spanish","French",
+                                        "German","Russian","Chinese",
+                                        "Portuguese","Dutch","Hebrew",
+                                        "Italian","Swedish","Farsi",
+                                        "Arabic","Polish","Hindi",
+                                        "Danish","Romanian","Tagalog",
+                                        "Japanese",
+                                        "Urdu","Other"))
+
+## 2015 is missing Punjabi for some reason, seems to cause numerical instability?
+language15 <- language15[!is.na(language15$est),]
+
+language15$labels <- language15$level
+
+language15 <- rbind(language15, c(0, 0, 0, "Punjabi", 2015, "Punjabi"))
+
+language13to23less15 <- makePlotData("What was the first language you learned and still use (i.e., native language)?",
+                         varNameTable = varNameTable,
+                         designs = list(design13, design14,
+                                        design16, design17, design18,
+                                        design19, design22, design23),
+                         years = c(2013:2014,2016:2019, 2022:2023),
+                         levels = rep(list(c("Arabic", "Chinese", "Danish",
+                                             "Dutch", "English", "Farsi",
+                                             "French", "German","Hebrew",
+                                             "Hindi", "Italian", "Japanese",
+                                             "Norwegian", "Other", "Polish",
+                                             "Portuguese", "Punjabi",
+                                             "Romanian", "Russian", "Spanish",
+                                             "Swedish", "Tagalog", "Urdu")),
+                                      times = 8),
+                         labels = NULL,
+                         labelOrder = c("English","Spanish","French",
+                                        "German","Russian","Chinese",
+                                        "Portuguese","Dutch","Hebrew",
+                                        "Italian","Swedish","Farsi",
+                                        "Arabic","Polish","Hindi",
+                                        "Danish","Romanian","Tagalog",
+                                        "Punjabi","Japanese","Norwegian",
+                                        "Urdu","Other"))
+
+
+language24 <- makePlotData("What was the first language you learned and still use (i.e., native language)?",
+                         varNameTable = varNameTable,
+                         designs = list(design24),
+                         years = c(2024),
+                         levels = rep(list(c("Arabic", "Chinese", "Danish",
+                                             "Dutch", "English", "Farsi",
+                                             "French", "German","Hebrew",
+                                             "Hindi", "Italian", "Japanese",
+                                              "Other", "Polish",
+                                             "Portuguese", "Punjabi",
+                                             "Romanian", "Russian", "Spanish",
+                                             "Swedish", "Tagalog", "Urdu")),
+                                      times = 1),
+                         labels = NULL,
+                         labelOrder = c("English","Spanish","French",
+                                        "German","Russian","Chinese",
+                                        "Portuguese","Dutch","Hebrew",
+                                        "Italian","Swedish","Farsi",
+                                        "Arabic","Polish","Hindi",
+                                        "Danish","Romanian","Tagalog",
+                                        "Punjabi","Japanese",
+                                        "Urdu","Other"))
+
+language24$labels <- language24$level
+language24 <- rbind(language24, c(0, 0, 0, "Norwegian", 2024, "Norwegian"))
+
+
+language <- rbind(language15,language13to23less15, language24)
+
+
+english <- language[language$level=="English",]
+notEnglish <- english
+notEnglish[,c(1,3,2)] <- sapply(english[,1:3],function(x){1-as.numeric(x)})
+notEnglish$level <- "notEnglish"
+notEnglish$labels <- "Other Language"
+
+language2 <- rbind(notEnglish,english)
+
+language2[,c(1:3,5)] <- sapply(language2[,c(1:3,5)], as.numeric)
+language2$labels <- factor(language2$labels, 
+                           levels = c("Other Language","English")) #reorder factor
+
+ggplot(language2, aes(x = year, y = est, fill = labels)) +
+  geom_area(alpha = 0.65) +
+  theme_bw() +
+  theme(panel.grid.minor = element_blank()) +
+  scale_y_continuous(labels = percent) +
+  scale_x_continuous(breaks = c(2013:2019, 2022:2024),
+                     labels = c(2013:2019, 2022:2024)) +
+  scale_fill_manual(values = gradientColors(2)[2:1]) +
+  labs(x = "", y = "Burning Man participants (%)", fill = "Language",
+       title = "What was the first language you learned and still use?")
+
+tableData <- makeTableData(language)
+tableOrder <- order(tableData[,"2024"], decreasing = TRUE)
+tableData <- tableData[tableOrder,]
+
+tableData |>
+  kbl(col.names = c(2013:2019, 2022:2024), row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  column_spec(column = 1:11, width_min = "11.5em") |>
+  kable_styling() |>
+  scroll_box(width = "100%")
 ```
 
 ### Personal income in 2023
 
 ```{r}
-# pi.lt25.23 <- customPlotDat(c("No income", "Less than $7500",
-#                                  "$7,500-$14,999", "$15,000-$24,999"),
-#                                design = design23, "personalIncome",
-#                                2023, "Less than $25,000")
-# pi.25to50.23 <- customPlotDat(c("$25,000-$34,999", "$35,000-$49,999"),
-#                               design = design23, "personalIncome", 2023,
-#                               "$25,000-$49,999")
-# pi.50to100.23 <- customPlotDat(c("$50,000-$74,999", "$75,000-$99,999"),
-#                                design = design23, "personalIncome",
-#                                2023, "$50,000-$99,999")
-# pi.100to300.23 <- customPlotDat(c("$100,000-$149,999", "$150,000-$299,000"),
-#                                 design = design23, "personalIncome", 2023,
-#                                 "$100,000-$299,999")
-# pi.gt300.23 <- customPlotDat("$300,000 or more", design = design23,
-#                              "personalIncome", 2023, "$300,000 or more")
-# pi.23 <- rbind(pi.lt25.23, pi.25to50.23, pi.50to100.23, pi.100to300.23,
-#                pi.gt300.23)
-# 
-# pi.lt25.22 <- customPlotDat(c("No income", "Less than $7500",
-#                                  "$7,500-$14,999", "$15,000-$24,999"),
-#                                design = design22, "personalIncome",
-#                                2022, "Less than $25,000")
-# pi.25to50.22 <- customPlotDat(c("$25,000-$34,999", "$35,000-$49,999"),
-#                               design = design22, "personalIncome", 2022,
-#                               "$25,000-$49,999")
-# pi.50to100.22 <- customPlotDat(c("$50,000-$74,999", "$75,000-$99,999"),
-#                                design = design22, "personalIncome",
-#                                2022, "$50,000-$99,999")
-# pi.100to300.22 <- customPlotDat(c("$100,000-$149,999", "$150,000-$299,000"),
-#                                 design = design22, "personalIncome", 2022,
-#                                 "$100,000-$299,999")
-# pi.gt300.22 <- customPlotDat("$300,000 or more", design = design22,
-#                              "personalIncome", 2022, "$300,000 or more")
-# pi.22 <- rbind(pi.lt25.22, pi.25to50.22, pi.50to100.22, pi.100to300.22,
-#                pi.gt300.22)
-# 
-# pi.lt25.19 <- customPlotDat(c("None", "Less_than_7500US",
-#                                  "_7500_14999US", "_15000_24999US"),
-#                                design = design19, "incomep",
-#                                2019, "Less than $25,000")
-# pi.25to50.19 <- customPlotDat(c("_25000_34999US", "_35000_49999US"),
-#                               design = design19, "incomep", 2019,
-#                               "$25,000-$49,999")
-# pi.50to100.19 <- customPlotDat(c("_50000_74999US", "_75000_99999US"),
-#                                design = design19, "incomep",
-#                                2019, "$50,000-$99,999")
-# pi.100to300.19 <- customPlotDat(c("_100k_149999US", "_150k_299999US"),
-#                                 design = design19, "incomep", 2019,
-#                                 "$100,000-$299,999")
-# pi.gt300.19 <- customPlotDat("_300kUS_or_more", design = design19,
-#                              "incomep", 2019, "$300,000 or more")
-# pi.19 <- rbind(pi.lt25.19, pi.25to50.19, pi.50to100.19, pi.100to300.19,
-#                pi.gt300.19)
-# 
-# pi.lt25.18 <- customPlotDat(c("None", "Less_than_7500US",
-#                                  "_7500_14999US", "_15000_24999US"),
-#                                design = design18, "incomep",
-#                                2018, "Less than $25,000")
-# pi.25to50.18 <- customPlotDat(c("_25000_34999US", "_35000_49999US"),
-#                               design = design18, "incomep", 2018,
-#                               "$25,000-$49,999")
-# pi.50to100.18 <- customPlotDat(c("_50000_74999US", "_75000_99999US"),
-#                                design = design18, "incomep",
-#                                2018, "$50,000-$99,999")
-# pi.100to300.18 <- customPlotDat(c("_100k_149999US", "_150k_299999US"),
-#                                 design = design18, "incomep", 2018,
-#                                 "$100,000-$299,999")
-# pi.gt300.18 <- customPlotDat("_300kUS_or_more", design = design18,
-#                              "incomep", 2018, "$300,000 or more")
-# pi.18 <- rbind(pi.lt25.18, pi.25to50.18, pi.50to100.18, pi.100to300.18,
-#                pi.gt300.18)
-# 
-# pi.lt25.17 <- customPlotDat(c("None", "Less_than_7500US",
-#                                  "_7500_14999US", "_15000_24999US"),
-#                                design = design17, "incomep",
-#                                2017, "Less than $25,000")
-# pi.25to50.17 <- customPlotDat(c("_25000_34999US", "_35000_49999US"),
-#                               design = design17, "incomep", 2017,
-#                               "$25,000-$49,999")
-# pi.50to100.17 <- customPlotDat(c("_50000_74999US", "_75000_99999US"),
-#                                design = design17, "incomep",
-#                                2017, "$50,000-$99,999")
-# pi.100to300.17 <- customPlotDat(c("_100k_149999US", "_150k_299999US"),
-#                                 design = design17, "incomep", 2017,
-#                                 "$100,000-$299,999")
-# pi.gt300.17 <- customPlotDat("_300kUS_or_more", design = design17,
-#                              "incomep", 2017, "$300,000 or more")
-# pi.17 <- rbind(pi.lt25.17, pi.25to50.17, pi.50to100.17, pi.100to300.17,
-#                pi.gt300.17)
-# 
-# pi.lt25.16 <- customPlotDat(c("None", "Less_than_7500US",
-#                                  "_7500_14999US", "_15000_24999US"),
-#                                design = design16, "incomep",
-#                                2016, "Less than $25,000")
-# pi.25to50.16 <- customPlotDat(c("_25000_34999US", "_35000_49999US"),
-#                               design = design16, "incomep", 2016,
-#                               "$25,000-$49,999")
-# pi.50to100.16 <- customPlotDat(c("_50000_74999US", "_75000_99999US"),
-#                                design = design16, "incomep",
-#                                2016, "$50,000-$99,999")
-# pi.100to300.16 <- customPlotDat(c("_100k_149999US", "_150k_299999US"),
-#                                 design = design16, "incomep", 2016,
-#                                 "$100,000-$299,999")
-# pi.gt300.16 <- customPlotDat("_300kUS_or_more", design = design16,
-#                              "incomep", 2016, "$300,000 or more")
-# pi.16 <- rbind(pi.lt25.16, pi.25to50.16, pi.50to100.16, pi.100to300.16,
-#                pi.gt300.16)
-# 
-# pi.lt25.15 <- customPlotDat(c("None", "Less_than_7500US",
-#                                  "_7500_14999US", "_15000_24999US"),
-#                                design = design15, "incomep",
-#                                2015, "Less than $25,000")
-# pi.25to50.15 <- customPlotDat(c("_25000_34999US", "_35000_49999US"),
-#                               design = design15, "incomep", 2015,
-#                               "$25,000-$49,999")
-# pi.50to100.15 <- customPlotDat(c("_50000_74999US", "_75000_99999US"),
-#                                design = design15, "incomep",
-#                                2015, "$50,000-$99,999")
-# pi.100to300.15 <- customPlotDat(c("_100k_149999US", "_150k_299999US"),
-#                                 design = design15, "incomep", 2015,
-#                                 "$100,000-$299,999")
-# pi.gt300.15 <- customPlotDat("_300kUS_or_more", design = design15,
-#                              "incomep", 2015, "$300,000 or more")
-# pi.15 <- rbind(pi.lt25.15, pi.25to50.15, pi.50to100.15, pi.100to300.15,
-#                pi.gt300.15)
-# 
-# pi.allYears <- rbind(pi.23, pi.22, pi.19, pi.18, pi.17, pi.16, pi.15)
-# pi.allYears$labels <- factor(pi.allYears$labels,
-#                              levels = c("Less than $25,000",
-#                                         "$25,000-$49,999",
-#                                         "$50,000-$99,999",
-#                                         "$100,000-$299,999",
-#                                         "$300,000 or more"))
-# 
-# ggplot(pi.allYears, aes(x = year, y = est, color = labels)) +
-#   geom_line(linewidth = 1.5, alpha = 0.7) +
-#   geom_point(size = 2.25) +
-#   # geom_errorbar(aes(ymin = lower, ymax = upper), color = "black", width = 0.2,
-#   #               linewidth = 1) +
-#   theme_bw() +
-#   theme(panel.grid.minor = element_blank()) +
-#   scale_x_continuous(breaks = c(2013:2019, 2022:2023), labels = c(2013:2019, 2022:2023)) +
-#   scale_y_continuous(labels = percent, limits = c(0, NA)) +
-#   scale_color_manual(values = gradientColors(5)) +
-#   labs(x = "", y = "Burning Man participants (%)", color = "Personal income (USD)")
-# 
-# ## note: varName below should refer to previous burn year
-# personalIncome <- makePlotData(varName = "What was your personal income in 2022 before taxes? Give your best estimate. Please do not include your spouse's income as your own.",
-#                          varNameTable,
-#                          designs = list(design15, design16, design17, design18,
-#                                         design19, design22, design23),
-#                          years = c(2015:2019, 2022:2023),
-#                          levels = c(rep(list(c("_100k_149999US",
-#                                                "_15000_24999US",
-#                                                "_150k_299999US",
-#                                                "_25000_34999US",
-#                                                "_300kUS_or_more",
-#                                                "_35000_49999US",
-#                                                "_50000_74999US",
-#                                                "_7500_14999US",
-#                                                "_75000_99999US",
-#                                                "Less_than_7500US",
-#                                                "None")), times  = 5),
-#                                     rep(list(c("$100,000-$149,999", "$15,000-$24,999",
-#                                     "$150,000-$299,000", "$25,000-$34,999",
-#                                     "$300,000 or more", "$35,000-$49,999",
-#                                     "$50,000-$74,999", "$7,500-$14,999",
-#                                     "$75,000-$99,999", "Less than $7500",
-#                                     "No income")), times = 2)),
-#                          labels = c("$100,000-$149,999", "$15,000-$24,999",
-#                                     "$150,000-$299,000", "$25,000-$34,999",
-#                                     "$300,000 or more", "$35,000-$49,999",
-#                                     "$50,000-$74,999", "$7,500-$14,999",
-#                                     "$75,000-$99,999", "Less than $7,500",
-#                                     "No income"),
-#                          labelOrder = c("No income", "Less than $7,500",
-#                                         "$7,500-$14,999", "$15,000-$24,999",
-#                                         "$25,000-$34,999", "$35,000-$49,999",
-#                                         "$50,000-$74,999", "$75,000-$99,999",
-#                                         "$100,000-$149,999", "$150,000-$299,000",
-#                                         "$300,000 or more"))
-# 
-# 
-# makeTableData(personalIncome) |>
-#   kbl(col.names = c(2015:2019, 2022:2023), row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
-#   kable_styling() |>
-#   column_spec(column = 1:8, width_min = "10.5em") |>
-#   scroll_box(width = "100%")
+#TODO Make barplot and table for just 2024 data
+
+piGraphGroups <- list("Less than $25,000" = c("None", 
+                                              "Less_than_7500US",
+                                              "_7500_14999US", 
+                                              "_15000_24999US",
+                                              "I had no personal income",
+                                              "Less than $7,500 USD",
+                                              "$7,500-$14,999 USD",
+                                              "$15,000-$24,999 USD",
+                                              "No income", 
+                                              "Less than $7500",
+                                              "$7,500-$14,999", 
+                                              "$15,000-$24,999"),
+                        "$25,000-$49,999" = c("_25000_34999US",
+                                              "_35000_49999US",
+                                              "$25,000-$34,999", 
+                                              "$35,000-$49,999",
+                                              "$25,000-$34,999 USD",
+                                              "$35,000-$49,999 USD"),
+                        "$50,000-$99,999" = c("_50000_74999US", 
+                                              "_75000_99999US",
+                                              "$50,000-$74,999", 
+                                              "$75,000-$99,999",
+                                              "$50,000-$74,999 USD",
+                                              "$75,000-$99,999 USD"),
+                        "$100,000-$299,999" = c("_100k_149999US", 
+                                                "_150k_299999US",
+                                                "$100,000-$149,999", 
+                                                "$150,000-$299,000",
+                                                "$100,000-$149,999 USD",
+                                                "$150,000-$299,999 USD"),
+                        "$300,000 or more" = c("_300kUS_or_more",
+                                               "$300,000 or more",
+                                               "$300,000-$399,999 USD",
+                                               "$400,000-$499,999 USD",
+                                               "$500,000-$749,999 USD",
+                                               "$750,000-$999,999 USD",
+                                               "$1,000,000-$4,999,999 USD",
+                                               "$5,000,000-$9,999,999 USD",
+                                               "$10,000,000 USD or more"))
+
+pi.allYears <- makePlotData(varName = "What was your personal income in 2023 before taxes? Give your best estimate. Please do not include your spouse's income as your own.",
+                         varNameTable,
+                         designs = list(design15, design16, design17, design18,
+                                        design19, design22, design23, design24),
+                         years = c(2015:2019, 2022:2024),
+                         levels = c(rep(list(c("_100k_149999US",
+                                               "_15000_24999US",
+                                               "_150k_299999US",
+                                               "_25000_34999US",
+                                               "_300kUS_or_more",
+                                               "_35000_49999US",
+                                               "_50000_74999US",
+                                               "_7500_14999US",
+                                               "_75000_99999US",
+                                               "Less_than_7500US",
+                                               "None")), times  = 5),
+                                    rep(list(c("$100,000-$149,999", 
+                                               "$15,000-$24,999",
+                                               "$150,000-$299,000", 
+                                               "$25,000-$34,999",
+                                               "$300,000 or more", 
+                                               "$35,000-$49,999",
+                                               "$50,000-$74,999", 
+                                               "$7,500-$14,999",
+                                               "$75,000-$99,999", 
+                                               "Less than $7500",
+                                               "No income")), times = 2),
+                                    list(c("$1,000,000-$4,999,999 USD", 
+                                         "$10,000,000 USD or more",
+                                         "$100,000-$149,999 USD", 
+                                         "$15,000-$24,999 USD",
+                                         "$150,000-$299,999 USD", 
+                                         "$25,000-$34,999 USD",
+                                         "$300,000-$399,999 USD",
+                                         "$35,000-$49,999 USD",
+                                         "$400,000-$499,999 USD",
+                                         "$5,000,000-$9,999,999 USD",
+                                         "$50,000-$74,999 USD",
+                                         "$500,000-$749,999 USD",
+                                         "$7,500-$14,999 USD",
+                                         "$75,000-$99,999 USD",
+                                         "$750,000-$999,999 USD",
+                                         "I had no personal income",
+                                         "Less than $7,500 USD"))),
+                         labels = c("Less than $25,000", "$25,000-$49,999",
+                                    "$50,000-$99,999", "$100,000-$299,999",
+                                    "$300,000 or more"),
+                         labelOrder = c("Less than $25,000", "$25,000-$49,999",
+                                        "$50,000-$99,999", "$100,000-$299,999",
+                                        "$300,000 or more"),
+                         groups = piGraphGroups) 
+
+
+
+ggplot(pi.allYears, aes(x = year, y = est, color = labels)) +
+  geom_line(linewidth = 1.5, alpha = 0.7) +
+  geom_point(size = 2.25) +
+  theme_bw() +
+  theme(panel.grid.minor = element_blank()) +
+  scale_x_continuous(breaks = c(2013:2019, 2022:2024), labels = c(2013:2019, 2022:2024)) +
+  scale_y_continuous(labels = percent, limits = c(0, NA)) +
+  scale_color_manual(values = gradientColors(5)) +
+  labs(x = "", y = "Burning Man participants (%)", color = "Personal income (USD)",
+       title = "Personal income of Burning Man participants in 2024")
+
+
+
+
+personalIncome <- makePlotData(varName = "What was your personal income in 2023 before taxes? Give your best estimate. Please do not include your spouse's income as your own.",
+                         varNameTable,
+                         designs = list(design15, design16, design17, design18,
+                                        design19, design22, design23),
+                         years = c(2015:2019, 2022:2023),
+                         levels = c(rep(list(c("_100k_149999US",
+                                               "_15000_24999US",
+                                               "_150k_299999US",
+                                               "_25000_34999US",
+                                               "_300kUS_or_more",
+                                               "_35000_49999US",
+                                               "_50000_74999US",
+                                               "_7500_14999US",
+                                               "_75000_99999US",
+                                               "Less_than_7500US",
+                                               "None")), times  = 5),
+                                    rep(list(c("$100,000-$149,999", 
+                                               "$15,000-$24,999",
+                                               "$150,000-$299,000", 
+                                               "$25,000-$34,999",
+                                               "$300,000 or more", 
+                                               "$35,000-$49,999",
+                                               "$50,000-$74,999", 
+                                               "$7,500-$14,999",
+                                               "$75,000-$99,999", 
+                                               "Less than $7500",
+                                               "No income")), times = 2)),
+                         labels = c("$100,000-$149,999", "$15,000-$24,999",
+                                    "$150,000-$299,000", "$25,000-$34,999",
+                                    "$300,000 or more", "$35,000-$49,999",
+                                    "$50,000-$74,999", "$7,500-$14,999",
+                                    "$75,000-$99,999", "Less than $7,500",
+                                    "No income"),
+                         labelOrder = c("No income", "Less than $7,500",
+                                        "$7,500-$14,999", "$15,000-$24,999",
+                                        "$25,000-$34,999", "$35,000-$49,999",
+                                        "$50,000-$74,999", "$75,000-$99,999",
+                                        "$100,000-$149,999", "$150,000-$299,000",
+                                        "$300,000 or more")) 
+  
+piGroups24 = list("No income" = c("I had no personal income"),
+                  "Less than $7,500" = c("Less than $7,500 USD"),
+                  "$7,500-$14,999" = c("$7,500-$14,999 USD"), 
+                  "$15,000-$24,999" = c("$15,000-$24,999 USD"),
+                  "$25,000-$34,999" = c("$25,000-$34,999 USD"), 
+                  "$35,000-$49,999" = c("$35,000-$49,999 USD"),
+                  "$50,000-$74,999" = c("$50,000-$74,999 USD"), 
+                  "$75,000-$99,999" = c("$75,000-$99,999 USD"),
+                  "$100,000-$149,999" = c("$100,000-$149,999 USD"), 
+                  "$150,000-$299,000" = c("$150,000-$299,999 USD"),
+                  "$300,000 or more" = c("$300,000-$399,999 USD",
+                                         "$400,000-$499,999 USD",
+                                         "$500,000-$749,999 USD",
+                                         "$750,000-$999,999 USD",
+                                         "$1,000,000-$4,999,999 USD",
+                                         "$5,000,000-$9,999,999 USD",
+                                         "$10,000,000 USD or more"))
+
+personalIncome24 <- makePlotData(varName = "What was your personal income in 2023 before taxes? Give your best estimate. Please do not include your spouse's income as your own.",
+                         varNameTable,
+                         designs = list(design24),
+                         years = c(2024),
+                         levels = list(c("$1,000,000-$4,999,999 USD", 
+                                         "$10,000,000 USD or more",
+                                         "$100,000-$149,999 USD", 
+                                         "$15,000-$24,999 USD",
+                                         "$150,000-$299,999 USD", 
+                                         "$25,000-$34,999 USD",
+                                         "$300,000-$399,999 USD",
+                                         "$35,000-$49,999 USD",
+                                         "$400,000-$499,999 USD",
+                                         "$5,000,000-$9,999,999 USD",
+                                         "$50,000-$74,999 USD",
+                                         "$500,000-$749,999 USD",
+                                         "$7,500-$14,999 USD",
+                                         "$75,000-$99,999 USD",
+                                         "$750,000-$999,999 USD",
+                                         "I had no personal income",
+                                         "Less than $7,500 USD")),
+                         labels = c("$100,000-$149,999", "$15,000-$24,999",
+                                    "$150,000-$299,000", "$25,000-$34,999",
+                                    "$300,000 or more", "$35,000-$49,999",
+                                    "$50,000-$74,999", "$7,500-$14,999",
+                                    "$75,000-$99,999", "Less than $7,500",
+                                    "No income"),
+                         labelOrder = c("No income", "Less than $7,500",
+                                        "$7,500-$14,999", "$15,000-$24,999",
+                                        "$25,000-$34,999", "$35,000-$49,999",
+                                        "$50,000-$74,999", "$75,000-$99,999",
+                                        "$100,000-$149,999", "$150,000-$299,000",
+                                        "$300,000 or more"),
+                         groups = piGroups24) 
+
+makeTableData(rbind(personalIncome, personalIncome24)) |>
+  kbl(col.names = c(2015:2019, 2022:2024), row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  kable_styling() |>
+  column_spec(column = 1:8, width_min = "10.5em") |>
+  scroll_box(width = "100%")
 ```
 
 ### Household income in 2023
 
 ```{r}
-# hi.lt25.23 <- customPlotDat(c("No income", "Less than $7500",
-#                                  "$7,500-$14,999", "$15,000-$24,999"),
-#                                design = design23, "householdIncome",
-#                                2023, "Less than $25,000")
-# hi.25to50.23 <- customPlotDat(c("$25,000-$34,999", "$35,000-$49,999"),
-#                               design = design23, "householdIncome", 2023,
-#                               "$25,000-$49,999")
-# hi.50to100.23 <- customPlotDat(c("$50,000-$74,999", "$75,000-$99,999"),
-#                                design = design23, "householdIncome",
-#                                2023, "$50,000-$99,999")
-# hi.100to300.23 <- customPlotDat(c("$100,000-$149,999", "$150,000-$299,000"),
-#                                 design = design23, "householdIncome", 2023,
-#                                 "$100,000-$299,999")
-# hi.gt300.23 <- customPlotDat("$300,000 or more", design = design23,
-#                              "householdIncome", 2023, "$300,000 or more")
-# hi.23 <- rbind(hi.lt25.23, hi.25to50.23, hi.50to100.23, hi.100to300.23,
-#                hi.gt300.23)
-# 
-# hi.lt25.22 <- customPlotDat(c("No income", "Less than $7500",
-#                                  "$7,500-$14,999", "$15,000-$24,999"),
-#                                design = design22, "householdIncome",
-#                                2022, "Less than $25,000")
-# hi.25to50.22 <- customPlotDat(c("$25,000-$34,999", "$35,000-$49,999"),
-#                               design = design22, "householdIncome", 2022,
-#                               "$25,000-$49,999")
-# hi.50to100.22 <- customPlotDat(c("$50,000-$74,999", "$75,000-$99,999"),
-#                                design = design22, "householdIncome",
-#                                2022, "$50,000-$99,999")
-# hi.100to300.22 <- customPlotDat(c("$100,000-$149,999", "$150,000-$299,000"),
-#                                 design = design22, "householdIncome", 2022,
-#                                 "$100,000-$299,999")
-# hi.gt300.22 <- customPlotDat("$300,000 or more", design = design22,
-#                              "householdIncome", 2022, "$300,000 or more")
-# hi.22 <- rbind(hi.lt25.22, hi.25to50.22, hi.50to100.22, hi.100to300.22,
-#                hi.gt300.22)
-# 
-# hi.lt25.19 <- customPlotDat(c("None", "Less_than_7500US",
-#                                  "_7500_14999US", "_15000_24999US"),
-#                                design = design19, "incomeh",
-#                                2019, "Less than $25,000")
-# hi.25to50.19 <- customPlotDat(c("_25000_34999US", "_35000_49999US"),
-#                               design = design19, "incomeh", 2019,
-#                               "$25,000-$49,999")
-# hi.50to100.19 <- customPlotDat(c("_50000_74999US", "_75000_99999US"),
-#                                design = design19, "incomeh",
-#                                2019, "$50,000-$99,999")
-# hi.100to300.19 <- customPlotDat(c("_100k_149999US", "_150k_299999US"),
-#                                 design = design19, "incomeh", 2019,
-#                                 "$100,000-$299,999")
-# hi.gt300.19 <- customPlotDat("_300kUS_or_more", design = design19,
-#                              "incomeh", 2019, "$300,000 or more")
-# hi.19 <- rbind(hi.lt25.19, hi.25to50.19, hi.50to100.19, hi.100to300.19,
-#                hi.gt300.19)
-# 
-# hi.lt25.18 <- customPlotDat(c("None", "Less_than_7500US",
-#                                  "_7500_14999US", "_15000_24999US"),
-#                                design = design18, "incomeh",
-#                                2018, "Less than $25,000")
-# hi.25to50.18 <- customPlotDat(c("_25000_34999US", "_35000_49999US"),
-#                               design = design18, "incomeh", 2018,
-#                               "$25,000-$49,999")
-# hi.50to100.18 <- customPlotDat(c("_50000_74999US", "_75000_99999US"),
-#                                design = design18, "incomeh",
-#                                2018, "$50,000-$99,999")
-# hi.100to300.18 <- customPlotDat(c("_100k_149999US", "_150k_299999US"),
-#                                 design = design18, "incomeh", 2018,
-#                                 "$100,000-$299,999")
-# hi.gt300.18 <- customPlotDat("_300kUS_or_more", design = design18,
-#                              "incomeh", 2018, "$300,000 or more")
-# hi.18 <- rbind(hi.lt25.18, hi.25to50.18, hi.50to100.18, hi.100to300.18,
-#                hi.gt300.18)
-# 
-# hi.lt25.17 <- customPlotDat(c("None", "Less_than_7500US",
-#                                  "_7500_14999US", "_15000_24999US"),
-#                                design = design17, "incomeh",
-#                                2017, "Less than $25,000")
-# hi.25to50.17 <- customPlotDat(c("_25000_34999US", "_35000_49999US"),
-#                               design = design17, "incomeh", 2017,
-#                               "$25,000-$49,999")
-# hi.50to100.17 <- customPlotDat(c("_50000_74999US", "_75000_99999US"),
-#                                design = design17, "incomeh",
-#                                2017, "$50,000-$99,999")
-# hi.100to300.17 <- customPlotDat(c("_100k_149999US", "_150k_299999US"),
-#                                 design = design17, "incomeh", 2017,
-#                                 "$100,000-$299,999")
-# hi.gt300.17 <- customPlotDat("_300kUS_or_more", design = design17,
-#                              "incomeh", 2017, "$300,000 or more")
-# hi.17 <- rbind(hi.lt25.17, hi.25to50.17, hi.50to100.17, hi.100to300.17,
-#                hi.gt300.17)
-# 
-# hi.lt25.16 <- customPlotDat(c("None", "Less_than_7500US",
-#                                  "_7500_14999US", "_15000_24999US"),
-#                                design = design16, "incomeh",
-#                                2016, "Less than $25,000")
-# hi.25to50.16 <- customPlotDat(c("_25000_34999US", "_35000_49999US"),
-#                               design = design16, "incomeh", 2016,
-#                               "$25,000-$49,999")
-# hi.50to100.16 <- customPlotDat(c("_50000_74999US", "_75000_99999US"),
-#                                design = design16, "incomeh",
-#                                2016, "$50,000-$99,999")
-# hi.100to300.16 <- customPlotDat(c("_100k_149999US", "_150k_299999US"),
-#                                 design = design16, "incomeh", 2016,
-#                                 "$100,000-$299,999")
-# hi.gt300.16 <- customPlotDat("_300kUS_or_more", design = design16,
-#                              "incomeh", 2016, "$300,000 or more")
-# hi.16 <- rbind(hi.lt25.16, hi.25to50.16, hi.50to100.16, hi.100to300.16,
-#                hi.gt300.16)
-# 
-# hi.lt25.15 <- customPlotDat(c("None", "Less_than_7500US",
-#                                  "_7500_14999US", "_15000_24999US"),
-#                                design = design15, "incomeh",
-#                                2015, "Less than $25,000")
-# hi.25to50.15 <- customPlotDat(c("_25000_34999US", "_35000_49999US"),
-#                               design = design15, "incomeh", 2015,
-#                               "$25,000-$49,999")
-# hi.50to100.15 <- customPlotDat(c("_50000_74999US", "_75000_99999US"),
-#                                design = design15, "incomeh",
-#                                2015, "$50,000-$99,999")
-# hi.100to300.15 <- customPlotDat(c("_100k_149999US", "_150k_299999US"),
-#                                 design = design15, "incomeh", 2015,
-#                                 "$100,000-$299,999")
-# hi.gt300.15 <- customPlotDat("_300kUS_or_more", design = design15,
-#                              "incomeh", 2015, "$300,000 or more")
-# hi.15 <- rbind(hi.lt25.15, hi.25to50.15, hi.50to100.15, hi.100to300.15,
-#                hi.gt300.15)
-# 
-# hi.allYears <- rbind(hi.23, hi.22, hi.19, hi.18, hi.17, hi.16, hi.15)
-# hi.allYears$labels <- factor(hi.allYears$labels,
-#                              levels = c("Less than $25,000",
-#                                         "$25,000-$49,999",
-#                                         "$50,000-$99,999",
-#                                         "$100,000-$299,999",
-#                                         "$300,000 or more"))
-# 
-# ggplot(hi.allYears, aes(x = year, y = est, color = labels)) +
-#   geom_line(linewidth = 1.5, alpha = 0.7) +
-#   geom_point(size = 2.25) +
-#   # geom_errorbar(aes(ymin = lower, ymax = upper), color = "black", width = 0.2,
-#   #               linewidth = 1) +
-#   theme_bw() +
-#   theme(panel.grid.minor = element_blank()) +
-#   scale_x_continuous(breaks = c(2013:2019, 2022:2023), labels = c(2013:2019, 2022:2023)) +
-#   scale_y_continuous(labels = percent, limits = c(0, NA)) +
-#   scale_color_manual(values = gradientColors(5)) +
-#   labs(x = "", y = "Burning Man participants (%)", color = "Household income (USD)")
-# 
-# householdIncome <- makePlotData(varName = "What was the total income before taxes of all members of your household (including you) in 2022?",
-#                          varNameTable,
-#                          designs = list(design15, design16, design17, design18,
-#                                         design19, design22, design23),
-#                          years = c(2015:2019, 2022:2023),
-#                          levels = c(rep(list(c("_100k_149999US",
-#                                                "_15000_24999US",
-#                                                "_150k_299999US",
-#                                                "_25000_34999US",
-#                                                "_300kUS_or_more",
-#                                                "_35000_49999US",
-#                                                "_50000_74999US",
-#                                                "_7500_14999US",
-#                                                "_75000_99999US",
-#                                                "Less_than_7500US",
-#                                                "None")), times  = 5),
-#                                     rep(list(c("$100,000-$149,999", "$15,000-$24,999",
-#                                     "$150,000-$299,000", "$25,000-$34,999",
-#                                     "$300,000 or more", "$35,000-$49,999",
-#                                     "$50,000-$74,999", "$7,500-$14,999",
-#                                     "$75,000-$99,999", "Less than $7500",
-#                                     "No income")), times=2)),
-#                          labels = c("$100,000-$149,999", "$15,000-$24,999",
-#                                     "$150,000-$299,000", "$25,000-$34,999",
-#                                     "$300,000 or more", "$35,000-$49,999",
-#                                     "$50,000-$74,999", "$7,500-$14,999",
-#                                     "$75,000-$99,999", "Less than $7,500",
-#                                     "No income"),
-#                          labelOrder = c("No income", "Less than $7,500",
-#                                         "$7,500-$14,999", "$15,000-$24,999",
-#                                         "$25,000-$34,999", "$35,000-$49,999",
-#                                         "$50,000-$74,999", "$75,000-$99,999",
-#                                         "$100,000-$149,999", "$150,000-$299,000",
-#                                         "$300,000 or more"))
-# 
-# makeTableData(householdIncome) |>
-#   kbl(col.names = c(2015:2019, 2022:2023), row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
-#   kable_styling() |>
-#   column_spec(column = 1:8, width_min = "10.5em") |>
-#   scroll_box(width = "100%")
+#TODO Make barplot and table for just 2024 data
+
+hiGraphGroups <- list("Less than $25,000" = c("None", 
+                                              "Less_than_7500US",
+                                              "_7500_14999US", 
+                                              "_15000_24999US",
+                                              "I had no household income",
+                                              "Less than $7,500 USD",
+                                              "$7,500-$14,999 USD",
+                                              "$15,000-$24,999 USD",
+                                              "No income", 
+                                              "Less than $7500",
+                                              "$7,500-$14,999", 
+                                              "$15,000-$24,999"),
+                        "$25,000-$49,999" = c("_25000_34999US",
+                                              "_35000_49999US",
+                                              "$25,000-$34,999", 
+                                              "$35,000-$49,999",
+                                              "$25,000-$34,999 USD",
+                                              "$35,000-$49,999 USD"),
+                        "$50,000-$99,999" = c("_50000_74999US", 
+                                              "_75000_99999US",
+                                              "$50,000-$74,999", 
+                                              "$75,000-$99,999",
+                                              "$50,000-$74,999 USD",
+                                              "$75,000-$99,999 USD"),
+                        "$100,000-$299,999" = c("_100k_149999US", 
+                                                "_150k_299999US",
+                                                "$100,000-$149,999", 
+                                                "$150,000-$299,000",
+                                                "$100,000-$149,999 USD",
+                                                "$150,000-$299,999 USD"),
+                        "$300,000 or more" = c("_300kUS_or_more",
+                                               "$300,000 or more",
+                                               "$300,000-$399,999 USD",
+                                               "$400,000-$499,999 USD",
+                                               "$500,000-$749,999 USD",
+                                               "$750,000-$999,999 USD",
+                                               "$1,000,000-$4,999,999 USD",
+                                               "$5,000,000-$9,999,999 USD",
+                                               "$10,000,000 USD or more"))
+
+hi.allYears <- makePlotData(varName = "What was the total income before taxes of all members of your household (including you) in 2023?",
+                         varNameTable,
+                         designs = list(design15, design16, design17, design18,
+                                        design19, design22, design23, design24),
+                         years = c(2015:2019, 2022:2024),
+                         levels = c(rep(list(c("_100k_149999US",
+                                               "_15000_24999US",
+                                               "_150k_299999US",
+                                               "_25000_34999US",
+                                               "_300kUS_or_more",
+                                               "_35000_49999US",
+                                               "_50000_74999US",
+                                               "_7500_14999US",
+                                               "_75000_99999US",
+                                               "Less_than_7500US",
+                                               "None")), times  = 5),
+                                    rep(list(c("$100,000-$149,999", 
+                                               "$15,000-$24,999",
+                                               "$150,000-$299,000", 
+                                               "$25,000-$34,999",
+                                               "$300,000 or more", 
+                                               "$35,000-$49,999",
+                                               "$50,000-$74,999", 
+                                               "$7,500-$14,999",
+                                               "$75,000-$99,999", 
+                                               "Less than $7500",
+                                               "No income")), times = 2),
+                                    list(c("$1,000,000-$4,999,999 USD", 
+                                         "$10,000,000 USD or more",
+                                         "$100,000-$149,999 USD", 
+                                         "$15,000-$24,999 USD",
+                                         "$150,000-$299,999 USD", 
+                                         "$25,000-$34,999 USD",
+                                         "$300,000-$399,999 USD",
+                                         "$35,000-$49,999 USD",
+                                         "$400,000-$499,999 USD",
+                                         "$5,000,000-$9,999,999 USD",
+                                         "$50,000-$74,999 USD",
+                                         "$500,000-$749,999 USD",
+                                         "$7,500-$14,999 USD",
+                                         "$75,000-$99,999 USD",
+                                         "$750,000-$999,999 USD",
+                                         "I had no household income",
+                                         "Less than $7,500 USD"))),
+                         labels = c("Less than $25,000", "$25,000-$49,999",
+                                    "$50,000-$99,999", "$100,000-$299,999",
+                                    "$300,000 or more"),
+                         labelOrder = c("Less than $25,000", "$25,000-$49,999",
+                                        "$50,000-$99,999", "$100,000-$299,999",
+                                        "$300,000 or more"),
+                         groups = hiGraphGroups) 
+
+
+
+ggplot(hi.allYears, aes(x = year, y = est, color = labels)) +
+  geom_line(linewidth = 1.5, alpha = 0.7) +
+  geom_point(size = 2.25) +
+  theme_bw() +
+  theme(panel.grid.minor = element_blank()) +
+  scale_x_continuous(breaks = c(2013:2019, 2022:2024), labels = c(2013:2019, 2022:2024)) +
+  scale_y_continuous(labels = percent, limits = c(0, NA)) +
+  scale_color_manual(values = gradientColors(5)) +
+  labs(x = "", y = "Burning Man participants (%)", color = "Personal income (USD)",
+       title = "Household income (for 2023) of Burning Man participants in 2024")
+
+
+
+
+householdIncome <- makePlotData(varName = "What was the total income before taxes of all members of your household (including you) in 2023?",
+                         varNameTable,
+                         designs = list(design15, design16, design17, design18,
+                                        design19, design22, design23),
+                         years = c(2015:2019, 2022:2023),
+                         levels = c(rep(list(c("_100k_149999US",
+                                               "_15000_24999US",
+                                               "_150k_299999US",
+                                               "_25000_34999US",
+                                               "_300kUS_or_more",
+                                               "_35000_49999US",
+                                               "_50000_74999US",
+                                               "_7500_14999US",
+                                               "_75000_99999US",
+                                               "Less_than_7500US",
+                                               "None")), times  = 5),
+                                    rep(list(c("$100,000-$149,999", 
+                                               "$15,000-$24,999",
+                                               "$150,000-$299,000", 
+                                               "$25,000-$34,999",
+                                               "$300,000 or more", 
+                                               "$35,000-$49,999",
+                                               "$50,000-$74,999", 
+                                               "$7,500-$14,999",
+                                               "$75,000-$99,999", 
+                                               "Less than $7500",
+                                               "No income")), times = 2)),
+                         labels = c("$100,000-$149,999", "$15,000-$24,999",
+                                    "$150,000-$299,000", "$25,000-$34,999",
+                                    "$300,000 or more", "$35,000-$49,999",
+                                    "$50,000-$74,999", "$7,500-$14,999",
+                                    "$75,000-$99,999", "Less than $7,500",
+                                    "No income"),
+                         labelOrder = c("No income", "Less than $7,500",
+                                        "$7,500-$14,999", "$15,000-$24,999",
+                                        "$25,000-$34,999", "$35,000-$49,999",
+                                        "$50,000-$74,999", "$75,000-$99,999",
+                                        "$100,000-$149,999", "$150,000-$299,000",
+                                        "$300,000 or more")) 
+  
+hiGroups24 = list("No income" = c("I had no household income"),
+                  "Less than $7,500" = c("Less than $7,500 USD"),
+                  "$7,500-$14,999" = c("$7,500-$14,999 USD"), 
+                  "$15,000-$24,999" = c("$15,000-$24,999 USD"),
+                  "$25,000-$34,999" = c("$25,000-$34,999 USD"), 
+                  "$35,000-$49,999" = c("$35,000-$49,999 USD"),
+                  "$50,000-$74,999" = c("$50,000-$74,999 USD"), 
+                  "$75,000-$99,999" = c("$75,000-$99,999 USD"),
+                  "$100,000-$149,999" = c("$100,000-$149,999 USD"), 
+                  "$150,000-$299,000" = c("$150,000-$299,999 USD"),
+                  "$300,000 or more" = c("$300,000-$399,999 USD",
+                                         "$400,000-$499,999 USD",
+                                         "$500,000-$749,999 USD",
+                                         "$750,000-$999,999 USD",
+                                         "$1,000,000-$4,999,999 USD",
+                                         "$5,000,000-$9,999,999 USD",
+                                         "$10,000,000 USD or more"))
+
+householdIncome24 <- makePlotData(varName = "What was the total income before taxes of all members of your household (including you) in 2023?",
+                         varNameTable,
+                         designs = list(design24),
+                         years = c(2024),
+                         levels = list(c("$1,000,000-$4,999,999 USD", 
+                                         "$10,000,000 USD or more",
+                                         "$100,000-$149,999 USD", 
+                                         "$15,000-$24,999 USD",
+                                         "$150,000-$299,999 USD", 
+                                         "$25,000-$34,999 USD",
+                                         "$300,000-$399,999 USD",
+                                         "$35,000-$49,999 USD",
+                                         "$400,000-$499,999 USD",
+                                         "$5,000,000-$9,999,999 USD",
+                                         "$50,000-$74,999 USD",
+                                         "$500,000-$749,999 USD",
+                                         "$7,500-$14,999 USD",
+                                         "$75,000-$99,999 USD",
+                                         "$750,000-$999,999 USD",
+                                         "I had no household income",
+                                         "Less than $7,500 USD")),
+                         labels = c("$100,000-$149,999", "$15,000-$24,999",
+                                    "$150,000-$299,000", "$25,000-$34,999",
+                                    "$300,000 or more", "$35,000-$49,999",
+                                    "$50,000-$74,999", "$7,500-$14,999",
+                                    "$75,000-$99,999", "Less than $7,500",
+                                    "No income"),
+                         labelOrder = c("No income", "Less than $7,500",
+                                        "$7,500-$14,999", "$15,000-$24,999",
+                                        "$25,000-$34,999", "$35,000-$49,999",
+                                        "$50,000-$74,999", "$75,000-$99,999",
+                                        "$100,000-$149,999", "$150,000-$299,000",
+                                        "$300,000 or more"),
+                         groups = hiGroups24) 
+
+makeTableData(rbind(householdIncome, householdIncome24)) |>
+  kbl(col.names = c(2015:2019, 2022:2024), row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  kable_styling() |>
+  column_spec(column = 1:8, width_min = "10.5em") |>
+  scroll_box(width = "100%")
 ```
 
 ### Highest level of education completed
@@ -761,43 +1132,49 @@ discreteColors <- c("#EA008B", "#B0AEDC", "#554149", "#A07200", "#AADA91",
 <!-- need to create 2022 variable for highest level completed to compare to prior years -->
 
 ```{r}
-# education <- makePlotData(varName = "Which level of education have you completed?",
-#                           varNameTable,
-#                           designs = list(design23),
-#                           years = c(2023),
-#                           levels = c(TRUE),
-#                           labels = c("High school diploma \n or equivalent",
-#                                      "Some college",
-#                                      "Associate's degree",
-#                                      "Bachelor's degree",
-#                                      "Graduate degree (Master's, \n Doctorate, or equivalent)",
-#                                      "Technical/vocational \n certification",
-#                                      "Other",
-#                                      "None of these"),
-#                           labelOrder = c("High school diploma \n or equivalent",
-#                                          "Some college",
-#                                          "Associate's degree",
-#                                          "Bachelor's degree",
-#                                          "Graduate degree (Master's, \n Doctorate, or equivalent)",
-#                                          "Technical/vocational \n certification",
-#                                          "Other",
-#                                          "None of these"))
-# 
-# ggplot(education, aes(x = labels, y = est)) +
-#   geom_bar(stat = "identity", fill = "#EA008B") +
-#   scale_y_continuous(labels = percent) +
-#   labs(x = "Level of education competed", 
-#        y = "Burning Man participants in 2023 (%)",
-#        title = "Which level of education have you completed?") +
-#   theme_bw() +
-#   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1))
-# 
-# makeTableData(education) |>
-#   kbl(col.names = c(2023), row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
-#   kable_styling() |>
-#   column_spec(column = 1:1, width_min = "10.5em") |>
-#   scroll_box(width = "100%")
+education <- makePlotData(varName = "What is the highest level of education have you completed?",
+                          varNameTable,
+                          designs = list(design24),
+                          years = c(2024),
+                          levels = c("Associate's degree or equivalent", 
+                                     "Bachelor's degree or equivalent", 
+                                     "Elementary school or equivalent", 
+                                     "Graduate degree (Master's, Doctorate, or equivalent) or equivalent", 
+                                     "High school diploma or equivalent", 
+                                     "None of the above", 
+                                     "Other", 
+                                     "Technical/vocational certification or equivalent"),
+                          labels = c("Associate's degree\n or equivalent", 
+                                     "Bachelor's degree\n or equivalent", 
+                                     "Elementary school\n or equivalent", 
+                                     "Graduate degree (Master's,\n Doctorate, or equivalent)", 
+                                     "High school diploma\n or equivalent", 
+                                     "None of the above", 
+                                     "Other", 
+                                     "Technical/vocational certification\n or equivalent"),
+                          labelOrder = c("Graduate degree (Master's,\n Doctorate, or equivalent)",
+                                         "Technical/vocational certification\n or equivalent",
+                                         "Bachelor's degree\n or equivalent", 
+                                         "Associate's degree\n or equivalent", 
+                                         "High school diploma\n or equivalent", 
+                                         "Elementary school\n or equivalent", 
+                                         "Other","None of the above"))
+
+ggplot(education, aes(x = labels, y = est)) +
+  geom_bar(stat = "identity", fill = "#EA008B") +
+  scale_y_continuous(labels = percent) +
+  labs(x = "Level of education competed",
+       y = "Burning Man participants in 2024 (%)",
+       title = "Which level of education have you completed?") +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust = 1))
+
+makeTableData(education) |>
+  kbl(col.names = c(2024), row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  kable_styling() |>
+  column_spec(column = 1:1, width_min = "10.5em") |>
+  scroll_box(width = "100%")
 ```
 
 ## Residence
@@ -820,123 +1197,114 @@ discreteColors <- c("#EA008B", "#B0AEDC", "#554149", "#A07200", "#AADA91",
 
 ```{r}
 
-# theZipz <- census23$reside.ZIP
-# 
-# theZipz[nchar(theZipz) >5 & !is.na(theZipz)] <- gsub(
-#   "-.{4}$",
-#   "",
-#   theZipz[nchar(theZipz) >5 & !is.na(theZipz)]
-# ) # remove last 4 of zip codes
-# 
-# Zs <- lapply(theZipz, function(u){
-#   if (is.na(u)) {
-#     NA
-#   } else {
-#     reverse_zipcode(u)
-#   }
-# }
-# )
-# 
-# burnerState <- sapply(Zs, function(v){
-#   if (length(v)>1) {
-#     v$state
-#   } else {
-#     NA
-#   }
-# }
-# )
-# 
-# statesWeights <- tapply(census23$weights, burnerState, sum)
-# statesWeights <- statesWeights/sum(statesWeights)*100
-# 
-# statesPercents <- sort(round(statesWeights,2), decreasing=TRUE) # weighted
-# 
-# burnersByState <- data.frame(STATE = names(statesPercents), Percent = statesPercents)
-# 
-# # adding mississippi
-# burnersByState <- rbind(burnersByState, data.frame(STATE="MS",Percent=0))
-# 
-# ## plotting
-# usa <- states(cb = TRUE, progress_bar = FALSE) %>%
-#   shift_geometry()
-# 
-# usa$STATE <- c(state.abb, "DC", "PR")[
-#   match(usa$NAME, c(state.name, "District of Columbia", "Puerto Rico"),)
-#   ]
-# 
-# usa2 <- merge(usa, burnersByState, by="STATE")
-# 
-# usa2 <- st_transform(usa2, 3395)
-# 
-# # construct cartogram
-# usa2_cont <- cartogram_cont(usa2, "Percent", 
-#                             itermax = 15,
-#                             threshold = 0.01,
-#                             verbose=FALSE) %>%
-#   st_cast()
-# 
-# # plot it
-# tm_shape(usa2_cont) + 
-#   tm_polygons("Percent", style = "jenks", 
-#               palette=gradientColors(3)) +
-#   tm_layout("Frequency of US residence",title.position=c(0.5, 0.9),
-#             frame = FALSE, legend.position = c(0.8,0.1),
-#             legend.outside=FALSE) + 
-#   tm_text("STATE", size = 1/2, remove.overlap = FALSE)
-# 
-# ## table of 
-# 
-# # names(statesPercents) <- c(state.name, "District of Columbia", "Puerto Rico")[
-# #   match(names(statesPercents), c(state.abb, "DC", "PR"),)
-# # ]
-# # 
-# # head(data.frame(statesPercents),12) |>
-# #   kbl(col.names = c("Percentage"), row.names = TRUE) |>
-# #   kable_paper("striped", full_width = F) |>
-# #   kable_styling() |>
-# #   column_spec(column = 1:1, width_min = "10.5em") |>
-# #   scroll_box(width = "100%")
-# 
-# 
-# 
-# reside <- makePlotData("Where do you usually reside/live (when not in Black Rock City)?",
-#                        varNameTable = varNameTable,
-#                        designs = list(design13, design14, design15,
-#                                       design16, design17, design18,
-#                                       design19, design22, design23),
-#                        years = c(2013:2019, 2022:2023),
-#                        levels = c(rep(list(c("California",
-#                                              "Canada",
-#                                              "Nevada",
-#                                              "Other",
-#                                              "USA_other")), times = 7),
-#                                   rep(list(c("Within California", "In Canada",
-#                                          "Within Nevada", "Other",
-#                                          "Other location within U.S.")), times = 2)),
-#                        labels = c("Within California", "Within Canada",
-#                                   "Within Nevada", "Other",
-#                                   "Other location within U.S."),
-#                        labelOrder = c(1, 3, 5, 2, 4))
-# 
-# ggplot(reside, aes(x = year, y = est, color = labels)) +
-#   geom_line(linewidth = 1.5, alpha = 0.7) +
-#   geom_point(size = 2.25) +
-#   theme_bw() +
-#   theme(panel.grid.minor = element_blank()) +
-#   scale_x_continuous(breaks = c(2013:2019, 2022:2023), 
-#                      labels = c(2013:2019, 2022:2023)) +
-#   scale_y_continuous(labels = percent, limits = c(0, NA)) +
-#   scale_color_manual(values = discreteColors[1:5]) +
-#   labs(x = "", y = "Burning Man participants (%)", 
-#        color = "Residence (not in BRC)",
-#        title = "Where do you usually reside (when not in Black Rock City)")
-# 
-# makeTableData(reside) |>
-#   kbl(col.names = c(2013:2019, 2022:2023), row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
-#   column_spec(column = 1:10, width_min = "10.5em") |>
-#   kable_styling() |>
-#   scroll_box(width = "100%")
+theZipz <- census24$reside.zip
+
+theZipz[nchar(theZipz) >5 & !is.na(theZipz)] <- gsub(
+  "-.{4}$",
+  "",
+  theZipz[nchar(theZipz) >5 & !is.na(theZipz)]
+) # remove last 4 of zip codes
+
+Zs <- lapply(theZipz, function(u){
+  if (is.na(u)) {
+    NA
+  } else {
+    reverse_zipcode(u)
+  }
+}
+)
+
+burnerState <- sapply(Zs, function(v){
+  if (length(v)>1) {
+    v$state
+  } else {
+    NA
+  }
+}
+)
+
+statesWeights <- tapply(census24$weights, burnerState, sum)
+statesWeights <- statesWeights/sum(statesWeights)*100
+
+statesPercents <- sort(round(statesWeights,2), decreasing=TRUE) # weighted
+
+burnersByState <- data.frame(STATE = names(statesPercents), Percent = statesPercents)
+
+# adding mississippi
+burnersByState <- rbind(burnersByState, data.frame(STATE="MS",Percent=0))
+burnersByState$Percent <- burnersByState$Percent + 0.002 # adjust for numerical convenience in plotting
+
+## plotting
+usa <- states(cb = TRUE, progress_bar = FALSE) %>%
+  shift_geometry()
+
+usa$STATE <- c(state.abb, "DC", "PR")[
+  match(usa$NAME, c(state.name, "District of Columbia", "Puerto Rico"),)
+  ]
+
+usa2 <- merge(usa, burnersByState, by="STATE")
+
+usa2 <- st_transform(usa2, 3395)
+
+# construct cartogram
+usa2_cont <- cartogram_cont(usa2, "Percent",
+                            itermax = 15,
+                            threshold = 0.01,
+                            verbose=FALSE) %>%
+  st_cast()
+
+# plot it
+tm_shape(usa2_cont) +
+  tm_polygons("Percent", 
+              fill.scale = tm_scale_continuous_log(values = rev(gradientColors(3)))) +
+  tm_title("Frequency of US residence by state", position=c(0.35, 1)) + 
+  tm_layout(frame = FALSE, 
+            legend.outside=FALSE) +
+  tm_text("STATE", size = 1/2, remove.overlap = FALSE)
+
+
+
+
+
+reside <- makePlotData("Where do you usually reside/live (when not in Black Rock City)?",
+                       varNameTable = varNameTable,
+                       designs = list(design13, design14, design15,
+                                      design16, design17, design18,
+                                      design19, design22, design23,
+                                      design24),
+                       years = c(2013:2019, 2022:2024),
+                       levels = c(rep(list(c("California",
+                                             "Canada",
+                                             "Nevada",
+                                             "Other",
+                                             "USA_other")), times = 7),
+                                  rep(list(c("Within California", "In Canada",
+                                         "Within Nevada", "Other",
+                                         "Other location within U.S.")), times = 3)),
+                       labels = c("Within California", "Within Canada",
+                                  "Within Nevada", "Other",
+                                  "Other location in U.S."),
+                       labelOrder = c(1, 3, 5, 2, 4))
+
+ggplot(reside, aes(x = year, y = est, color = labels)) +
+  geom_line(linewidth = 1.5, alpha = 0.7) +
+  geom_point(size = 2.25) +
+  theme_bw() +
+  theme(panel.grid.minor = element_blank()) +
+  scale_x_continuous(breaks = c(2013:2019, 2022:2024),
+                     labels = c(2013:2019, 2022:2024)) +
+  scale_y_continuous(labels = percent, limits = c(0, NA)) +
+  scale_color_manual(values = discreteColors[1:5]) +
+  labs(x = "", y = "Burning Man participants (%)",
+       color = "Residence (not in BRC)",
+       title = "Where do you usually reside (when not in Black Rock City)")
+
+makeTableData(reside) |>
+  kbl(col.names = c(2013:2019, 2022:2024), row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  column_spec(column = 1:11, width_min = "11.5em") |>
+  kable_styling() |>
+  scroll_box(width = "100%")
 ```
 
 <!-- ### California and Nevada County Residence -->
@@ -952,6 +1320,8 @@ discreteColors <- c("#EA008B", "#B0AEDC", "#554149", "#A07200", "#AADA91",
 <!-- Postal code converted to province -->
 
 <!-- ## Voting and politics -->
+
+## Politics
 
 ### Number of times voted in last four Federal US elections
 
@@ -1216,209 +1586,63 @@ discreteColors <- c("#EA008B", "#B0AEDC", "#554149", "#A07200", "#AADA91",
 #   column_spec(column = 1:4, width_min = "10.5em") |>
 #   kable_styling() |>
 #   scroll_box(width = "100%")
-```
 
-## Ethnicity and language
+politicalViews <- makePlotData("Generally, in terms of political views, rather than political parties, I consider myself to be primarily",
+                               varNameTable = varNameTable,
+                               designs = list(design19, design22, design23,
+                                              design24),
+                               years = c(2019, 2022:2024),
+                               levels = c(list(c("Anarchist",
+                                                 "Centrist_or_moderate",
+                                                 "Conservative", "Green",
+                                                 "Liberal", "Libertarian",
+                                                 "Non_political", "Other",
+                                                 "Progressive", "Socialist")),
+                                          rep(list(c("Anarchist",
+                                                 "Centrist or moderate",
+                                                 "Conservative", "Green",
+                                                 "Liberal", "Libertarian",
+                                                 "None or non-political",
+                                                 "Other", "Progressive",
+                                                 "Socialist")), times = 2),
+                                          rep(list(c("Anarchist",
+                                                 "Centrist or moderate",
+                                                 "Conservative", "Green",
+                                                 "Liberal", "Libertarian",
+                                                 "None, I consider myself to be apolitical",
+                                                 "Other", "Progressive",
+                                                 "Socialist")), times = 1)),
+                               labels = c("Anarchist",
+                                          "Centrist or moderate",
+                                          "Conservative", "Green",
+                                          "Liberal", "Libertarian",
+                                          "None or apolitical",
+                                          "Other", "Progressive",
+                                          "Socialist"),
+                               labelOrder = c("Liberal", "Progressive",
+                                              "Socialist", "Green",
+                                              "Centrist or moderate",
+                                              "Conservative", "Libertarian",
+                                              "Anarchist",
+                                              "None or apolitical",
+                                              "Other"))
 
-### Ethnoracial background
 
-```{r}
-# ethnoracial22to23 <- makePlotData("Which category best describes your race?",
-#                               varNameTable = varNameTable,
-#                               designs = list(design22, design23),
-#                               years = 2022:2023,
-#                               levels = rep(list(TRUE), times = 2),
-#                               labels = c("Asian", "Native American",
-#                                          "Hispanic/Latino",
-#                                          "White (non-hispanic)",
-#                                          "Middle Eastern or North African",
-#                                          "Black (non-Hispanic)", "Other"),
-#                               labelOrder = c("White (non-hispanic)",
-#                                              "Hispanic/Latino",
-#                                              "Asian",
-#                                              "Middle Eastern or North African",
-#                                              "Black (non-Hispanic)",
-#                                              "Native American", "Other"))
-# ethnoracial17to19 <- makePlotData("ethnoracial 2013 through 2019",
-#                               varNameTable = varNameTable,
-#                               designs = list(design17, design18, design19),
-#                               years = 2017:2019,
-#                               levels = rep(list(c("asian", "black", "hispanic",
-#                                                   "middleeastern", "native",
-#                                                   "other_or_mix", "white")),
-#                                            times = 3),
-#                               labels = c("Asian", "Black (non-Hispanic)",
-#                                          "Hispanic/Latino",
-#                                          "Middle Eastern or North African",
-#                                          "Native American",
-#                                          "Other", "White (non-hispanic)"),
-#                               labelOrder = c("White (non-hispanic)",
-#                                              "Hispanic/Latino",
-#                                              "Asian",
-#                                              "Middle Eastern or North African",
-#                                              "Black (non-Hispanic)",
-#                                              "Native American", "Other"))
-# 
-# ethnoracial13to16 <- makePlotData("ethnoracial 2013 through 2019",
-#                               varNameTable = varNameTable,
-#                               designs = list(design13, design14, design15,
-#                                              design16),
-#                               years = 2013:2016,
-#                               levels = rep(list(c("asian", "black", "hispanic",
-#                                                   "native", "other_or_mix",
-#                                                   "white")), times = 4),
-#                               labels = c("Asian", "Black (non-Hispanic)",
-#                                          "Hispanic/Latino",
-#                                          "Native American",
-#                                          "Other", "White (non-hispanic)"),
-#                               labelOrder = c("White (non-hispanic)",
-#                                              "Hispanic/Latino",
-#                                              "Asian",
-#                                              "Black (non-Hispanic)",
-#                                              "Native American", "Other"))
-# ethnoracial13to16 <- rbind(ethnoracial13to16,
-#                            data.frame(est = NA, lower = NA, upper = NA,
-#                                       level = "middleeastern",
-#                                       year = 2013:2016,
-#                                       labels = factor("Middle Eastern or North African",
-#                                                       levels = c("White (non-hispanic)",
-#                                                                  "Hispanic/Latino",
-#                                                                  "Asian",
-#                                                                  "Middle Eastern or North African",
-#                                                                  "Black (non-Hispanic)",
-#                                                                  "Native American", "Other"))))
-# 
-# ggplot(ethnoracial22to23[ethnoracial22to23$year == 2023,], aes(x = labels, y = est)) +
-#   geom_bar(stat = "identity", position = "dodge", fill = "#EA008B") +
+# ggplot(politicalViews, aes(x = labels, y = est, fill = as.factor(year))) +
+#   geom_bar(stat = "identity", position = "dodge") +
 #   scale_y_continuous(labels = percent) +
-#   labs(x = "Ethnoracial background", y = "Burning Man participants in 2023 (%)",
-#        title = "Which category best describes your race?") +
+#   scale_fill_manual(values = discreteColors[1:4]) +
+#   labs(x = "Political view", y = "Burning Man participants (%)", fill = "Year",
+#        title = "Generally, in terms of political views, rather than political parties, \n I consider  myself to be primarily...") +
 #   theme_bw() +
 #   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))
-# 
-# tableDat <- makeTableData(rbind(ethnoracial22to23, ethnoracial17to19, ethnoracial13to16))
-# tdrn <- rownames(tableDat)
-# tdrn[4] <- "Middle Eastern or North African^a^"
-# tdrn[7] <- "Other^b^"
-# rownames(tableDat) <- tdrn
-# # tdcn <- colnames(tableDat)
-# # tdcn[8] <- "2022^c^"
-# # colnames(tableDat) <- tdcn
-# 
-# tableDat |>
-#   kbl(col.names = c(as.character(2013:2019), "2022^c^", as.character(2023)), 
-#       row.names = TRUE) |>
-#   kable_paper("striped") |>
-#   kable_styling(full_width = F, wraptable_width = "100%") |>
-#   column_spec(column = 1:10, width_min = "10.5em") |>
-#   footnote(alphabet = c("Middle eastern was not an option in 2013-2016.",
-#                         "The \"other or mixed\" option in 2013-2019 changed to \"other\" in 2022.",
-#                         "In 2022 the format changed to allow users to select multiple options. While this improves our data collection, it unfortunately makes it impossible to make direct comparisons to previous years.")) |>
-#   scroll_box(width = "100%")
-```
 
-### Self-identification as a person of color
-
-```{r}
-# personOfColor <- makePlotData("Do you consider yourself to be a person of color?",
-#                               varNameTable = varNameTable,
-#                               designs = list(design13, design14, design15,
-#                                              design16, design17, design18,
-#                                              design19, design22, design23),
-#                               years = c(2013:2019, 2022:2023),
-#                               levels = c("No", "Sometimes", "Yes"),
-#                               labels = c("No", "Sometimes", "Yes"),
-#                               labelOrder = 1:3)
-# 
-# ggplot(personOfColor, aes(x = year, y = est, fill = labels)) +
-#   geom_area(alpha = 0.65) +
-#   scale_y_continuous(labels = percent) +
-#   scale_x_continuous(breaks = c(2013:2019, 2022:2023), 
-#                      labels = c(2013:2019, 2022:2023)) +
-#   scale_fill_manual(values = gradientColors(3)[3:1]) +
-#   labs(x = "", y = "Burning Man participants (%)",
-#        fill = "Person of color",
-#        title = "Do you consider yourself a person of color?") +
-#   theme_bw()
-# 
-# makeTableData(personOfColor) |>
-#   kbl(col.names = c(2013:2019, 2022:2023), row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
-#   column_spec(column = 1:10, width_min = "10.5em") |>
-#   kable_styling() |>
-#   scroll_box(width = "100%")
-```
-
-### First language learned
-
-```{r}
-
-# language <- makePlotData("What was the first language you learned and still use (i.e., native language)?",
-#                          varNameTable = varNameTable,
-#                          designs = list(design13, design14, design15,
-#                                         design16, design17, design18,
-#                                         design19, design22, design23),
-#                          years = c(2013:2019, 2022:2023),
-#                          levels = rep(list(c("Arabic", "Chinese", "Danish",
-#                                              "Dutch", "English", "Farsi",
-#                                              "French", "German","Hebrew",
-#                                              "Hindi", "Italian", "Japanese",
-#                                              "Norwegian", "Other", "Polish",
-#                                              "Portuguese", "Punjabi",
-#                                              "Romanian", "Russian", "Spanish",
-#                                              "Swedish", "Tagalog", "Urdu")),
-#                                       times = 9),
-#                          labels = NULL,
-#                          labelOrder = c(5, 20, 7, 8, 19, 2, 16, 4, 9, 11,
-#                                         21, 6, 1, 15, 10, 3, 18, 22, 17, 12,
-#                                         13, 23, 14))
-# 
-# language2 <- makePlotData("What was the first language you learned and still use (i.e., native language)?",
-#                          varNameTable = varNameTable,
-#                          designs = list(design13, design14, design15,
-#                                              design16, design17, design18,
-#                                              design19, design22, design23),
-#                          years = c(2013:2019, 2022:2023),
-#                          levels = rep(list(c("Arabic", "Chinese", "Danish",
-#                                              "Dutch", "English", "Farsi",
-#                                              "French", "German","Hebrew",
-#                                              "Hindi", "Italian", "Japanese",
-#                                              "Norwegian", "Other", "Polish",
-#                                              "Portuguese", "Punjabi",
-#                                              "Romanian", "Russian", "Spanish",
-#                                              "Swedish", "Tagalog", "Urdu")),
-#                                       times = 9),
-#                          labels = c("English", "Other language"),
-#                          labelOrder = 2:1,
-#                          groups = c(2, 2, 2,
-#                                     2, 1, 2,
-#                                     2, 2, 2,
-#                                     2, 2, 2,
-#                                     2, 2, 2,
-#                                     2, 2,
-#                                     2, 2, 2,
-#                                     2, 2, 2))
-# 
-# 
-# 
-# ggplot(language2, aes(x = year, y = est, fill = labels)) +
-#   geom_area(alpha = 0.65) +
-#   theme_bw() +
-#   theme(panel.grid.minor = element_blank()) +
-#   scale_x_continuous(breaks = c(2013:2019, 2022:2023), 
-#                      labels = c(2013:2019, 2022:2023)) +
-#   scale_y_continuous(labels = percent) +
-#   scale_fill_manual(values = gradientColors(2)[2:1]) +
-#   labs(x = "", y = "Burning Man participants (%)", fill = "Language",
-#        title = "What was the first language you learned and still use?")
-# 
-# 
-# makeTableData(language) |>
-#   kbl(col.names = c(2013:2019, 2022:2023), row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
-#   column_spec(column = 1:10, width_min = "10.5em") |>
-#   kable_styling() |>
-#   scroll_box(width = "100%")
+makeTableData(politicalViews) |>
+  kbl(col.names = c(2019, 2022:2024), row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  column_spec(column = 1:5, width_min = "10.5em") |>
+  kable_styling() |>
+  scroll_box(width = "100%")
 ```
 
 ## Spirituality
@@ -1426,467 +1650,163 @@ discreteColors <- c("#EA008B", "#B0AEDC", "#554149", "#A07200", "#AADA91",
 ### How do you describe your spirituality?
 
 ```{r}
-# spirituality <- makePlotData("How do you describe your spirituality?",
-#                              varNameTable = varNameTable,
-#                              designs = list(design13, design14, design15,
-#                                                  design16, design17, design18,
-#                                                  design19, design22, design23),
-#                              years = c(2013:2019, 2022:2023),
-#                              levels = c(rep(list(c("Agnostic", "Atheist", "Deist",
-#                                                    "IDK", "Religious",
-#                                                    "Spiritual_not_relig")),
-#                                           times = 7),
-#                                         rep(list(c("Agnostic", "Atheist", "Deist",
-#                                                "Don\'t know", "Religious",
-#                                                "Spiritual, but not religious")), times = 2)),
-#                              labels = c("Agnostic", "Atheist", "Deist",
-#                                         "I don\'t know", "Religious",
-#                                         "Spiritual, but \n not religious"),
-#                              labelOrder = c(6, 2, 1, 5, 3, 4))
-# 
-# ggplot(spirituality, aes(x = year, y = est, color = labels)) +
-#   geom_line(linewidth = 1.5, alpha = 0.7) +
-#   geom_point(size = 2.25) +
-#   theme_bw() +
-#   theme(panel.grid.minor = element_blank()) +
-#   scale_x_continuous(breaks = c(2013:2019, 2022:2023), 
-#                      labels = c(2013:2019, 2022:2023)) +
-#   scale_y_continuous(labels = percent, limits = c(0, NA)) +
-#   scale_color_manual(values = discreteColors[1:6]) +
-#   labs(x = "", y = "Burning Man participants (%)", color = "Language",
-#        "How do you describe your spirituality?")
-# 
-# makeTableData(spirituality) |>
-#   kbl(col.names = c(2013:2019, 2022:2023), row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
-#   column_spec(column = 1:10, width_min = "10.5em") |>
-#   kable_styling() |>
-#   scroll_box(width = "100%")
+spirituality <- makePlotData("How do you describe your spirituality?",
+                             varNameTable = varNameTable,
+                             designs = list(design13, design14, design15,
+                                                 design16, design17, design18,
+                                                 design19, design22, design23,
+                                            design24),
+                             years = c(2013:2019, 2022:2024),
+                             levels = c(rep(list(c("Agnostic", "Atheist", "Deist",
+                                                   "IDK", "Religious",
+                                                   "Spiritual_not_relig")),
+                                          times = 7),
+                                        rep(list(c("Agnostic", "Atheist", "Deist",
+                                               "Don\'t know", "Religious",
+                                               "Spiritual, but not religious")), times = 3)),
+                             labels = c("Agnostic", "Atheist", "Deist",
+                                        "I don\'t know", "Religious",
+                                        "Spiritual, but \n not religious"),
+                             labelOrder = c(6, 2, 1, 5, 3, 4))
+
+ggplot(spirituality, aes(x = year, y = est, color = labels)) +
+  geom_line(linewidth = 1.5, alpha = 0.7) +
+  geom_point(size = 2.25) +
+  theme_bw() +
+  theme(panel.grid.minor = element_blank()) +
+  scale_x_continuous(breaks = c(2013:2019, 2022:2024),
+                     labels = c(2013:2019, 2022:2024)) +
+  scale_y_continuous(labels = percent, limits = c(0, NA)) +
+  scale_color_manual(values = discreteColors[1:6]) +
+  labs(x = "", y = "Burning Man participants (%)", color = "Language",
+       "How do you describe your spirituality?")
+
+makeTableData(spirituality) |>
+  kbl(col.names = c(2013:2019, 2022:2024), row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  column_spec(column = 1:11, width_min = "10.5em") |>
+  kable_styling() |>
+  scroll_box(width = "100%")
 ```
 
-<!-- ### Religion or religious denomination -->
-
-<!-- Comments from 2022: -->
-
-<!-- Something needs to be done to address the multiple religions selection, not sure what -->
-
-<!-- I think we have to add counts from the moreReligion questions to the -->
-
-<!-- religion question and treat it as a select multiple. For now I'm just -->
-
-<!-- going to do only the main religion question in the interest of time -->
-
-<!-- ```{r} -->
-
-<!-- religion2 <- makePlotData("Do you belong to a religion or religious denomination?", -->
-
-<!--                          varNameTable = varNameTable, -->
-
-<!--                          designs = list(design22, design23), -->
-
-<!--                          years = c(2022:2023), -->
-
-<!--                          levels = as.list(rep(c("Buddhist", "Catholic", -->
-
-<!--                                            "Other Christian", "Discordian", -->
-
-<!--                                            "Hindu", "Jewish", -->
-
-<!--                                            "Multiple religions", "Muslim", -->
-
-<!--                                            "No religion", "Other", -->
-
-<!--                                            "Pagan", "Pastafarian", -->
-
-<!--                                            "Protestant", "Unitarian"), times = 2)), -->
-
-<!--                          labels = c("Buddhist", "Catholic", -->
-
-<!--                                            "Other Christian", "Discordian", -->
-
-<!--                                            "Hindu", "Jewish", "Other", -->
-
-<!--                                            "Muslim", -->
-
-<!--                                            "No religion", -->
-
-<!--                                            "Pagan", "Pastafarian", -->
-
-<!--                                            "Protestant", "Unitarian"), -->
-
-<!--                          labelOrder = c("No religion", "Jewish", "Catholic", -->
-
-<!--                                         "Protestant", "Other Christian", -->
-
-<!--                                         "Unitarian", "Buddhist", "Pagan", -->
-
-<!--                                         "Discordian", "Pastafarian", -->
-
-<!--                                         "Hindu", "Muslim", "Other"), -->
-
-<!--                          groups = c(1, 2, 3, 4, 5, 6, 7, 8, 9, 7, 10, 11, 12, 13)) -->
-
-<!-- religion <- makePlotData("Do you belong to a religion or religious denomination?", -->
-
-<!--                          varNameTable = varNameTable, -->
-
-<!--                          designs = list(design14, design15, -->
-
-<!--                                         design16, design17, design18, -->
-
-<!--                                         design19, design22), -->
-
-<!--                          years = c(2014:2019, 2022), -->
-
-<!--                          levels = c(rep(list(c("Buddhist", "Catholic", -->
-
-<!--                                                "Christian_other", "Discordian", -->
-
-<!--                                                "Hindu", "Jewish", -->
-
-<!--                                                "More_than_one", "Muslim", -->
-
-<!--                                                "No_religion", "Other", -->
-
-<!--                                                "Pagan", "Pastafarian", -->
-
-<!--                                                "Protestant", -->
-
-<!--                                                "Unitarian_Universalist")), -->
-
-<!--                                       times = 6), -->
-
-<!--                                     list(c("Buddhist", "Catholic", -->
-
-<!--                                            "Other Christian", "Discordian", -->
-
-<!--                                            "Hindu", "Jewish", -->
-
-<!--                                            "Multiple religions", "Muslim", -->
-
-<!--                                            "No religion", "Other", -->
-
-<!--                                            "Pagan", "Pastafarian", -->
-
-<!--                                            "Protestant", "Unitarian"))), -->
-
-<!--                          labels = c("Buddhist", "Catholic", -->
-
-<!--                                            "Other Christian", "Other", -->
-
-<!--                                            "Hindu", "Jewish", -->
-
-<!--                                            "Muslim", -->
-
-<!--                                            "No religion", -->
-
-<!--                                            "Pagan", "Pastafarian", -->
-
-<!--                                            "Protestant"), -->
-
-<!--                          labelOrder = c("No religion", "Jewish", "Catholic", -->
-
-<!--                                         "Protestant", "Other Christian", -->
-
-<!--                                         "Buddhist", "Pagan", -->
-
-<!--                                         "Pastafarian", -->
-
-<!--                                         "Hindu", "Muslim", "Other"), -->
-
-<!--                          groups = c(1, 2, 3, 4, 5, 6, 4, 7, 8, 4, 9, 10, 11, 4)) -->
-
-<!-- ggplot(religion22, aes(x = labels, y = est)) + -->
-
-<!--   geom_bar(stat = "identity", position = "dodge", fill = "#EA008B") + -->
-
-<!--   scale_y_continuous(labels = percent) + -->
-
-<!--   labs(x = "Religion", y = "Burning Man participants in 2022 (%)") + -->
-
-<!--   theme_bw() + -->
-
-<!--   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) -->
-
-<!-- makeTableData(religion) |> -->
-
-<!--   kbl(col.names = c(2014:2019, 2022), row.names = TRUE) |> -->
-
-<!--   kable_paper("striped", full_width = F) |> -->
-
-<!--   column_spec(column = 1:8, width_min = "10.5em") |> -->
-
-<!--   kable_styling() |> -->
-
-<!--   scroll_box(width = "100%") -->
-
-<!-- ``` -->
-
-## Disabilities
-
-### Identify with a disability status
-
-<!-- Maybe separate into binary yes/no and categories if yes? -->
-
-```{r}
-# disability <- makePlotData("What disability statuses (if any) do you identify with?",
-#                            varNameTable = varNameTable,
-#                            designs = list(design22, design23),
-#                            years = 2022:2023,
-#                            levels = as.list(rep(TRUE, times = 2)),
-#                            labels = c("Sensory impairment",
-#                                       "Learning disability",
-#                                       "Long-term medical \n illness",
-#                                       "Long-term mental health \n condition",
-#                                       "Mobility impairment",
-#                                       "Sensory processing or \n integration disorder",
-#                                       "Temporary impairment resulting \n from illness or injury",
-#                                       "Disability not listed",
-#                                       "Prefer to self-describe",
-#                                       "Do not identify with a \n disability or impairment"))
-# 
-# ggplot(disability[-c(9, 19),], aes(x = labels, y = est, fill = as.factor(year))) +
-#   geom_bar(stat = "identity", position = "dodge") +
-#   scale_y_continuous(labels = percent) +
-#   scale_fill_manual(values = discreteColors[2:1]) +
-#   labs(x = "Disability", y = "Burning Man participants (%)",
-#        title = "What disability statuses (if any) do you identify with?",
-#        fill = "") +
-#   theme_bw() +
-#   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))
-# 
-# 
-# makeTableData(disability[-c(9, 19),]) |>
-#   kbl(col.names = c(2022:2023), row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
-#   column_spec(column = 1:3, width_min = "10.5em") |>
-#   kable_styling() |>
-#   scroll_box(width = "100%")
-```
-
-## Sexuality
+## Sexuality and Relationships
 
 ### Sexual orientation
 
 ```{r}
-# sexualOrientation <- makePlotData("Which of these expressions best describes your sexual orientation?",
-#              varNameTable = varNameTable,
-#              designs = list(design22, design23),
-#              years = 2022:2023,
-#              levels = c("Asexual", "Bicurious or heteroflexible",
-#                         "Bisexual or pansexual", "Demi-sexual",
-#                         "Gay, lesbian, or homosexual",
-#                         "Heterosexual or straight",
-#                         "Other", "Refuse labels"),
-#              labels = c("Asexual", "Bicurious or \n heteroflexible",
-#                         "Bisexual or \n pansexual", "Demi-sexual",
-#                         "Gay, lesbian, or \n homosexual",
-#                         "Heterosexual or \n straight",
-#                         "Other", "Refuse labels"),
-#              labelOrder = rev(c(6, 3, 2, 5, 1, 4, 8, 7)))
-# 
-# sexualOrientation2 <- makePlotData("Which of these expressions best describes your sexual orientation?",
-#              varNameTable = varNameTable,
-#              designs = list(design13, design14, design15, design16, design17,
-#                             design18, design19),
-#              years = 2013:2019,
-#              levels = rep(list(c("Asexual", "Bicurious",
-#                         "Bisexual", "demisexual", "Gay_Lesbian",
-#                         "Heterosexual", "other", "Refuse_labels")), times = 7),
-#              labels = c("Asexual", "Bicurious or \n heteroflexible",
-#                         "Bisexual or \n pansexual", "Demi-sexual",
-#                         "Gay, lesbian, or \n homosexual",
-#                         "Heterosexual or \n straight",
-#                         "Other", "Refuse labels"),
-#              labelOrder = c(6, 3, 2, 5, 1, 4, 8, 7))
-# 
-# ggplot(sexualOrientation[sexualOrientation$year == 2023,], 
-#        aes(x = labels, y = est)) +
-#   geom_bar(stat = "identity", fill = "#EA008B") +
-#   scale_y_continuous(labels = percent) +
-#   labs(x = "Sexual orientation", y = "Burning Man participants in 2023 (%)",
-#        title = "Which of these expressions best describes your sexual orientation?") +
-#   theme_bw() +
-#   coord_flip()
-# 
-# allSexualOrientation <- rbind(sexualOrientation2, sexualOrientation)
-# 
-# makeTableData(allSexualOrientation) |>
-#   kbl(col.names = c(2013:2019, "2022^c^", 2023), row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
-#   column_spec(column = 1:10, width_min = "10.5em") |>
-#   footnote(alphabet = c("\'Demi-sexual\' and \'Other\' choices were added in 2022.")) |>
-#   kable_styling() |>
-#   scroll_box(width = "100%")
+soGroups <- list("Bicurious or heteroflexible" = c("Bicurious",
+                                                   "Bicurious or heteroflexible"),
+                 "Bisexual or pansexual" = c("Bisexual", 
+                                             "Bisexual or pansexual"),
+                 "Demi-sexual or aesexual" = c("Asexual", "demisexual",
+                                               "Demi-sexual",
+                                               "Demi-sexual or aesexual"),
+                 "Gay, lesbian, or homosexual" = c("Gay_Lesbian",
+                                                   "Gay, lesbian, or homosexual"),
+                 "Heterosexual or straight" = c("Heterosexual", 
+                                                "Heterosexual or straight"),
+                 "Other or refuse labels" = c("Other", "other",
+                                              "Refuse labels", 
+                                              "Refuse_labels"))
+
+sexualOrientation <- makePlotData("Which of these expressions best describes your sexual orientation?",
+              varNameTable = varNameTable,
+              designs = list(design13, design14, design15,
+                             design16, design17, design18,
+                             design19, design22, design23,
+                             design24),
+              years = c(2013:2019, 2022:2024),
+              levels = c(rep(list(c("Asexual", "Bicurious",
+                                    "Bisexual", "demisexual", "Gay_Lesbian",
+                                    "Heterosexual", "other", "Refuse_labels")), times = 7),
+                        rep(list(c("Asexual", "Bicurious or heteroflexible",
+                                   "Bisexual or pansexual", "Demi-sexual",
+                                   "Gay, lesbian, or homosexual",
+                                   "Heterosexual or straight",
+                                   "Other", "Refuse labels")), times = 2),
+                        rep(list(c("Bicurious or heteroflexible",
+                                   "Bisexual or pansexual",
+                                   "Demi-sexual or aesexual",
+                                   "Gay, lesbian, or homosexual",
+                                   "Heterosexual or straight",
+                                   "Other", "Refuse labels")), times = 1)),
+              labels = c("Bicurious or heteroflexible",
+                         "Bisexual or pansexual",
+                         "Demi-sexual or aesexual",
+                         "Gay, lesbian, or homosexual",
+                         "Heterosexual or straight",
+                         "Other or refuse labels"),
+              labelOrder = c("Heterosexual or straight",
+                             "Bisexual or pansexual",
+                             "Bicurious or heteroflexible",
+                             "Gay, lesbian, or homosexual",
+                             "Demi-sexual or aesexual",
+                             "Other or refuse labels"),
+              groups = soGroups)
+
+
+ggplot(sexualOrientation, aes(x = year, y = est, color = labels)) +
+  geom_line(linewidth = 1.5, alpha = 0.7) +
+  geom_point(size = 2.25) +
+  theme_bw() +
+  theme(panel.grid.minor = element_blank()) +
+  scale_x_continuous(breaks = c(2013:2019, 2022:2024),
+                     labels = c(2013:2019, 2022:2024)) +
+  scale_y_continuous(labels = percent, limits = c(0, NA)) +
+  scale_color_manual(values = discreteColors[1:6]) +
+  labs(x = "", y = "Burning Man participants (%)",
+       color = "Sexual orientation",
+       title = "Which of these expressions best describes your sexual orientation?")
+
+
+makeTableData(sexualOrientation) |>
+  kbl(col.names = c(2013:2019, "2022^c^", 2023:2024), row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  column_spec(column = 1:11, width_min = "10.5em") |>
+  footnote(alphabet = c("\'Demi-sexual\' and \'Other\' choices were added in 2022.")) |>
+  kable_styling() |>
+  scroll_box(width = "100%")
 ```
 
-### Sexuality labels
-
-```{r}
-# design19$variables$graysex[design19$variables$graysex == 11] <- "yes"
-# sexuality <- makePlotData("Some people use specific labels to describe their sexuality. Do you consider that one or more of these labels describe your sexuality?",
-#                            varNameTable = varNameTable,
-#                            designs = list(design15, design16, design17, 
-#                                           design18, design19, design22, 
-#                                           design23),
-#                            years = c(2015:2019, 2022:2023),
-#                            levels = c(as.list(rep("yes", times = 5)),
-#                                       as.list(rep(TRUE, times = 2))),
-#                            labels = c("Kinkster or BDSM participant",
-#                                       "Swinger",
-#                                       "Sex worker",
-#                                       "Gray-sexual or demisexual",
-#                                       "Queer",
-#                                       "Sex/love addict",
-#                                       "Open/curious",
-#                                       "Other"),
-#                           labelOrder = c(8, 3, 4, 2, 6, 5, 1, 7))
-# 
-# 
-# 
-# # sexuality <- sexuality[!(sexuality$labels %in% c("Monogamous",
-# #                                                  "Mostly monogamous",
-# #                                                  "Polyamorous",
-# #                                                  "Relationship anarchist")),]
-# # sexuality$labels <- factor(sexuality$labels, levels = c("Other",
-# #                                                         "Sex worker",
-# #                                                         "Gray-sexual or demisexual",
-# #                                                         "Swinger",
-# #                                                         "Sex/love addict",
-# #                                                         "Queer",
-# #                                                         "Kinkster or BDSM participant",
-# #                                                         "Open/curious"))
-# 
-# ggplot(sexuality[sexuality$year == 2023,], aes(x = labels, y = est)) +
-#   geom_bar(stat = "identity", fill = "#EA008B") +
-#   scale_y_continuous(labels = percent) +
-#   labs(x = "Sexuality label", y = "Burning Man participants in 2023 (%)") +
-#   theme_bw() +
-#   coord_flip()
-# 
-# makeTableData(sexuality)[8:1,] |>
-#   kbl(col.names = c(2015:2019, 2022:2023), row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
-#   column_spec(column = 1:8, width_min = "10.5em") |>
-#   kable_styling() |>
-#   scroll_box(width = "100%")
-```
-
-## Relationships
-
-### Romantic Orientation
-
-```{r}
-# romanticOrientation <- makePlotData("Which of these expressions best describes your romantic orientation?",
-#                                     varNameTable = varNameTable,
-#                                     designs = list(design22, design23),
-#                                     years = c(2022:2023),
-#                                     levels = c("Aromantic",
-#                                                "Bi-romantic or Pan-romantic",
-#                                                "Can't label", "Demi-romantic",
-#                                                "Hetero-romantic",
-#                                                "Homo-romantic",
-#                                                "Other"),
-#                                     labelOrder = rev(c(5, 2, 6, 4, 1, 3, 7)))
-# 
-# ggplot(romanticOrientation[romanticOrientation$year == 2023,], aes(x = labels, y = est)) +
-#   geom_bar(stat = "identity", fill = "#EA008B") +
-#   scale_y_continuous(labels = percent) +
-#   labs(x = "Romatic orientation", y = "Burning Man participants in 2023 (%)",
-#        title = "Which of these expressions best describes \n your romantic orientation?") +
-#   theme_bw() +
-#   coord_flip()
-# 
-# makeTableData(romanticOrientation)[7:1,] |>
-#   kbl(col.names = c(2022:2023), row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
-#   column_spec(column = 1:3, width_min = "10.5em") |>
-#   kable_styling() |>
-#   scroll_box(width = "100%")
-```
 
 ### Partner in the default world
 
 ```{r}
-# partner <- makePlotData("In the default world, do you have a partner or partners?",
-#                         varNameTable = varNameTable,
-#                         designs = list(design15, design16, design17,
-#                                        design18, design19, design22,
-#                                        design23),
-#                         years = c(2015:2019, 2022:2023),
-#                         levels = c(rep(list(c("Its_complicated", "No",
-#                                               "Married", "In_relationship")),
-#                                        times = 5),
-#                                    rep(list(c("It\'s complicated", "No",
-#                                           "Yes and we are married",
-#                                           "Yes and we are not married")), times = 2)),
-#                         labels = c("It\'s complicated",
-#                                    "No, I am not in a relationship",
-#                                    "Yes, and we are married",
-#                                    "Yes, and we are not married"),
-#                         labelOrder = c(3, 4, 2, 1))
-# 
-# ggplot(partner, aes(x = year, y = est, color = labels)) +
-#   geom_line(linewidth = 1.5, alpha = 0.7) +
-#   geom_point(size = 2.25) +
-#   theme_bw() +
-#   theme(panel.grid.minor = element_blank()) +
-#   scale_x_continuous(breaks = c(2013:2019, 2022:2023), 
-#                      labels = c(2013:2019, 2022:2023)) +
-#   scale_y_continuous(labels = percent, limits = c(0, NA)) +
-#   scale_color_manual(values = discreteColors[1:7]) +
-#   labs(x = "", y = "Burning Man participants (%)", 
-#        color = "Do you have a partner?",
-#        title = "In the default world, do you have a partner or partners?")
-# 
-# makeTableData(partner) |>
-#   kbl(col.names = c(2015:2019, 2022:2023), row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
-#   column_spec(column = 1:8, width_min = "10.5em") |>
-#   kable_styling() |>
-#   scroll_box(width = "100%")
-```
+partner <- makePlotData("In the default world, do you have a partner or partners?",
+                        varNameTable = varNameTable,
+                        designs = list(design15, design16, design17,
+                                       design18, design19, design22,
+                                       design23, design24),
+                        years = c(2015:2019, 2022:2024),
+                        levels = c(rep(list(c("Its_complicated", "No",
+                                              "Married", "In_relationship")),
+                                       times = 5),
+                                   rep(list(c("It\'s complicated", "No",
+                                          "Yes and we are married",
+                                          "Yes and we are not married")), times = 3)),
+                        labels = c("It\'s complicated",
+                                   "No, I am not in a relationship",
+                                   "Yes, and we are married",
+                                   "Yes, and we are not married"),
+                        labelOrder = c(3, 4, 2, 1))
 
-### Relationship labels
+ggplot(partner, aes(x = year, y = est, color = labels)) +
+  geom_line(linewidth = 1.5, alpha = 0.7) +
+  geom_point(size = 2.25) +
+  theme_bw() +
+  theme(panel.grid.minor = element_blank()) +
+  scale_x_continuous(breaks = c(2013:2019, 2022:2024),
+                     labels = c(2013:2019, 2022:2024)) +
+  scale_y_continuous(labels = percent, limits = c(0, NA)) +
+  scale_color_manual(values = discreteColors[1:7]) +
+  labs(x = "", y = "Burning Man participants (%)",
+       color = "Do you have a partner?",
+       title = "In the default world, do you have a partner or partners?")
 
-```{r}
-# relationship <- makePlotData("Some people use specific labels to describe their relationship style. Do you consider one or more of these labels to describe your relationships?",
-#                            varNameTable = varNameTable,
-#                            designs = list(design22, design23),
-#                            years = c(2022:2023),
-#                            levels = as.list(rep(TRUE, times = 2)),
-#                            labels = c("Monogamous",
-#                                       "Mostly monogamous",
-#                                       "Polyamorous",
-#                                       "Non-consentual non-monogamy",
-#                                       "Serial monogamous",
-#                                       "Polyfidelity",
-#                                       "Polygamy",
-#                                       "Unicorn polyamorous",
-#                                       "Solo polyamorous",
-#                                       "Power dynamic relationship",
-#                                       "Open",
-#                                       "Ethical non-monogamous",
-#                                       "Don\'t ask, don\'t tell",
-#                                       "Relationship anarchist",
-#                                       "Other"),
-#                           labelOrder = c(15,7,8,9,4,11,13,5,10,14,12,6,3,2,1))
-# 
-# ggplot(relationship, aes(x = labels, y = est, fill = as.factor(year))) +
-#   geom_bar(stat = "identity", position = "dodge") +
-#   scale_y_continuous(labels = percent) +
-#   scale_fill_manual(values = discreteColors[2:1]) +
-#   labs(x = "Relationship label", y = "Burning Man participants (%)",
-#        title = "Some people use specific labels to describe their \n relationship style. Do you consider one or more of \n these labels to describe your relationships?",
-#        fill = "") +
-#   theme_bw() +
-#   coord_flip() +
-#   guides(fill = guide_legend(reverse = TRUE))
-# 
-# makeTableData(relationship)[15:1,] |>
-#   kbl(col.names = c(2022:2023), row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
-#   column_spec(column = 1:3, width_min = "10.5em") |>
-#   kable_styling() |>
-#   scroll_box(width = "100%")
+makeTableData(partner) |>
+  kbl(col.names = c(2015:2019, 2022:2024), row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  column_spec(column = 1:9, width_min = "10.5em") |>
+  kable_styling() |>
+  scroll_box(width = "100%")
 ```
