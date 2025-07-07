@@ -2,6 +2,16 @@
 
 The Census is a collaborative research project that started in 2002. Although the Black Rock City (BRC) Census project is technically a survey and not a literal census (where data is collected from every member of a population), our methodology allows us to report estimates that are representative of the entire population of BRC and not just on the individuals who participate actively in our data collection efforts.
 
-While BRC Census has been producing reports since 2002, it is hard to compare recent data with reports from earlier years (before 2013) because of important differences in methodology, from a convenience sample of Census Lab visitors on-playa to a weighted online survey conducted post-event. The results in this report are estimates of the Black Rock City population. The true population values may differ from the presented estimates due to random variation in the sampling process. This report contains estimates from data collected in 2024 and, when possible, comparable estimates from 2013 through 2019 and 2022 through 2023.
+While BRC Census has been producing reports since 2002, it is hard to compare 
+recent data with reports from earlier years (before 2013) because of important 
+differences in methodology, from a convenience sample of Census Lab 
+visitors on-playa to a weighted online survey conducted post-event. 
+The results in this report are estimates of the Black Rock City population. 
+The true population values may differ from the presented estimates due to random 
+variation in the sampling process. This report contains estimates from data 
+collected in 2024 and, when possible, comparable estimates from 2013 through 
+2019, 2022, and 2023.
 
-The BRC Census project is made possible through the extensive collective effort of volunteers, academic researchers, and Burning Man Project. Our thanks to everyone whose contributions went into the creation of this report!
+The BRC Census project is made possible through the extensive collective effort 
+of volunteers, academic researchers, and Burning Man Project. Our thanks to 
+everyone whose contributions went into the creation of this report!
