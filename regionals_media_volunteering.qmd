@@ -305,7 +305,7 @@ ggplot(BMMedia, aes(x = year, y = est, fill = level)) +
  scale_y_continuous(labels = percent) +
  scale_x_continuous(breaks = c(2014:2019, 2022:2024),
                     labels = c(2014:2019, 2022:2024)) +
- scale_fill_manual(values = gradientColors(3)[4:1]) +
+ scale_fill_manual(values = gradientColors(3)[3:1]) +
  labs(x = "Media source", y = "",
       fill = "Frequency",
       title = "Which of the following media managed by Burning Man Project do you use \n to receive news, information, and events related to Burning Man, \n and to engage in discussion on Burning Man topics?") +
