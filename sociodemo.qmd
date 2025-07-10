@@ -1,4 +1,5 @@
-```{r, echo=FALSE}
+```{r echo=FALSE}
+#| label: set-options
 knitr::opts_chunk$set(fig.pos = "H", out.extra = "", echo = FALSE,
                       warning = FALSE, message = FALSE)
 ```
@@ -6,6 +7,7 @@ knitr::opts_chunk$set(fig.pos = "H", out.extra = "", echo = FALSE,
 # Demographics and social characteristics {#sociodemo}
 
 ```{r}
+#| label: prep
 # Preparation
 
 # Read in all years of data
@@ -33,11 +35,12 @@ discreteColors <- c("#EA008B", "#B0AEDC", "#554149", "#A07200", "#AADA91",
 
 ```
 
-## Burning Man attendence
+## Burning Man attendance
 
 ### Proportion of virgins
 
 ```{r}
+#| label: attendance-virgins
 
 yearrange <- c(2013:2019, 2022:2024)
 
@@ -124,6 +127,7 @@ kbl(virginTable, col.names = c(2013:2019, 2022:2024),
 ### Number of burns attended
 
 ```{r}
+#| label: attendance-num-burns
 ggplot(census24, 
        aes(x = numberBurns, y = after_stat(density), weight = weights)) +
   geom_histogram(fill = "#EA008B", color = "black", binwidth = 1) +
@@ -191,6 +195,7 @@ ggplot(myDat, aes(x = Year, y = Percentage, fill = rows)) +
 ### Age
 
 ```{r}
+#| label: demographics-age
 
 ggplot(subset(census24[,c("age","weights")], !is.na(age)), aes(x = age, y = after_stat(density), weight = weights)) +
   geom_histogram(binwidth = 1, fill = "#EA008B", color = "black") +
@@ -203,7 +208,6 @@ props <- c(10, 25, 50, 75, 90)/100
 
 
 ageQuantiles <- data.frame(svyquantile(~age, design24, props)[[1]][,1],
-
                       svyquantile(~age, design23, props)[[1]][,1],
                       svyquantile(~age, design22, props)[[1]][,1],
                       rep("",length(props)),
@@ -215,6 +219,7 @@ ageQuantiles <- data.frame(svyquantile(~age, design24, props)[[1]][,1],
                       svyquantile(~age, design14, props)[[1]][,1]
                       ) |>
 rev()
+
 row.names(ageQuantiles) <- paste0(props*100, "th percentile")
 ageQuantiles |>
   kbl(col.names = c(2014:2019,"", 2022:2024),
@@ -373,7 +378,6 @@ makeTableData(gender) |>
 
 ### Gender identity
 
-
 ### Sex assigned at birth
 
 ```{r}
@@ -403,10 +407,7 @@ makeTableData(gender) |>
 
 ### Gender identity
 
-
-
 ### Ethnoracial background
-
 
 ```{r}
 
@@ -699,7 +700,7 @@ tableData |>
   scroll_box(width = "100%")
 ```
 
-### Personal income in 2023
+### Personal income in 2024
 
 ```{r}
 #TODO Make barplot and table for just 2024 data
@@ -913,7 +914,7 @@ makeTableData(rbind(personalIncome, personalIncome24)) |>
   scroll_box(width = "100%")
 ```
 
-### Household income in 2023
+### Household income in 2024
 
 ```{r}
 #TODO Make barplot and table for just 2024 data
@@ -1767,7 +1768,6 @@ makeTableData(sexualOrientation) |>
   kable_styling() |>
   scroll_box(width = "100%")
 ```
-
 
 ### Partner in the default world
 
