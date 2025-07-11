@@ -23,6 +23,8 @@ library(sf)
 library(tmap)
 library(tigris)
 library(zipcodeR)
+library(tidytext)
+library(wordcloud2)
 
 source(paste0(getwd(), "/_RCode/read_census_data.R"))
 source(paste0(getwd(), "/_RCode/make_table_data.R"))
@@ -227,9 +229,10 @@ reasons <- data.frame(text = c(census24$planToReturn.writeIn.1,
                                census24$planToReturn.writeIn.3))
 reasonTokens <- tidytext::unnest_tokens(reasons, output = tkn, input = text, 
                                         token = "sentences")
-reasonsTable <- table(test$tkn)[order(table(test$tkn), decreasing = TRUE)]
-reasonFreq <- data.frame(text = attr(testtable, "dimnames")[[1]], 
-                         freq = as.numeric(testtable))
+reasonsTable <- table(reasonTokens$tkn)[order(table(reasonTokens$tkn), 
+                                              decreasing = TRUE)]
+reasonFreq <- data.frame(text = attr(reasonsTable, "dimnames")[[1]], 
+                         freq = as.numeric(reasonsTable))
 wordcloud2(reasonFreq[1:200,], color = discreteColors)
 ```
 
