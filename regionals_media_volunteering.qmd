@@ -424,6 +424,87 @@ makeTableData(BMMedia2) |>
 #   kable_styling() |>
 #   column_spec(column = 1:3, width_min = "10.5em") |>
 #   scroll_box(width = "100%")
+
+notBMMedia.never <- makePlotData("Which of the following forms of communication NOT managed by Burning Man Project do you use to receive news and information concerning Burning Man?",
+                        varNameTable = varNameTable,
+                        designs = list(design22, design23, design24),
+                        years = c(2022:2024),
+                        levels = c(as.list(rep("Never", times = 7))),
+                        labels = c("Social media or discussion \n lists from established \n Burning Man camps",
+                                   "Regional newsletter or social \n media managed by Regional \n event organizers",
+                                   "Regional website",
+                                   "Regional discussion \n list",
+                                   "Other social \n media",
+                                   "Other websites, \n blogs or podcasts",
+                                   "Other discussion \n lists",
+                                   "Word of mouth"))
+
+notBMMedia.rarely <- makePlotData("Which of the following forms of communication NOT managed by Burning Man Project do you use to receive news and information concerning Burning Man?",
+                        varNameTable = varNameTable,
+                        designs = list(design22, design23, design24),
+                        years = c(2022:2024),
+                        levels = c(as.list(rep("Rarely", times = 7))),
+                        labels = c("Social media or discussion \n lists from established \n Burning Man camps",
+                                   "Regional newsletter or social \n media managed by Regional \n event organizers",
+                                   "Regional website",
+                                   "Regional discussion \n list",
+                                   "Other social \n media",
+                                   "Other websites, \n blogs or podcasts",
+                                   "Other discussion \n lists",
+                                   "Word of mouth"))
+
+notBMMedia.often <- makePlotData("Which of the following forms of communication NOT managed by Burning Man Project do you use to receive news and information concerning Burning Man?",
+                        varNameTable = varNameTable,
+                        designs = list(design22, design23, design24),
+                        years = c(2022:2024),
+                        levels = c(as.list(rep("Often", times = 7))),
+                        labels = c("Social media or discussion \n lists from established \n Burning Man camps",
+                                   "Regional newsletter or social \n media managed by Regional \n event organizers",
+                                   "Regional website",
+                                   "Regional discussion \n list",
+                                   "Other social \n media",
+                                   "Other websites, \n blogs or podcasts",
+                                   "Other discussion \n lists",
+                                   "Word of mouth"))
+
+notBMMedia <- rbind(notBMMedia.never, notBMMedia.rarely, notBMMedia.often)
+notBMMedia$level <- factor(notBMMedia$level, levels = c("Never", "Rarely", "Often"))
+
+ggplot(notBMMedia, aes(x = year, y = est, fill = level)) +
+  geom_bar(stat = "identity") +
+  scale_y_continuous(labels = percent) +
+  scale_x_continuous(breaks = c(2022:2024),
+                     labels = c(2022:2024)) +
+  scale_fill_manual(values = gradientColors(3)[3:1]) +
+  labs(x = "Media source", y = "",
+       fill = "Frequency",
+       title = "Which of the following media NOT managed by Burning Man Project \n do you use to receive news and information concerning Burning Man?") +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1),
+        panel.grid.minor = element_blank()) +
+  guides(fill = guide_legend(reverse = TRUE)) +
+  facet_wrap(~labels, ncol = 3)
+
+notBMMedia2 <- notBMMedia
+
+notBMMedia2$labels <- factor(paste0(notBMMedia2$labels, " (", notBMMedia2$level, ")"))
+notBMMedia2$labels <- factor(notBMMedia2$labels,
+                             levels = levels(notBMMedia2$labels)[c(1,3,2,4,6,5,7,9,8,
+                                                                   10,12,11,13,15,14,
+                                                                   16,18,17,19,21,20,
+                                                                   22,24,23,25,27,26,
+                                                                   28,30,29,31,33,32,
+                                                                   34,36,35,37,39,38,
+                                                                   40,42,41,43,45,44,
+                                                                   46,48,47)])
+
+makeTableData(notBMMedia2) |>
+  kbl(col.names = c(2022:2024),
+      row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  kable_styling() |>
+  column_spec(column = 1:4, width_min = "10.5em") |>
+  scroll_box(width = "100%")
 ```
 
 ### Most valuable types of information coming from Burning Man Project

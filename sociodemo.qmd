@@ -185,8 +185,54 @@ ggplot(myDat, aes(x = Year, y = Percentage, fill = rows)) +
 ```
 
 ### Plans to Return to Black Rock City
+```{r}
+returnBRC <- makePlotData(varName = "Do you plan to return to Black Rock City for Burning Man?",
+                       varNameTable,
+                       designs = list(design24),
+                       years = c(2024),
+                       levels = list(c("Maybe in the future if possible",
+                                       "No, definitely not",
+                                       "Not likely",
+                                       "Yes, definitely in 2025",
+                                       "Yes, not in 2025 but definitely in the next 5 years")),
+                       labels = c("Maybe in the future if possible",
+                                       "No, definitely no",
+                                       "Not likely",
+                                       "Yes, definitely in 2025",
+                                       "Yes, not in 2025 but definitely in the next 5 years"),
+                       labelOrder = rev(c(4, 5, 1, 3, 2)))
+
+ggplot(returnBRC, aes(x = labels, y = est)) +
+  geom_bar(stat = "identity", fill = "#EA008B") +
+  scale_y_continuous(labels = percent) +
+  labs(x = "Plan to return to BRC", y = "Burning Man participants in 2024 (%)",
+       title = "Do you plan to return to Black Rock City for Burning Man?") +
+  theme_bw() +
+  coord_flip()
+
+makeTableData(returnBRC) |>
+  kbl(col.names = c(2024),
+      row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  kable_styling() |>
+  column_spec(column = 1:2, width_min = "11.5em") |>
+  scroll_box(width = "100%")
+  
+```
 
 ### Reason for Returning to Black Rock City
+```{r}
+reasons <- data.frame(text = c(census24$planToReturn.writeIn.1,
+                               census24$planToReturn.writeIn.2,
+                               census24$planToReturn.writeIn.3))
+reasonTokens <- tidytext::unnest_tokens(reasons, output = tkn, input = text, 
+                                        token = "sentences")
+reasonsTable <- table(test$tkn)[order(table(test$tkn), decreasing = TRUE)]
+reasonFreq <- data.frame(text = attr(testtable, "dimnames")[[1]], 
+                         freq = as.numeric(testtable))
+wordcloud2(reasonFreq[1:200,], color = discreteColors)
+```
+
 
 <!-- Other ideas?  Average number of burns attended without a break? -->
 
