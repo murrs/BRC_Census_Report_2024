@@ -12,16 +12,17 @@ This study was performed in accordance with the Declaration of Helsinki. This hu
 
 The random sample is designed with a goal of surveying 5% to 10% of the population of Black Rock City in a given year. The survey collection is stratified by location participants entered Black Rock City: the main gate, the airport, or on the Burner Express Bus (a shuttle service running from San Francisco and Reno into Black Rock City). Participants are chosen in a pseudo-random fashion by skipping a pre-selected number of cars driving in through gate or participants entering through the airport. Entire Burner Express Buses are randomly selected as a cluster sample.
 
-The random sample collects data on 10 questions by giving selected participants a short paper form to fill out:
+The random sample collects data on 9 questions by giving selected participants a short paper form to fill out:
 
--   Day of arrival
 -   Age
--   Number of prior Burning Man events attended
--   English as a first language
 -   Gender
--   US Resident or not
--   Voting eligibility in the US
--   US political party affiliation
+-   Number of prior Burning Man events attended
+-   Race/ethnicity
+-   Identify as a person of color
+-   Residence (CA, NV, other US state, other country)
+-   Ticket source
+-   Day of arrival
+-   Point of entry (Gate Road/BxB/Airport)
 
 ### Online Survey
 
