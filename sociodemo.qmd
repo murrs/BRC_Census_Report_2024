@@ -1246,6 +1246,239 @@ makeTableData(education) |>
 ### Residence outside of Black Rock City
 
 ```{r}
+### residence by continent
+
+# begin by categorizing the write-in responses
+myContinents <- list()
+myContinents$Asia <- c("Asia",
+                     "Israel",
+                     "Hong Kong",
+                     "United Arab Emirates",
+                     "China",
+                     "Japan",
+                     "Thailand",
+                     "UAE",
+                     "Bali",
+                     "Cambodia",
+                     "india",
+                     "Israel, Georgia",
+                     "Isreal",
+                     "Kazakhstan/ Russia",
+                     "Kuwait",
+                     "Lebanon",
+                     "Philippines",
+                     "Russia",
+                     "Saudi Arabia",
+                     "Singapore",
+                     "Taiwan",
+                     "中国"
+                     )
+myContinents$Africa <- c("Africa",
+                       "South Africa",
+                       "Morocco",
+                       "Namibia",
+                       "Nigeria",
+                       "Nomad from South Africa",
+                       "Réunion Island"
+                       )
+myContinents$Oceania <- c("Australia",
+                          "New Zealand",
+                          "Sydney, Australia",
+                          "Western Australia",
+                          "Australia atm",
+                          "Australia, Mexico",
+                          "French polynesia",
+                          "Gold Coast, Australia",
+                          "Melbourne, Australia",
+                          "UK but I moved to Australia following this year's burn"
+                          )
+myContinents$Europe <- c("Europe",
+                       "Germany",
+                       "France",
+                       "Switzerland",
+                       "United Kingdom",
+                       "Netherlands",
+                       "UK",
+                       "Spain",
+                       "Finland",
+                       "Ireland",
+                       "The Netherlands",
+                       "England",
+                       "Denmark",
+                       "Italy",
+                       "Uk",
+                       "Austria",
+                       "Belgium",
+                       "Sweden",
+                       "Estonia",
+                       "London",
+                       "London, UK",
+                       "Norway",
+                       "Poland",
+                       "Ukraine",
+                       "Amsterdam",
+                       "Around Europe",
+                       "Barcelona, España",
+                       "Belarus",
+                       "Brittany",
+                       "Czech Rep.",
+                       "Czech Republic",
+                       "Dominican Republic",
+                       "España",
+                       "France / Netherland",
+                       "Ger.",
+                       "I'm German but currently living in Switzerland",
+                       "Ibiza, Spain",
+                       "Iceland",
+                       "Italia",
+                       "Lithuania",
+                       "Lived in California before, now moved back to Germany",
+                       "London England",
+                       "Madrid spain",
+                       "Munich, Germany",
+                       "Nantes, France",
+                       "monaco",
+                       "Northern Ireland",
+                       "Portugal",
+                       "Scotland",
+                       "Scotland and United Arab Emirates",
+                       "Tbilisi, Georgia",
+                       "Vienna / Austria / Europe",
+                       "Wales, United Kingdom",
+                       "Zurich, Switzerland"
+                       )
+myContinents$`North America` <- c("North America",
+                             "Mexico",
+                             "México",
+                             "Puerto Rico",
+                             "Mexico City",
+                             "Oregon",
+                             "Panama",
+                             "Montana",
+                             "Texas",
+                             "Alaska",
+                             "atlanta georgia",
+                             "Cincinnati, OH",
+                             "Colorado",
+                             "Costa rica",
+                             "Costa Rica (mostly) and US (partly)",
+                             "Eugene, Oregon",
+                             "FL",
+                             "Honduras",
+                             "I'm an American nomad, travel worldwide",
+                             "McKinney, TX",
+                             "Mexico / Berlin",
+                             "Mexico & part time California",
+                             "México and Boulder, CO",
+                             "Mexico and Israel",
+                             "Miami, Florida",
+                             "Cancún,. México",
+                             "N/a, i'm nomadic, i live in my camping trailer and travel around (mostly in US and Mx)",
+                             "New Jersey",
+                             "New York",
+                             "New York City, NY",
+                             "Nicaragua",
+                             "Nicaragua/ Colorado",
+                             "Nomadic, US",
+                             "Holbox, Mexico",
+                             "Live a bit nomadically… sometimes in USA in New Jersey, was in PR for a bit, traveled to Mexico and Guatemala",
+                             "nyc",
+                             "Part of the year in Coahuila Mexico the other part in California US",
+                             "philadelphia",
+                             "Portland oregon",
+                             "Portland, Oregon",
+                             "Salt Lake City, UT",
+                             "San Miguel de Allende, Mexico",
+                             "Seattle, WA, USA",
+                             "tennessee",
+                             "texas",
+                             "Turks & Caicos Islands",
+                             "U.S. nomadic",
+                             "United States",
+                             "US and Israel",
+                             "USA",
+                             "Utah, Alaska",
+                             "Was living in China but just moved back to the US",
+                             "Washington",
+                             "Washington State",
+                             "Wyoming",
+                             "N/a, i'm nomadic, i live in my camping trailer and travel around (mostly in US and Mx)"
+                             )
+myContinents$`South America` <- c("South America",
+                             "Brazil",
+                             "Argentina",
+                             "Chile",
+                             "Brasil",
+                             "Colombia",
+                             "Colombia and other countries abroad",
+                             "Ecuador"
+                             )
+
+
+
+ContinentResides <- census24$reside.writeIn
+ContinentResides <- sapply(ContinentResides, function(s){
+  contResults <- sapply(names(myContinents), function(nm){match(tolower(s),tolower(myContinents[[nm]]))})
+  if(all(is.na(contResults))){NA}else{names(contResults[!is.na(contResults)])[1]}
+})
+
+ContinentResides[census24$reside%in%c("In Canada",
+                            "Other location within U.S.",
+                            "Within California",
+                            "Within Nevada")] <- "North America" 
+
+
+
+
+
+
+## check whether entries are missing
+#sort(table(ContinentResides),decreasing=TRUE)
+#remaining.writeIn <- census24$reside.writeIn[!grepl(paste(tolower(unlist(myContinents)),collapse="|"),tolower(census24$reside.writeIn))]
+#sort(table(remaining.writeIn),dec=TRUE)
+
+
+
+prptbl <- svymean(~ContinentResides, design = design24,na.rm=TRUE)*100
+
+
+names(prptbl) <- gsub("ContinentResides","",names(prptbl))
+
+continentFrequencies <- data.frame(
+  continent = names(prptbl),
+  Percent = c(prptbl)
+)
+
+World2 <- World
+World2[World2$iso_a3 == "RUS","continent"] <- "Asia"
+# we assign Russia to Asia, so that Siberia doesn't distort the cartogram
+
+earth <- World2 %>% dplyr::group_by(continent) %>% dplyr::summarise() %>% dplyr::slice(-which(continent %in% c("Antarctica","Seven seas (open ocean)"))) 
+
+
+
+earth2 <- merge(earth, continentFrequencies, by="continent")
+
+earth2 <- st_transform(earth2, 3395)
+
+# construct cartogram
+earth2_cont <- cartogram_cont(earth2, "Percent",
+                            itermax = 30,
+                            threshold = 0.000001,
+                            verbose=FALSE) %>%
+  st_cast()
+
+# plot it
+tm_shape(earth2_cont) +
+  tm_polygons("Percent", 
+              fill.scale = tm_scale_continuous_log(values = rev(gradientColors(3)))) + 
+  tm_title("Burner residence by continent", position=c(0.45, 1.05)) + 
+  tm_layout(frame = FALSE, 
+            legend.outside=FALSE) +
+  tm_text("continent", size = 1, remove.overlap = TRUE)
+
+
+#### residence by US state
 
 theZipz <- census24$reside.zip
 
@@ -1307,13 +1540,13 @@ usa2_cont <- cartogram_cont(usa2, "Percent",
 tm_shape(usa2_cont) +
   tm_polygons("Percent", 
               fill.scale = tm_scale_continuous_log(values = rev(gradientColors(3)))) +
-  tm_title("Frequency of US residence by state", position=c(0.35, 1)) + 
+  tm_title("Burner residence by US state", position=c(0.35, 1.09)) + 
   tm_layout(frame = FALSE, 
             legend.outside=FALSE) +
   tm_text("STATE", size = 1/2, remove.overlap = FALSE)
 
 
-
+#### binning with the more reasonable CA/NV/other bins suitable for longitudinal trends
 
 
 reside <- makePlotData("Where do you usually reside/live (when not in Black Rock City)?",
@@ -1335,6 +1568,8 @@ reside <- makePlotData("Where do you usually reside/live (when not in Black Rock
                                   "Within Nevada", "Other",
                                   "Other location in U.S."),
                        labelOrder = c(1, 3, 5, 2, 4))
+
+
 
 ggplot(reside, aes(x = year, y = est, color = labels)) +
   geom_line(linewidth = 1.5, alpha = 0.7) +
