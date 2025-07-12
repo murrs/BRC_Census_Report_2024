@@ -76,9 +76,11 @@ ggplot(nbcamp, aes(x = year, y = est, fill = labels)) +
   #          alpha = 0.7) +
   geom_area(alpha = 0.6 , linewidth = 1, colour="black") +
   scale_y_continuous(labels = percent) +
+  scale_x_continuous(breaks = c(2012:2019, 2022:2024)) +
   scale_fill_manual(values = gradientColors(10)) +
-  labs(x = "Number of people in camp", y = "Burning Man participants (%)",
-       title = "How many people were in your camp (total, including you)?") +
+  labs(x = "", y = "Burning Man participants (%)",
+       title = "How many people were in your camp (total, including you)?",
+       fill = "Number of \npeople in \ncamp") +
   theme_bw() +
   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) #+
   # facet_wrap(~year, nrow = 2)
@@ -98,49 +100,92 @@ makeTableData(nbcamp) |>
 
 <!-- ### RV camping and pumping -->
 
-<!-- <!-- Additional (or instead) plot yes/no staying in an RV maybe? --> -->
+<!-- <!-- Additional (or instead) plot yes/no staying in an RV maybe? -->
+
+--\>
 
 <!-- ```{r} -->
+
 <!-- # Question options were changed in 2015, need to add 2013 and 2014 -->
+
 <!-- # stayedRV <- makePlotData("Did you stay in an RV or camper-trailer in Black Rock City this year, and was it pumped (serviced) on playa?", -->
+
 <!-- #                          varNameTable = varNameTable, -->
+
 <!-- #                          designs = list(design15, design16, design17, -->
+
 <!-- #                                         design18, design19, design22, -->
+
 <!-- #                                         design23), -->
+
 <!-- #                          years = c(2015:2019, 2022:2023), -->
+
 <!-- #                          levels = c(rep(list(c("No", "Not_sure", -->
+
 <!-- #                                                "Yes_and_pumped", -->
+
 <!-- #                                                "Yes_idk_pumped", -->
+
 <!-- #                                                "Yes_not_pumped")), times = 5), -->
+
 <!-- #                                     rep(list(c("No", "Not sure", -->
+
 <!-- #                                            "Yes and pumped", -->
+
 <!-- #                                            "Yes and don\'t know if pumped", -->
+
 <!-- #                                            "Yes and not pumped")), times = 2)), -->
+
 <!-- #                          labels = c("No", "Not sure", -->
+
 <!-- #                                     "Yes and pumped", -->
+
 <!-- #                                     "Yes and don\'t know if pumped", -->
+
 <!-- #                                     "Yes and not pumped"), -->
+
 <!-- #                          labelOrder = c(3, 5, 4, 1, 2)) -->
+
 <!-- #  -->
+
 <!-- # ggplot(stayedRV, aes(x = year, y = est, color = labels)) + -->
+
 <!-- #   geom_line(linewidth = 1.5, alpha = 0.7) + -->
+
 <!-- #   geom_point(size = 2.25) + -->
+
 <!-- #   theme_bw() + -->
+
 <!-- #   theme(panel.grid.minor = element_blank()) + -->
+
 <!-- #   scale_x_continuous(breaks = c(2014:2019, 2022:2023),  -->
+
 <!-- #                      labels = c(2014:2019, 2022:2023)) + -->
+
 <!-- #   scale_y_continuous(labels = percent, limits = c(0, NA)) + -->
+
 <!-- #   scale_color_manual(values = discreteColors[1:5]) + -->
+
 <!-- #   labs(x = "", y = "Burning Man Partcipants (%)", color = "", -->
+
 <!-- #        title = "Did you stay in an RV or camper-trailer in Black Rock City this year, \n and was it pumped (serviced) on playa?") -->
+
 <!-- #  -->
+
 <!-- # makeTableData(stayedRV) |> -->
+
 <!-- #   kbl(col.names = c(2015:2019, 2022:2023), -->
+
 <!-- #       row.names = TRUE) |> -->
+
 <!-- #   kable_paper("striped", full_width = F) |> -->
+
 <!-- #   kable_styling() |> -->
+
 <!-- #   column_spec(column = 1:8, width_min = "10.5em") |> -->
+
 <!-- #   scroll_box(width = "100%") -->
+
 <!-- ``` -->
 
 <!-- Question was removed, check this -->
@@ -148,38 +193,71 @@ makeTableData(nbcamp) |>
 <!-- ### Number of adults in the RV/camper-trailer -->
 
 <!-- ```{r} -->
+
 <!-- # nbrv <- makePlotData("How many adults (18+years old) stayed in the RV/camper-trailer including you?", -->
+
 <!-- #                      varNameTable = varNameTable, -->
+
 <!-- #                      designs = list(design15, design16, design17, design18, -->
+
 <!-- #                                     design19, design22, design23), -->
+
 <!-- #                      years = c(2015:2019, 2022:2023), -->
+
 <!-- #                      levels = c(list(c("only_me", "2", "3", "4", "5", -->
+
 <!-- #                                        "6", "7", "8", "9", "_10+")), -->
+
 <!-- #                                 rep(list(c("only_me", "2", "3", "4", "5", -->
+
 <!-- #                                            "6", "7", "8", "9", "_10_or_more")), -->
+
 <!-- #                                     times = 4), -->
+
 <!-- #                                 rep(list(c("1", "2", "3", "4", "5", -->
+
 <!-- #                                        "6", "7", "8", "9", "10+")), times = 2)), -->
+
 <!-- #                      labels = c("1", "2", "3", "4", "5", -->
+
 <!-- #                                 "6", "7", "8", "9", "10+")) -->
+
 <!-- #  -->
+
 <!-- # ggplot(nbrv, aes(x = labels, y = est)) + -->
+
 <!-- #   geom_bar(stat = "identity", fill = "#EA008B", color = "#EA008B", -->
+
 <!-- #            alpha = 0.7) + -->
+
 <!-- #   scale_y_continuous(labels = percent) + -->
+
 <!-- #   labs(x = "Number of people in camp", y = "Burning Man participants (%)", -->
+
 <!-- #        title = "How many adults stayed in the RV/camper-trailer including you?") + -->
+
 <!-- #   theme_bw() + -->
+
 <!-- #   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) + -->
+
 <!-- #   facet_wrap(~year, nrow = 2) -->
+
 <!-- #  -->
+
 <!-- # makeTableData(nbrv) |> -->
+
 <!-- #   kbl(col.names = c(2015:2019, 2022:2023), -->
+
 <!-- #       row.names = TRUE) |> -->
+
 <!-- #   kable_paper("striped", full_width = F) |> -->
+
 <!-- #   kable_styling() |> -->
+
 <!-- #   column_spec(column = 1:8, width_min = "10.5em") |> -->
+
 <!-- #   scroll_box(width = "100%") -->
+
 <!-- ``` -->
 
 ### Number of family members in Black Rock City
@@ -442,17 +520,17 @@ ticketSource <- makePlotData("Where did you get your ticket for the event this y
                                                  "Third party reseller", 
                                                  "Ticket Aid/Low Income Ticket Program"),
                              labelOrder = rev(c("Main sale or OMG sale", 
-                                        "Someone I know", 
-                                        "Third party reseller", 
-                                        "Ticket Aid/Low Income Ticket Program", 
-                                        "No ticket", 
-                                        "Stewards sales", 
-                                        "FOMO Sale", 
-                                        "Stranger", 
-                                        "Kid's Ticket", 
-                                        "Burner Express Bus Plus", 
-                                        "Other", 
-                                        "Gifted ticket")))
+                                                "Stewards sales",
+                                                "Someone I know",
+                                                "Gifted ticket",
+                                                "Ticket Aid/Low Income Ticket Program", 
+                                                "FOMO Sale", 
+                                                "Burner Express Bus Plus", 
+                                                "Third party reseller", 
+                                                "No ticket",
+                                                "Stranger", 
+                                                "Kid's Ticket", 
+                                                "Other")))
 
 ggplot(ticketSource, aes(x = labels, y = est)) +
   geom_bar(stat = "identity", position = "dodge", fill = "#EA008B") +
@@ -567,8 +645,8 @@ ggplot(ticketCost, aes(x = year, y = est, color = labels)) +
   geom_point(size = 2.25) +
   theme_bw() +
   theme(panel.grid.minor = element_blank()) +
-  scale_x_continuous(breaks = c(2014:2019, 2022:2023),
-                     labels = c(2014:2019, 2022:2023)) +
+  scale_x_continuous(breaks = c(2014:2019, 2022:2024),
+                     labels = c(2014:2019, 2022:2024)) +
   scale_y_continuous(labels = percent, limits = c(0, NA)) +
   scale_color_manual(values = discreteColors[1:6]) +
   labs(x = "", y = "Burning Man Partcipants (%)", color = "Amount paid",
@@ -953,8 +1031,6 @@ makeTableData(genOutput) |>
 
 ### Bike use in Black Rock City
 
-
-
 ```{r}
 # Need to check 2023 data
 
@@ -992,6 +1068,7 @@ makeTableData(bikeUse) |>
 ```
 
 ### Bike ownership
+
 ```{r}
 bikeWhose <- makePlotData("Whose bike did you ride in Black Rock City?",
                           varNameTable = varNameTable,
@@ -1007,13 +1084,14 @@ bikeWhose <- makePlotData("Whose bike did you ride in Black Rock City?",
                                      "Other",
                                      "Someone else's I borrowed with their consent",
                                      "Someone else's I borrowed without their consent"),
-                          labelOrder = c(2, 1, 4, 5, 3))
+                          labelOrder = rev(c(2, 4, 1, 5, 3)))
 
 ggplot(bikeWhose, aes(x = labels, y = est)) +
   geom_bar(stat = "identity", fill = "#EA008B", color = "#EA008B") +
   scale_y_continuous(labels = percent) +
   labs(x = "", y = "Burning Man participants in 2024 (%)",
        title = "Whose bike did you ride in Black Rock City?") +
+  coord_flip() +
   theme_bw()
 
 makeTableData(bikeWhose) |>
@@ -1025,8 +1103,8 @@ makeTableData(bikeWhose) |>
   scroll_box(width = "100%")
 ```
 
-
 ### Needed bike repair
+
 ```{r}
 bikeRepairNeed <- makePlotData("Did your bike need repair while in Black Rock City?",
                           varNameTable = varNameTable,
@@ -1059,8 +1137,8 @@ makeTableData(bikeRepairNeed) |>
   scroll_box(width = "100%")
 ```
 
-
 ### How bikes were repaired
+
 ```{r}
 bikeRepairHow <- makePlotData("How did you get your bike repaired?",
                           varNameTable = varNameTable,

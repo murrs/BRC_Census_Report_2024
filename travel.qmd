@@ -15,6 +15,8 @@ library(ggplot2)
 library(scales)
 library(knitr)
 library(kableExtra)
+library(wordcloud2)
+library(tidytext)
 source(paste0(getwd(), "/_RCode/read_census_data.R"))
 source(paste0(getwd(), "/_RCode/make_table_data.R"))
 source(paste0(getwd(), "/_RCode/make_plot_data.R"))
@@ -46,14 +48,14 @@ arrival <- makePlotData("I arrived in Black Rock City the first time in 2024",
                                    "Fri 8/30", "Sat 8/31", "Sun 9/01",
                                    "Mon 9/02", "Tue 9/03 (post-event)",
                                    "After Tue 9/03 (post-event)"),
-                        labels = c("Wed 8/21 (pre-event)", "Sun 8/25",
-                                   "Tue 8/27", "Sat 8/24 (pre-event)",
-                                   "Mon 8/26", "Thu 8/22 (pre-event)",
-                                   "Fri 8/23 (pre-event)", "Wed 8/28",
-                                   "Before Wed 8/21 (pre-event)", "Thu 8/29",
+                        labels = c("Wed 8/21 \n (pre-event)", "Sun 8/25",
+                                   "Tue 8/27", "Sat 8/24 \n (pre-event)",
+                                   "Mon 8/26", "Thu 8/22 \n (pre-event)",
+                                   "Fri 8/23 \n (pre-event)", "Wed 8/28",
+                                   "Before Wed 8/21 \n (pre-event)", "Thu 8/29",
                                    "Fri 8/30", "Sat 8/31", "Sun 9/01",
-                                   "Mon 9/02", "Tue 9/03 (post-event)",
-                                   "After Tue 9/03 (post-event)"),
+                                   "Mon 9/02", "Tue 9/03 \n (post-event)",
+                                   "After Tue 9/03 \n (post-event)"),
                         labelOrder = c("Before Wed 8/21 \n (pre-event)",
                                        "Wed 8/21 \n (pre-event)",
                                        "Thu 8/22 \n (pre-event)",
@@ -278,7 +280,7 @@ makeTableData(pointOfDeparture) |>
       row.names = TRUE) |>
   kable_paper("striped", full_width = F) |>
   kable_styling() |>
-  column_spec(column = 1:5, width_min = "10.5em") |>
+  column_spec(column = 1:6, width_min = "10.5em") |>
   scroll_box(width = "100%")
 ```
 
@@ -956,7 +958,7 @@ towing <- makePlotData("Was your vehicle towing a trailer?",
 ggplot(towing[towing$year == 2024,], aes(x = labels, y = est)) +
   geom_bar(stat = "identity", fill = "#EA008B") +
   scale_y_continuous(labels = percent) +
-  labs(x = "Vehicle type", y = "Burning Man participants in 2023 (%)",
+  labs(x = "Vehicle type", y = "Burning Man participants in 2024 (%)",
        title = "Was your vehicle towing a trailer?") +
   theme_bw() +
   coord_flip()
@@ -1016,7 +1018,7 @@ vehicleFuelType <- makePlotData("What kind of fuel did your vehicle run on?",
 ggplot(vehicleFuelType[vehicleFuelType$year == 2024,], aes(x = labels, y = est)) +
   geom_bar(stat = "identity", fill = "#EA008B") +
   scale_y_continuous(labels = percent) +
-  labs(x = "Vehicle type", y = "Burning Man participants in 2023 (%)",
+  labs(x = "Vehicle type", y = "Burning Man participants in 2024 (%)",
        title = "What kind of fuel did your vehicle run on?") +
   theme_bw() +
   coord_flip()
@@ -1533,6 +1535,7 @@ ggplot(route, aes(x = labels, y = est, fill = as.factor(year))) +
   labs(x = "Route to Black Rock City", y = "Burning Man participants who entered through the main gate (%)", fill = "",
        title = "Which route did you take through Nevada to get to BRC?") +
   theme_bw() +
+  theme(axis.text.y = element_text(size = 8)) +
   coord_flip()
 
 makeTableData(route)[12:1,] |>
@@ -1851,9 +1854,27 @@ makeTableData(publicLands) |>
   scroll_box(width = "100%")
 ```
 
-<!-- ### Most visited Nevada cities or communities going to or from the Burning Man Event -->
+### Most visited Nevada cities or communities going to or from the Burning Man Event
 
 <!-- This could maybe be a map? -->
+
+```{r}
+nvStops <- data.frame(text = c(census24$nevadaStops))
+nvStopsTokens <- tidytext::unnest_tokens(nvStops,
+                                         output = tkn,
+                                         input = text,
+                                         token = "ptb")
+nvStopsTokens$tkn[grepl("(las)|(vegas)", nvStopsTokens$tkn)] <- "las vegas"
+nvStopsTokens$tkn[nvStopsTokens$tkn == ","] <- NA
+nvStopsTokens$tkn[nvStopsTokens$tkn == "and"] <- NA
+nvStopsTable <- table(nvStopsTokens$tkn)[order(table(nvStopsTokens$tkn),
+                                              decreasing = TRUE)]
+nvStopsFreq <- data.frame(text = attr(nvStopsTable, "dimnames")[[1]],
+                         freq = as.numeric(nvStopsTable))
+wordcloud2(nvStopsFreq[1:20,], color = discreteColors)
+```
+
+
 
 ### Return to the Black Rock Desert
 

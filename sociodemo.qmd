@@ -425,7 +425,37 @@ makeTableData(gender) |>
 
 ```
 
-### Gender identity
+<!-- ### Gender identity -->
+
+<!-- ```{r} -->
+<!-- genderID <- makePlotData(varName = "Do you consider yourself to be any of the following?",  -->
+<!--                          varNameTable, -->
+<!--                          designs = list(design24), -->
+<!--                          years = c(2024), -->
+<!--                          levels = TRUE, -->
+<!--                          labels = c("Transperson  (e.g., transgender, transsexual)", -->
+<!--                                     "Gender queer", -->
+<!--                                     "Gender non-conforming", -->
+<!--                                     "Gender questioning", -->
+<!--                                     "Two-spirit", -->
+<!--                                     "My gender does not match my sex assigned at birth"), -->
+<!--                           labelOrder = c(1:6)) -->
+
+<!-- ggplot(genderID, aes(x = labels, y = est)) + -->
+<!--   geom_bar(stat = "identity", fill = "#EA008B") + -->
+<!--   scale_y_continuous(labels = percent) + -->
+<!--   labs(x = "Gender identity", y = "Burning Man participants (%)") + -->
+<!--   theme_bw() + -->
+<!--   theme(axis.text.x = element_text(angle = 45, hjust = 1)) -->
+
+<!-- makeTableData(genderID) |> -->
+<!--   kbl(col.names = c(2022:2024), -->
+<!--       row.names = TRUE) |> -->
+<!--   kable_paper("striped", full_width = F) |> -->
+<!--   kable_styling() |> -->
+<!--   column_spec(column = 1:1, width_min = "10.5em") |> -->
+<!--   scroll_box(width = "100%") -->
+<!-- ``` -->
 
 ### Sex assigned at birth
 
@@ -453,8 +483,6 @@ makeTableData(gender) |>
 #   column_spec(column = 1:1, width_min = "10.5em") |>
 #   scroll_box(width = "100%")
 ```
-
-### Gender identity
 
 ### Ethnoracial background
 
@@ -1913,14 +1941,14 @@ politicalViews <- makePlotData("Generally, in terms of political views, rather t
                                               "Other"))
 
 
-# ggplot(politicalViews, aes(x = labels, y = est, fill = as.factor(year))) +
-#   geom_bar(stat = "identity", position = "dodge") +
-#   scale_y_continuous(labels = percent) +
-#   scale_fill_manual(values = discreteColors[1:4]) +
-#   labs(x = "Political view", y = "Burning Man participants (%)", fill = "Year",
-#        title = "Generally, in terms of political views, rather than political parties, \n I consider  myself to be primarily...") +
-#   theme_bw() +
-#   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))
+ggplot(politicalViews, aes(x = labels, y = est, fill = as.factor(year))) +
+  geom_bar(stat = "identity", position = "dodge") +
+  scale_y_continuous(labels = percent) +
+  scale_fill_manual(values = discreteColors[1:4]) +
+  labs(x = "Political view", y = "Burning Man participants (%)", fill = "Year",
+       title = "Generally, in terms of political views, rather than political parties, \n I consider  myself to be primarily...") +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))
 
 makeTableData(politicalViews) |>
   kbl(col.names = c(2019, 2022:2024), row.names = TRUE) |>
