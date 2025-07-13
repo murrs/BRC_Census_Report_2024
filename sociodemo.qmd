@@ -80,10 +80,9 @@ rownames(virginTable) = "Virgin"
 colnames(virginTable) = yearrange
 kbl(virginTable, col.names = yearrange,
       row.names = TRUE) |>
-  kable_paper("striped", full_width = F) |>
+  kable_paper("striped")  |>
   kable_styling() |>
-  column_spec(column = 1:10, width_min = "10.5em") |>
-  scroll_box(width = "100%")
+  column_spec(column = 1:11, width_min = "10.5em") 
 
 virgin <- makePlotData(varName = "Was this your first time visiting Black Rock City?",
                        varNameTable,
@@ -119,10 +118,9 @@ rownames(virginTable) = "Virgin"
 colnames(virginTable) = c(2013:2019, 2022:2024)
 kbl(virginTable, col.names = c(2013:2019, 2022:2024),
       row.names = TRUE) |>
-  kable_paper("striped", full_width = F) |>
+  kable_paper("striped")  |>
   kable_styling() |>
-  column_spec(column = 1:11, width_min = "10.5em") |>
-  scroll_box(width = "100%")
+  column_spec(column = 1:11, width_min = "10.5em") 
 
 ```
 
@@ -187,7 +185,9 @@ ggplot(myDat, aes(x = Year, y = Percentage, fill = rows)) +
 ```
 
 ### Plans to Return to Black Rock City
+
 ```{r}
+#| label: attendance-plans-return
 returnBRC <- makePlotData(varName = "Do you plan to return to Black Rock City for Burning Man?",
                        varNameTable,
                        designs = list(design24),
@@ -215,15 +215,16 @@ ggplot(returnBRC, aes(x = labels, y = est)) +
 makeTableData(returnBRC) |>
   kbl(col.names = c(2024),
       row.names = TRUE) |>
-  kable_paper("striped", full_width = F) |>
+  kable_paper("striped")  |>
   kable_styling() |>
-  column_spec(column = 1:2, width_min = "11.5em") |>
-  scroll_box(width = "100%")
+  column_spec(column = 1:2, width_min = "11.5em") 
   
 ```
 
 ### Reason for Returning to Black Rock City
+
 ```{r}
+#| label: attendance-reasons-return
 reasons <- data.frame(text = c(census24$planToReturn.writeIn.1,
                                census24$planToReturn.writeIn.2,
                                census24$planToReturn.writeIn.3))
@@ -235,7 +236,6 @@ reasonFreq <- data.frame(text = attr(reasonsTable, "dimnames")[[1]],
                          freq = as.numeric(reasonsTable))
 wordcloud2(reasonFreq[1:200,], color = discreteColors)
 ```
-
 
 <!-- Other ideas?  Average number of burns attended without a break? -->
 
@@ -277,12 +277,11 @@ ggplot(subset(census24[,c("age","weights")], !is.na(age)), aes(x = age, y = afte
 # ageQuantiles |>
 #   kbl(col.names = c(2014:2019,"", 2022:2024),
 #       row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
+#   kable_paper("striped")  |>
 #   kable_styling() |>
 #   #column_spec(column = 1:9, width_min = "10.5em") |>
 # 
-#   column_spec(column = 1:11, width_min = "10.5em") |>
-#   scroll_box(width = "100%")
+#   column_spec(column = 1:11, width_min = "10.5em") 
 # 
 
 #### age groups over time
@@ -397,10 +396,9 @@ ggplot(estPrcsLong, aes(x = Year, y = Percentage, fill = row)) +
 estPrcsTable |> 
   kbl(col.names = c(2014:2019,"", 2022:2024),
       row.names = TRUE,digits=4) |>
-  kable_paper("striped", full_width = F) |>
+  kable_paper("striped")  |>
   kable_styling() |>
-  column_spec(column = 1:11, width_min = "11.5em") |>
-  scroll_box(width = "100%")
+  column_spec(column = 1:11, width_min = "11.5em") 
 
 
 ```
@@ -408,6 +406,7 @@ estPrcsTable |>
 ### Current gender
 
 ```{r}
+#| label: demographics-gender-current
 #### 2022
 gender22.male <- svyciprop(~grepl("(?<!([Ff]e))[Mm]ale", currentGender, perl = TRUE),
                            design22)
@@ -538,50 +537,71 @@ ggplot(gender, aes(x = year, y = est, color = labels)) +
 makeTableData(gender) |>
   kbl(col.names = c(2013:2019, 2022:2024),
       row.names = TRUE) |>
-  kable_paper("striped", full_width = F) |>
+  kable_paper("striped")  |>
   kable_styling() |>
 
-  column_spec(column = 1:11, width_min = "11.5em") |>
-
-  scroll_box(width = "100%")
+  column_spec(column = 1:11, width_min = "11.5em")
 
 ```
 
 <!-- ### Gender identity -->
 
 <!-- ```{r} -->
+
 <!-- genderID <- makePlotData(varName = "Do you consider yourself to be any of the following?",  -->
+
 <!--                          varNameTable, -->
+
 <!--                          designs = list(design24), -->
+
 <!--                          years = c(2024), -->
+
 <!--                          levels = TRUE, -->
+
 <!--                          labels = c("Transperson  (e.g., transgender, transsexual)", -->
+
 <!--                                     "Gender queer", -->
+
 <!--                                     "Gender non-conforming", -->
+
 <!--                                     "Gender questioning", -->
+
 <!--                                     "Two-spirit", -->
+
 <!--                                     "My gender does not match my sex assigned at birth"), -->
+
 <!--                           labelOrder = c(1:6)) -->
 
 <!-- ggplot(genderID, aes(x = labels, y = est)) + -->
+
 <!--   geom_bar(stat = "identity", fill = "#EA008B") + -->
+
 <!--   scale_y_continuous(labels = percent) + -->
+
 <!--   labs(x = "Gender identity", y = "Burning Man participants (%)") + -->
+
 <!--   theme_bw() + -->
+
 <!--   theme(axis.text.x = element_text(angle = 45, hjust = 1)) -->
 
 <!-- makeTableData(genderID) |> -->
+
 <!--   kbl(col.names = c(2022:2024), -->
+
 <!--       row.names = TRUE) |> -->
-<!--   kable_paper("striped", full_width = F) |> -->
+
+<!--   kable_paper("striped")  |> -->
+
 <!--   kable_styling() |> -->
+
 <!--   column_spec(column = 1:1, width_min = "10.5em") |> -->
-<!--   scroll_box(width = "100%") -->
+
 <!-- ``` -->
 
-### Sex assigned at birth
+<!-- ### Sex assigned at birth -->
 
 ```{r}
+#| label: demographics-birth-gender
 # sexAtBirth <- makePlotData(varName = "What sex was assigned to you at birth?",
 #                            varNameTable,
 #                            designs = list(design23),
@@ -600,15 +620,15 @@ makeTableData(gender) |>
 # makeTableData(sexAtBirth)[3:1,] |>
 #   kbl(col.names = c(2023),
 #       row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
+#   kable_paper("striped")  |>
 #   kable_styling() |>
-#   column_spec(column = 1:1, width_min = "10.5em") |>
-#   scroll_box(width = "100%")
+#   column_spec(column = 1:1, width_min = "10.5em") 
 ```
 
 ### Ethnoracial background
 
 ```{r}
+#| label: demographics-ethnoracial-background
 
 ethnoracial24 <- makePlotData("Which category best describes your race?",
                               varNameTable = varNameTable,
@@ -718,33 +738,33 @@ pacislander13to19 <- data.frame(est=NA, lower=NA, upper=NA, level=NA,
 tableDat <- makeTableData(rbind(ethnoracial24,ethnoracial22to23,ethnoracial17to19, ethnoracial13to16, pacislander13to19))
 
 tdrn <- rownames(tableDat)
-tdrn[4] <- "Middle Eastern or North African^a^"
-tdrn[7] <- "Native Hawaiian or Pacific Islander^b^"
-tdrn[8] <- "Other^c^"
+tdrn[4] <- "Middle Eastern or North African <sup>a</sup>"
+tdrn[7] <- "Native Hawaiian or Pacific Islander <sup>b</sup>"
+tdrn[8] <- "Other <sup>c</sup>"
 rownames(tableDat) <- tdrn
 
 tdcn <- colnames(tableDat)
 
-tdcn[colnames(tableDat)=="2022"] <- "2022^d^"
+tdcn[colnames(tableDat)=="2022"] <- "2022 <sup>d</sup>"
 
 colnames(tableDat) <- tdcn
 
 tableDat |>
   kbl(col.names = tdcn,
-      row.names = TRUE) |>
+      row.names = TRUE, escape = FALSE) |>
   kable_paper("striped") |>
-  kable_styling(full_width = F, wraptable_width = "100%") |>
+  kable_styling(full_width = TRUE) |>
   column_spec(column = 1:11, width_min = "11.5em") |>
   footnote(alphabet = c("Middle eastern was not an option from 2013-2016.",
                         "Pacific Islander was not an option from 2013-2022.",
                         "The \"other or mixed\" option in 2013-2019 changed to \"other\" in 2022.",
-                        "In 2022 the format changed to allow users to select multiple options. While this improves our data collection, it unfortunately makes it impossible to make direct comparisons to previous years.")) |>
-  scroll_box(width = "100%")
+                        "In 2022 the format changed to allow users to select multiple options. While this improves our data collection, it unfortunately makes it impossible to make direct comparisons to previous years."))
 ```
 
 ### Self-identification as a person of color
 
 ```{r}
+#| label: ethnoracial-person-of-color
 personOfColor <- makePlotData("Do you consider yourself to be a person of color?",
                               varNameTable = varNameTable,
                               designs = list(design13, design14, design15,
@@ -769,15 +789,15 @@ ggplot(personOfColor, aes(x = year, y = est, fill = labels)) +
 
 makeTableData(personOfColor) |>
   kbl(col.names = c(2013:2019, 2022:2024), row.names = TRUE) |>
-  kable_paper("striped", full_width = F) |>
+  kable_paper("striped")  |>
   column_spec(column = 1:11, width_min = "11.5em") |>
-  kable_styling() |>
-  scroll_box(width = "100%")
+  kable_styling() 
 ```
 
 ### First language learned
 
 ```{r}
+#| label: demographics-first-language
 language15 <- makePlotData("What was the first language you learned and still use (i.e., native language)?",
                          varNameTable = varNameTable,
                          designs = list(design15),
@@ -893,15 +913,15 @@ tableData <- tableData[tableOrder,]
 
 tableData |>
   kbl(col.names = c(2013:2019, 2022:2024), row.names = TRUE) |>
-  kable_paper("striped", full_width = F) |>
+  kable_paper("striped")  |>
   column_spec(column = 1:11, width_min = "11.5em") |>
-  kable_styling() |>
-  scroll_box(width = "100%")
+  kable_styling() 
 ```
 
 ### Personal income in 2024
 
 ```{r}
+#| label: demographics-income-personal
 #TODO Make barplot and table for just 2024 data
 
 piGraphGroups <- list("Less than $25,000" = c("None", 
@@ -1107,15 +1127,15 @@ personalIncome24 <- makePlotData(varName = "What was your personal income in 202
 
 makeTableData(rbind(personalIncome, personalIncome24)) |>
   kbl(col.names = c(2015:2019, 2022:2024), row.names = TRUE) |>
-  kable_paper("striped", full_width = F) |>
+  kable_paper("striped")  |>
   kable_styling() |>
-  column_spec(column = 1:8, width_min = "10.5em") |>
-  scroll_box(width = "100%")
+  column_spec(column = 1:9, width_min = "10.5em") 
 ```
 
 ### Household income in 2024
 
 ```{r}
+#| label: demographics-income-household
 #TODO Make barplot and table for just 2024 data
 
 hiGraphGroups <- list("Less than $25,000" = c("None", 
@@ -1321,10 +1341,9 @@ householdIncome24 <- makePlotData(varName = "What was the total income before ta
 
 makeTableData(rbind(householdIncome, householdIncome24)) |>
   kbl(col.names = c(2015:2019, 2022:2024), row.names = TRUE) |>
-  kable_paper("striped", full_width = F) |>
+  kable_paper("striped")  |>
   kable_styling() |>
-  column_spec(column = 1:8, width_min = "10.5em") |>
-  scroll_box(width = "100%")
+  column_spec(column = 1:9, width_min = "10.5em") 
 ```
 
 ### Highest level of education completed
@@ -1332,6 +1351,7 @@ makeTableData(rbind(householdIncome, householdIncome24)) |>
 <!-- need to create 2022 variable for highest level completed to compare to prior years -->
 
 ```{r}
+#| label: demographics-education
 education <- makePlotData(varName = "What is the highest level of education have you completed?",
                           varNameTable,
                           designs = list(design24),
@@ -1371,10 +1391,9 @@ ggplot(education, aes(x = labels, y = est)) +
 
 makeTableData(education) |>
   kbl(col.names = c(2024), row.names = TRUE) |>
-  kable_paper("striped", full_width = F) |>
+  kable_paper("striped")  |>
   kable_styling() |>
-  column_spec(column = 1:1, width_min = "10.5em") |>
-  scroll_box(width = "100%")
+  column_spec(column = 1:1, width_min = "10.5em") 
 ```
 
 ## Residence
@@ -1384,6 +1403,7 @@ makeTableData(education) |>
 <!-- I didn't get to this last year.  Some sort of mapping would be great -->
 
 ```{r}
+#| label: residence-brc
 
 # library(ggmap)
 # library(RColorBrewer)
@@ -1396,6 +1416,7 @@ makeTableData(education) |>
 ### Residence outside of Black Rock City
 
 ```{r}
+#| label: residence-outside
 ### residence by continent
 
 # begin by categorizing the write-in responses
@@ -1736,10 +1757,9 @@ ggplot(reside, aes(x = year, y = est, color = labels)) +
 
 makeTableData(reside) |>
   kbl(col.names = c(2013:2019, 2022:2024), row.names = TRUE) |>
-  kable_paper("striped", full_width = F) |>
+  kable_paper("striped")  |>
   column_spec(column = 1:11, width_min = "11.5em") |>
-  kable_styling() |>
-  scroll_box(width = "100%")
+  kable_styling() 
 ```
 
 <!-- ### California and Nevada County Residence -->
@@ -1769,6 +1789,7 @@ makeTableData(reside) |>
 <!-- would be better. -->
 
 ```{r}
+#| label: politics-voted
 # voteEligible <- makePlotData(varName = "Are you eligible to vote in the United States?",
 #                              varNameTable,
 #                              designs = list(design13, design14, design15,
@@ -1818,10 +1839,9 @@ makeTableData(reside) |>
 # 
 # makeTableData(numberVotes) |>
 #   kbl(col.names = c(2013:2019, 2022:2023), row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
+#   kable_paper("striped")  |>
 #   kable_styling() |>
-#   column_spec(column = 1:10, width_min = "10.5em") |>
-#   scroll_box(width = "100%")
+#   column_spec(column = 1:10, width_min = "10.5em") 
 ```
 
 ### Political party affiliation
@@ -1965,15 +1985,15 @@ makeTableData(reside) |>
 # 
 # makeTableData(politicalParty) |>
 #   kbl(col.names = c(2013:2019, 2022:2023), row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
+#   kable_paper("striped")  |>
 #   column_spec(column = 1:10, width_min = "10.5em") |>
-#   kable_styling() |>
-#   scroll_box(width = "100%")
+#   kable_styling() 
 ```
 
 ### Political views
 
 ```{r}
+#| label: politics-views
 # politicalViews <- makePlotData("Generally, in terms of political views, rather than political parties, I consider myself to be primarily",
 #                                varNameTable = varNameTable,
 #                                designs = list(design19, design22, design23),
@@ -2017,10 +2037,9 @@ makeTableData(reside) |>
 # 
 # makeTableData(politicalViews) |>
 #   kbl(col.names = c(2019, 2022:2023), row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
+#   kable_paper("striped")  |>
 #   column_spec(column = 1:4, width_min = "10.5em") |>
-#   kable_styling() |>
-#   scroll_box(width = "100%")
+#   kable_styling()
 
 politicalViews <- makePlotData("Generally, in terms of political views, rather than political parties, I consider myself to be primarily",
                                varNameTable = varNameTable,
@@ -2074,10 +2093,9 @@ ggplot(politicalViews, aes(x = labels, y = est, fill = as.factor(year))) +
 
 makeTableData(politicalViews) |>
   kbl(col.names = c(2019, 2022:2024), row.names = TRUE) |>
-  kable_paper("striped", full_width = F) |>
+  kable_paper("striped")  |>
   column_spec(column = 1:5, width_min = "10.5em") |>
-  kable_styling() |>
-  scroll_box(width = "100%")
+  kable_styling() 
 ```
 
 ## Spirituality
@@ -2085,6 +2103,7 @@ makeTableData(politicalViews) |>
 ### How do you describe your spirituality?
 
 ```{r}
+#| label: spirituality-description
 spirituality <- makePlotData("How do you describe your spirituality?",
                              varNameTable = varNameTable,
                              designs = list(design13, design14, design15,
@@ -2118,10 +2137,9 @@ ggplot(spirituality, aes(x = year, y = est, color = labels)) +
 
 makeTableData(spirituality) |>
   kbl(col.names = c(2013:2019, 2022:2024), row.names = TRUE) |>
-  kable_paper("striped", full_width = F) |>
+  kable_paper("striped")  |>
   column_spec(column = 1:11, width_min = "10.5em") |>
-  kable_styling() |>
-  scroll_box(width = "100%")
+  kable_styling() 
 ```
 
 ## Sexuality and Relationships
@@ -2129,6 +2147,7 @@ makeTableData(spirituality) |>
 ### Sexual orientation
 
 ```{r}
+#| label: sexuality-orientation
 soGroups <- list("Bicurious or heteroflexible" = c("Bicurious",
                                                    "Bicurious or heteroflexible"),
                  "Bisexual or pansexual" = c("Bisexual", 
@@ -2195,17 +2214,17 @@ ggplot(sexualOrientation, aes(x = year, y = est, color = labels)) +
 
 
 makeTableData(sexualOrientation) |>
-  kbl(col.names = c(2013:2019, "2022^c^", 2023:2024), row.names = TRUE) |>
-  kable_paper("striped", full_width = F) |>
+  kbl(col.names = c(2013:2019, paste0("2022",footnote_marker_alphabet(1)), 2023:2024), row.names = TRUE, escape = FALSE) |>
+  kable_paper("striped")  |>
   column_spec(column = 1:11, width_min = "10.5em") |>
   footnote(alphabet = c("\'Demi-sexual\' and \'Other\' choices were added in 2022.")) |>
-  kable_styling() |>
-  scroll_box(width = "100%")
+  kable_styling()
 ```
 
 ### Partner in the default world
 
 ```{r}
+#| label: sexuality-partnered
 partner <- makePlotData("In the default world, do you have a partner or partners?",
                         varNameTable = varNameTable,
                         designs = list(design15, design16, design17,
@@ -2239,8 +2258,7 @@ ggplot(partner, aes(x = year, y = est, color = labels)) +
 
 makeTableData(partner) |>
   kbl(col.names = c(2015:2019, 2022:2024), row.names = TRUE) |>
-  kable_paper("striped", full_width = F) |>
+  kable_paper("striped")  |>
   column_spec(column = 1:9, width_min = "10.5em") |>
-  kable_styling() |>
-  scroll_box(width = "100%")
+  kable_styling() 
 ```
