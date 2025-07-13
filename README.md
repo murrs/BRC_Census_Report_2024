@@ -8,30 +8,35 @@ This repository contains the materials for generating the Census report for 2024
 
 Install Mac [Homebrew](https://brew.sh/).
 
-```
+```         
 brew install r udunits gdal cmake ffmpeg rust librsvg
 brew install --cask quarto
 
 R
 pkgs = c(
-	"cartogram", 
-        "config",
-	"ggplot2", 
-	"kableExtra", 
-	"survey", 
-	"systemfonts", 
-	"tigris", 
-	"tmap", 
-	"weights", 
-        "zipcodeR"
+    "cartogram",
+    "config",
+    "data.table",
+    "dplyr",
+    "ggplot2",
+    "kableExtra",
+    "knitr",
+    "scales",
+    "sf",
+    "survey",
+    "systemfonts",
+    "tmap",
+    "tidytext",
+    "weights",
+    "wordcloud2"
 )
 install.packages(pkgs, dependencies = TRUE)
 q()
 
-# put the path to your data dir here:
+# define your path to the census data, e.g.:
 cat >config.yml <<EOF
 default:
-  datadir: /Users/matto/Documents/census_data/
+  datadir: ~/_Data
 EOF
 
 quarto render

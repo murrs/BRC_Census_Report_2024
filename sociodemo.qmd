@@ -20,8 +20,6 @@ library(kableExtra)
 library(weights)
 library(cartogram)
 library(sf)
-library(tmap)
-library(tigris)
 library(zipcodeR)
 library(tidytext)
 library(wordcloud2)
@@ -1385,12 +1383,7 @@ makeTableData(education) |>
 
 ```{r}
 
-# library(ggmap)
-# library(RColorBrewer)
-# 
-# BRCMap <- get_map(location = "Black Rock City, NV",
-#                   source = "stamen", maptype = "toner-lite",
-#                   crop = TRUE, zoom = 2)
+
 ```
 
 ### Residence outside of Black Rock City

@@ -10,7 +10,6 @@ library(scales)
 library(knitr)
 library(kableExtra)
 library(weights)
-# library(zipcodeR)
 library(Cairo)
 
 virgin <- makePlotData(varName = "Was this your first time visiting Black Rock City?", 
