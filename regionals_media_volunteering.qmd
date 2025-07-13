@@ -637,6 +637,46 @@ makeTableData(bmir) |>
 #   column_spec(column = 1:7, width_min = "10.5em") |>
 #   kable_styling() |>
 #   scroll_box(width = "100%")
+
+volunteer <- makePlotData("Have you volunteered for any of the following in the last year?",
+                          varNameTable = varNameTable,
+                          designs = list(design16, design17, design18,
+                                         design19, design22, design23,
+                                         design24),
+                          years = c(2016:2019, 2022:2024),
+                          levels = c(as.list(rep("yes", times = 4)),
+                                     as.list(rep(TRUE, times = 3))),
+                          labels = c("Black Rock City",
+                                     "Burning Man Regionals",
+                                     "Burners Without Borders",
+                                     "Fly Ranch Project",
+                                     "Art Projects",
+                                     "Political campaigns or \n voter registration",
+                                     "Schools or universities",
+                                     "Animals or environmental \n initiatives",
+                                     "Health-related initiatives",
+                                     "Human rights initiatives",
+                                     "poverty-related initiatives",
+                                     "Religious or faith-\nbased initiatives",
+                                     "Community groups or clubs",
+                                     "Self-initiated good deeds",
+                                     "Other non-profits and \n charities"),
+                          labelOrder = c(15, 3, 4, 12, 11, 9, 10, 6, 2, 
+                                         7, 8, 1, 5, 13, 14))
+
+ggplot(volunteer[volunteer$year == 2024,], aes(x = labels, y = est)) +
+  geom_bar(stat = "identity", fill = "#EA008B") +
+  scale_y_continuous(labels = percent) +
+  labs(x = "Non-profit or charity", y = "Burning Man participants (%)") +
+  theme_bw() +
+  coord_flip()
+
+makeTableData(volunteer)[15:1,] |>
+  kbl(col.names = c(2016:2019, 2022:2024), row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  column_spec(column = 1:8, width_min = "10.5em") |>
+  kable_styling() |>
+  scroll_box(width = "100%")
 ```
 
 ### Approximate average hours per month spent on volunteer efforts last year
@@ -754,6 +794,49 @@ rownames(tableDat) <- c("10^th^ percentile",
 #   column_spec(column = 1:4, width_min = "10.5em") |>
 #   kable_styling() |>
 #   scroll_box(width = "100%")
+
+donation <- makePlotData("Have you made a charitable donation (of goods and/or money) toward any of the following in the last year?",
+                          varNameTable = varNameTable,
+                          designs = list(design19, design22, 
+                                         design23, design24),
+                          years = c(2019, 2022:2024),
+                          levels = c(as.list(rep("yes", times = 1)),
+                                     as.list(rep(TRUE, times = 3))),
+                          labels = c("Black Rock City",
+                                     "Burning Man Regionals",
+                                     "Burners Without Borders",
+                                     "Fly Ranch Project",
+                                     "Art Projects",
+                                     "Political campaigns or \n voter registration",
+                                     "Schools or universities",
+                                     "Animals or environmental \n initiatives",
+                                     "Health-related initiatives",
+                                     "Human rights initiatives",
+                                     "Poverty-\n related initiatives",
+                                     "Religious or faith-based \n initiatives",
+                                     "Community groups or clubs",
+                                     "Self-initiated good deeds",
+                                     "Other non-profits and \n charities"),
+                          labelOrder = c(15, 4,3,2,12,7,1,9,
+                                         13,5,6,8,11,14,10))
+
+ggplot(donation, aes(x = labels, y = est, fill = as.factor(year))) +
+  geom_bar(stat = "identity", position = "dodge") +
+  scale_y_continuous(labels = percent) +
+  scale_fill_manual(values = discreteColors[4:1]) +
+  labs(x = "Non-profit or charity", y = "Burning Man participants (%)",
+       fill = "Year",
+       title = "Have you made a charitable donation (of goods or money) \n toward any of the following in the last year?") +
+  theme_bw() +
+  theme(axis.text.y = element_text(size = 8)) +
+  coord_flip()
+
+makeTableData(donation)[15:1,] |>
+  kbl(col.names = c(2019, 2022:2024), row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  column_spec(column = 1:5, width_min = "10.5em") |>
+  kable_styling() |>
+  scroll_box(width = "100%")
 ```
 
 ### Inspiration to volunteer, donate, or get involved after going to Black Rock City
@@ -833,12 +916,57 @@ makeTableData(inspiredVolunteer) |>
 #   column_spec(column = 1:7, width_min = "10.5em") |>
 #   kable_styling() |>
 #   scroll_box(width = "100%")
+
+
+
+skillsInspire <- makePlotData("After visiting Black Rock City, were you inspired to learn or practice any of the following skills?",
+                              varNameTable = varNameTable,
+                              designs = list(design16, design17, design18,
+                                             design19, design22, design23,
+                                             design24),
+                              years = c(2016:2019, 2022:2024),
+                              levels = c(as.list(rep("yes", times = 4)),
+                                         as.list(rep(TRUE, times = 3))),
+                              labels = c("Art creation/crafting",
+                                         "Performance art",
+                                         "Physical training",
+                                         "Leadership or interpersonal skills",
+                                         "Project management",
+                                         "Community organizing or \n civic engagement",
+                                         "Construction, heavy machinery, \n or mechanical work",
+                                         "Electrical engineering or \n electronics design",
+                                         "Carpentry or metal work",
+                                         "Graphic design",
+                                         "Mediation skills",
+                                         "Run for political office",
+                                         "Self-awareness or \n emotional skills",
+                                         "Self-care strategies",
+                                         "Survival skills",
+                                         "Other"),
+                              labelOrder = c(16,12,10,7,8,11,6,
+                                             9,5,2,15,4,3,14,13,1))
+
+ggplot(skillsInspire[skillsInspire$year == 2024,], aes(x = labels, y = est)) +
+ geom_bar(stat = "identity", fill = "#EA008B") +
+ scale_y_continuous(labels = percent) +
+ labs(x = "Skill learned or practiced",
+      y = "Burning Man participants (%)", fill = "Year",
+      title = "After visiting Black Rock City, were you inspired \n to learn or practice any of the following skills?") +
+ theme_bw() +
+ coord_flip()
+
+makeTableData(skillsInspire)[16:1,] |>
+  kbl(col.names = c(2016:2019, 2022:2024), row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  column_spec(column = 1:8, width_min = "10.5em") |>
+  kable_styling() |>
+  scroll_box(width = "100%")
 ```
 
 ### Have any of these skills proved useful in the default world?
 
 ```{r}
-skillsUseful <- makePlotData("Have any of these skills proved useful in the default world (away from Black Rock City)?",
+skillsUseful <- makePlotData("Have any of these skills or experiences (honed by visiting Black Rock City) proved useful in the default world (beyond Black Rock City)?",
                               varNameTable = varNameTable,
                               designs = list(design16, design17, design18,
                                              design19, design22, design23,
@@ -851,38 +979,39 @@ skillsUseful <- makePlotData("Have any of these skills proved useful in the defa
                                          rep(list(c("May be at some point",
                                                 "Not at all",
                                                 "Somewhat useful",
-                                                "Very useful")), times = 3)),
+                                                "Very useful")), 
+                                             times = 3)),
                               labels = c("May be at some point",
                                                 "Not at all",
                                                 "Somewhat useful",
                                                 "Very useful"),
                               labelOrder = c(4, 3, 1, 2))
 
-# ggplot(skillsUseful, aes(x = year, y = est, color = labels)) +
-#   geom_line(linewidth = 1.5) +
-#   geom_point(size = 2.25, color = "black") +
-#   theme_bw() +
-#   theme(panel.grid.minor = element_blank()) +
-#   scale_x_continuous(breaks = c(2016:2019, 2022:2024), 
-#                      labels = c(2016:2019, 2022:2024)) +
-#   scale_y_continuous(labels = percent, limits = c(0, NA)) +
-#   scale_color_manual(values = gradientColors(4)) +
-#   labs(x = "Year", y = "Burning Man participants (%)", 
-#        color = "Skills useful in the \n default world",
-#        title = "Have any of these skills proved useful in the default world?")
-# 
-# makeTableData(skillsUseful) |>
-#   kbl(col.names = c(2016:2019, 2022:2023), row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
-#   column_spec(column = 1:7, width_min = "10.5em") |>
-#   kable_styling() |>
-#   scroll_box(width = "100%")
+ggplot(skillsUseful, aes(x = year, y = est, color = labels)) +
+  geom_line(linewidth = 1.5) +
+  geom_point(size = 2.25, color = "black") +
+  theme_bw() +
+  theme(panel.grid.minor = element_blank()) +
+  scale_x_continuous(breaks = c(2016:2019, 2022:2024),
+                     labels = c(2016:2019, 2022:2024)) +
+  scale_y_continuous(labels = percent, limits = c(0, NA)) +
+  scale_color_manual(values = gradientColors(4)) +
+  labs(x = "Year", y = "Burning Man participants (%)",
+       color = "Skills useful in the \n default world",
+       title = "Have any of these skills or experiences (honed by visiting Black Rock City) \nproved useful in the default world (beyond Black Rock City)?")
+
+makeTableData(skillsUseful) |>
+  kbl(col.names = c(2016:2019, 2022:2024), row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  column_spec(column = 1:8, width_min = "10.5em") |>
+  kable_styling() |>
+  scroll_box(width = "100%")
 ```
 
 ### How are you using these skills outside of Black Rock City?
 
 ```{r}
-skillsOutside <- makePlotData("How are you using these skills outside of Black Rock City?",
+skillsOutside <- makePlotData("How are you using these same skills or experiences outside of Black Rock City?",
                               varNameTable = varNameTable,
                               designs = list(design17, design18, design19,
                                              design22, design23, design24),
@@ -896,24 +1025,24 @@ skillsOutside <- makePlotData("How are you using these skills outside of Black R
                                          "I am not using these skills \n outside of Black Rock City"),
                               labelOrder = c(1,4,2,3,5))
 
-# ggplot(skillsOutside, aes(x = year,
-#                           y = est, fill = labels)) +
-#   geom_bar(stat = "identity", position = "dodge") +
-#   scale_y_continuous(labels = percent) +
-#   scale_x_continuous(breaks = c(2017:2019, 2022:2024), labels = c(2017:2019, 2022:2024)) +
-#   labs(x = "Non-profit or charity", 
-#        y = "Burning Man participants (%)", fill = "Year",
-#        title = "How are you using these skills outside of Black Rock City?") +
-#   theme_bw() +
-#   theme(panel.grid.minor = element_blank()) +
-#   scale_fill_manual(values = discreteColors[1:6])
-# 
-# makeTableData(skillsOutside) |>
-#   kbl(col.names = c(2017:2019, 2022:2024), row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
-#   column_spec(column = 1:6, width_min = "10.5em") |>
-#   kable_styling() |>
-#   scroll_box(width = "100%")
+ggplot(skillsOutside, aes(x = year,
+                          y = est, fill = labels)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  scale_y_continuous(labels = percent) +
+  scale_x_continuous(breaks = c(2017:2019, 2022:2024), labels = c(2017:2019, 2022:2024)) +
+  labs(x = "Non-profit or charity",
+       y = "Burning Man participants (%)", fill = "Year",
+       title = "How are you using these same skills or experiences outside of Black Rock City?") +
+  theme_bw() +
+  theme(panel.grid.minor = element_blank()) +
+  scale_fill_manual(values = discreteColors[1:6])
+
+makeTableData(skillsOutside) |>
+  kbl(col.names = c(2017:2019, 2022:2024), row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  column_spec(column = 1:7, width_min = "10.5em") |>
+  kable_styling() |>
+  scroll_box(width = "100%")
 ```
 
 ### Impact of these new skills outside of Black Rock City

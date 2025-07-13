@@ -257,45 +257,6 @@ makeTableData(broughtChildren) |>
   scroll_box(width = "100%")
 ```
 
-### Age restriction of participants
-
-```{r}
-# TODO question not in census data??
-#
-#restrictAge.2 <- makePlotData("Do you think that Burning Man event attendance should be restricted to participants aged 18 or older?",
-#                              varNameTable = varNameTable,
-#                              designs = list(design16, design17, design18,
-#                                             design19, design22, design23,
-#                                             design24),
-#                              year = c(2016:2019, 2022:2024),
-#                              levels = c(rep(list(c("No", "No_opinion",
-#                                                    "Yes_only18plus")), times = 4),
-#                                         rep(list(c("No, all ages", "No opinion",
-#                                                "Yes, only 18+")), times = 3)),
-#                              labels = c("No, all ages", "No opinion",
-#                                         "Yes, only 18+"),
-#                              labelOrder = c(1, 3, 2))
-#
-# ggplot(restrictAge.2, aes(x = year, y = est, color = labels)) +
-#  geom_line(linewidth = 1.5, alpha = 0.7) +
-#  geom_point(size = 2.25) +
-#  theme_bw() +
-#  theme(panel.grid.minor = element_blank()) +
-#  scale_x_continuous(breaks = c(2016:2019, 2022:2024), 
-#                     labels = c(2016:2019, 2022:2024)) +
-#  scale_y_continuous(labels = percent, limits = c(0, NA)) +
-#  scale_color_manual(values = gradientColors(4)) +
-#  labs(x = "Year", y = "Burning Man participants (%)", 
-#       color = "Age restriction",
-#       title = "Do you think that Burning Man event attendance should be \n restricted to participants aged 18 or older?")
-
-# makeTableData(restrictAge.2) |>
-#   kbl(col.names = c(2016:2019, 2022:2024), row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
-#   column_spec(column = 1:7, width_min = "10.5em") |>
-#   kable_styling() |>
-#   scroll_box(width = "100%")
-```
 
 ## Burning Man Project's Nonprofit Activities
 
@@ -375,45 +336,6 @@ makeTableData(familiarity) |>
   column_spec(column = 1:8, width_min = "10.5em") |>
   kable_styling() |>
   scroll_box(width = "100%")
-```
-
-### The Burning Man Project involvement in year-round activites
-
-```{r}
-# TODO question not in data?
-#
-# yearRound <- makePlotData("Do you think Burning Man Project should be involved in facilitating and producing year-round activities, and not just the event in Black Rock City?",
-#                           varNameTable = varNameTable,
-#                           designs = list(design15, design16, design17,
-#                                          design18, design19, design22,
-#                                          design23),
-#                           years = c(2015:2019, 2022:2023),
-#                           levels = c(rep(list(c("I_dont_care",
-#                                                 "No", "Yes")), times = 5),
-#                                      rep(list(c("I don\'t care",
-#                                             "No", "Yes")), times = 2)),
-#                           labels = c("I don\'t care", "No", "Yes"),
-#                           labelOrder = c(3,2,1))
-# 
-# ggplot(yearRound, aes(x = year, y = est, color = labels)) +
-#   geom_line(linewidth = 1.5, alpha = 0.7) +
-#   geom_point(size = 2.25) +
-#   theme_bw() +
-#   theme(panel.grid.minor = element_blank()) +
-#   scale_x_continuous(breaks = c(2015:2019, 2022:2023), 
-#                      labels = c(2015:2019, 2022:2023)) +
-#   scale_y_continuous(labels = percent, limits = c(0, NA)) +
-#   scale_color_manual(values = discreteColors[1:3]) +
-#   labs(x = "", y = "Burning Man participants (%)", 
-#        color = "Burning Man should be \n involved in year- \n round activities",
-#        title = "Should the Burning Man Project be involved in \n faciliating and producing year-round activites?")
-# 
-# makeTableData(yearRound) |>
-#   kbl(col.names = c(2015:2019, 2022:2023), row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
-#   column_spec(column = 1:8, width_min = "10.5em") |>
-#   kable_styling() |>
-#   scroll_box(width = "100%")
 ```
 
 ### Donating \$1000 to the programs of the nonprofit Burning Man Project
@@ -1104,7 +1026,7 @@ makeTableData(sustainabilityImportant) |>
 ### R.I.D.E. in Black Rock City
 
 ```{r}
-RIDE <- makePlotData("How did you see Radical Inclusion, Diversity, and Equity (R.I.D.E.) in action while in BRC in 2023?",
+RIDE <- makePlotData("How did you see Radical Inclusion, Diversity, and Equity (R.I.D.E.) in action while in BRC in 2024?",
                      varNameTable = varNameTable,
                      designs = list(design22, design23, design24),
                      levels = c(rep(as.list(TRUE), times = 3)),
@@ -1118,23 +1040,24 @@ RIDE <- makePlotData("How did you see Radical Inclusion, Diversity, and Equity (
                                 "I didn\'t notice anything new or different"),
                      labelOrder = c(7,6,5,4,2,3,1))
 
-# ggplot(RIDE, aes(x = labels, y = est, fill = as.factor(year))) +
-#   geom_bar(stat = "identity", position = "dodge") +
-#   scale_y_continuous(labels = percent) +
-#   scale_fill_manual(values = discreteColors[2:4]) +
-#   labs(x = "R.I.D.E. in BRC", y = "Burning Man participants (%)", 
-#        fill = "Year",
-#        title = "How did you see Radical Inclusion, Diversity, \n and Equity (R.I.D.E.) in action while \n in BRC?") +
-#   theme_bw() +
-#   coord_flip() +
-#   guides(fill = guide_legend(reverse = TRUE))
-# 
-# makeTableData(RIDE)[7:1,] |>
-#   kbl(col.names = c(2022:2024), row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
-#   column_spec(column = 1:3, width_min = "10.5em") |>
-#   kable_styling() |>
-#   scroll_box(width = "100%")
+ggplot(RIDE, aes(x = labels, y = est, fill = as.factor(year))) +
+  geom_bar(stat = "identity", position = "dodge") +
+  scale_y_continuous(labels = percent) +
+  scale_fill_manual(values = discreteColors[1:3]) +
+  labs(x = "R.I.D.E. in BRC", y = "Burning Man participants (%)",
+       fill = "Year",
+       title = "How did you see Radical Inclusion, Diversity, \n and Equity (R.I.D.E.) in action while \n in BRC?") +
+  theme_bw() +
+  theme(axis.text.y = element_text(size = 8)) +
+  coord_flip() +
+  guides(fill = guide_legend(reverse = TRUE))
+
+makeTableData(RIDE)[7:1,] |>
+  kbl(col.names = c(2022:2024), row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  column_spec(column = 1:4, width_min = "10.5em") |>
+  kable_styling() |>
+  scroll_box(width = "100%")
 ```
 
 ### Creating a more diverse and welcoming Black Rock City
