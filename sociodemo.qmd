@@ -609,7 +609,6 @@ makeTableData(gender) |>
 ### Ethnoracial background
 
 ```{r}
-```{r, fig.cap="Ethnoracial background"}
 
 ethnoracial24 <- makePlotData("Which category best describes your race?",
                               varNameTable = varNameTable,
@@ -740,7 +739,6 @@ tableDat |>
                         "Pacific Islander was not an option from 2013-2022.",
                         "The \"other or mixed\" option in 2013-2019 changed to \"other\" in 2022.",
                         "In 2022 the format changed to allow users to select multiple options. While this improves our data collection, it unfortunately makes it impossible to make direct comparisons to previous years.")) |>
-           threeparttable = TRUE) |>
   scroll_box(width = "100%")
 ```
 
