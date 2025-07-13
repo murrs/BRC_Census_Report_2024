@@ -27,173 +27,289 @@ discreteColors <- c("#EA008B", "#B0AEDC", "#554149", "#A07200", "#AADA91",
 ### Number of people in camps
 
 ```{r}
-# nbcamp <- makePlotData("How many people were in your camp (total, including you)?",
-#                        varNameTable = varNameTable,
-#                        designs = list(design13, design14, design15, design16,
-#                                       design17, design18, design19, design22,
-#                                       design23),
-#                        years = c(2013:2019, 2022:2023),
-#                        levels = c(rep(list(c("_100to199", "_10to19",
-#                                              "_200_or_more", "_20to29",
-#                                              "_30to49", "_3to5", "_50to99",
-#                                              "_6to9", "1", "2")), times = 7),
-#                                   rep(list(c("100-199", "10-19", "200 or more",
-#                                          "20-29", "30-49", "3-5",
-#                                          "50-99", "6-9", "1", "2")), times = 2)),
-#                        labels = c("100-199", "10-19", "200+",
-#                                   "20-29", "30-49", "3-5",
-#                                   "50-99", "6-9", "1", "2"),
-#                        labelOrder = c(9, 10, 6, 8, 2, 4, 5,
-#                                       7, 1, 3))
-# 
-# ggplot(nbcamp, aes(x = labels, y = est)) +
-#   geom_bar(stat = "identity", fill = "#EA008B", color = "#EA008B",
-#            alpha = 0.7) +
-#   scale_y_continuous(labels = percent) +
-#   labs(x = "Number of people in camp", y = "Burning Man participants (%)",
-#        title = "How many people were in your camp (total, including you)?") +
-#   theme_bw() +
-#   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) +
-#   facet_wrap(~year, nrow = 2)
-# 
-# makeTableData(nbcamp) |>
-#   kbl(col.names = c(2013:2019, 2022:2023),
-#       row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
-#   kable_styling() |>
-#   column_spec(column = 1:10, width_min = "10.5em") |>
-#   scroll_box(width = "100%")
+nbcampGroup <- list("100-199" = c("_100to199",
+                                  "100-199",
+                                  "100-149", "150-199"), 
+                    "10-19" = c("_10to19",
+                                "10-19"), 
+                    "200+" = c("_200_or_more", 
+                               "200 or more"),
+                    "20-29" = c("_20to29", 
+                                "20-29"), 
+                    "30-49" = c("_30to49",
+                                "30-49"), 
+                    "3-5" = c("_3to5",
+                              "3-5"),
+                    "50-99" = c("_50to99",
+                                "50-99"), 
+                    "6-9" = c("_6to9",
+                              "6-9"), 
+                    "1" = c("1"), 
+                    "2" = c("2"))
+
+nbcamp <- makePlotData("How many people were in your camp (total, including you)?",
+                       varNameTable = varNameTable,
+                       designs = list(design13, design14, design15, design16,
+                                      design17, design18, design19, design22,
+                                      design23, design24),
+                       years = c(2013:2019, 2022:2024),
+                       levels = c(rep(list(c("_100to199", "_10to19",
+                                             "_200_or_more", "_20to29",
+                                             "_30to49", "_3to5", "_50to99",
+                                             "_6to9", "1", "2")), times = 7),
+                                  rep(list(c("100-199", "10-19", "200 or more",
+                                         "20-29", "30-49", "3-5",
+                                         "50-99", "6-9", "1", "2")), times = 2),
+                                  rep(list(c("100-149", "150-199", "10-19", 
+                                             "200 or more", "20-29", "30-49", 
+                                             "3-5", "50-99", "6-9", "1", "2")), 
+                                      times = 1)),
+                       labels = c("100-199", "10-19", "200+",
+                                  "20-29", "30-49", "3-5",
+                                  "50-99", "6-9", "1", "2"),
+                       labelOrder = rev(c(9, 10, 6, 8, 2, 4, 5,
+                                          7, 1, 3)),
+                       groups = nbcampGroup)
+
+ggplot(nbcamp, aes(x = year, y = est, fill = labels)) +
+  # geom_bar(stat = "identity", fill = "#EA008B", color = "#EA008B",
+  #          alpha = 0.7) +
+  geom_area(alpha = 0.6 , linewidth = 1, colour="black") +
+  scale_y_continuous(labels = percent) +
+  scale_x_continuous(breaks = c(2012:2019, 2022:2024)) +
+  scale_fill_manual(values = gradientColors(10)) +
+  labs(x = "", y = "Burning Man participants (%)",
+       title = "How many people were in your camp (total, including you)?",
+       fill = "Number of \npeople in \ncamp") +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) #+
+  # facet_wrap(~year, nrow = 2)
+
+nbcamp$labels <- factor(nbcamp$labels, levels = rev(levels(nbcamp$labels)))
+
+makeTableData(nbcamp) |>
+  kbl(col.names = c(2013:2019, 2022:2024),
+      row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  kable_styling() |>
+  column_spec(column = 1:11, width_min = "10.5em") |>
+  scroll_box(width = "100%")
 ```
 
-### RV camping and pumping
+<!-- Question was removed: check this. -->
 
-<!-- Additional (or instead) plot yes/no staying in an RV maybe? -->
+<!-- ### RV camping and pumping -->
 
-```{r}
-# Question options were changed in 2015, need to add 2013 and 2014
-# stayedRV <- makePlotData("Did you stay in an RV or camper-trailer in Black Rock City this year, and was it pumped (serviced) on playa?",
-#                          varNameTable = varNameTable,
-#                          designs = list(design15, design16, design17,
-#                                         design18, design19, design22,
-#                                         design23),
-#                          years = c(2015:2019, 2022:2023),
-#                          levels = c(rep(list(c("No", "Not_sure",
-#                                                "Yes_and_pumped",
-#                                                "Yes_idk_pumped",
-#                                                "Yes_not_pumped")), times = 5),
-#                                     rep(list(c("No", "Not sure",
-#                                            "Yes and pumped",
-#                                            "Yes and don\'t know if pumped",
-#                                            "Yes and not pumped")), times = 2)),
-#                          labels = c("No", "Not sure",
-#                                     "Yes and pumped",
-#                                     "Yes and don\'t know if pumped",
-#                                     "Yes and not pumped"),
-#                          labelOrder = c(3, 5, 4, 1, 2))
-# 
-# ggplot(stayedRV, aes(x = year, y = est, color = labels)) +
-#   geom_line(linewidth = 1.5, alpha = 0.7) +
-#   geom_point(size = 2.25) +
-#   theme_bw() +
-#   theme(panel.grid.minor = element_blank()) +
-#   scale_x_continuous(breaks = c(2014:2019, 2022:2023), 
-#                      labels = c(2014:2019, 2022:2023)) +
-#   scale_y_continuous(labels = percent, limits = c(0, NA)) +
-#   scale_color_manual(values = discreteColors[1:5]) +
-#   labs(x = "", y = "Burning Man Partcipants (%)", color = "",
-#        title = "Did you stay in an RV or camper-trailer in Black Rock City this year, \n and was it pumped (serviced) on playa?")
-# 
-# makeTableData(stayedRV) |>
-#   kbl(col.names = c(2015:2019, 2022:2023),
-#       row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
-#   kable_styling() |>
-#   column_spec(column = 1:8, width_min = "10.5em") |>
-#   scroll_box(width = "100%")
-```
+<!-- <!-- Additional (or instead) plot yes/no staying in an RV maybe? -->
 
-### Number of adults in the RV/camper-trailer
+--\>
 
-```{r}
-# nbrv <- makePlotData("How many adults (18+years old) stayed in the RV/camper-trailer including you?",
-#                      varNameTable = varNameTable,
-#                      designs = list(design15, design16, design17, design18,
-#                                     design19, design22, design23),
-#                      years = c(2015:2019, 2022:2023),
-#                      levels = c(list(c("only_me", "2", "3", "4", "5",
-#                                        "6", "7", "8", "9", "_10+")),
-#                                 rep(list(c("only_me", "2", "3", "4", "5",
-#                                            "6", "7", "8", "9", "_10_or_more")),
-#                                     times = 4),
-#                                 rep(list(c("1", "2", "3", "4", "5",
-#                                        "6", "7", "8", "9", "10+")), times = 2)),
-#                      labels = c("1", "2", "3", "4", "5",
-#                                 "6", "7", "8", "9", "10+"))
-# 
-# ggplot(nbrv, aes(x = labels, y = est)) +
-#   geom_bar(stat = "identity", fill = "#EA008B", color = "#EA008B",
-#            alpha = 0.7) +
-#   scale_y_continuous(labels = percent) +
-#   labs(x = "Number of people in camp", y = "Burning Man participants (%)",
-#        title = "How many adults stayed in the RV/camper-trailer including you?") +
-#   theme_bw() +
-#   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) +
-#   facet_wrap(~year, nrow = 2)
-# 
-# makeTableData(nbrv) |>
-#   kbl(col.names = c(2015:2019, 2022:2023),
-#       row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
-#   kable_styling() |>
-#   column_spec(column = 1:8, width_min = "10.5em") |>
-#   scroll_box(width = "100%")
-```
+<!-- ```{r} -->
+
+<!-- # Question options were changed in 2015, need to add 2013 and 2014 -->
+
+<!-- # stayedRV <- makePlotData("Did you stay in an RV or camper-trailer in Black Rock City this year, and was it pumped (serviced) on playa?", -->
+
+<!-- #                          varNameTable = varNameTable, -->
+
+<!-- #                          designs = list(design15, design16, design17, -->
+
+<!-- #                                         design18, design19, design22, -->
+
+<!-- #                                         design23), -->
+
+<!-- #                          years = c(2015:2019, 2022:2023), -->
+
+<!-- #                          levels = c(rep(list(c("No", "Not_sure", -->
+
+<!-- #                                                "Yes_and_pumped", -->
+
+<!-- #                                                "Yes_idk_pumped", -->
+
+<!-- #                                                "Yes_not_pumped")), times = 5), -->
+
+<!-- #                                     rep(list(c("No", "Not sure", -->
+
+<!-- #                                            "Yes and pumped", -->
+
+<!-- #                                            "Yes and don\'t know if pumped", -->
+
+<!-- #                                            "Yes and not pumped")), times = 2)), -->
+
+<!-- #                          labels = c("No", "Not sure", -->
+
+<!-- #                                     "Yes and pumped", -->
+
+<!-- #                                     "Yes and don\'t know if pumped", -->
+
+<!-- #                                     "Yes and not pumped"), -->
+
+<!-- #                          labelOrder = c(3, 5, 4, 1, 2)) -->
+
+<!-- #  -->
+
+<!-- # ggplot(stayedRV, aes(x = year, y = est, color = labels)) + -->
+
+<!-- #   geom_line(linewidth = 1.5, alpha = 0.7) + -->
+
+<!-- #   geom_point(size = 2.25) + -->
+
+<!-- #   theme_bw() + -->
+
+<!-- #   theme(panel.grid.minor = element_blank()) + -->
+
+<!-- #   scale_x_continuous(breaks = c(2014:2019, 2022:2023),  -->
+
+<!-- #                      labels = c(2014:2019, 2022:2023)) + -->
+
+<!-- #   scale_y_continuous(labels = percent, limits = c(0, NA)) + -->
+
+<!-- #   scale_color_manual(values = discreteColors[1:5]) + -->
+
+<!-- #   labs(x = "", y = "Burning Man Partcipants (%)", color = "", -->
+
+<!-- #        title = "Did you stay in an RV or camper-trailer in Black Rock City this year, \n and was it pumped (serviced) on playa?") -->
+
+<!-- #  -->
+
+<!-- # makeTableData(stayedRV) |> -->
+
+<!-- #   kbl(col.names = c(2015:2019, 2022:2023), -->
+
+<!-- #       row.names = TRUE) |> -->
+
+<!-- #   kable_paper("striped", full_width = F) |> -->
+
+<!-- #   kable_styling() |> -->
+
+<!-- #   column_spec(column = 1:8, width_min = "10.5em") |> -->
+
+<!-- #   scroll_box(width = "100%") -->
+
+<!-- ``` -->
+
+<!-- Question was removed, check this -->
+
+<!-- ### Number of adults in the RV/camper-trailer -->
+
+<!-- ```{r} -->
+
+<!-- # nbrv <- makePlotData("How many adults (18+years old) stayed in the RV/camper-trailer including you?", -->
+
+<!-- #                      varNameTable = varNameTable, -->
+
+<!-- #                      designs = list(design15, design16, design17, design18, -->
+
+<!-- #                                     design19, design22, design23), -->
+
+<!-- #                      years = c(2015:2019, 2022:2023), -->
+
+<!-- #                      levels = c(list(c("only_me", "2", "3", "4", "5", -->
+
+<!-- #                                        "6", "7", "8", "9", "_10+")), -->
+
+<!-- #                                 rep(list(c("only_me", "2", "3", "4", "5", -->
+
+<!-- #                                            "6", "7", "8", "9", "_10_or_more")), -->
+
+<!-- #                                     times = 4), -->
+
+<!-- #                                 rep(list(c("1", "2", "3", "4", "5", -->
+
+<!-- #                                        "6", "7", "8", "9", "10+")), times = 2)), -->
+
+<!-- #                      labels = c("1", "2", "3", "4", "5", -->
+
+<!-- #                                 "6", "7", "8", "9", "10+")) -->
+
+<!-- #  -->
+
+<!-- # ggplot(nbrv, aes(x = labels, y = est)) + -->
+
+<!-- #   geom_bar(stat = "identity", fill = "#EA008B", color = "#EA008B", -->
+
+<!-- #            alpha = 0.7) + -->
+
+<!-- #   scale_y_continuous(labels = percent) + -->
+
+<!-- #   labs(x = "Number of people in camp", y = "Burning Man participants (%)", -->
+
+<!-- #        title = "How many adults stayed in the RV/camper-trailer including you?") + -->
+
+<!-- #   theme_bw() + -->
+
+<!-- #   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) + -->
+
+<!-- #   facet_wrap(~year, nrow = 2) -->
+
+<!-- #  -->
+
+<!-- # makeTableData(nbrv) |> -->
+
+<!-- #   kbl(col.names = c(2015:2019, 2022:2023), -->
+
+<!-- #       row.names = TRUE) |> -->
+
+<!-- #   kable_paper("striped", full_width = F) |> -->
+
+<!-- #   kable_styling() |> -->
+
+<!-- #   column_spec(column = 1:8, width_min = "10.5em") |> -->
+
+<!-- #   scroll_box(width = "100%") -->
+
+<!-- ``` -->
 
 ### Number of family members in Black Rock City
 
 ```{r}
 # 2013 has only up to 4+ and 2015 is missing the 6+ option
-# nbfamily1 <- makePlotData("How many of your family members were in Black Rock City this year? (e.g. relatives, partners, spouses, offspring, in-laws)",
-#                           varNameTable = varNameTable,
-#                           designs = list(design14, design15, design16, design17,
-#                                          design18, design19, design22, design23),
-#                           years = c(2014:2019, 2022:2023),
-#                           levels = c(rep(list(c("0", "1", "2", "3",
-#                                                 "4", "5",
-#                                                 "_6_or_more")), times = 6),
-#                                      rep(list(c("0", "1", "2", "3", "4", "5",
-#                                             "more than 5")), times = 2)),
-#                           groups = c(1, 2, 3, 4, 5, 5, 5),
-#                           labels = c("0", "1", "2", "3", "4+"))
-# 
-# nbfamily2 <- makePlotData("How many of your family members were in Black Rock City this year? (e.g. relatives, partners, spouses, offspring, in-laws)",
-#                           varNameTable = varNameTable,
-#                           designs = list(design13),
-#                           years = c(2013),
-#                           levels = c(rep(list(c("0", "1", "2", "3",
-#                                                 "_4_or_more")), times = 1)),
-#                           labels = c("0", "1", "2", "3", "4+"))
-# nbfamily <- rbind(nbfamily1, nbfamily2)
-# 
-# ggplot(nbfamily, aes(x = year, y = est, color = labels)) +
-#   geom_line(linewidth = 1.5, alpha = 0.7) +
-#   geom_point(size = 2.25) +
-#   theme_bw() +
-#   theme(panel.grid.minor = element_blank()) +
-#   scale_x_continuous(breaks = c(2013:2019, 2022:2023), 
-#                      labels = c(2013:2019, 2022:2023)) +
-#   scale_y_continuous(labels = percent, limits = c(0, NA)) +
-#   scale_color_manual(values = discreteColors[1:5]) +
-#   labs(x = "", y = "Burning Man Partcipants (%)", color = "",
-#        title = "How many of your family members were in \n Black Rock City this year?")
-# 
-# makeTableData(nbfamily) |>
-#   kbl(col.names = c(2013:2019, 2022:2023),
-#       row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
-#   kable_styling() |>
-#   column_spec(column = 1:10, width_min = "10.5em") |>
-#   scroll_box(width = "100%")
+
+#TODO update grouping to new list format and use only one 
+#     call to makePlotData.
+
+nbfamily1 <- makePlotData("How many of your family members were in Black Rock City this year? (e.g. relatives, partners, spouses, offspring, in-laws)",
+                          varNameTable = varNameTable,
+                          designs = list(design14, design15, design16, design17,
+                                         design18, design19, design22, design23,
+                                         design24),
+                          years = c(2014:2019, 2022:2024),
+                          levels = c(rep(list(c("0", "1", "2", "3",
+                                                "4", "5",
+                                                "_6_or_more")), times = 6),
+                                     rep(list(c("0", "1", "2", "3", "4", "5",
+                                            "more than 5")), times = 3)),
+                          groups = c(1, 2, 3, 4, 5, 5, 5),
+                          labels = c("0", "1", "2", "3", "4+"))
+
+nbfamily2 <- makePlotData("How many of your family members were in Black Rock City this year? (e.g. relatives, partners, spouses, offspring, in-laws)",
+                          varNameTable = varNameTable,
+                          designs = list(design13),
+                          years = c(2013),
+                          levels = c(rep(list(c("0", "1", "2", "3",
+                                                "_4_or_more")), times = 1)),
+                          labels = c("0", "1", "2", "3", "4+"))
+nbfamily <- rbind(nbfamily1, nbfamily2)
+
+ggplot(nbfamily, aes(x = year, y = est, color = labels)) +
+  geom_line(linewidth = 1.5, alpha = 0.7) +
+  geom_point(size = 2.25) +
+  theme_bw() +
+  theme(panel.grid.minor = element_blank()) +
+  scale_x_continuous(breaks = c(2013:2019, 2022:2024),
+                     labels = c(2013:2019, 2022:2024)) +
+  scale_y_continuous(labels = percent, limits = c(0, NA)) +
+  scale_color_manual(values = discreteColors[1:5]) +
+  labs(x = "", y = "Burning Man Partcipants (%)", color = "",
+       title = "How many of your family members were in \n Black Rock City this year?")
+
+makeTableData(nbfamily) |>
+  kbl(col.names = c(2013:2019, 2022:2024),
+      row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  kable_styling() |>
+  column_spec(column = 1:11, width_min = "10.5em") |>
+  scroll_box(width = "100%")
 ```
 
 ## Camp placement
@@ -205,33 +321,34 @@ discreteColors <- c("#EA008B", "#B0AEDC", "#554149", "#A07200", "#AADA91",
 ### Camps placed by the Burning Man Placement Team
 
 ```{r}
-# placed <- makePlotData("Was your camp assigned a location by the Burning Man Placement Team before the event?",
-#                        varNameTable = varNameTable,
-#                        designs = list(design14, design15, design16, design17,
-#                                       design18, design19, design22, design23),
-#                        years = c(2014:2019, 2022:2023),
-#                        levels = c(rep(list(c("Yes", "IDK", "No")), times = 6),
-#                                   rep(list(c("Yes","Don\'t know", "No")), times = 2)),
-#                        labels = c("Yes", "I don\'t know", "No"),
-#                        labelOrder = c(3, 2, 1))
-# 
-# ggplot(placed, aes(x = year, y = est, fill = labels)) +
-#   geom_area(alpha = 0.65) +
-#   scale_y_continuous(labels = percent) +
-#   scale_x_continuous(breaks = c(2013:2019, 2022:2023), labels = c(2013:2019, 2022:2023)) +
-#   scale_fill_manual(values = discreteColors[3:1]) +
-#   labs(x = "", y = "Burning Man participants (%)", 
-#        fill = "Was your camp assigned \n a location by the \n Placement Team?",
-#        title = "Was your camp assigned a location by the Burning Man Placement Team \n before the event?") +
-#   theme_bw()
-# 
-# makeTableData(placed) |>
-#   kbl(col.names = c(2014:2019, 2022:2023),
-#       row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
-#   kable_styling() |>
-#   column_spec(column = 1:9, width_min = "10.5em") |>
-#   scroll_box(width = "100%")
+placed <- makePlotData("Was your camp assigned a location by the Burning Man Placement Team before the event?",
+                       varNameTable = varNameTable,
+                       designs = list(design14, design15, design16, design17,
+                                      design18, design19, design22, design23,
+                                      design24),
+                       years = c(2014:2019, 2022:2024),
+                       levels = c(rep(list(c("Yes", "IDK", "No")), times = 6),
+                                  rep(list(c("Yes","Don\'t know", "No")), times = 3)),
+                       labels = c("Yes", "I don\'t know", "No"),
+                       labelOrder = c(3, 2, 1))
+
+ggplot(placed, aes(x = year, y = est, fill = labels)) +
+  geom_area(alpha = 0.60, color = "black") +
+  scale_y_continuous(labels = percent) +
+  scale_x_continuous(breaks = c(2013:2019, 2022:2024), labels = c(2013:2019, 2022:2024)) +
+  scale_fill_manual(values = discreteColors[3:1]) +
+  labs(x = "", y = "Burning Man participants (%)",
+       fill = "Was your camp assigned \n a location by the \n Placement Team?",
+       title = "Was your camp assigned a location by the Burning Man Placement Team \n before the event?") +
+  theme_bw()
+
+makeTableData(placed) |>
+  kbl(col.names = c(2014:2019, 2022:2024),
+      row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  kable_styling() |>
+  column_spec(column = 1:10, width_min = "10.5em") |>
+  scroll_box(width = "100%")
 ```
 
 ### Reason for camp location in Black Rock City
@@ -263,7 +380,7 @@ discreteColors <- c("#EA008B", "#B0AEDC", "#554149", "#A07200", "#AADA91",
 #   geom_bar(stat = "identity", fill = "#EA008B", color = "#EA008B",
 #            alpha = 0.7) +
 #   scale_y_continuous(labels = percent) +
-#   labs(x = "Number of people in camp", 
+#   labs(x = "Number of people in camp",
 #        y = "Burning Man participants in 2023 (%)",
 #        title = "What most determined where you chose to camp in Black Rock City this year?") +
 #   theme_bw() +
@@ -276,6 +393,44 @@ discreteColors <- c("#EA008B", "#B0AEDC", "#554149", "#A07200", "#AADA91",
 #   kable_styling() |>
 #   column_spec(column = 1:9, width_min = "10.5em") |>
 #   scroll_box(width = "100%")
+
+location <- makePlotData("What most determined where you chose to camp in Black Rock City this year?",
+                         varNameTable = varNameTable,
+                         designs = list(design14, design15, design16, design17,
+                                        design18, design19, design22, design23,
+                                        design24),
+                         years = c(2014:2019, 2022:2024),
+                         levels = c(rep(list(c("yes")), times = 6),
+                                    rep(list(c(TRUE)), times = 3)),
+                         labels = c("Nearby attractions",
+                                    "Favorable playa surface conditions",
+                                    "Friends\' choice",
+                                    "Space available",
+                                    "Nice neighbors",
+                                    "Same as last year",
+                                    "Different than last year",
+                                    "Quiet",
+                                    "Access to all-night parties",
+                                    "I don\'t know"),
+                         labelOrder = c(4,3,8,5,6,1,2,7,9,10))
+
+ggplot(location[location$year == 2024,], aes(x = labels, y = est)) +
+  geom_bar(stat = "identity", fill = "#EA008B", color = "#EA008B",
+           alpha = 0.7) +
+  scale_y_continuous(labels = percent) +
+  labs(x = "Number of people in camp",
+       y = "Burning Man participants in 2024 (%)",
+       title = "What most determined where you chose to camp in Black Rock City this year?") +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))
+
+makeTableData(location) |>
+  kbl(col.names = c(2014:2019, 2022:2024),
+      row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  kable_styling() |>
+  column_spec(column = 1:10, width_min = "10.5em") |>
+  scroll_box(width = "100%")
 
 ```
 
@@ -335,6 +490,64 @@ discreteColors <- c("#EA008B", "#B0AEDC", "#554149", "#A07200", "#AADA91",
 #   column_spec(column = 1:2, width_min = "10.5em") |>
 #   kable_styling() |>
 #   scroll_box(width = "100%")
+
+ticketSource <- makePlotData("Where did you get your ticket for the event this year?",
+                             varNameTable = varNameTable,
+                             designs = list(design24),
+                             years = c(2024),
+                             levels = rep(list(c("Burner Express Bus Plus", 
+                                                 "FOMO Sale", 
+                                                 "Gifted ticket", 
+                                                 "Kid's Ticket", 
+                                                 "Main sale or OMG sale", 
+                                                 "No ticket", 
+                                                 "Other", 
+                                                 "Someone I know", 
+                                                 "Stewards sales", 
+                                                 "Stranger", 
+                                                 "Third party reseller", 
+                                                 "Ticket Aid/Low Income Ticket Program")), times = 2),
+                             labels = c("Burner Express Bus Plus", 
+                                                 "FOMO Sale", 
+                                                 "Gifted ticket", 
+                                                 "Kid's Ticket", 
+                                                 "Main sale or OMG sale", 
+                                                 "No ticket", 
+                                                 "Other", 
+                                                 "Someone I know", 
+                                                 "Stewards sales", 
+                                                 "Stranger", 
+                                                 "Third party reseller", 
+                                                 "Ticket Aid/Low Income Ticket Program"),
+                             labelOrder = rev(c("Main sale or OMG sale", 
+                                                "Stewards sales",
+                                                "Someone I know",
+                                                "Gifted ticket",
+                                                "Ticket Aid/Low Income Ticket Program", 
+                                                "FOMO Sale", 
+                                                "Burner Express Bus Plus", 
+                                                "Third party reseller", 
+                                                "No ticket",
+                                                "Stranger", 
+                                                "Kid's Ticket", 
+                                                "Other")))
+
+ggplot(ticketSource, aes(x = labels, y = est)) +
+  geom_bar(stat = "identity", position = "dodge", fill = "#EA008B") +
+  scale_y_continuous(labels = percent) +
+  labs(x = "Ticket source", y = "Burning Man participants in 2024 (%)",
+       title = "Where did you get your ticket for the event?",
+       fill = "") +
+  theme_bw() +
+  coord_flip() +
+  guides(fill = guide_legend(reverse = TRUE))
+
+makeTableData(ticketSource)[12:1,] |>
+  kbl(col.names = c(2024), row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  column_spec(column = 1:1, width_min = "10.5em") |>
+  kable_styling() |>
+  scroll_box(width = "100%")
 ```
 
 ### Amount paid for Burning Man ticket
@@ -404,6 +617,71 @@ discreteColors <- c("#EA008B", "#B0AEDC", "#554149", "#A07200", "#AADA91",
 #   kable_styling() |>
 #   column_spec(column = 1:9, width_min = "10.5em") |>
 #   scroll_box(width = "100%")
+
+ticketCost <- makePlotData("Did you pay face value for your ticket?",
+                           varNameTable = varNameTable,
+                           designs = list(design14, design15, design16,
+                                          design17, design18, design19,
+                                          design22, design23, design24),
+                           years = c(2014:2019, 2022:2024),
+                           levels = c(rep(list(c("Facevalue", "Gift",
+                                                 "IDK", "Less_than_facevalue",
+                                                 "More_than_facevalue",
+                                                 "Other")), times = 6),
+                                      rep(list(c("Face value", "Gift/did not pay",
+                                             "Don\'t know",
+                                             "Less than face value",
+                                             "More than face value",
+                                             "Other")), times = 3)),
+                           labels = c("Face value", "Gift or did not pay",
+                                             "I don\'t know",
+                                             "Less than face value",
+                                             "More than face value",
+                                             "Other"),
+                           labelOrder = c(5, 1, 4, 2, 3, 6))
+
+ggplot(ticketCost, aes(x = year, y = est, color = labels)) +
+  geom_line(linewidth = 1.5, alpha = 0.7) +
+  geom_point(size = 2.25) +
+  theme_bw() +
+  theme(panel.grid.minor = element_blank()) +
+  scale_x_continuous(breaks = c(2014:2019, 2022:2024),
+                     labels = c(2014:2019, 2022:2024)) +
+  scale_y_continuous(labels = percent, limits = c(0, NA)) +
+  scale_color_manual(values = discreteColors[1:6]) +
+  labs(x = "", y = "Burning Man Partcipants (%)", color = "Amount paid",
+       title = "Did you pay face value for your ticket?")
+
+ticketCostChange <- data.table(level = ticketCost$labels[1:6],
+                               est2023 = ticketCost$est[ticketCost$year == 2023],
+                               est2024 = ticketCost$est[ticketCost$year == 2024])
+ticketCostChange$estDif <- ticketCostChange$est2024 - ticketCostChange$est2023
+ticketCostChange$positive <- ifelse(ticketCostChange$estDif > 0, ticketCostChange$estDif, 0)
+ticketCostChange$negative <- ifelse(ticketCostChange$estDif < 0, ticketCostChange$estDif, 0)
+
+ticketCostChange2 <- data.table(level = ticketCostChange$level,
+                                change = c(ticketCostChange$positive,
+                                           ticketCostChange$negative),
+                                direction = rep(c("Positive", "Negative"),
+                                                each = nrow(ticketCostChange)))
+
+ggplot(ticketCostChange2, aes(x = level, y = change, fill = direction)) +
+  geom_bar(stat="identity", position="identity", show.legend = FALSE) +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1),
+        panel.grid.minor = element_blank()) +
+  scale_y_continuous(labels = percent, limits = c(-0.025, 0.025)) +
+  scale_fill_manual(values = discreteColors[2:1]) +
+  labs(x = "Ticket cost", y = "Change in response",
+       title = "Changes in amount paid for tickets from 2023 to 2024")
+
+makeTableData(ticketCost) |>
+  kbl(col.names = c(2014:2019, 2022:2024),
+      row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  kable_styling() |>
+  column_spec(column = 1:10, width_min = "10.5em") |>
+  scroll_box(width = "100%")
 ```
 
 ## Generators
@@ -411,333 +689,486 @@ discreteColors <- c("#EA008B", "#B0AEDC", "#554149", "#A07200", "#AADA91",
 ### Electricity generation in camps
 
 ```{r}
-# generate <- makePlotData("How did you generate electricity in your camp?",
-#                          varNameTable = varNameTable,
-#                          designs = list(design13, design14, design15,
-#                                         design16, design17, design18,
-#                                         design19, design22, design23),
-#                          years = c(2013:2019, 2022:2023),
-#                          levels = c(rep(list(c("yes")), times = 7),
-#                                     rep(list(c(TRUE)), times = 2)),
-#                          labels = c("I didn\'t use any power",
-#                                     "I used batteries",
-#                                     "I used solar power",
-#                                     "I used wind power",
-#                                     "I used my vehicle\'s generator",
-#                                     "I used my camp\'s generator",
-#                                     "I used another camp\'s power",
-#                                     "I used the BRC grid",
-#                                     "Other"),
-#                          labelOrder = c(9,4,7,1,8,5,3,2,6)[9:1])
-# 
-# 
-# 
-# # ggplot(generate[generate$year == 2023,], aes(x = labels, y = est)) +
-# #   geom_bar(stat = "identity", fill = "#EA008B") +
-# #   scale_y_continuous(labels = percent) +
-# #   labs(x = "Electricity generation", y = "Burning Man participants in 2022 (%)",
-# #        title = "How did you generate electricity in your camp?") +
-# #   theme_bw() +
-# #   coord_flip()
-# 
-# 
-# ggplot(generate, aes(x = year, y = est, color = labels)) +
-#   geom_line(linewidth = 1.5, alpha = 0.7) +
-#   geom_point(size = 2.25) +
-#   theme_bw() +
-#   theme(panel.grid.minor = element_blank()) +
-#   scale_x_continuous(breaks = c(2013:2019, 2022:2023), 
-#                      labels = c(2013:2019, 2022:2023)) +
-#   scale_y_continuous(labels = percent, limits = c(0, NA)) +
-#   scale_color_manual(values = discreteColors[1:9]) +
-#   labs(x = "", y = "Burning Man Partcipants (%)", color = "",
-#        title = "How did you generate electricity in your camp?") +
-#   theme(axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1))
-# 
-# makeTableData(generate)[9:1,] |>
-#   kbl(col.names = c(2013:2019, 2022:2023), row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
-#   column_spec(column = 1:10, width_min = "10.5em") |>
-#   kable_styling() |>
-#   scroll_box(width = "100%")
+
+
+generate <- makePlotData("Did you generate electricity in your camp?",
+                         varNameTable = varNameTable,
+                         designs = list(design13, design14, design15,
+                                        design16, design17, design18,
+                                        design19, design22, design23,
+                                        design24),
+                         years = c(2013:2019, 2022:2024),
+                         levels = c(rep(list(c("yes")), times = 7),
+                                    rep(list(c(TRUE)), times = 3)),
+                         labels = c("I didn\'t use any power",
+                                    "I used batteries",
+                                    "I used solar power",
+                                    "I used wind power",
+                                    "I used my vehicle\'s generator",
+                                    "I used my camp\'s generator",
+                                    "I used another camp\'s power",
+                                    "I used the BRC grid",
+                                    "Other"),
+                         labelOrder = c(9,4,7,1,8,5,3,2,6)[9:1])
+
+
+ggplot(generate, aes(x = year, y = est, color = labels)) +
+  geom_line(linewidth = 1.5, alpha = 0.7) +
+  geom_point(size = 2.25) +
+  theme_bw() +
+  theme(panel.grid.minor = element_blank()) +
+  scale_x_continuous(breaks = c(2013:2019, 2022:2024),
+                     labels = c(2013:2019, 2022:2024)) +
+  scale_y_continuous(labels = percent, limits = c(0, NA)) +
+  scale_color_manual(values = discreteColors[1:9]) +
+  labs(x = "", y = "Burning Man Partcipants (%)", color = "",
+       title = "How did you generate electricity in your camp?") +
+  theme(axis.text.x = element_text(angle = 45, hjust = 1, vjust = 1))
+
+makeTableData(generate)[9:1,] |>
+  kbl(col.names = c(2013:2019, 2022:2024), row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  column_spec(column = 1:11, width_min = "10.5em") |>
+  kable_styling() |>
+  scroll_box(width = "100%")
 ```
 
 ### Primary fuel used to run vehicle generators
 
 ```{r}
-# vehicleGenfuel <- makePlotData("What was the primary type of fuel you used to run your vehicle\'s generator during your time in Black Rock City?",
-#                               varNameTable = varNameTable,
-#                               designs = list(design16, design17, design18,
-#                                              design19, design22, design23),
-#                               years = c(2016:2019, 2022:2023),
-#                             levels = c(rep(list(c("Biodiesel",
-#                                                   "Diesel",
-#                                                   "Gasoline",
-#                                                   "IDK",
-#                                                   "Propane",
-#                                                   "Other")), times = 4),
-#                                        rep(list(c("Biodiesel",
-#                                               "Diesel",
-#                                               "Gasoline",
-#                                               "Don\'t know",
-#                                               "Propane",
-#                                               "Other")), times = 2)),
-#                               labels = c("Biodiesel",
-#                                          "Diesel",
-#                                          "Gasoline",
-#                                          "I don\'t know",
-#                                          "Propane",
-#                                          "Other"),
-#                             labelOrder = c(3, 2, 1, 5, 4, 6))
-# 
-# ggplot(vehicleGenfuel, aes(x = year, y = est, color = labels)) +
-#   geom_line(linewidth = 1.5, alpha = 0.7) +
-#   geom_point(size = 2.25) +
-#   theme_bw() +
-#   theme(panel.grid.minor = element_blank()) +
-#   scale_x_continuous(breaks = c(2016:2019, 2022:2023), 
-#                      labels = c(2016:2019, 2022:2023)) +
-#   scale_y_continuous(labels = percent, limits = c(0, NA)) +
-#   scale_color_manual(values = discreteColors[1:6]) +
-#   labs(x = "", y = "Burning Man Partcipants (%)", color = "",
-#        title = "What was the primary type of fuel you used to run \n your vehicle\'s generator during your time in Black Rock City?")
-# 
-# makeTableData(vehicleGenfuel) |>
-#   kbl(col.names = c(2016:2019, 2022:2023),
-#       row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
-#   kable_styling() |>
-#   column_spec(column = 1:7, width_min = "10.5em") |>
-#   scroll_box(width = "100%")
+vehicleGenfuel <- makePlotData("What was the primary type of fuel you used to run your vehicle\'s generator during your time in Black Rock City?",
+                              varNameTable = varNameTable,
+                              designs = list(design16, design17, design18,
+                                             design19, design22, design23,
+                                             design24),
+                              years = c(2016:2019, 2022:2024),
+                            levels = c(rep(list(c("Biodiesel",
+                                                  "Diesel",
+                                                  "Gasoline",
+                                                  "IDK",
+                                                  "Propane",
+                                                  "Other")), times = 4),
+                                       rep(list(c("Biodiesel",
+                                              "Diesel",
+                                              "Gasoline",
+                                              "Don\'t know",
+                                              "Propane",
+                                              "Other")), times = 3)),
+                              labels = c("Biodiesel",
+                                         "Diesel",
+                                         "Gasoline",
+                                         "I don\'t know",
+                                         "Propane",
+                                         "Other"),
+                            labelOrder = c(3, 2, 1, 5, 4, 6))
+
+ggplot(vehicleGenfuel, aes(x = year, y = est, color = labels)) +
+  geom_line(linewidth = 1.5, alpha = 0.7) +
+  geom_point(size = 2.25) +
+  theme_bw() +
+  theme(panel.grid.minor = element_blank()) +
+  scale_x_continuous(breaks = c(2016:2019, 2022:2024),
+                     labels = c(2016:2019, 2022:2024)) +
+  scale_y_continuous(labels = percent, limits = c(0, NA)) +
+  scale_color_manual(values = discreteColors[1:6]) +
+  labs(x = "", y = "Burning Man Partcipants (%)", color = "",
+       title = "What was the primary type of fuel you used to run \n your vehicle\'s generator during your time in Black Rock City?")
+
+makeTableData(vehicleGenfuel) |>
+  kbl(col.names = c(2016:2019, 2022:2024),
+      row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  kable_styling() |>
+  column_spec(column = 1:8, width_min = "10.5em") |>
+  scroll_box(width = "100%")
 ```
 
 ### Approximately how many hours per day did you run your vehicle's generator?
 
 ```{r}
-# vehicleHours <- data.frame(hours = c(census16$hoursvehicgen,
-#                                      census17$hoursvehicgen,
-#                                      census18$hoursvehicgen,
-#                                      census19$hoursvehicgen,
-#                                      census22$generatorHoursVehicle,
-#                                      census23$generatorHoursVehicle),
-#                            year = c(rep(2016, times = nrow(census16)),
-#                                     rep(2017, times = nrow(census17)),
-#                                     rep(2018, times = nrow(census18)),
-#                                     rep(2019, times = nrow(census19)),
-#                                     rep(2022, times = nrow(census22)),
-#                                     rep(2023, times = nrow(census23))),
-#                            weights = c(census16$weightbmorg1,
-#                                        census17$weightbfarrival,
-#                                        census18$weightbfarrival,
-#                                        census19$weightbfarrival,
-#                                        census22$weights,
-#                                        census23$weights))
-# 
-# vehicleHoursMean <- as.data.frame(rbind(weighted.mean2(census16$hoursvehicgen,
-#                                                        census16$weightbmorg1),
-#                                         weighted.mean2(census17$hoursvehicgen,
-#                                                        census17$weightbfarrival),
-#                                         weighted.mean2(census18$hoursvehicgen,
-#                                                        census18$weightbfarrival),
-#                                         weighted.mean2(census19$hoursvehicgen,
-#                                                        census19$weightbfarrival),
-#                                         weighted.mean2(census22$generatorHoursVehicle,
-#                                                        census22$weights),
-#                                         weighted.mean2(census23$generatorHoursVehicle,
-#                                                        census23$weights)))
-# vehicleHoursMean$year <- c(2016:2019, 2022:2023)
-# 
-# 
-# ggplot(vehicleHours, aes(y = hours, x = as.factor(year),
-#                          weight = weights)) +
-#   geom_boxplot(width=0.6,  fill = "#EA008B", color = "black",
-#                alpha = 0.7) +
-#   geom_point(data = vehicleHoursMean, aes(x = as.factor(year), y = wmean),
-#              shape = 23, size = 3, fill = "grey", inherit.aes = FALSE) +
-#   theme_bw() +
-#   labs(x = "", y = "Generator hours per day", 
-#        caption = "Diamond indicates weighted mean",
-#        title = "Approximately how many hours per day did you run your vehicle's generator?") +
-#   scale_y_continuous(limits = c(0, 24),
-#                      breaks = c(0, 4, 8, 12, 16, 24),
-#                      labels = c(0, 4, 8, 12, 16, 24))
-# 
-# fdf <- paste0("%.", 1, "f")
-# vehicleHoursTable <- apply(vehicleHoursMean, 1, function(x){
-#   paste0(sprintf(fdf, round(x[1],1)), " (",
-#          sprintf(fdf, round(x[3], 1)), ", ",
-#          sprintf(fdf, round(x[4], 1)), ")")
-# })
-# 
-# vehicleHoursTable <- matrix(vehicleHoursTable, nrow = 1)
-# rownames(vehicleHoursTable) <- "Average hours"
-# 
-# vehicleHoursTable |>
-#   kbl(col.names = c(2016:2019, 2022:2023),
-#       row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
-#   kable_styling() |>
-#   column_spec(column = 1:7, width_min = "10.5em") |>
-#   scroll_box(width = "100%")
+vehicleHours <- data.frame(hours = c(census16$hoursvehicgen,
+                                     census17$hoursvehicgen,
+                                     census18$hoursvehicgen,
+                                     census19$hoursvehicgen,
+                                     census22$generatorHoursVehicle,
+                                     census23$generatorHoursVehicle,
+                                     census24$generatorHoursVehicle),
+                           year = c(rep(2016, times = nrow(census16)),
+                                    rep(2017, times = nrow(census17)),
+                                    rep(2018, times = nrow(census18)),
+                                    rep(2019, times = nrow(census19)),
+                                    rep(2022, times = nrow(census22)),
+                                    rep(2023, times = nrow(census23)),
+                                    rep(2024, times = nrow(census24))),
+                           weights = c(census16$weightbmorg1,
+                                       census17$weightbfarrival,
+                                       census18$weightbfarrival,
+                                       census19$weightbfarrival,
+                                       census22$weights,
+                                       census23$weights,
+                                       census24$weights))
+
+vehicleHoursMean <- as.data.frame(rbind(weighted.mean2(census16$hoursvehicgen,
+                                                       census16$weightbmorg1),
+                                        weighted.mean2(census17$hoursvehicgen,
+                                                       census17$weightbfarrival),
+                                        weighted.mean2(census18$hoursvehicgen,
+                                                       census18$weightbfarrival),
+                                        weighted.mean2(census19$hoursvehicgen,
+                                                       census19$weightbfarrival),
+                                        weighted.mean2(census22$generatorHoursVehicle,
+                                                       census22$weights),
+                                        weighted.mean2(census23$generatorHoursVehicle,
+                                                       census23$weights),
+                                        weighted.mean2(census24$generatorHoursVehicle,
+                                                       census24$weights)))
+vehicleHoursMean$year <- c(2016:2019, 2022:2024)
+
+
+ggplot(vehicleHours, aes(y = hours, x = as.factor(year),
+                         weight = weights)) +
+  geom_boxplot(width=0.6,  fill = "#EA008B", color = "black",
+               alpha = 0.7) +
+  geom_point(data = vehicleHoursMean, aes(x = as.factor(year), y = wmean),
+             shape = 23, size = 3, fill = "grey", inherit.aes = FALSE) +
+  theme_bw() +
+  labs(x = "", y = "Generator hours per day",
+       caption = "Diamond indicates weighted mean",
+       title = "Approximately how many hours per day did you run your vehicle's generator?") +
+  scale_y_continuous(limits = c(0, 24),
+                     breaks = c(0, 4, 8, 12, 16, 20, 24),
+                     labels = c(0, 4, 8, 12, 16, 20, 24))
+
+fdf <- paste0("%.", 1, "f")
+vehicleHoursTable <- apply(vehicleHoursMean, 1, function(x){
+  paste0(sprintf(fdf, round(x[1],1)), " (",
+         sprintf(fdf, round(x[3], 1)), ", ",
+         sprintf(fdf, round(x[4], 1)), ")")
+})
+
+vehicleHoursTable <- matrix(vehicleHoursTable, nrow = 1)
+rownames(vehicleHoursTable) <- "Average hours"
+
+vehicleHoursTable |>
+  kbl(col.names = c(2016:2019, 2022:2024),
+      row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  kable_styling() |>
+  column_spec(column = 1:8, width_min = "10.5em") |>
+  scroll_box(width = "100%")
 ```
 
 ### Primary fuel used to run camp generator
 
 ```{r}
 #Selections changed in 2022.  2016-2019 is available also
-# campGenFuel <- makePlotData("What was the primary type of fuel you used to run your camp\'s generator during your time in Black Rock City?",
-#                               varNameTable = varNameTable,
-#                               designs = list(design16, design17, design18,
-#                                              design19, design22, design23),
-#                               years = c(2016:2019, 2022:2023),
-#                             levels = c(rep(list(c("Biodiesel",
-#                                                   "Diesel",
-#                                                   "Gasoline",
-#                                                   "IDK",
-#                                                   "Multiple_types",
-#                                                   "Propane",
-#                                                   "Other")), times = 4),
-#                                        rep(list(c("Biodiesel",
-#                                               "Diesel",
-#                                               "Gasoline",
-#                                               "Don\'t know",
-#                                               "Multiple types",
-#                                               "Propane",
-#                                               "Other")), times = 2)),
-#                               labels = c("Biodiesel",
-#                                          "Diesel",
-#                                          "Gasoline",
-#                                          "I don\'t know",
-#                                          "Multiple types",
-#                                          "Propane",
-#                                          "Other"),
-#                             labelOrder = c(3, 2, 1, 7, 5, 4, 6))
-# 
-# ggplot(campGenFuel, aes(x = year, y = est, color = labels)) +
-#   geom_line(linewidth = 1.5, alpha = 0.7) +
-#   geom_point(size = 2.25) +
-#   theme_bw() +
-#   theme(panel.grid.minor = element_blank()) +
-#   scale_x_continuous(breaks = c(2016:2019, 2022:2023), 
-#                      labels = c(2016:2019, 2022:2023)) +
-#   scale_y_continuous(labels = percent, limits = c(0, NA)) +
-#   scale_color_manual(values = discreteColors[1:7]) +
-#   labs(x = "", y = "Burning Man Partcipants (%)", color = "",
-#        title = "What was the primary type of fuel you used to run \n your camp's generator while in Black Rock City?")
-# 
-# makeTableData(campGenFuel) |>
-#   kbl(col.names = c(2016:2019, 2022:2023),
-#       row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
-#   kable_styling() |>
-#   column_spec(column = 1:7, width_min = "10.5em") |>
-#   scroll_box(width = "100%")
+campGenFuel <- makePlotData("What was the primary type of fuel you used to run your camp\'s generator during your time in Black Rock City?",
+                              varNameTable = varNameTable,
+                              designs = list(design16, design17, design18,
+                                             design19, design22, design23,
+                                             design24),
+                              years = c(2016:2019, 2022:2024),
+                            levels = c(rep(list(c("Biodiesel",
+                                                  "Diesel",
+                                                  "Gasoline",
+                                                  "IDK",
+                                                  "Multiple_types",
+                                                  "Propane",
+                                                  "Other")), times = 4),
+                                       rep(list(c("Biodiesel",
+                                              "Diesel",
+                                              "Gasoline",
+                                              "Don\'t know",
+                                              "Multiple types",
+                                              "Propane",
+                                              "Other")), times = 3)),
+                              labels = c("Biodiesel",
+                                         "Diesel",
+                                         "Gasoline",
+                                         "I don\'t know",
+                                         "Multiple types",
+                                         "Propane",
+                                         "Other"),
+                            labelOrder = c(3, 2, 1, 7, 5, 4, 6))
+
+ggplot(campGenFuel, aes(x = year, y = est, color = labels)) +
+  geom_line(linewidth = 1.5, alpha = 0.7) +
+  geom_point(size = 2.25) +
+  theme_bw() +
+  theme(panel.grid.minor = element_blank()) +
+  scale_x_continuous(breaks = c(2016:2019, 2022:2024),
+                     labels = c(2016:2019, 2022:2024)) +
+  scale_y_continuous(labels = percent, limits = c(0, NA)) +
+  scale_color_manual(values = discreteColors[1:7]) +
+  labs(x = "", y = "Burning Man Partcipants (%)", color = "",
+       title = "What was the primary type of fuel you used to run \n your camp's generator while in Black Rock City?")
+
+makeTableData(campGenFuel) |>
+  kbl(col.names = c(2016:2019, 2022:2024),
+      row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  kable_styling() |>
+  column_spec(column = 1:8, width_min = "10.5em") |>
+  scroll_box(width = "100%")
 ```
 
 ### Approximately how many hours per day did you run your camp's generators?
 
 ```{r}
-# campHours <- data.frame(hours = c(census16$hourscampgen,
-#                                      census17$hourscampgen,
-#                                      census18$hourscampgen,
-#                                      census19$hourscampgen,
-#                                      census22$generatorHoursCamp,
-#                                      census23$generatorHoursCamp),
-#                            year = c(rep(2016, times = nrow(census16)),
-#                                     rep(2017, times = nrow(census17)),
-#                                     rep(2018, times = nrow(census18)),
-#                                     rep(2019, times = nrow(census19)),
-#                                     rep(2022, times = nrow(census22)),
-#                                     rep(2023, times = nrow(census23))),
-#                            weights = c(census16$weightbmorg1,
-#                                        census17$weightbfarrival,
-#                                        census18$weightbfarrival,
-#                                        census19$weightbfarrival,
-#                                        census22$weights,
-#                                        census23$weights))
-# 
-# campHoursMean <- as.data.frame(rbind(weighted.mean2(census16$hourscampgen,
-#                                                        census16$weightbmorg1),
-#                                         weighted.mean2(census17$hourscampgen,
-#                                                        census17$weightbfarrival),
-#                                         weighted.mean2(census18$hourscampgen,
-#                                                        census18$weightbfarrival),
-#                                         weighted.mean2(census19$hourscampgen,
-#                                                        census19$weightbfarrival),
-#                                         weighted.mean2(census22$generatorHoursCamp,
-#                                                        census22$weights),
-#                                      weighted.mean2(census23$generatorHoursCamp,
-#                                                        census23$weights)))
-# campHoursMean$year <- c(2016:2019, 2022:2023)
-# 
-# 
-# ggplot(campHours, aes(y = hours, x = as.factor(year),
-#                          weight = weights)) +
-#   geom_boxplot(width=0.6,  fill = "#EA008B", color = "black",
-#                alpha = 0.7) +
-#   geom_point(data = campHoursMean, aes(x = as.factor(year), y = wmean),
-#              shape = 23, size = 3, fill = "grey", inherit.aes = FALSE) +
-#   theme_bw() +
-#   labs(x = "", y = "Generator running hours per day", caption = "Diamond indicates weighted mean") +
-#   scale_y_continuous(limits = c(0, 24),
-#                      breaks = c(0, 4, 8, 12, 16, 24),
-#                      labels = c(0, 4, 8, 12, 16, 24))
-# 
-# fdf <- paste0("%.", 1, "f")
-# campHoursTable <- apply(campHoursMean, 1, function(x){
-#   paste0(sprintf(fdf, round(x[1],1)), " (",
-#          sprintf(fdf, round(x[3], 1)), ", ",
-#          sprintf(fdf, round(x[4], 1)), ")")
-# })
-# 
-# campHoursTable <- matrix(campHoursTable, nrow = 1)
-# rownames(campHoursTable) <- "Average hours"
-# 
-# campHoursTable |>
-#   kbl(col.names = c(2016:2019, 2022:2023),
-#       row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
-#   kable_styling() |>
-#   column_spec(column = 1:7, width_min = "10.5em") |>
-#   scroll_box(width = "100%")
+campHours <- data.frame(hours = c(census16$hourscampgen,
+                                     census17$hourscampgen,
+                                     census18$hourscampgen,
+                                     census19$hourscampgen,
+                                     census22$generatorHoursCamp,
+                                     census23$generatorHoursCamp,
+                                     census24$generatorHoursCamp),
+                           year = c(rep(2016, times = nrow(census16)),
+                                    rep(2017, times = nrow(census17)),
+                                    rep(2018, times = nrow(census18)),
+                                    rep(2019, times = nrow(census19)),
+                                    rep(2022, times = nrow(census22)),
+                                    rep(2023, times = nrow(census23)),
+                                    rep(2024, times = nrow(census24))),
+                           weights = c(census16$weightbmorg1,
+                                       census17$weightbfarrival,
+                                       census18$weightbfarrival,
+                                       census19$weightbfarrival,
+                                       census22$weights,
+                                       census23$weights,
+                                       census24$weights))
+
+campHoursMean <- as.data.frame(rbind(weighted.mean2(census16$hourscampgen,
+                                                       census16$weightbmorg1),
+                                        weighted.mean2(census17$hourscampgen,
+                                                       census17$weightbfarrival),
+                                        weighted.mean2(census18$hourscampgen,
+                                                       census18$weightbfarrival),
+                                        weighted.mean2(census19$hourscampgen,
+                                                       census19$weightbfarrival),
+                                        weighted.mean2(census22$generatorHoursCamp,
+                                                       census22$weights),
+                                     weighted.mean2(census23$generatorHoursCamp,
+                                                       census23$weights),
+                                     weighted.mean2(census24$generatorHoursCamp,
+                                                       census24$weights)))
+campHoursMean$year <- c(2016:2019, 2022:2024)
+
+
+ggplot(campHours, aes(y = hours, x = as.factor(year),
+                         weight = weights)) +
+  geom_boxplot(width=0.6,  fill = "#EA008B", color = "black",
+               alpha = 0.7) +
+  geom_point(data = campHoursMean, aes(x = as.factor(year), y = wmean),
+             shape = 23, size = 3, fill = "grey", inherit.aes = FALSE) +
+  theme_bw() +
+  labs(x = "", y = "Generator running hours per day", caption = "Diamond indicates weighted mean") +
+  scale_y_continuous(limits = c(0, 24),
+                     breaks = c(0, 4, 8, 12, 16, 20, 24),
+                     labels = c(0, 4, 8, 12, 16, 20, 24))
+
+fdf <- paste0("%.", 1, "f")
+campHoursTable <- apply(campHoursMean, 1, function(x){
+  paste0(sprintf(fdf, round(x[1],1)), " (",
+         sprintf(fdf, round(x[3], 1)), ", ",
+         sprintf(fdf, round(x[4], 1)), ")")
+})
+
+campHoursTable <- matrix(campHoursTable, nrow = 1)
+rownames(campHoursTable) <- "Average hours"
+
+campHoursTable |>
+  kbl(col.names = c(2016:2019, 2022:2024),
+      row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  kable_styling() |>
+  column_spec(column = 1:8, width_min = "10.5em") |>
+  scroll_box(width = "100%")
 ```
 
 ### What was the total output of your camp's generator?
 
 ```{r}
-# genOutput <- makePlotData("What was the total output of your camp's generator(s)?",
+
+genOutput <- makePlotData("What was the total output of your camp's generator(s)?",
+                          varNameTable = varNameTable,
+                          designs = list(design16, design17, design18,
+                                         design19, design22, design23,
+                                         design24),
+                          years = c(2016:2019, 2022:2024),
+                          levels = c(rep(list(c("_1kW", "_10kWto19kW",
+                                                "_20kWto39kW", "_2kWto3kW",
+                                                "_40kW_or_more", "_4kWto9kW",
+                                                "IDK", "lessthan1kW")), times = 4),
+                                     rep(list(c("1kW-<2kW", "10kW-<20kW",
+                                            "20kW-<40kW", "2kW-<4kW",
+                                            "40kW+", "4kW-<10kW",
+                                            "Don't know", "<1kW")), times = 3)),
+                          labels = c("1kW-<2kW", "10kW-<20kW",
+                                     "20kW-<40kW", "2kW-<4kW",
+                                     "40kW+", "4kW-<10kW",
+                                     "Don't know", "<1kW"),
+                          labelOrder = c(8, 1, 4, 6, 2, 3, 5, 7))
+
+ggplot(genOutput[genOutput$year == 2024,], aes(x = labels, y = est)) +
+  geom_bar(stat = "identity", fill = "#EA008B", color = "#EA008B",
+           alpha = 0.7) +
+  scale_y_continuous(labels = percent) +
+  labs(x = "Generator output", y = "Burning Man participants (%)",
+       title = "What was the total output of your camp's generator?") +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))
+
+makeTableData(genOutput) |>
+  kbl(col.names = c(2016:2019, 2022:2024),
+      row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  kable_styling() |>
+  column_spec(column = 1:8, width_min = "10.5em") |>
+  scroll_box(width = "100%")
+```
+
+## Bikes
+
+### Bike use in Black Rock City
+
+```{r}
+# Need to check 2023 data
+
+# bikeUse <- makePlotData("Did you ride a bike in Black Rock City?",
 #                           varNameTable = varNameTable,
-#                           designs = list(design16, design17, design18,
-#                                          design19, design22, design23),
-#                           years = c(2016:2019, 2022:2023),
-#                           levels = c(rep(list(c("_1kW", "_10kWto19kW",
-#                                                 "_20kWto39kW", "_2kWto3kW",
-#                                                 "_40kW_or_more", "_4kWto9kW",
-#                                                 "IDK", "lessthan1kW")), times = 4),
-#                                      rep(list(c("1kW-<2kW", "10kW-<20kW",
-#                                             "20kW-<40kW", "2kW-<4kW",
-#                                             "40kW+", "4kW-<10kW",
-#                                             "Don't know", "<1kW")), times = 2)),
-#                           labels = c("1kW-<2kW", "10kW-<20kW",
-#                                      "20kW-<40kW", "2kW-<4kW",
-#                                      "40kW+", "4kW-<10kW",
-#                                      "Don't know", "<1kW"),
-#                           labelOrder = c(8, 1, 4, 6, 2, 3, 5, 7))
-# 
-# ggplot(genOutput[genOutput$year == 2023,], aes(x = labels, y = est)) +
-#   geom_bar(stat = "identity", fill = "#EA008B", color = "#EA008B",
-#            alpha = 0.7) +
-#   scale_y_continuous(labels = percent) +
-#   labs(x = "Generator output", y = "Burning Man participants (%)",
-#        title = "What was the total output of your camp's generator?") +
-#   theme_bw() +
-#   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) 
-# 
-# makeTableData(genOutput) |>
-#   kbl(col.names = c(2016:2019, 2022:2023),
-#       row.names = TRUE) |>
-#   kable_paper("striped", full_width = F) |>
-#   kable_styling() |>
-#   column_spec(column = 1:7, width_min = "10.5em") |>
-#   scroll_box(width = "100%")
+#                           designs = list(design23, design24),
+#                           years = c(2023:2024),
+#                           levels = c(list(c("3", "2", "1")),
+#                                      list(c("I don\'t know", "No", "Yes"))),
+#                           labels = c(c("I don\'t know", "No", "Yes")),
+#                           labelOrder = c(3, 1, 2))
+
+bikeUse <- makePlotData("Did you ride a bike in Black Rock City?",
+                          varNameTable = varNameTable,
+                          designs = list(design24),
+                          years = c(2024),
+                          levels = c(list(c("I don\'t know", "No", "Yes"))),
+                          labels = c(c("I don\'t know", "No", "Yes")),
+                          labelOrder = c(3, 2, 1))
+
+ggplot(bikeUse, aes(x = labels, y = est)) +
+  geom_bar(stat = "identity", fill = "#EA008B", color = "#EA008B") +
+  scale_y_continuous(labels = percent) +
+  labs(x = "", y = "Burning Man participants in 2024 (%)",
+       title = "Did you ride a bike in Black Rock City?") +
+  theme_bw()
+
+makeTableData(bikeUse) |>
+  kbl(col.names = c(2024),
+      row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  kable_styling() |>
+  column_spec(column = 1:2, width_min = "10.5em") |>
+  scroll_box(width = "100%")
+```
+
+### Bike ownership
+
+```{r}
+bikeWhose <- makePlotData("Whose bike did you ride in Black Rock City?",
+                          varNameTable = varNameTable,
+                          designs = list(design24),
+                          years = c(2024),
+                          levels = c(list(c("A yellow bike", 
+                                            "My own I brought to Black Rock City", 
+                                            "Other",
+                                            "Someone else's I borrowed with their consent",
+                                            "Someone else's I borrowed without their consent"))),
+                          labels = c("A yellow bike", 
+                                     "My own I brought to Black Rock City", 
+                                     "Other",
+                                     "Someone else's I borrowed with their consent",
+                                     "Someone else's I borrowed without their consent"),
+                          labelOrder = rev(c(2, 4, 1, 5, 3)))
+
+ggplot(bikeWhose, aes(x = labels, y = est)) +
+  geom_bar(stat = "identity", fill = "#EA008B", color = "#EA008B") +
+  scale_y_continuous(labels = percent) +
+  labs(x = "", y = "Burning Man participants in 2024 (%)",
+       title = "Whose bike did you ride in Black Rock City?") +
+  coord_flip() +
+  theme_bw()
+
+makeTableData(bikeWhose) |>
+  kbl(col.names = c(2024),
+      row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  kable_styling() |>
+  column_spec(column = 1:2, width_min = "10.5em") |>
+  scroll_box(width = "100%")
+```
+
+### Needed bike repair
+
+```{r}
+bikeRepairNeed <- makePlotData("Did your bike need repair while in Black Rock City?",
+                          varNameTable = varNameTable,
+                          designs = list(design24),
+                          years = c(2024),
+                          levels = c(list(c("No", 
+                                            "Other",
+                                            "Yes, I was able to get it fixed",
+                                            "Yes, I was unable to get it fixed"))),
+                          labels = c("No", 
+                                     "Other",
+                                     "Yes, I was able to get it fixed",
+                                     "Yes, I was unable to get it fixed"),
+                          labelOrder = rev(c(3, 4, 1, 2)))
+
+ggplot(bikeRepairNeed, aes(x = labels, y = est)) +
+  geom_bar(stat = "identity", fill = "#EA008B", color = "#EA008B") +
+  scale_y_continuous(labels = percent) +
+  labs(x = "", y = "Burning Man participants in 2024 (%)",
+       title = "Did your bike need repair while in Black Rock City?") +
+  theme_bw() +
+  coord_flip()
+
+makeTableData(bikeRepairNeed) |>
+  kbl(col.names = c(2024),
+      row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  kable_styling() |>
+  column_spec(column = 1:2, width_min = "10.5em") |>
+  scroll_box(width = "100%")
+```
+
+### How bikes were repaired
+
+```{r}
+bikeRepairHow <- makePlotData("How did you get your bike repaired?",
+                          varNameTable = varNameTable,
+                          designs = list(design24),
+                          years = c(2024),
+                          levels = c(list(c("By a stranger (not affiliated with an identified bike repair camp)", 
+                                            "By an identified bike repair camp",
+                                            "By someone I know",
+                                            "I did it myself",
+                                            "Other"))),
+                          labels = c("By a stranger",
+                                     "By an identified bike repair camp",
+                                     "By someone I know",
+                                     "I did it myself",
+                                     "Other"),
+                          labelOrder = rev(c(4, 3, 2, 1, 5)))
+
+ggplot(bikeRepairHow, aes(x = labels, y = est)) +
+  geom_bar(stat = "identity", fill = "#EA008B", color = "#EA008B") +
+  scale_y_continuous(labels = percent) +
+  labs(x = "", y = "Burning Man participants in 2024 (%)",
+       title = "How did you get your bike repaired?") +
+  theme_bw() +
+  coord_flip()
+
+makeTableData(bikeRepairHow) |>
+  kbl(col.names = c(2024),
+      row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  kable_styling() |>
+  column_spec(column = 1:2, width_min = "10.5em") |>
+  scroll_box(width = "100%")
 ```

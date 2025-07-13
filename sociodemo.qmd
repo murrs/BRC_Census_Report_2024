@@ -1,4 +1,5 @@
-```{r, echo=FALSE}
+```{r echo=FALSE}
+#| label: set-options
 knitr::opts_chunk$set(fig.pos = "H", out.extra = "", echo = FALSE,
                       warning = FALSE, message = FALSE)
 ```
@@ -6,6 +7,7 @@ knitr::opts_chunk$set(fig.pos = "H", out.extra = "", echo = FALSE,
 # Demographics and social characteristics {#sociodemo}
 
 ```{r}
+#| label: prep
 # Preparation
 
 # Read in all years of data
@@ -21,6 +23,8 @@ library(sf)
 library(tmap)
 library(tigris)
 library(zipcodeR)
+library(tidytext)
+library(wordcloud2)
 
 source(paste0(getwd(), "/_RCode/read_census_data.R"))
 source(paste0(getwd(), "/_RCode/make_table_data.R"))
@@ -33,11 +37,12 @@ discreteColors <- c("#EA008B", "#B0AEDC", "#554149", "#A07200", "#AADA91",
 
 ```
 
-## Burning Man attendence
+## Burning Man attendance
 
 ### Proportion of virgins
 
 ```{r}
+#| label: attendance-virgins
 
 yearrange <- c(2013:2019, 2022:2024)
 
@@ -124,6 +129,7 @@ kbl(virginTable, col.names = c(2013:2019, 2022:2024),
 ### Number of burns attended
 
 ```{r}
+#| label: attendance-num-burns
 ggplot(census24, 
        aes(x = numberBurns, y = after_stat(density), weight = weights)) +
   geom_histogram(fill = "#EA008B", color = "black", binwidth = 1) +
@@ -181,8 +187,55 @@ ggplot(myDat, aes(x = Year, y = Percentage, fill = rows)) +
 ```
 
 ### Plans to Return to Black Rock City
+```{r}
+returnBRC <- makePlotData(varName = "Do you plan to return to Black Rock City for Burning Man?",
+                       varNameTable,
+                       designs = list(design24),
+                       years = c(2024),
+                       levels = list(c("Maybe in the future if possible",
+                                       "No, definitely not",
+                                       "Not likely",
+                                       "Yes, definitely in 2025",
+                                       "Yes, not in 2025 but definitely in the next 5 years")),
+                       labels = c("Maybe in the future if possible",
+                                       "No, definitely no",
+                                       "Not likely",
+                                       "Yes, definitely in 2025",
+                                       "Yes, not in 2025 but definitely in the next 5 years"),
+                       labelOrder = rev(c(4, 5, 1, 3, 2)))
+
+ggplot(returnBRC, aes(x = labels, y = est)) +
+  geom_bar(stat = "identity", fill = "#EA008B") +
+  scale_y_continuous(labels = percent) +
+  labs(x = "Plan to return to BRC", y = "Burning Man participants in 2024 (%)",
+       title = "Do you plan to return to Black Rock City for Burning Man?") +
+  theme_bw() +
+  coord_flip()
+
+makeTableData(returnBRC) |>
+  kbl(col.names = c(2024),
+      row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  kable_styling() |>
+  column_spec(column = 1:2, width_min = "11.5em") |>
+  scroll_box(width = "100%")
+  
+```
 
 ### Reason for Returning to Black Rock City
+```{r}
+reasons <- data.frame(text = c(census24$planToReturn.writeIn.1,
+                               census24$planToReturn.writeIn.2,
+                               census24$planToReturn.writeIn.3))
+reasonTokens <- tidytext::unnest_tokens(reasons, output = tkn, input = text, 
+                                        token = "sentences")
+reasonsTable <- table(reasonTokens$tkn)[order(table(reasonTokens$tkn), 
+                                              decreasing = TRUE)]
+reasonFreq <- data.frame(text = attr(reasonsTable, "dimnames")[[1]], 
+                         freq = as.numeric(reasonsTable))
+wordcloud2(reasonFreq[1:200,], color = discreteColors)
+```
+
 
 <!-- Other ideas?  Average number of burns attended without a break? -->
 
@@ -191,6 +244,7 @@ ggplot(myDat, aes(x = Year, y = Percentage, fill = rows)) +
 ### Age
 
 ```{r}
+#| label: demographics-age
 
 ggplot(subset(census24[,c("age","weights")], !is.na(age)), aes(x = age, y = after_stat(density), weight = weights)) +
   geom_histogram(binwidth = 1, fill = "#EA008B", color = "black") +
@@ -198,6 +252,7 @@ ggplot(subset(census24[,c("age","weights")], !is.na(age)), aes(x = age, y = afte
 
   theme_bw() +
   labs(x = "Age at arrival on playa in 2024", y = "Density")
+
 
 
 #### removed age quantiles over time in favor of binning the ages and reporting percentages
@@ -492,6 +547,38 @@ makeTableData(gender) |>
 
 ```
 
+<!-- ### Gender identity -->
+
+<!-- ```{r} -->
+<!-- genderID <- makePlotData(varName = "Do you consider yourself to be any of the following?",  -->
+<!--                          varNameTable, -->
+<!--                          designs = list(design24), -->
+<!--                          years = c(2024), -->
+<!--                          levels = TRUE, -->
+<!--                          labels = c("Transperson  (e.g., transgender, transsexual)", -->
+<!--                                     "Gender queer", -->
+<!--                                     "Gender non-conforming", -->
+<!--                                     "Gender questioning", -->
+<!--                                     "Two-spirit", -->
+<!--                                     "My gender does not match my sex assigned at birth"), -->
+<!--                           labelOrder = c(1:6)) -->
+
+<!-- ggplot(genderID, aes(x = labels, y = est)) + -->
+<!--   geom_bar(stat = "identity", fill = "#EA008B") + -->
+<!--   scale_y_continuous(labels = percent) + -->
+<!--   labs(x = "Gender identity", y = "Burning Man participants (%)") + -->
+<!--   theme_bw() + -->
+<!--   theme(axis.text.x = element_text(angle = 45, hjust = 1)) -->
+
+<!-- makeTableData(genderID) |> -->
+<!--   kbl(col.names = c(2022:2024), -->
+<!--       row.names = TRUE) |> -->
+<!--   kable_paper("striped", full_width = F) |> -->
+<!--   kable_styling() |> -->
+<!--   column_spec(column = 1:1, width_min = "10.5em") |> -->
+<!--   scroll_box(width = "100%") -->
+<!-- ``` -->
+
 ### Sex assigned at birth
 
 ```{r}
@@ -518,8 +605,6 @@ makeTableData(gender) |>
 #   column_spec(column = 1:1, width_min = "10.5em") |>
 #   scroll_box(width = "100%")
 ```
-
-### Gender identity
 
 ### Ethnoracial background
 
@@ -816,7 +901,7 @@ tableData |>
   scroll_box(width = "100%")
 ```
 
-### Personal income in 2023
+### Personal income in 2024
 
 ```{r}
 #TODO Make barplot and table for just 2024 data
@@ -1030,7 +1115,7 @@ makeTableData(rbind(personalIncome, personalIncome24)) |>
   scroll_box(width = "100%")
 ```
 
-### Household income in 2023
+### Household income in 2024
 
 ```{r}
 #TODO Make barplot and table for just 2024 data
@@ -1980,14 +2065,14 @@ politicalViews <- makePlotData("Generally, in terms of political views, rather t
                                               "Other"))
 
 
-# ggplot(politicalViews, aes(x = labels, y = est, fill = as.factor(year))) +
-#   geom_bar(stat = "identity", position = "dodge") +
-#   scale_y_continuous(labels = percent) +
-#   scale_fill_manual(values = discreteColors[1:4]) +
-#   labs(x = "Political view", y = "Burning Man participants (%)", fill = "Year",
-#        title = "Generally, in terms of political views, rather than political parties, \n I consider  myself to be primarily...") +
-#   theme_bw() +
-#   theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))
+ggplot(politicalViews, aes(x = labels, y = est, fill = as.factor(year))) +
+  geom_bar(stat = "identity", position = "dodge") +
+  scale_y_continuous(labels = percent) +
+  scale_fill_manual(values = discreteColors[1:4]) +
+  labs(x = "Political view", y = "Burning Man participants (%)", fill = "Year",
+       title = "Generally, in terms of political views, rather than political parties, \n I consider  myself to be primarily...") +
+  theme_bw() +
+  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))
 
 makeTableData(politicalViews) |>
   kbl(col.names = c(2019, 2022:2024), row.names = TRUE) |>
