@@ -27,8 +27,10 @@ pkgs = c(
     "systemfonts",
     "tmap",
     "tidytext",
+    "tigris",
     "weights",
-    "wordcloud2"
+    "wordcloud2",
+    "zipcodeR"
 )
 install.packages(pkgs, dependencies = TRUE)
 q()

@@ -21,6 +21,8 @@ library(weights)
 library(cartogram)
 library(sf)
 library(tmap)
+library(zipcodeR)
+library(tigris)
 library(tidytext)
 library(wordcloud2)
 
