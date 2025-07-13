@@ -21,8 +21,8 @@ library(weights)
 library(cartogram)
 library(sf)
 library(tmap)
-library(zipcodeR)
-library(tigris)
+library(zipcodeR) # for reverse_zipcode function
+library(tigris)   # to shift and rescale AK, HI, PR via shift_geometry
 library(tidytext)
 library(wordcloud2)
 

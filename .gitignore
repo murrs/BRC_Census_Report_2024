@@ -5,4 +5,4 @@
 /config.yml
 /_book/
 /.quarto/
-sociodemo_files/
+*_files/
