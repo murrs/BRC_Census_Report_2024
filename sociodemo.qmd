@@ -21,8 +21,8 @@ library(weights)
 library(cartogram)
 library(sf)
 library(tmap)
-library(tigris)
-library(zipcodeR)
+library(zipcodeR) # for reverse_zipcode function
+library(tigris)   # to shift and rescale AK, HI, PR via shift_geometry
 library(tidytext)
 library(wordcloud2)
 
@@ -187,6 +187,7 @@ ggplot(myDat, aes(x = Year, y = Percentage, fill = rows)) +
 ```
 
 ### Plans to Return to Black Rock City
+
 ```{r}
 returnBRC <- makePlotData(varName = "Do you plan to return to Black Rock City for Burning Man?",
                        varNameTable,
@@ -223,6 +224,7 @@ makeTableData(returnBRC) |>
 ```
 
 ### Reason for Returning to Black Rock City
+
 ```{r}
 reasons <- data.frame(text = c(census24$planToReturn.writeIn.1,
                                census24$planToReturn.writeIn.2,
@@ -235,7 +237,6 @@ reasonFreq <- data.frame(text = attr(reasonsTable, "dimnames")[[1]],
                          freq = as.numeric(reasonsTable))
 wordcloud2(reasonFreq[1:200,], color = discreteColors)
 ```
-
 
 <!-- Other ideas?  Average number of burns attended without a break? -->
 
@@ -550,33 +551,57 @@ makeTableData(gender) |>
 <!-- ### Gender identity -->
 
 <!-- ```{r} -->
+
 <!-- genderID <- makePlotData(varName = "Do you consider yourself to be any of the following?",  -->
+
 <!--                          varNameTable, -->
+
 <!--                          designs = list(design24), -->
+
 <!--                          years = c(2024), -->
+
 <!--                          levels = TRUE, -->
+
 <!--                          labels = c("Transperson  (e.g., transgender, transsexual)", -->
+
 <!--                                     "Gender queer", -->
+
 <!--                                     "Gender non-conforming", -->
+
 <!--                                     "Gender questioning", -->
+
 <!--                                     "Two-spirit", -->
+
 <!--                                     "My gender does not match my sex assigned at birth"), -->
+
 <!--                           labelOrder = c(1:6)) -->
 
 <!-- ggplot(genderID, aes(x = labels, y = est)) + -->
+
 <!--   geom_bar(stat = "identity", fill = "#EA008B") + -->
+
 <!--   scale_y_continuous(labels = percent) + -->
+
 <!--   labs(x = "Gender identity", y = "Burning Man participants (%)") + -->
+
 <!--   theme_bw() + -->
+
 <!--   theme(axis.text.x = element_text(angle = 45, hjust = 1)) -->
 
 <!-- makeTableData(genderID) |> -->
+
 <!--   kbl(col.names = c(2022:2024), -->
+
 <!--       row.names = TRUE) |> -->
+
 <!--   kable_paper("striped", full_width = F) |> -->
+
 <!--   kable_styling() |> -->
+
 <!--   column_spec(column = 1:1, width_min = "10.5em") |> -->
+
 <!--   scroll_box(width = "100%") -->
+
 <!-- ``` -->
 
 ### Sex assigned at birth
@@ -1385,12 +1410,7 @@ makeTableData(education) |>
 
 ```{r}
 
-# library(ggmap)
-# library(RColorBrewer)
-# 
-# BRCMap <- get_map(location = "Black Rock City, NV",
-#                   source = "stamen", maptype = "toner-lite",
-#                   crop = TRUE, zoom = 2)
+
 ```
 
 ### Residence outside of Black Rock City
