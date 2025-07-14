@@ -738,14 +738,14 @@ pacislander13to19 <- data.frame(est=NA, lower=NA, upper=NA, level=NA,
 tableDat <- makeTableData(rbind(ethnoracial24,ethnoracial22to23,ethnoracial17to19, ethnoracial13to16, pacislander13to19))
 
 tdrn <- rownames(tableDat)
-tdrn[4] <- "Middle Eastern or North African <sup>a</sup>"
-tdrn[7] <- "Native Hawaiian or Pacific Islander <sup>b</sup>"
-tdrn[8] <- "Other <sup>c</sup>"
+tdrn[4] <- paste0("Middle Eastern or North African",footnote_marker_alphabet(1))
+tdrn[7] <- paste0("Native Hawaiian or Pacific Islander",footnote_marker_alphabet(2))
+tdrn[8] <- paste0("Other",footnote_marker_alphabet(3))
 rownames(tableDat) <- tdrn
 
 tdcn <- colnames(tableDat)
 
-tdcn[colnames(tableDat)=="2022"] <- "2022 <sup>d</sup>"
+tdcn[colnames(tableDat)=="2022"] <- paste0("2022",footnote_marker_alphabet(4))
 
 colnames(tableDat) <- tdcn
 
