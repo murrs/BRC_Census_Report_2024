@@ -5,3 +5,4 @@
 /config.yml
 /_book/
 /.quarto/
+*_files/

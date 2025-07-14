@@ -21,8 +21,8 @@ library(weights)
 library(cartogram)
 library(sf)
 library(tmap)
-library(tigris)
-library(zipcodeR)
+library(zipcodeR) # for reverse_zipcode function
+library(tigris)   # to shift and rescale AK, HI, PR via shift_geometry
 library(tidytext)
 library(wordcloud2)
 
@@ -590,7 +590,9 @@ makeTableData(gender) |>
 
 <!--       row.names = TRUE) |> -->
 
+
 <!--   kable_paper("striped")  |> -->
+
 
 <!--   kable_styling() |> -->
 
@@ -1405,12 +1407,7 @@ makeTableData(education) |>
 ```{r}
 #| label: residence-brc
 
-# library(ggmap)
-# library(RColorBrewer)
-# 
-# BRCMap <- get_map(location = "Black Rock City, NV",
-#                   source = "stamen", maptype = "toner-lite",
-#                   crop = TRUE, zoom = 2)
+
 ```
 
 ### Residence outside of Black Rock City
