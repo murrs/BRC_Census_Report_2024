@@ -208,7 +208,7 @@ ggplot(returnBRC, aes(x = labels, y = est)) +
   geom_bar(stat = "identity", fill = "#EA008B") +
   scale_y_continuous(labels = percent) +
   labs(x = "Plan to return to BRC", y = "Burning Man participants in 2024 (%)",
-       title = "Do you plan to return to Black Rock City for Burning Man?") +
+       title = "Do you plan to return to Black Rock City?") +
   theme_bw() +
   coord_flip()
 
