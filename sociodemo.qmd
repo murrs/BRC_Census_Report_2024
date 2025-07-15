@@ -1784,27 +1784,47 @@ usa_zcta <- usa_zcta |>
   st_join(usa_shifted, join = st_intersects, left = TRUE) |>
   rename(state_abbr = STUSPS, state_name = NAME)
 
-set.seed(123)        # reproducible dot sampling
 
+# Aggregate census data by geography
+
+# Initially just including the last three census
+# because they have an explicit question about zip
 census_list <- paste0("census", substr(2022:2024, 3, 4)) 
 
-count_tbls   <- map(census_list, tally_zips) |>
-                set_names(census_list)
+# Create one set of tally tables (counts + weights in one)
+stat_tbls <- map(census_list, tally_zip_stats) |> set_names(census_list)
 
-US_ZCTAs     <- merge_tallies(zctas, count_tbls)
+# Merge onto ZCTA data
+US_ZCTAs <- merge_tallies(usa_zcta, stat_tbls)
 
-# Dot‑density map 
+# Dot‑density map
+set.seed(123)        # reproducible dot sampling
+num_dots_per_wgt = 10 # number of dots per 1 weighted value
+
 dots_sf <- map_dfr(
   census_list,
   function(col) {
-    purrr::map2_dfr(
-      US_ZCTAs[[col]],
-      sf::st_geometry(US_ZCTAs),
-      \(cnt, geom) {
-        if (cnt > 0) {
-          pts <- sf::st_sample(geom, size = cnt, exact = FALSE)
-          if (length(pts))
-            sf::st_as_sf(data.frame(year = col), geometry = pts, crs = st_crs(US_ZCTAs))
+    purrr::pmap_dfr(
+      list(
+        wgt   = US_ZCTAs[[paste0(col, "_wgt")]],
+        geom  = st_geometry(US_ZCTAs),
+        zcta  = US_ZCTAs$ZCTA,
+        state = US_ZCTAs$state_abbr
+      ),
+      \(wgt, geom, zcta, state) {
+        if (wgt > 0) {
+          pts <- st_sample(geom, size = round(wgt*num_dots_per_wgt), exact = FALSE)
+          if (length(pts)) {
+            st_as_sf(
+              data.frame(
+                year        = col,
+                ZCTA        = zcta,
+                state_abbr  = state
+              ),
+              geometry = pts,
+              crs = st_crs(US_ZCTAs)
+            )
+          }
         }
       }
     )
@@ -1835,6 +1855,45 @@ ggplot() +
     axis.title = element_blank(),
     legend.title = element_text(size = 10),
     legend.text = element_text(size = 9)
+  )
+
+# All US states / select territories, only 2024
+ggplot() +
+  geom_sf(data = usa_shifted, fill = "gray90", color = "white", size = 0.1) +
+  geom_sf(data = filter(dots_sf, year == "census24"), color = discreteColors[1], size = 0.05, alpha = 0.5) +
+  coord_sf(
+    crs = 5070,
+    xlim = c(conus_bbox["xmin"], conus_bbox["xmax"]),
+    ylim = c(conus_bbox["ymin"], conus_bbox["ymax"])
+  ) +
+  theme_minimal() +
+  theme(
+    panel.grid = element_blank(),
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    axis.title = element_blank()
+  )
+
+# Only California and Nevada
+conus_bbox <- usa_shifted %>%
+  filter(STUSPS %in% c("CA", "NV")) %>%
+  st_bbox()
+
+ggplot() +
+  geom_sf(data = filter(usa_shifted, STUSPS %in% c("CA", "NV")), fill = "gray90", color = "white", size = 0.1) +
+  geom_sf(data = filter(dots_sf, year == "census24", state_abbr %in% c("CA", "NV")), 
+          color = discreteColors[1], size = 0.1, alpha = 0.5) +
+  coord_sf(
+    crs = 5070,
+    xlim = c(conus_bbox["xmin"], conus_bbox["xmax"]),
+    ylim = c(conus_bbox["ymin"], conus_bbox["ymax"])
+  ) +
+  theme_minimal() +
+  theme(
+    panel.grid = element_blank(),
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    axis.title = element_blank()
   )
 
 # Try combining all three years and tallying by zip
