@@ -54,8 +54,8 @@ Weighting responses of the online brings this estimate up to 31.9% to match the 
 ```{r, echo = FALSE, warning = FALSE, message = FALSE}
 library(ggplot2)
 library(scales)
-plotDat <- data.frame(est = c(0.319, 0.243, 0.319),
-                      label = c("31.9%", "24.3%", "31.9%"),
+plotDat <- data.frame(est = c(0.318, 0.187, 0.318),
+                      label = c("31.8%", "18.7%", "31.8%"),
                       type = factor(c("Random sample", 
                                       "Online survey (unweighted)",
                                       "Online survey (weighted)"),

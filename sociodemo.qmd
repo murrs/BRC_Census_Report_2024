@@ -1775,7 +1775,7 @@ makeTableData(reside) |>
 
 ## Politics
 
-### Number of times voted in last four Federal US elections
+### Voting history for the last four Federal US elections
 
 <!-- Combine with voting eligiblity -->
 
@@ -1787,204 +1787,211 @@ makeTableData(reside) |>
 
 ```{r}
 #| label: politics-voted
-# voteEligible <- makePlotData(varName = "Are you eligible to vote in the United States?",
-#                              varNameTable,
-#                              designs = list(design13, design14, design15,
-#                                             design16, design17, design18,
-#                                             design19, design22, design23),
-#                              years = c(2013:2019, 2022:2023),
-#                              levels = rep(list(c("no", "yes")), times = 9),
-#                              labels = c("Not eligible to vote", "Eligible"),
-#                              labelOrder = 1:2)
-# numberVotes <- makePlotData(varName = "Number of the last four Federal US elections voted among eligible voters?",
-#                             varNameTable = varNameTable,
-#                             designs = list(design13, design14, design15,
-#                                             design16, design17, design18,
-#                                             design19, design22, design23),
-#                             years = c(2013:2019, 2022:2023),
-#                             levels = rep(list(as.character(0:4)), times = 9),
-#                             labels = c("Did not vote", "1 election",
-#                                        "2 elections", "3 elections",
-#                                        "4 elections"),
-#                             labelOrder = c(2:4,1,5))
-# numberVotes$est <- numberVotes$est * rep(voteEligible$est[voteEligible$labels == "Eligible"], each = 5)
-# numberVotes$lower <- numberVotes$lower * rep(voteEligible$est[voteEligible$labels == "Eligible"], each = 5)
-# numberVotes$upper <- numberVotes$upper * rep(voteEligible$est[voteEligible$labels == "Eligible"], each = 5)
-# numberVotes$labels <- as.character(numberVotes$labels)
-# voteEligible$labels <- as.character(voteEligible$labels)
-# numberVotes <- rbind(numberVotes, voteEligible[voteEligible$labels == "Not eligible to vote",])
-# numberVotes$labels <- factor(numberVotes$labels, levels = c("Did not vote",
-#                                                             "1 election",
-#                                                             "2 elections",
-#                                                             "3 elections",
-#                                                             "4 elections",
-#                                                             "Not eligible to vote"))
-# 
-# ggplot(numberVotes, aes(x = year, y = est, fill = labels)) +
-#   geom_bar(stat = "identity", position = "dodge") +
-#   # geom_line(linewidth = 1.5, alpha = 0.7) +
-#   # geom_point(size = 2.25) +
-#   theme_bw() +
-#   theme(panel.grid.minor = element_blank()) +
-#   scale_x_continuous(breaks = c(2013:2019, 2022:2023), 
-#                      labels = c(2013:2019, 2022:2023)) +
-#   scale_y_continuous(labels = percent, limits = c(0, NA)) +
-#   scale_fill_manual(values = gradientColors(6)[c(5:1,6)]) +
-#   labs(x = "", y = "Burning Man participants (%)", 
-#        labels = "Number of elections voted",
-#        title = "How many of the last four US elections did you vote in?")
-# 
-# makeTableData(numberVotes) |>
-#   kbl(col.names = c(2013:2019, 2022:2023), row.names = TRUE) |>
-#   kable_paper("striped")  |>
-#   kable_styling() |>
-#   column_spec(column = 1:10, width_min = "10.5em") 
+
+voteEligible <- makePlotData(varName = "Are you eligible to vote in the United States?",
+                             varNameTable,
+                             designs = list(design13, design14, design15,
+                                            design16, design17, design18,
+                                            design19, design22, design23,
+                                            design24),
+                             years = c(2013:2019, 2022:2024),
+                             levels = rep(list(c("no", "yes")), times = 10),
+                             labels = c("Not eligible to vote", "Eligible"),
+                             labelOrder = 1:2)
+numberVotes <- makePlotData(varName = "Number of the last four Federal US elections voted among eligible voters?",
+                            varNameTable = varNameTable,
+                            designs = list(design13, design14, design15,
+                                            design16, design17, design18,
+                                            design19, design22, design23,
+                                            design24),
+                            years = c(2013:2019, 2022:2024),
+                            levels = rep(list(as.character(0:4)), times = 10),
+                            labels = c("Did not vote", "1 election",
+                                       "2 elections", "3 elections",
+                                       "4 elections"),
+                            labelOrder = c(2:4,1,5))
+numberVotes$est <- numberVotes$est * rep(voteEligible$est[voteEligible$labels == "Eligible"], each = 5)
+numberVotes$lower <- numberVotes$lower * rep(voteEligible$est[voteEligible$labels == "Eligible"], each = 5)
+numberVotes$upper <- numberVotes$upper * rep(voteEligible$est[voteEligible$labels == "Eligible"], each = 5)
+numberVotes$labels <- as.character(numberVotes$labels)
+voteEligible$labels <- as.character(voteEligible$labels)
+numberVotes <- rbind(numberVotes, voteEligible[voteEligible$labels == "Not eligible to vote",])
+numberVotes$labels <- factor(numberVotes$labels, levels = c("Did not vote",
+                                                            "1 election",
+                                                            "2 elections",
+                                                            "3 elections",
+                                                            "4 elections",
+                                                            "Not eligible to vote"))
+
+ggplot(numberVotes, aes(x = year, y = est, fill = labels)) +
+  geom_bar(stat = "identity", position = "dodge") +
+  # geom_line(linewidth = 1.5, alpha = 0.7) +
+  # geom_point(size = 2.25) +
+  theme_bw() +
+  theme(panel.grid.minor = element_blank()) +
+  scale_x_continuous(breaks = c(2013:2019, 2022:2023),
+                     labels = c(2013:2019, 2022:2023)) +
+  scale_y_continuous(labels = percent, limits = c(0, NA)) +
+  scale_fill_manual(values = gradientColors(6)[c(5:1,6)]) +
+  labs(x = "", y = "Burning Man participants (%)",
+       labels = "Number of elections voted",
+       title = "How many of the last four US elections did you vote in?")
+
+makeTableData(numberVotes) |>
+  kbl(col.names = c(2013:2019, 2022:2024), row.names = TRUE) |>
+  kable_paper("striped")  |>
+  kable_styling() |>
+  column_spec(column = 1:11, width_min = "10.5em")
 ```
 
 ### Political party affiliation
 
 ```{r}
-# politicalParty <- makePlotData("With which political party are you currently affiliated in the United States, if any?",
-#                                varNameTable = varNameTable,
-#                                designs = list(design17, design18, design19,
-#                                               design22, design23),
-#                                years = c(2017:2019, 2022:2023),
-#                                levels = c(rep(list(c("Democratic", "Green",
-#                                                      "Libertarian", "None",
-#                                                      "Other", "Republican")),
-#                                               times = 3),
-#                                           rep(list(c("Democratic Party", "Green Party",
-#                                             "Libertarian Party", "None or unaffiliated",
-#                                             "Other US Party", "Republican Party")), times = 2)),
-#                                labels = c("Democratic Party", "Green Party",
-#                                           "Libertarian Party", "None or unaffiliated",
-#                                           "Other US Party", "Republican Party"),
-#                                labelOrder = c("Democratic Party", "Republican Party",
-#                                               "Libertarian Party", "Green Party",
-#                                               "Other US Party", "None or unaffiliated"))
-# 
-# 
-# party.dem.16 <- customPlotDat(c("Democratic"),
-#                               design = design16, "usparty",
-#                               2016, "Democratic Party")
-# party.rep.16 <- customPlotDat(c("Republican"),
-#                               design = design16, "usparty",
-#                               2016, "Republican Party")
-# party.lib.16 <- customPlotDat(c("Libertarian"),
-#                               design = design16, "usparty",
-#                               2016, "Libertarian Party")
-# party.grn.16 <- customPlotDat(c("Green"),
-#                               design = design16, "usparty",
-#                               2016, "Green Party")
-# party.oth.16 <- customPlotDat(c("Other", "Am_Indep_Party"),
-#                               design = design16, "usparty",
-#                               2016, "Other US Party")
-# party.nne.16 <- customPlotDat(c("None"),
-#                               design = design16, "usparty",
-#                               2016, "None or unaffiliated")
-# party.dem.15 <- customPlotDat(c("Democratic"),
-#                               design = design15, "usparty",
-#                               2015, "Democratic Party")
-# party.rep.15 <- customPlotDat(c("Republican"),
-#                               design = design15, "usparty",
-#                               2015, "Republican Party")
-# party.lib.15 <- customPlotDat(c("Libertarian"),
-#                               design = design15, "usparty",
-#                               2015, "Libertarian Party")
-# party.grn.15 <- customPlotDat(c("Green"),
-#                               design = design15, "usparty",
-#                               2015, "Green Party")
-# party.oth.15 <- customPlotDat(c("Other", "Am_Indep_Party"),
-#                               design = design15, "usparty",
-#                               2015, "Other US Party")
-# party.nne.15 <- customPlotDat(c("None"),
-#                               design = design15, "usparty",
-#                               2015, "None or unaffiliated")
-# party.dem.14 <- customPlotDat(c("Democratic"),
-#                               design = design14, "usparty",
-#                               2014, "Democratic Party")
-# party.rep.14 <- customPlotDat(c("Republican"),
-#                               design = design14, "usparty",
-#                               2014, "Republican Party")
-# party.lib.14 <- customPlotDat(c("Libertarian"),
-#                               design = design14, "usparty",
-#                               2014, "Libertarian Party")
-# party.grn.14 <- customPlotDat(c("Green"),
-#                               design = design14, "usparty",
-#                               2014, "Green Party")
-# party.oth.14 <- customPlotDat(c("Other", "Am_Indep_Party"),
-#                               design = design14, "usparty",
-#                               2014, "Other US Party")
-# party.nne.14 <- customPlotDat(c("None"),
-#                               design = design14, "usparty",
-#                               2014, "None or unaffiliated")
-# party.dem.13 <- customPlotDat(c("Democratic"),
-#                               design = design13, "usparty",
-#                               2013, "Democratic Party")
-# party.rep.13 <- customPlotDat(c("Republican"),
-#                               design = design13, "usparty",
-#                               2013, "Republican Party")
-# party.lib.13 <- customPlotDat(c("Libertarian"),
-#                               design = design13, "usparty",
-#                               2013, "Libertarian Party")
-# party.grn.13 <- customPlotDat(c("Green"),
-#                               design = design13, "usparty",
-#                               2013, "Green Party")
-# party.oth.13 <- customPlotDat(c("Other", "Am_Indep_Party"),
-#                               design = design13, "usparty",
-#                               2013, "Other US Party")
-# party.nne.13 <- customPlotDat(c("None"),
-#                               design = design13, "usparty",
-#                               2013, "None or unaffiliated")
-# pp16 <- rbind(party.dem.16, party.rep.16, party.lib.16,
-#               party.grn.16, party.oth.16, party.nne.16)
-# pp16$est <- pp16$est / sum(pp16$est)
-# pp16$lower <- pp16$lower / sum(pp16$est)
-# pp16$upper <- pp16$upper / sum(pp16$est)
-# 
-# pp15 <- rbind(party.dem.15, party.rep.15, party.lib.15,
-#               party.grn.15, party.oth.15, party.nne.15)
-# pp15$est <- pp15$est / sum(pp15$est)
-# pp15$lower <- pp15$lower / sum(pp15$est)
-# pp15$upper <- pp15$upper / sum(pp15$est)
-# 
-# 
-# pp14 <- rbind(party.dem.14, party.rep.14, party.lib.14,
-#               party.grn.14, party.oth.14, party.nne.14)
-# pp14$est <- pp14$est / sum(pp14$est)
-# pp14$lower <- pp14$lower / sum(pp14$est)
-# pp14$upper <- pp14$upper / sum(pp14$est)
-# 
-# pp13 <- rbind(party.dem.13, party.rep.13, party.lib.13,
-#               party.grn.13, party.oth.13, party.nne.13)
-# pp13$est <- pp13$est / sum(pp13$est)
-# pp13$lower <- pp13$lower / sum(pp13$est)
-# pp13$upper <- pp13$upper / sum(pp13$est)
-# 
-# 
-# 
-# politicalParty <- rbind(politicalParty, pp16, pp15, pp14, pp13)
-# 
-# ggplot(politicalParty, aes(x = year, y = est, color = labels)) +
-#   geom_line(linewidth = 1.5) +
-#   geom_point(size = 2.25, color = "black") +
-#   # geom_errorbar(aes(ymin = lower, ymax = upper), color = "black", width = 0.2,
-#   #               linewidth = 1) +
-#   theme_bw() +
-#   theme(panel.grid.minor = element_blank()) +
-#   scale_x_continuous(breaks = c(2013:2019, 2022:2023), 
-#                      labels = c(2013:2019, 2022:2023)) +
-#   scale_y_continuous(labels = percent, limits = c(0, NA)) +
-#   scale_color_manual(values = discreteColors[c(1:3,5,4,6)]) +
-#   labs(x = "", y = "Burning Man participants eligible to vote (%)", 
-#        color = "US politcal party \n affiliation",
-#        title = "With which political party are you currently affiliated \n in the United States, if any?")
-# 
-# makeTableData(politicalParty) |>
-#   kbl(col.names = c(2013:2019, 2022:2023), row.names = TRUE) |>
-#   kable_paper("striped")  |>
-#   column_spec(column = 1:10, width_min = "10.5em") |>
-#   kable_styling() 
+politicalParty <- makePlotData("With which political party are you currently affiliated in the United States, if any?",
+                               varNameTable = varNameTable,
+                               designs = list(design17, design18, design19,
+                                              design22, design23, design24),
+                               years = c(2017:2019, 2022:2024),
+                               levels = c(rep(list(c("Democratic", "Green",
+                                                     "Libertarian", "None",
+                                                     "Other", "Republican")),
+                                              times = 3),
+                                          rep(list(c("Democratic Party",
+                                                     "Green Party",
+                                                     "Libertarian Party",
+                                                     "None or unaffiliated",
+                                                     "Other US Party",
+                                                     "Republican Party")),
+                                              times = 3)),
+                               labels = c("Democratic Party", "Green Party",
+                                          "Libertarian Party", "None or unaffiliated",
+                                          "Other US Party", "Republican Party"),
+                               labelOrder = c("Democratic Party", "Republican Party",
+                                              "Libertarian Party", "Green Party",
+                                              "Other US Party", "None or unaffiliated"))
+
+
+party.dem.16 <- customPlotDat(c("Democratic"),
+                              design = design16, "usparty",
+                              2016, "Democratic Party")
+party.rep.16 <- customPlotDat(c("Republican"),
+                              design = design16, "usparty",
+                              2016, "Republican Party")
+party.lib.16 <- customPlotDat(c("Libertarian"),
+                              design = design16, "usparty",
+                              2016, "Libertarian Party")
+party.grn.16 <- customPlotDat(c("Green"),
+                              design = design16, "usparty",
+                              2016, "Green Party")
+party.oth.16 <- customPlotDat(c("Other", "Am_Indep_Party"),
+                              design = design16, "usparty",
+                              2016, "Other US Party")
+party.nne.16 <- customPlotDat(c("None"),
+                              design = design16, "usparty",
+                              2016, "None or unaffiliated")
+party.dem.15 <- customPlotDat(c("Democratic"),
+                              design = design15, "usparty",
+                              2015, "Democratic Party")
+party.rep.15 <- customPlotDat(c("Republican"),
+                              design = design15, "usparty",
+                              2015, "Republican Party")
+party.lib.15 <- customPlotDat(c("Libertarian"),
+                              design = design15, "usparty",
+                              2015, "Libertarian Party")
+party.grn.15 <- customPlotDat(c("Green"),
+                              design = design15, "usparty",
+                              2015, "Green Party")
+party.oth.15 <- customPlotDat(c("Other", "Am_Indep_Party"),
+                              design = design15, "usparty",
+                              2015, "Other US Party")
+party.nne.15 <- customPlotDat(c("None"),
+                              design = design15, "usparty",
+                              2015, "None or unaffiliated")
+party.dem.14 <- customPlotDat(c("Democratic"),
+                              design = design14, "usparty",
+                              2014, "Democratic Party")
+party.rep.14 <- customPlotDat(c("Republican"),
+                              design = design14, "usparty",
+                              2014, "Republican Party")
+party.lib.14 <- customPlotDat(c("Libertarian"),
+                              design = design14, "usparty",
+                              2014, "Libertarian Party")
+party.grn.14 <- customPlotDat(c("Green"),
+                              design = design14, "usparty",
+                              2014, "Green Party")
+party.oth.14 <- customPlotDat(c("Other", "Am_Indep_Party"),
+                              design = design14, "usparty",
+                              2014, "Other US Party")
+party.nne.14 <- customPlotDat(c("None"),
+                              design = design14, "usparty",
+                              2014, "None or unaffiliated")
+party.dem.13 <- customPlotDat(c("Democratic"),
+                              design = design13, "usparty",
+                              2013, "Democratic Party")
+party.rep.13 <- customPlotDat(c("Republican"),
+                              design = design13, "usparty",
+                              2013, "Republican Party")
+party.lib.13 <- customPlotDat(c("Libertarian"),
+                              design = design13, "usparty",
+                              2013, "Libertarian Party")
+party.grn.13 <- customPlotDat(c("Green"),
+                              design = design13, "usparty",
+                              2013, "Green Party")
+party.oth.13 <- customPlotDat(c("Other", "Am_Indep_Party"),
+                              design = design13, "usparty",
+                              2013, "Other US Party")
+party.nne.13 <- customPlotDat(c("None"),
+                              design = design13, "usparty",
+                              2013, "None or unaffiliated")
+pp16 <- rbind(party.dem.16, party.rep.16, party.lib.16,
+              party.grn.16, party.oth.16, party.nne.16)
+pp16$est <- pp16$est / sum(pp16$est)
+pp16$lower <- pp16$lower / sum(pp16$est)
+pp16$upper <- pp16$upper / sum(pp16$est)
+
+pp15 <- rbind(party.dem.15, party.rep.15, party.lib.15,
+              party.grn.15, party.oth.15, party.nne.15)
+pp15$est <- pp15$est / sum(pp15$est)
+pp15$lower <- pp15$lower / sum(pp15$est)
+pp15$upper <- pp15$upper / sum(pp15$est)
+
+
+pp14 <- rbind(party.dem.14, party.rep.14, party.lib.14,
+              party.grn.14, party.oth.14, party.nne.14)
+pp14$est <- pp14$est / sum(pp14$est)
+pp14$lower <- pp14$lower / sum(pp14$est)
+pp14$upper <- pp14$upper / sum(pp14$est)
+
+pp13 <- rbind(party.dem.13, party.rep.13, party.lib.13,
+              party.grn.13, party.oth.13, party.nne.13)
+pp13$est <- pp13$est / sum(pp13$est)
+pp13$lower <- pp13$lower / sum(pp13$est)
+pp13$upper <- pp13$upper / sum(pp13$est)
+
+
+
+politicalParty <- rbind(politicalParty, pp16, pp15, pp14, pp13)
+
+ggplot(politicalParty, aes(x = year, y = est, color = labels)) +
+  geom_line(linewidth = 1.5) +
+  geom_point(size = 2.25, color = "black") +
+  # geom_errorbar(aes(ymin = lower, ymax = upper), color = "black", width = 0.2,
+  #               linewidth = 1) +
+  theme_bw() +
+  theme(panel.grid.minor = element_blank()) +
+  scale_x_continuous(breaks = c(2013:2019, 2022:2024),
+                     labels = c(2013:2019, 2022:2024)) +
+  scale_y_continuous(labels = percent, limits = c(0, NA)) +
+  scale_color_manual(values = discreteColors[c(1:3,5,4,6)]) +
+  labs(x = "", y = "Burning Man participants eligible to vote (%)",
+       color = "US politcal party \n affiliation",
+       title = "With which political party are you currently affiliated \n in the United States, if any?")
+
+makeTableData(politicalParty) |>
+  kbl(col.names = c(2013:2019, 2022:2024), row.names = TRUE) |>
+  kable_paper("striped")  |>
+  column_spec(column = 1:11, width_min = "10.5em") |>
+  kable_styling()
 ```
 
 ### Political views

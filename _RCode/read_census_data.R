@@ -28,16 +28,16 @@ census23 <- fread(paste0(datadir, "census2023_cleaned_weighted.tsv"), sep = "\t"
 census24 <- fread(paste0(datadir, "census2024_cleaned_weighted.tsv"), sep = "\t", na.strings = c("", "NA"))
 
 
-design13 <- svydesign(ids = ~id, weights = ~weight, data = census13)
-design14 <- svydesign(ids = ~id, weights = ~weightbmorg, data = census14)
-design15 <- svydesign(ids = ~id, weights = ~weightbmorg1, data = census15)
-design16 <- svydesign(ids = ~id, weights = ~weightbmorg1, data = census16)
-design17 <- svydesign(ids = ~id, weights = ~weightbfarrival, data = census17)
-design18 <- svydesign(ids = ~id, weights = ~weightbfarrival, data = census18)
-design19 <- svydesign(ids = ~id, weights = ~weightbfarrival, data = census19)
-design22 <- svydesign(ids = ~responseID, weights = ~weights, data = census22)
-design23 <- svydesign(ids = ~responseID, weights = ~weights, data = census23)
-design24 <- svydesign(ids = ~responseID, weights = ~weights, data = census24)
+design13 <- svydesign(ids = ~1, weights = ~weight, data = census13)
+design14 <- svydesign(ids = ~1, weights = ~weightbmorg, data = census14)
+design15 <- svydesign(ids = ~1, weights = ~weightbmorg1, data = census15)
+design16 <- svydesign(ids = ~1, weights = ~weightbmorg1, data = census16)
+design17 <- svydesign(ids = ~1, weights = ~weightbfarrival, data = census17)
+design18 <- svydesign(ids = ~1, weights = ~weightbfarrival, data = census18)
+design19 <- svydesign(ids = ~1, weights = ~weightbfarrival, data = census19)
+design22 <- svydesign(ids = ~1, weights = ~weights, data = census22)
+design23 <- svydesign(ids = ~1, weights = ~weights, data = census23)
+design24 <- svydesign(ids = ~1, weights = ~weights, data = census24)
 
 
 varNameTable <- fread(paste0(datadir, "question_name_xwalk_2024.tsv"), sep = "\t")
