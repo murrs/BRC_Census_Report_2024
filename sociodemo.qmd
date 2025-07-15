@@ -22,14 +22,19 @@ library(cartogram)
 library(sf)
 library(tmap)
 library(zipcodeR) # for reverse_zipcode function
+options(tigris_use_cache = TRUE) # saves time when running this a bunch
 library(tigris)   # to shift and rescale AK, HI, PR via shift_geometry
+library(remotes)  # so we can use a shifted version of the Albers projection
 library(tidytext)
 library(wordcloud2)
+
+install_github("hrbrmstr/albersusa")
 
 source(paste0(getwd(), "/_RCode/read_census_data.R"))
 source(paste0(getwd(), "/_RCode/make_table_data.R"))
 source(paste0(getwd(), "/_RCode/make_plot_data.R"))
 source(paste0(getwd(), "/_RCode/additional_functions.R"))
+source(paste0(getwd(), "/_RCode/geo_tabulate_zip.R"))
 
 gradientColors <- colorRampPalette(c("#EA008B", "#B0AEDC", "#554149"))
 discreteColors <- c("#EA008B", "#B0AEDC", "#554149", "#A07200", "#AADA91", 
@@ -590,9 +595,7 @@ makeTableData(gender) |>
 
 <!--       row.names = TRUE) |> -->
 
-
 <!--   kable_paper("striped")  |> -->
-
 
 <!--   kable_styling() |> -->
 
@@ -1596,10 +1599,6 @@ ContinentResides[census24$reside%in%c("In Canada",
                             "Within Nevada")] <- "North America" 
 
 
-
-
-
-
 ## check whether entries are missing
 #sort(table(ContinentResides),decreasing=TRUE)
 #remaining.writeIn <- census24$reside.writeIn[!grepl(paste(tolower(unlist(myContinents)),collapse="|"),tolower(census24$reside.writeIn))]
@@ -1759,13 +1758,121 @@ makeTableData(reside) |>
   kable_styling() 
 ```
 
-<!-- ### California and Nevada County Residence -->
+<!-- ### California and Nevada Residents -->
 
 <!-- ZIP Code converted to county and maybe smoothed -->
 
 <!-- ### State residence -->
 
 <!-- ZIP code converted to state -->
+
+```{r}
+# Be sure to run the first chunk to load the required libraries
+
+zctas <- zctas(cb = TRUE, year = 2020, class = "sf") |>
+  select(ZCTA = ZCTA5CE20) |>
+  shift_geometry() |>              # shift AK, HI, PR, and other territories
+  st_transform(5070)
+
+# Load and shift all states/territories to use as outlines
+usa_shifted <- states(cb = TRUE, year = 2020, class = "sf") |>
+  shift_geometry() |>
+  st_transform(5070)
+
+set.seed(123)        # reproducible dot sampling
+
+census_list <- paste0("census", substr(2022:2024, 3, 4)) 
+
+count_tbls   <- map(census_list, tally_zips) |>
+                set_names(census_list)
+
+US_ZCTAs     <- merge_tallies(zctas, count_tbls)
+
+# Dot‑density map 
+dots_sf <- map_dfr(
+  census_list,
+  function(col) {
+    purrr::map2_dfr(
+      US_ZCTAs[[col]],
+      sf::st_geometry(US_ZCTAs),
+      \(cnt, geom) {
+        if (cnt > 0) {
+          pts <- sf::st_sample(geom, size = cnt, exact = FALSE)
+          if (length(pts))
+            sf::st_as_sf(data.frame(year = col), geometry = pts, crs = st_crs(US_ZCTAs))
+        }
+      }
+    )
+  }
+)
+
+# Still have to filter out a few territories :(
+conus_bbox <- usa_shifted %>%
+  filter(!STUSPS %in% c("GU", "VI", "MP", "AS")) %>%
+  st_bbox()
+
+# Small multiple dot density maps
+ggplot() +
+  geom_sf(data = usa_shifted, fill = "gray90", color = "white", size = 0.1) +
+  geom_sf(data = dots_sf, aes(color = year), size = 0.2, alpha = 0.7) +
+  coord_sf(
+    crs = 5070,
+    xlim = c(conus_bbox["xmin"], conus_bbox["xmax"]),
+    ylim = c(conus_bbox["ymin"], conus_bbox["ymax"])
+  ) +
+  scale_color_manual(values = discreteColors[1:3], name = "Year") +
+  facet_wrap(~ year) +
+  theme_minimal() +
+  theme(
+    panel.grid = element_blank(),
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    axis.title = element_blank(),
+    legend.title = element_text(size = 10),
+    legend.text = element_text(size = 9)
+  )
+
+# Try combining all three years and tallying by zip
+US_ZCTAs_combined <- US_ZCTAs %>%
+  rowwise() %>%
+  mutate(total_count = sum(c_across(all_of(census_list)), na.rm = TRUE)) %>%
+  ungroup()
+
+# Try just looking at 2024 
+US_ZCTAs_24 <- US_ZCTAs %>%
+  select(ZCTA,census24)
+
+# Distribution very heavily skewed toward just a few zips with more than 1 or 2... 
+counts <- US_ZCTAs_24$census24
+breaks_vals <- unique(quantile(counts[counts > 0], probs = seq(0, 1, 0.25), na.rm = TRUE))
+
+# Choropleth of zip codes
+ggplot(US_ZCTAs_24) +
+  geom_sf(data = usa_shifted, fill = "gray90", color = "white", size = 0.3) +
+  geom_sf(aes(fill = census24), color = NA) +
+  coord_sf(
+    crs = 5070,
+    xlim = c(conus_bbox["xmin"], conus_bbox["xmax"]),
+    ylim = c(conus_bbox["ymin"], conus_bbox["ymax"])
+  ) +
+  scale_fill_gradientn(
+    colors = rev(gradientColors(3)),  # reverse the color ramp
+    trans = "sqrt",
+    breaks = breaks_vals,
+    labels = scales::comma_format()(breaks_vals),
+    na.value = "white",
+    name = "Count (2024)"
+  ) +
+  theme_minimal() +
+  theme(
+    panel.grid = element_blank(),
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    axis.title = element_blank(),
+    legend.position = "right"
+  )
+
+```
 
 <!-- ### Canadian province residence -->
 
