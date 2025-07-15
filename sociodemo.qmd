@@ -1769,15 +1769,20 @@ makeTableData(reside) |>
 ```{r}
 # Be sure to run the first chunk to load the required libraries
 
-zctas <- zctas(cb = TRUE, year = 2020, class = "sf") |>
-  select(ZCTA = ZCTA5CE20) |>
-  shift_geometry() |>              # shift AK, HI, PR, and other territories
-  st_transform(5070)
-
-# Load and shift all states/territories to use as outlines
+# Load and shift all states/territories to fit in a reasonable bounding box
 usa_shifted <- states(cb = TRUE, year = 2020, class = "sf") |>
   shift_geometry() |>
-  st_transform(5070)
+  st_transform(5070) # Albers (best projection for mapping continental US)
+
+usa_zcta <- zctas(cb = TRUE, year = 2020, class = "sf") |>
+  select(ZCTA = ZCTA5CE20) |>
+  shift_geometry() |>              # shift AK, HI, PR, and other territories
+  st_transform(5070) # Albers
+
+# Spatial join to get state info
+usa_zcta <- usa_zcta |>
+  st_join(usa_shifted, join = st_intersects, left = TRUE) |>
+  rename(state_abbr = STUSPS, state_name = NAME)
 
 set.seed(123)        # reproducible dot sampling
 
