@@ -1,10 +1,10 @@
 # Contributions and acknowledgments {.unnumbered}
 
-**BRC Census General Manager:** Andi "Sonder" Morency, Ph.D.
+**BRC Census General Manager:**
 
 **Principal Investigator:** Samuel Ehrenreich, Ph.D.
 
-**Study Design and Data Analysis and Visualization:** Aaron "Murrs" Shev, Ph.D.; "Dusty Nuts", Ph.D. 
+**Study Design, Data Analysis, and Visualization:** Aaron "Murrs" Shev, Ph.D.; "Dusty Nuts", Ph.D.
 
 **Special thanks and acknowledgements:**
 
@@ -22,7 +22,7 @@
 
 To contact the Census Lab, email census\@burningman.org
 
-Census Community on Hive: <https://hive.burningman.org/spaces/14264554/content?_gl=1*1o7894l*_ga*MTQ3MDgxMjExNy4xNzA5NzgwNTQ3*_ga_FWW1ZLL84X*czE3NTE3NzczNzUkbzgxJGcwJHQxNzUxNzc3Mzc1JGo2MCRsMCRoMA..*_ga_411YJ8ZFDE*czE3NTE3NzczNzUkbzEzNCRnMCR0MTc1MTc3NzM3NSRqNjAkbDAkaDA.*_ga_4334FXWCMM*czE3NTE3NzczNzUkbzEwOSRnMCR0MTc1MTc3NzM3NSRqNjAkbDAkaDA.>
+Hive: [Census Community on Hive](https://hive.burningman.org/spaces/14264554/content?_gl=1*1o7894l*_ga*MTQ3MDgxMjExNy4xNzA5NzgwNTQ3*_ga_FWW1ZLL84X*czE3NTE3NzczNzUkbzgxJGcwJHQxNzUxNzc3Mzc1JGo2MCRsMCRoMA..*_ga_411YJ8ZFDE*czE3NTE3NzczNzUkbzEzNCRnMCR0MTc1MTc3NzM3NSRqNjAkbDAkaDA.*_ga_4334FXWCMM*czE3NTE3NzczNzUkbzEwOSRnMCR0MTc1MTc3NzM3NSRqNjAkbDAkaDA.){.uri}
 
 Census Lab Blog: <https://journal.burningman.org/author/census/>
 
@@ -31,5 +31,3 @@ Census Lab Data Archive: <https://burningman.org/culture/history/brc-history/cen
 Citation: Shev, A.B., Morency A., and the 2024 Census Lab. (2025). Black Rock City Census: 2013-2024 Population Analysis. Black Rock City Census.
 
 Copyright © 2025 Shev et al.
-
-

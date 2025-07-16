@@ -42,7 +42,11 @@ attendRegional <- makePlotData("Have you ever attended any Regional Burning Man 
                                           rep(list(c("Attended at least one regional",
                                                  "Not attended, on e-mail list",
                                                  "Not connected to regional",
-                                                 "Volunteered with a regional")), times = 3)),
+                                                 "Volunteered with a regional")), times = 2),
+                                          rep(list(c("Yes, I have attended at least one Regional Burning Man Event",
+                                                 "No, but I am on an email list for Regional Burners",
+                                                 "No, I am not connected to my Regional Burning Man community",
+                                                 "Yes, and I volunteered with a Regional Burning Man Event")), times = 2)),
                                labels = c("Attended at least \n one regional",
                                           "Not attended, \n on e-mail list",
                                           "Not connected \n to regional",
@@ -51,7 +55,7 @@ attendRegional <- makePlotData("Have you ever attended any Regional Burning Man 
 attendRegional$attend <- rep(c("Attended or \n volunteered with \n a regional event", 
                                "Did not attend a \n regional event", 
                                "Did not attend a \n regional event", 
-                               "Attended a \n regional"), times = 10)
+                               "Attended or \n volunteered with \n a regional event"), times = 10)
 
 
 ggplot(attendRegional, aes(x = year, y = est, fill = labels)) +
@@ -72,7 +76,7 @@ makeTableData(attendRegional) |>
       row.names = TRUE) |>
   kable_paper("striped", full_width = F) |>
   kable_styling() |>
-  column_spec(column = 1:10, width_min = "10.5em") |>
+  column_spec(column = 1:11, width_min = "10.5em") |>
   scroll_box(width = "100%")
 
 ```
@@ -244,7 +248,7 @@ makeTableData(regionalInvolve2) |>
       row.names = TRUE) |>
   kable_paper("striped", full_width = F) |>
   kable_styling() |>
-  column_spec(column = 1:8, width_min = "10.5em") |>
+  column_spec(column = 1:9, width_min = "10.5em") |>
   scroll_box(width = "100%")
 ```
 
@@ -252,7 +256,7 @@ makeTableData(regionalInvolve2) |>
 
 <!-- There is something wrong with the responses in 2022 and 2023, every category has too many TRUEs -->
 
-### Which of the following media managed by Burning Man Project do you use to receive news, information, and events related to Burning Man, and to engage in discussion on Burning Man topics?
+### Media manged by Burning Man
 
 ```{r}
 BMMedia.never <- makePlotData("Which of the following media managed by Burning Man Project do you use to receive news, information, and events related to Burning Man, and to engage in discussion on Burning Man topics?",
@@ -333,7 +337,7 @@ makeTableData(BMMedia2) |>
       row.names = TRUE) |>
   kable_paper("striped", full_width = F) |>
   kable_styling() |>
-  column_spec(column = 1:8, width_min = "10.5em") |>
+  column_spec(column = 1:9, width_min = "10.5em") |>
   scroll_box(width = "100%")
 ```
 
@@ -544,12 +548,12 @@ ggplot(valuableInfo[valuableInfo$year == 2024,], aes(x = labels, y = est)) +
   # theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1)) +
   coord_flip()
 
-makeTableData(valuableInfo) |>
+makeTableData(valuableInfo)[14:1,] |>
   kbl(col.names = c(2014:2019, 2022:2024),
       row.names = TRUE) |>
   kable_paper("striped", full_width = F) |>
   kable_styling() |>
-  column_spec(column = 1:9, width_min = "10.5em") |>
+  column_spec(column = 1:10, width_min = "10.5em") |>
   scroll_box(width = "100%")
 ```
 
@@ -591,7 +595,7 @@ makeTableData(bmir) |>
       row.names = TRUE) |>
   kable_paper("striped", full_width = F) |>
   kable_styling() |>
-  column_spec(column = 1:9, width_min = "10.5em") |>
+  column_spec(column = 1:10, width_min = "10.5em") |>
   scroll_box(width = "100%")
 ```
 
@@ -656,7 +660,7 @@ volunteer <- makePlotData("Have you volunteered for any of the following in the 
                                      "Animals or environmental \n initiatives",
                                      "Health-related initiatives",
                                      "Human rights initiatives",
-                                     "poverty-related initiatives",
+                                     "Poverty-related initiatives",
                                      "Religious or faith-\nbased initiatives",
                                      "Community groups or clubs",
                                      "Self-initiated good deeds",
@@ -866,7 +870,7 @@ ggplot(inspiredVolunteer, aes(x = year, y = est, fill = labels)) +
 makeTableData(inspiredVolunteer) |>
   kbl(col.names = c(2016:2019, 2022:2024), row.names = TRUE) |>
   kable_paper("striped", full_width = F) |>
-  column_spec(column = 1:7, width_min = "10.5em") |>
+  column_spec(column = 1:8, width_min = "10.5em") |>
   kable_styling() |>
   scroll_box(width = "100%")
 ```
@@ -875,7 +879,7 @@ makeTableData(inspiredVolunteer) |>
 
 ### Inspiration to practice or learn skills after going to Black Rock City
 
-```{r, results='asis'}
+```{r}
 # skillsInspire <- makePlotData("After visiting Black Rock City, were you inspired to learn or practice any of the following skills?",
 #                               varNameTable = varNameTable,
 #                               designs = list(design16, design17, design18,
@@ -1030,8 +1034,8 @@ ggplot(skillsOutside, aes(x = year,
   geom_bar(stat = "identity", position = "dodge") +
   scale_y_continuous(labels = percent) +
   scale_x_continuous(breaks = c(2017:2019, 2022:2024), labels = c(2017:2019, 2022:2024)) +
-  labs(x = "Non-profit or charity",
-       y = "Burning Man participants (%)", fill = "Year",
+  labs(x = "",
+       y = "Burning Man participants (%)", fill = "Uses for skills",
        title = "How are you using these same skills or experiences outside of Black Rock City?") +
   theme_bw() +
   theme(panel.grid.minor = element_blank()) +
@@ -1072,7 +1076,7 @@ ggplot(skillsImpact, aes(x = year,
 makeTableData(skillsImpact) |>
   kbl(col.names = c(2018:2019, 2022:2024), row.names = TRUE) |>
   kable_paper("striped", full_width = F) |>
-  column_spec(column = 1:5, width_min = "10.5em") |>
+  column_spec(column = 1:6, width_min = "10.5em") |>
   kable_styling() |>
   scroll_box(width = "100%")
 ```

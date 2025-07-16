@@ -418,7 +418,7 @@ ggplot(location[location$year == 2024,], aes(x = labels, y = est)) +
   geom_bar(stat = "identity", fill = "#EA008B", color = "#EA008B",
            alpha = 0.7) +
   scale_y_continuous(labels = percent) +
-  labs(x = "Number of people in camp",
+  labs(x = "Reason for camp location",
        y = "Burning Man participants in 2024 (%)",
        title = "What most determined where you chose to camp in Black Rock City this year?") +
   theme_bw() +
@@ -1094,7 +1094,7 @@ ggplot(bikeWhose, aes(x = labels, y = est)) +
   coord_flip() +
   theme_bw()
 
-makeTableData(bikeWhose) |>
+makeTableData(bikeWhose)[5:1,] |>
   kbl(col.names = c(2024),
       row.names = TRUE) |>
   kable_paper("striped", full_width = F) |>

@@ -52,7 +52,7 @@ makeTableData(burnerID) |>
       row.names = TRUE) |>
   kable_paper("striped", full_width = F) |>
   kable_styling() |>
-  column_spec(column = 1:7, width_min = "10.5em") |>
+  column_spec(column = 1:8, width_min = "10.5em") |>
   scroll_box(width = "100%")
 ```
 
@@ -84,7 +84,7 @@ ggplot(prinFreq[prinFreq$year == 2024,], aes(x = labels, y = est)) +
 makeTableData(prinFreq)[10:1,] |>
   kbl(col.names = c(2016:2019, 2022:2024), row.names = TRUE) |>
   kable_paper("striped", full_width = F) |>
-  column_spec(column = 1:7, width_min = "10.5em") |>
+  column_spec(column = 1:8, width_min = "10.5em") |>
   kable_styling() |>
   scroll_box(width = "100%")
 ```
@@ -129,7 +129,7 @@ makeTableData(importance10p) |>
       row.names = TRUE) |>
   kable_paper("striped", full_width = F) |>
   kable_styling() |>
-  column_spec(column = 1:8, width_min = "10.5em") |>
+  column_spec(column = 1:9, width_min = "10.5em") |>
   scroll_box(width = "100%")
 ```
 
@@ -173,7 +173,7 @@ makeTableData(essential10p) |>
       row.names = TRUE) |>
   kable_paper("striped", full_width = F) |>
   kable_styling() |>
-  column_spec(column = 1:8, width_min = "10.5em") |>
+  column_spec(column = 1:9, width_min = "10.5em") |>
   scroll_box(width = "100%")
 ```
 
@@ -252,7 +252,7 @@ ggplot(broughtChildren, aes(x = year, y = est, color = labels)) +
 makeTableData(broughtChildren) |>
   kbl(col.names = c(2014:2019, 2022:2024), row.names = TRUE) |>
   kable_paper("striped", full_width = F) |>
-  column_spec(column = 1:9, width_min = "10.5em") |>
+  column_spec(column = 1:10, width_min = "10.5em") |>
   kable_styling() |>
   scroll_box(width = "100%")
 ```
@@ -333,7 +333,7 @@ familiarity$labels <- paste(familiarity$labels, familiarity$level, sep = " - ")
 makeTableData(familiarity) |>
   kbl(col.names = c(2015:2019, 2022:2024), row.names = TRUE) |>
   kable_paper("striped", full_width = F) |>
-  column_spec(column = 1:8, width_min = "10.5em") |>
+  column_spec(column = 1:9, width_min = "10.5em") |>
   kable_styling() |>
   scroll_box(width = "100%")
 ```
@@ -888,7 +888,7 @@ ggplot(donate[donate$year == 2024,], aes(x = labels, y = dollars, weight = weigh
 makeTableData(donateMean, format = "dollar", digits = 0) |>
   kbl(col.names = c(2015:2019, 2022:2024), row.names = TRUE) |>
   kable_paper("striped", full_width = F) |>
-  column_spec(column = 1:8, width_min = "10.5em") |>
+  column_spec(column = 1:9, width_min = "10.5em") |>
   kable_styling() |>
   scroll_box(width = "100%")
 ```
@@ -921,23 +921,24 @@ sustainabilityNotice <- makePlotData("Emerging sustainability projects are takin
 ggplot(sustainabilityNotice, aes(x = labels, y = est, fill = as.factor(year))) +
   geom_bar(stat = "identity", position = "dodge") +
   scale_y_continuous(labels = percent) +
-  scale_fill_manual(values = discreteColors[2:5]) +
+  scale_fill_manual(values = discreteColors[1:5]) +
   labs(x = "Sustainability projects", 
        y = "Burning Man participants (%)", fill = "Year",
        title = "What new sustainability projects did you notice while in BRC?") +
   theme_bw() +
+  theme(axis.text.y = element_text(size = 8)) +
   coord_flip() +
   guides(fill = guide_legend(reverse = TRUE))
 
 makeTableData(sustainabilityNotice)[13:1,] |>
   kbl(col.names = c(2022:2024), row.names = TRUE) |>
   kable_paper("striped", full_width = F) |>
-  column_spec(column = 1:3, width_min = "10.5em") |>
+  column_spec(column = 1:4, width_min = "10.5em") |>
   kable_styling() |>
   scroll_box(width = "100%")
 ```
 
-### How did you (and your camp or project) begin to address sustainability in Black Rock City?
+### Addressing sustainability personally
 
 ```{r}
 sustainabilityAddress <- makePlotData("How did you (and your camp or project, if applicable) begin to address sustainability in Black Rock City?",
@@ -945,7 +946,7 @@ sustainabilityAddress <- makePlotData("How did you (and your camp or project, if
                                       design = list(design22, design23, design24),
                                       years = 2022:2024,
                                       levels = c(as.list(rep(TRUE, times = 3))),
-                                      labels = c("How did you begin to address sustainability \n in Black Rock City?",
+                                      labels = c("I calculated my carbon footprint \n before arrival in Black Rock City",
                                                  "I purchased carbon offsets to offset \n my travel to and from BRC",
                                                  "I have a container with the BRC storage program or \n store camp materials close to BRC in another location",
                                                  "I am a member of a camp that creates sustainability-related \n content for other participants to experience",
@@ -973,19 +974,19 @@ sustainabilityAddress <- makePlotData("How did you (and your camp or project, if
 ggplot(sustainabilityAddress, aes(x = labels, y = est, fill = as.factor(year))) +
   geom_bar(stat = "identity", position = "dodge") +
   scale_y_continuous(labels = percent) +
-  scale_fill_manual(values = discreteColors[2:4]) +
+  scale_fill_manual(values = discreteColors[1:4]) +
   labs(x = "Sustainability projects", 
        y = "Burning Man participants (%)", fill = "Year",
        title = "How did you (and your camp or project) begin to \n address sustainability in Black Rock City?") +
   theme_bw() +
-  theme(axis.text.y = element_text(size = 6)) +
+  theme(axis.text.y = element_text(size = 8)) +
   coord_flip() +
   guides(fill = guide_legend(reverse = TRUE))
 
 makeTableData(sustainabilityAddress)[11:1,] |>
   kbl(col.names = c(2022:2024), row.names = TRUE) |>
   kable_paper("striped", full_width = F) |>
-  column_spec(column = 1:3, width_min = "10.5em") |>
+  column_spec(column = 1:4, width_min = "10.5em") |>
   kable_styling() |>
   scroll_box(width = "100%")
 ```
@@ -1007,7 +1008,7 @@ sustainabilityImportant <- makePlotData("How important to you is it that the Bur
 ggplot(sustainabilityImportant, aes(x = labels, y = est, fill = as.factor(year))) +
   geom_bar(stat = "identity", position = "dodge") +
   scale_y_continuous(labels = percent) +
-  scale_fill_manual(values = discreteColors[2:4]) +
+  scale_fill_manual(values = discreteColors[1:4]) +
   labs(x = "Importance", y = "Burning Man participants (%)", 
        fill = "Year",
        title = "How important to you is it that Burning Man Project visibly engages \n in best practices in environmental sustainability?") +
@@ -1016,7 +1017,7 @@ ggplot(sustainabilityImportant, aes(x = labels, y = est, fill = as.factor(year))
 makeTableData(sustainabilityImportant) |>
   kbl(col.names = c(2022:2024), row.names = TRUE) |>
   kable_paper("striped", full_width = F) |>
-  column_spec(column = 1:3, width_min = "10.5em") |>
+  column_spec(column = 1:4, width_min = "10.5em") |>
   kable_styling() |>
   scroll_box(width = "100%")
 ```
@@ -1083,7 +1084,7 @@ diverse <- makePlotData("How did you personally work to create a more diverse an
 ggplot(diverse, aes(x = labels, y = est, fill = as.factor(year))) +
   geom_bar(stat = "identity", position = "dodge") +
   scale_y_continuous(labels = percent) +
-  scale_fill_manual(values = discreteColors[2:4]) +
+  scale_fill_manual(values = discreteColors[1:4]) +
   labs(x = "Personal action", y = "Burning Man participants (%)", fill = "Year",
        title = "How did you personally work to create a more \n diverse and welcoming Black Rock City?") +
   theme_bw() +
@@ -1093,7 +1094,7 @@ ggplot(diverse, aes(x = labels, y = est, fill = as.factor(year))) +
 makeTableData(diverse)[11:1,] |>
   kbl(col.names = c(2022:2024), row.names = TRUE) |>
   kable_paper("striped", full_width = F) |>
-  column_spec(column = 1:3, width_min = "10.5em") |>
+  column_spec(column = 1:4, width_min = "10.5em") |>
   kable_styling() |>
   scroll_box(width = "100%")
 ```
