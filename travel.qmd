@@ -109,7 +109,7 @@ pointOfEntry <- makePlotData("How did you arrive at Black Rock City? Select the 
                                         "Other", "Point 1"),
                              labelOrder = c(3,2,6,1,4,5))
 
-ggplot(pointOfEntry, aes(x = labels, y = est)) +
+ggplot(pointOfEntry[pointOfEntry$year == 2024,], aes(x = labels, y = est)) +
   geom_bar(stat = "identity", fill = "#EA008B") +
   scale_y_continuous(labels = percent) +
   labs(x = "Point of entry", y = "Burning Man participants (%)",
@@ -231,10 +231,10 @@ ggplot(delayDays, aes(x = daysDelayed, weight = cweights)) +
   geom_bar(fill = "#EA008B") +
   labs(x = "Days delayed", y = "Burning Man participants (%)",
        title = "Days difference between planned and actual departure") +
-  scale_y_continuous(breaks = c(0, 753, 1501, 2258),
-                     labels = c("0%", "10%", "20%", "30%")) +
-  theme_bw() +
-  theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))
+  scale_y_continuous(breaks = c(0, 1209.5, 2419, 3628.5, 5838),
+                     labels = c("0%", "25%", "50%", "75%", "100%")) +
+  theme_bw() 
+  # theme(axis.text.x = element_text(angle = 45, vjust = 1, hjust=1))
 ```
 
 ### Point of departure
@@ -267,7 +267,8 @@ pointOfDeparture <- makePlotData("How did you depart from Black Rock City? Selec
                                             "Other", "Point 1"),
                                  labelOrder = c(4, 3, 2, 7, 1, 5, 6))
 
-ggplot(pointOfDeparture, aes(x = labels, y = est)) +
+ggplot(pointOfDeparture[pointOfDeparture$year == 2024,], 
+       aes(x = labels, y = est)) +
   geom_bar(stat = "identity", fill = "#EA008B") +
   scale_y_continuous(labels = percent) +
   labs(x = "Point of departure", y = "Burning Man participants (%)",
@@ -958,7 +959,7 @@ towing <- makePlotData("Was your vehicle towing a trailer?",
 ggplot(towing[towing$year == 2024,], aes(x = labels, y = est)) +
   geom_bar(stat = "identity", fill = "#EA008B") +
   scale_y_continuous(labels = percent) +
-  labs(x = "Vehicle type", y = "Burning Man participants in 2024 (%)",
+  labs(x = "Trailer type", y = "Burning Man participants in 2024 (%)",
        title = "Was your vehicle towing a trailer?") +
   theme_bw() +
   coord_flip()
@@ -1018,7 +1019,7 @@ vehicleFuelType <- makePlotData("What kind of fuel did your vehicle run on?",
 ggplot(vehicleFuelType[vehicleFuelType$year == 2024,], aes(x = labels, y = est)) +
   geom_bar(stat = "identity", fill = "#EA008B") +
   scale_y_continuous(labels = percent) +
-  labs(x = "Vehicle type", y = "Burning Man participants in 2024 (%)",
+  labs(x = "Fuel type", y = "Burning Man participants in 2024 (%)",
        title = "What kind of fuel did your vehicle run on?") +
   theme_bw() +
   coord_flip()
@@ -1031,7 +1032,7 @@ makeTableData(vehicleFuelType)[6:1,] |>
   scroll_box(width = "100%")
 ```
 
-### Approximately how many miles to the gallon did your vehicle get on the way to Black Rock City?
+### Vehicle MPG on the way to Black Rock City
 
 <!-- TODO:clean mpg variable in cleaning script -->
 
@@ -1154,9 +1155,9 @@ ggplot(mpg[mpg$year == 2024,], aes(x = mpg, weight = weights)) +
   geom_density(fill = "#EA008B", alpha = 0.5, bw = 3, linewidth = 1.01) +
   geom_segment(x = mpg.means$mpg[mpg.means$year == 2024],
                xend = mpg.means$mpg[mpg.means$year == 2024],
-               y = 0, yend = 0.045, color = "#4C4C4C",
+               y = 0, yend = 0.0431, color = "#4C4C4C",
              linewidth = 1.1) +
-  annotate("text", x = 40, y = 0.0418, label = "Average miles per gallon to Black Rock City (19.0 MPG)") +
+  annotate("text", x = 35, y = 0.043, label = "Average miles per gallon \nto Black Rock City (19.0 MPG)") +
   theme_bw(13) +
   labs(x = "Miles per gallon to Black Rock City in 2024", y = "Density")
 

@@ -18,7 +18,7 @@ The random sample collects data on 9 questions by giving selected participants a
 -   Gender
 -   Number of prior Burning Man events attended
 -   Race/ethnicity
--   Identify as a person of color
+-   Identity as a person of color
 -   Residence (CA, NV, other US state, other country)
 -   Ticket source
 -   Day of arrival
