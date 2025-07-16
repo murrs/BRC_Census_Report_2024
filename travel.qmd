@@ -1157,7 +1157,7 @@ ggplot(mpg[mpg$year == 2024,], aes(x = mpg, weight = weights)) +
                xend = mpg.means$mpg[mpg.means$year == 2024],
                y = 0, yend = 0.0431, color = "#4C4C4C",
              linewidth = 1.1) +
-  annotate("text", x = 35, y = 0.043, label = "Average miles per gallon \nto Black Rock City (19.0 MPG)") +
+  annotate("text", x = 37, y = 0.043, label = "Average miles per gallon to \nBlack Rock City (19.0 MPG)") +
   theme_bw(13) +
   labs(x = "Miles per gallon to Black Rock City in 2024", y = "Density")
 
