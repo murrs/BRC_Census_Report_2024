@@ -22,14 +22,18 @@ library(cartogram)
 library(sf)
 library(tmap)
 library(zipcodeR) # for reverse_zipcode function
+options(tigris_use_cache = TRUE) # saves time when running this a bunch
 library(tigris)   # to shift and rescale AK, HI, PR via shift_geometry
 library(tidytext)
 library(wordcloud2)
+library(purrr)
+library(dplyr)
 
 source(paste0(getwd(), "/_RCode/read_census_data.R"))
 source(paste0(getwd(), "/_RCode/make_table_data.R"))
 source(paste0(getwd(), "/_RCode/make_plot_data.R"))
 source(paste0(getwd(), "/_RCode/additional_functions.R"))
+source(paste0(getwd(), "/_RCode/geo_tabulate_zip.R"))
 
 gradientColors <- colorRampPalette(c("#EA008B", "#B0AEDC", "#554149"))
 discreteColors <- c("#EA008B", "#B0AEDC", "#554149", "#A07200", "#AADA91", 
@@ -598,9 +602,7 @@ makeTableData(gender) |>
 
 <!--       row.names = TRUE) |> -->
 
-
 <!--   kable_paper("striped")  |> -->
-
 
 <!--   kable_styling() |> -->
 
@@ -1408,13 +1410,54 @@ makeTableData(education) |>
 
 ## Residence
 
-<!-- ### Residence inside of Black Rock City -->
-
-<!-- I didn't get to this last year.  Some sort of mapping would be great -->
+### Residence inside of Black Rock City 
 
 ```{r}
 #| label: residence-brc
 
+# Pull in official street centerlines
+brc_centerlines <- read_sf("https://bm-innovate.s3.amazonaws.com/2024/GIS/GeoJSON/Street_Lines.geojson")
+
+# Summarize responses and map to BRC intersections
+brc_intersections <- read_sf("geo_data/brc_intersections.geojson")
+
+# All possible survey responses for location campStreet and campRadial
+validcampStreet <- c(LETTERS[1:12], "Esplanade", 
+                     "Rod's Road", "Center Camp Plaza", "DPW Depot", "ESD", "Airport", 
+                     "Walk-in camping")
+validcampRadial <- paste0(rep(2:10, each = 2), ":", rep(c("00", "30"), times = 9))[1:17]
+
+# Filter down to just the intersections a survey response could map to
+brc_intersections_valid <- brc_intersections %>% 
+  filter(
+    street2 %in% validcampStreet,
+    street1 %in% validcampRadial
+  ) %>%
+  select(all_of(c("street1", "street2", "address", "geometry")))
+
+# Tally responses per intersection
+intersection_summary <-brc_intersections_valid %>%
+  left_join(census24, by = c("street1" = "campRadial", "street2" = "campStreet"), 
+            relationship = "many-to-many") %>%
+  group_by(address, geometry) %>%
+  summarize(num_matches = n(), .groups = "drop")
+
+# Map the result
+brc_map <- ggplot() + geom_sf(data = brc_centerlines) + theme_void()
+brc_map + 
+  geom_sf(data = intersection_summary, aes(size = num_matches), color = '#EA008B') + 
+  scale_size_continuous(range = c(1, 6), name = "Number of Responses") +
+  geom_sf_text(data = intersection_summary, aes(label = num_matches), 
+               color = "white", size = 2, check_overlap = TRUE) +
+  theme_void() +
+  theme(
+    legend.position = c(0.95, 0.95),
+    legend.justification = c("right", "top"),
+    panel.background = element_rect(fill = "#f5f1e9", color = NA),  # Tan background
+    plot.background = element_rect(fill = "#f5f1e9", color = NA),
+    legend.background = element_rect(fill = "#f5f1e9", color = NA),
+    legend.key = element_rect(fill = "#f5f1e9", color = NA)
+  )
 
 ```
 
@@ -1604,10 +1647,6 @@ ContinentResides[census24$reside%in%c("In Canada",
                             "Within Nevada")] <- "North America" 
 
 
-
-
-
-
 ## check whether entries are missing
 #sort(table(ContinentResides),decreasing=TRUE)
 #remaining.writeIn <- census24$reside.writeIn[!grepl(paste(tolower(unlist(myContinents)),collapse="|"),tolower(census24$reside.writeIn))]
@@ -1767,13 +1806,159 @@ makeTableData(reside) |>
   kable_styling() 
 ```
 
-<!-- ### California and Nevada County Residence -->
+<!-- ### California and Nevada Residents -->
 
 <!-- ZIP Code converted to county and maybe smoothed -->
 
 <!-- ### State residence -->
 
 <!-- ZIP code converted to state -->
+
+```{r}
+# Be sure to run the first chunk to load the required libraries
+
+#NOTES
+# can extend to ROW for next year, danger of not finishing if I do that now
+# not an easy palette for maps
+# reduced from 1:1 because there are too many dots to render otherwise and
+# the density within some zips stretches credulity.
+# as an added benefit, looks less like PII
+
+# Load and shift all states/territories to fit in a reasonable bounding box
+usa_shifted <- states(cb = TRUE, year = 2020, class = "sf") |>
+  shift_geometry() |>
+  st_transform(5070) # Albers (best projection for mapping continental US)
+
+usa_zcta <- zctas(cb = TRUE, year = 2020, class = "sf") |>
+  select(ZCTA = ZCTA5CE20) |>
+  shift_geometry() |>              # shift AK, HI, PR, and other territories
+  st_transform(5070) # Albers
+
+# Create point in WGS84 for Black Rock City
+brc_wgs84 <- st_sf(
+  name = "Black Rock City",
+  geometry = st_sfc(st_point(c(-119.2065, 40.7864)), crs = 4326)
+)
+
+# Convert to Albers projection
+brc_5070 <- st_transform(brc_wgs84, crs = 5070)
+
+# Spatial join to get state info
+usa_zcta <- usa_zcta |>
+  st_join(usa_shifted, join = st_intersects, left = TRUE) |>
+  rename(state_abbr = STUSPS, state_name = NAME)
+
+# Aggregate census data by geography
+
+# Dot‑density map
+set.seed(123)        # reproducible dot sampling
+
+# Working only with 2024 data:
+# Create one set of tally tables (counts + weights in one)
+census24_by_zip <- tally_zip_stats("census24", scale_to = 72000/5)
+
+bm_zcta <- inner_join(usa_zcta, census24_by_zip, by = "ZCTA")
+
+# Randomly place a number of dots within the ZCTA geometry
+# that corresponds to the weighted number estimated from
+# that zip code.
+density_dots_us <- jitter_dots(bm_zcta)
+
+# Bounding box around the states / territories where we have dots
+# (excludes furthest away territories, i.e. c("GU", "VI", "MP", "AS"))
+conus_bbox <- usa_shifted %>%
+  filter(STUSPS %in% unique(density_dots_us$STUSPS)) %>%
+  st_bbox()
+
+ggplot() +
+  geom_sf(data = usa_shifted, fill = "gray92", color = "white", size = 0.1) +
+  geom_sf(data = density_dots_us, color = discreteColors[1], size = 0.1, alpha = 0.3, show.legend = FALSE) +
+  geom_sf(data = brc_5070, shape = 8, size = 1, color = "gray10", show.legend = FALSE) +
+  coord_sf(
+    crs = 5070,
+    xlim = c(conus_bbox["xmin"], conus_bbox["xmax"]),
+    ylim = c(conus_bbox["ymin"], conus_bbox["ymax"])
+  ) +
+  labs(
+    title = "Where do you usually reside (Within the US)?",
+    subtitle = "1 dot ≈ 5 Burners"
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    panel.background = element_rect(fill = "white", color = NA),
+    plot.background = element_rect(fill = "white", color = NA),
+    panel.grid = element_blank(),
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    axis.title = element_blank(),
+  )
+
+
+# Spatial join to assign the state boundary each jitter point falls within
+density_dots_us <- st_join(
+  density_dots_us,
+  usa_shifted %>% select(STUSPS),
+  join = st_intersects,
+  left = TRUE
+)
+
+# Only California and Nevada.
+
+# First union the states to avoid too many computations,
+# then trim out the areas of the zip that fall outside these states.
+# bm_zcta_CA_NV <- density_dots_us |>
+#   st_intersection(
+#     usa_shifted |>
+#       filter(STUSPS %in% c("CA", "NV")) |>
+#       st_union() |>
+#       st_make_valid()
+#   )
+
+conus_bbox_CA_NV <- usa_shifted %>%
+  filter(STUSPS %in% c("CA", "NV")) %>%
+  st_bbox()
+
+# Assign relevant state classifications
+density_dots_us_where <- density_dots_us %>%
+  mutate(
+    symbol_group = case_when(
+      STUSPS == "CA" ~ "Within California",
+      STUSPS == "NV" ~ "Within Nevada",
+      TRUE ~ "Other location in U.S."
+    ),
+    symbol_group = factor(symbol_group, levels = c(
+      "Within California",
+      "Within Nevada",
+      "Other location in U.S."
+    ))
+  )
+
+ggplot() +
+  geom_sf(data = usa_shifted, fill = "gray92", color = "white", size = 0.1) +
+  geom_sf(data = density_dots_us_where, aes(color = symbol_group), size = 0.01, alpha = 0.7, show.legend = FALSE) +
+  geom_sf(data = brc_5070, shape = 8, size = 2, color = "black", show.legend = FALSE) +
+  scale_color_manual(values = discreteColors[1:3]) +
+  coord_sf(
+    crs = 5070,
+    xlim = c(conus_bbox_CA_NV["xmin"], conus_bbox_CA_NV["xmax"]),
+    ylim = c(conus_bbox_CA_NV["ymin"], conus_bbox_CA_NV["ymax"])
+  ) +
+  labs(
+    title = "Where do you usually reside (Within the US)?",
+    subtitle = "1 dot ≈ 5 Burners"
+  ) +
+  theme_minimal(base_size = 12) +
+  theme(
+    panel.background = element_rect(fill = "white", color = NA),
+    plot.background = element_rect(fill = "white", color = NA),
+    panel.grid = element_blank(),
+    axis.text = element_blank(),
+    axis.ticks = element_blank(),
+    axis.title = element_blank(),
+  )
+
+
+```
 
 <!-- ### Canadian province residence -->
 
