@@ -4,7 +4,9 @@
 
 **Principal Investigator:** Samuel Ehrenreich, Ph.D.
 
-**Study Design, Data Analysis, and Visualization:** Aaron "Murrs" Shev, Ph.D.; "Dusty Nuts", Ph.D.
+**Study Design:** Aaron "Murrs" Shev, Ph.D.; Dominic "Hunter" Beaulieu-Prévost, Ph.D 
+
+**Data Analysis, and Visualization:** Aaron "Murrs" Shev, Ph.D.; Matt Dunford; Stephanie May;  "Dusty Nuts", Ph.D.; Christina Ancira; Rachel "Chipper" McKay
 
 **Special thanks and acknowledgements:**
 
@@ -28,6 +30,6 @@ Census Lab Blog: <https://journal.burningman.org/author/census/>
 
 Census Lab Data Archive: <https://burningman.org/culture/history/brc-history/census-data/>
 
-Citation: Shev, A.B., Morency A., and the 2024 Census Lab. (2025). Black Rock City Census: 2013-2024 Population Analysis. Black Rock City Census.
+Citation: Shev, A.B., Dunford, M., Abdel-Sattar M., and the 2024 Census Lab. (2025). Black Rock City Census: 2013-2024 Population Analysis. Black Rock City Census.
 
 Copyright © 2025 Shev et al.
