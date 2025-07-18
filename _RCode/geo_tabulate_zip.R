@@ -1,59 +1,59 @@
 # Helper Functions
 
 # Count rows in a data frame keyed to reside.zip
-tally_zip_stats <- function(df_name) {
+tally_zip_stats <- function(df_name, scale_to) {
   
   if (!exists(df_name, inherits = TRUE))
     stop("Object ", df_name, " is not in your workspace.")
   
   df <- get(df_name, inherits = TRUE)
   
-  # robust zip detection
+  # deal with the fact that the column is sometimes called "reside.ZIP" :(
   if (!"reside.zip" %in% names(df)) {
     zip_col <- names(df)[tolower(names(df)) == "reside.zip"]
     if (length(zip_col) == 1) df <- rename(df, reside.zip = !!zip_col)
     else stop("Column 'reside.zip' not found in ", df_name)
   }
   
-  has_wgt <- "weights" %in% names(df)
+  df$reside.zip <- substr(df$reside.zip, 1, 5)
+  
+  if (!"weights" %in% names(df)) stop("Column weights not found in ", df_name)
+  
+  total_weights <- sum(df$weights, na.rm = TRUE)
   
   df |>
     filter(!is.na(reside.zip)) |>
     group_by(reside.zip) |>
     summarise(
-      !!paste0(df_name, "_cnt") := n(),
-      !!paste0(df_name, "_wgt") := if (has_wgt) sum(weights, na.rm = TRUE) else NA_real_,
+      cnt := n(),
+      weights := scale_to * sum(weights)/total_weights,
       .groups = "drop"
     ) |>
     rename(ZCTA = reside.zip) |>
     mutate(ZCTA = as.character(ZCTA))
 }
 
-# Merge a list of count tibbles onto a reference table,
-# in this case joining on ZCTA to sum up the counts and weights for
-# each census year, but could be expanded / modified
-merge_tallies <- function(ref_tbl, stat_tbls) {
-  reduce(
-    stat_tbls,
-    function(acc, tbl) {
-      # Sanity check: should only have ZCTA + _cnt + _wgt
-      other_cols <- setdiff(names(tbl), "ZCTA")
-      if (length(other_cols) != 2 ||
-          !any(endsWith(other_cols, "_cnt")) ||
-          !any(endsWith(other_cols, "_wgt"))) {
-        stop("Each stat_tbl must have exactly one '_cnt' and one '_wgt' column.")
-      }
-      
-      acc <- left_join(acc, tbl, by = "ZCTA")
-      
-      # Replace NA values with 0 in the newly joined columns
-      acc[other_cols] <- lapply(acc[other_cols], tidyr::replace_na, 0L)
-      
-      acc
-    },
-    .init = ref_tbl
-  ) |>
-    filter(
-      rowSums(across(ends_with("_cnt") | ends_with("_wgt"))) > 0
-    )
+# Create a random number of dots within a geometry
+# that corresponds to the weighted population estimate
+# for sp_df, which is a data frame with a geometry column
+# and a weights column.
+jitter_dots <- function(sp_df) {
+  if (!"weights" %in% names(sp_df)) {
+    stop("Column 'weights' not found in input data")
+  }
+  
+  pts_list <- vector("list", nrow(sp_df))
+  
+  for (i in seq_len(nrow(sp_df))) {
+    n <- round(sp_df$weights[i])
+    if (n == 0) next
+    geom <- st_geometry(sp_df)[[i]]
+    pts <- st_sample(geom, size = n, exact = TRUE)
+    if (length(pts) > 0) {
+      pts_list[[i]] <- pts
+    }
+  }
+  
+  pts_all <- do.call(c, pts_list)
+  st_sf(geometry = pts_all, crs = st_crs(sp_df))
 }
