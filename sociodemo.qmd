@@ -26,7 +26,6 @@ options(tigris_use_cache = TRUE) # saves time when running this a bunch
 library(tigris)   # to shift and rescale AK, HI, PR via shift_geometry
 library(tidytext)
 library(wordcloud2)
-library(purrr)
 library(dplyr)
 
 source(paste0(getwd(), "/_RCode/read_census_data.R"))
@@ -1410,15 +1409,13 @@ makeTableData(education) |>
 
 ## Residence
 
-### Residence inside of Black Rock City 
+### Residence inside of Black Rock City
 
 ```{r}
 #| label: residence-brc
 
-# Pull in official street centerlines
-brc_centerlines <- read_sf("https://bm-innovate.s3.amazonaws.com/2024/GIS/GeoJSON/Street_Lines.geojson")
-
-# Summarize responses and map to BRC intersections
+# Pull in official street centerlines and intersections generated from /_RCode/geo_make_intersections.R
+brc_centerlines <- read_sf("geo_data/brc_centerlines.geojson")
 brc_intersections <- read_sf("geo_data/brc_intersections.geojson")
 
 # All possible survey responses for location campStreet and campRadial
@@ -1817,13 +1814,6 @@ makeTableData(reside) |>
 ```{r}
 # Be sure to run the first chunk to load the required libraries
 
-#NOTES
-# can extend to ROW for next year, danger of not finishing if I do that now
-# not an easy palette for maps
-# reduced from 1:1 because there are too many dots to render otherwise and
-# the density within some zips stretches credulity.
-# as an added benefit, looks less like PII
-
 # Load and shift all states/territories to fit in a reasonable bounding box
 usa_shifted <- states(cb = TRUE, year = 2020, class = "sf") |>
   shift_geometry() |>
@@ -1866,8 +1856,8 @@ density_dots_us <- jitter_dots(bm_zcta)
 
 # Bounding box around the states / territories where we have dots
 # (excludes furthest away territories, i.e. c("GU", "VI", "MP", "AS"))
-conus_bbox <- usa_shifted %>%
-  filter(STUSPS %in% unique(density_dots_us$STUSPS)) %>%
+conus_bbox_minus_some_terr <- usa_shifted %>%
+  filter(!STUSPS %in% c("GU", "VI", "MP", "AS")) %>%
   st_bbox()
 
 ggplot() +
@@ -1876,8 +1866,8 @@ ggplot() +
   geom_sf(data = brc_5070, shape = 8, size = 1, color = "gray10", show.legend = FALSE) +
   coord_sf(
     crs = 5070,
-    xlim = c(conus_bbox["xmin"], conus_bbox["xmax"]),
-    ylim = c(conus_bbox["ymin"], conus_bbox["ymax"])
+    xlim = c(conus_bbox_minus_some_terr["xmin"], conus_bbox_minus_some_terr["xmax"]),
+    ylim = c(conus_bbox_minus_some_terr["ymin"], conus_bbox_minus_some_terr["ymax"])
   ) +
   labs(
     title = "Where do you usually reside (Within the US)?",
