@@ -1410,15 +1410,13 @@ makeTableData(education) |>
 
 ## Residence
 
-### Residence inside of Black Rock City 
+### Residence inside of Black Rock City
 
 ```{r}
 #| label: residence-brc
 
-# Pull in official street centerlines
-brc_centerlines <- read_sf("https://bm-innovate.s3.amazonaws.com/2024/GIS/GeoJSON/Street_Lines.geojson")
-
-# Summarize responses and map to BRC intersections
+# Pull in official street centerlines and intersections generated from /_RCode/geo_make_intersections.R
+brc_centerlines <- read_sf("geo_data/brc_centerlines.geojson")
 brc_intersections <- read_sf("geo_data/brc_intersections.geojson")
 
 # All possible survey responses for location campStreet and campRadial

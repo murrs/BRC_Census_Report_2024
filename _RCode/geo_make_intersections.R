@@ -53,5 +53,8 @@ brc_map + geom_sf(data = intersections, color = '#EA008B')
 # Export data
 export_file = "geo_data/brc_intersections.geojson"
 save_columns = c("street1", "street2", "address", "geometry")
-write_sf(intersections[,save_columns],export_file, driver="GeoJSON") # Note GeoJSON is best for web,
+write_sf(intersections[,save_columns], export_file, driver="GeoJSON") # Note GeoJSON is best for web,
                                                                      # for further analysis use GPKG or SHP
+# Save BRC 2024 centerlines
+save_file = "geo_data/brc_centerlines.geojson"
+write_sf(brc_centerlines, save_file, driver="GeoJSON")
