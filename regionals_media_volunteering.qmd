@@ -588,7 +588,7 @@ ggplot(bmir, aes(x = year, y = est, color = labels)) +
   scale_color_manual(values = discreteColors[1:6]) +
   labs(x = "Year", y = "Burning Man participants (%)", 
        color = "Burning Man Information \n Radio (BMIR) Source",
-       title = "Have you listened to BMIR (Burning Man Information Radio) \n 94.5 FM this year?")
+       title = "Have you listened to BMIR (Burning Man Information Radio) \n94.5 FM this year?")
 
 makeTableData(bmir) |>
   kbl(col.names = c(2014:2019, 2022:2024),
@@ -598,6 +598,110 @@ makeTableData(bmir) |>
   column_spec(column = 1:10, width_min = "10.5em") |>
   scroll_box(width = "100%")
 ```
+
+### BMIR Usefulness
+
+```{r}
+bmirUseful <- makePlotData("Was BMIR (Burning Man Information Radio) 94.5 FM useful to you this year?",
+                     varNameTable = varNameTable,
+                     designs = list(design24),
+                     years = c(2024),
+                     levels = list(c("Always", "Never", "Often", "Sometimes")),
+                     labels = c("Always",
+                                "Never",
+                                "Often",
+                                "Sometimes"),
+                     labelOrder = c(1,4,3,2))
+
+ggplot(bmirUseful, aes(x = labels, y = est)) +
+  geom_bar(stat = "identity", fill = "#EA008B") +
+  scale_y_continuous(labels = percent) +
+  labs(x = "Frequency of usefulness of BMIR", y = "Burning Man participants in 2024 (%)",
+       title = "Was BMIR (Burning Man Information Radio) \n94.5 FM useful to you this year?") +
+  theme_bw()
+
+makeTableData(bmirUseful) |>
+  kbl(col.names = c(2024),
+      row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  kable_styling() |>
+  column_spec(column = 1:2, width_min = "10.5em") |>
+  scroll_box(width = "100%")
+
+makeTableData(bmirUseful) |>
+  kbl(col.names = c(2024),
+      row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  kable_styling() |>
+  column_spec(column = 1:2, width_min = "10.5em") |>
+  scroll_box(width = "100%")
+```
+
+
+### Listened to GARS (Gate Advisory Radio) this year
+
+<!-- Need to check what happened to bmir_online in 2016 -->
+
+```{r}
+gars <- makePlotData("Have you listened to GARS (Gate Advisory Radio) 95.1 this year?",
+                     varNameTable = varNameTable,
+                     designs = list(design24),
+                     years = c(2024),
+                     levels = c(as.list(rep(TRUE, times = 1))),
+                     labels = c("I listened while inside Black Rock City",
+                                "I listened on the way in to Black Rock City ONLY",
+                                "I listened during Exodus ONLY",
+                                "I listened on the way in and during Exodus",
+                                "I listened in Gerlach"),
+                     labelOrder = 5:1)
+
+ggplot(gars, aes(x = labels, y = est)) +
+  geom_bar(stat = "identity", fill = "#EA008B") +
+  scale_y_continuous(labels = percent) +
+  labs(x = "Frequency of usefulness of BMIR", y = "Burning Man participants in 2024 (%)",
+       title = "Have you listened to GARS (Gate Advisory Radio) \n95.1 this year?") +
+  coord_flip() +
+  theme_bw()
+
+makeTableData(gars)[5:1,] |>
+  kbl(col.names = c(2024),
+      row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  kable_styling() |>
+  column_spec(column = 1:2, width_min = "10.5em") |>
+  scroll_box(width = "100%")
+```
+
+### GARS Usefulness
+
+```{r}
+garsUseful <- makePlotData("Was GARS (Gate Advisory Radio Station) 95.1 FM useful to you this year?",
+                     varNameTable = varNameTable,
+                     designs = list(design24),
+                     years = c(2024),
+                     levels = list(c("Always", "Never", "Often", "Sometimes")),
+                     labels = c("Always",
+                                "Never",
+                                "Often",
+                                "Sometimes"),
+                     labelOrder = c(1,4,3,2))
+
+ggplot(bmirUseful, aes(x = labels, y = est)) +
+  geom_bar(stat = "identity", fill = "#EA008B") +
+  scale_y_continuous(labels = percent) +
+  labs(x = "Frequency of usefulness of BMIR", y = "Burning Man participants in 2024 (%)",
+       title = "Was GARS (Gate Advisory Radio Station) \n95.1 FM useful to you this year?") +
+  theme_bw()
+
+makeTableData(garsUseful) |>
+  kbl(col.names = c(2024),
+      row.names = TRUE) |>
+  kable_paper("striped", full_width = F) |>
+  kable_styling() |>
+  column_spec(column = 1:2, width_min = "10.5em") |>
+  scroll_box(width = "100%")
+```
+
 
 ## Volunteerism and donations
 
@@ -683,7 +787,7 @@ makeTableData(volunteer)[15:1,] |>
   scroll_box(width = "100%")
 ```
 
-### Approximate average hours per month spent on volunteer efforts last year
+### Hours spent volunteering
 
 ```{r}
 plotDat <- data.frame(hours = c(census24$volunteerHours,
@@ -716,7 +820,9 @@ ggplot(plotDat, aes(x = year, y = hours, weight = weights, group = year)) +
              size = 3, fill = "grey", inherit.aes = FALSE) +
   coord_trans(y = "sqrt") +
   theme_bw() +
-  labs(x = "", y = "Hours", caption = "Diamond indicates weighted mean") +
+  labs(x = "", y = "Hours", caption = "Diamond indicates weighted mean",
+       title = "Approximately how many hours per month on average \n did you spend on
+ volunteer efforts in the last year?") +
   scale_y_continuous(breaks = c(10, 25, 50, 100, 200, 400, 800)) +
   theme(panel.grid.minor = element_blank())
 
@@ -842,6 +948,9 @@ makeTableData(donation)[15:1,] |>
   kable_styling() |>
   scroll_box(width = "100%")
 ```
+
+### Amount of money donated
+
 
 ### Inspiration to volunteer, donate, or get involved after going to Black Rock City
 
