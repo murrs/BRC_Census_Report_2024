@@ -1898,13 +1898,13 @@ density_dots_us <- st_join(
 
 # First union the states to avoid too many computations,
 # then trim out the areas of the zip that fall outside these states.
-US_ZCTAs_CA_NV <- US_ZCTAs |>
-  st_intersection(
-    usa_shifted |>
-      filter(STUSPS %in% c("CA", "NV")) |>
-      st_union() |>
-      st_make_valid()
-  )
+# bm_zcta_CA_NV <- density_dots_us |>
+#   st_intersection(
+#     usa_shifted |>
+#       filter(STUSPS %in% c("CA", "NV")) |>
+#       st_union() |>
+#       st_make_valid()
+#   )
 
 conus_bbox_CA_NV <- usa_shifted %>%
   filter(STUSPS %in% c("CA", "NV")) %>%
