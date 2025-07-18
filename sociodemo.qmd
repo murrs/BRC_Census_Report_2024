@@ -26,7 +26,6 @@ options(tigris_use_cache = TRUE) # saves time when running this a bunch
 library(tigris)   # to shift and rescale AK, HI, PR via shift_geometry
 library(tidytext)
 library(wordcloud2)
-library(purrr)
 library(dplyr)
 
 source(paste0(getwd(), "/_RCode/read_census_data.R"))
@@ -1814,13 +1813,6 @@ makeTableData(reside) |>
 
 ```{r}
 # Be sure to run the first chunk to load the required libraries
-
-#NOTES
-# can extend to ROW for next year, danger of not finishing if I do that now
-# not an easy palette for maps
-# reduced from 1:1 because there are too many dots to render otherwise and
-# the density within some zips stretches credulity.
-# as an added benefit, looks less like PII
 
 # Load and shift all states/territories to fit in a reasonable bounding box
 usa_shifted <- states(cb = TRUE, year = 2020, class = "sf") |>
