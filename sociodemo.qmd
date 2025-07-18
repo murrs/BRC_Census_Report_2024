@@ -1856,8 +1856,8 @@ density_dots_us <- jitter_dots(bm_zcta)
 
 # Bounding box around the states / territories where we have dots
 # (excludes furthest away territories, i.e. c("GU", "VI", "MP", "AS"))
-conus_bbox <- usa_shifted %>%
-  filter(STUSPS %in% unique(density_dots_us$STUSPS)) %>%
+conus_bbox_minus_some_terr <- usa_shifted %>%
+  filter(!STUSPS %in% c("GU", "VI", "MP", "AS")) %>%
   st_bbox()
 
 ggplot() +
@@ -1866,8 +1866,8 @@ ggplot() +
   geom_sf(data = brc_5070, shape = 8, size = 1, color = "gray10", show.legend = FALSE) +
   coord_sf(
     crs = 5070,
-    xlim = c(conus_bbox["xmin"], conus_bbox["xmax"]),
-    ylim = c(conus_bbox["ymin"], conus_bbox["ymax"])
+    xlim = c(conus_bbox_minus_some_terr["xmin"], conus_bbox_minus_some_terr["xmax"]),
+    ylim = c(conus_bbox_minus_some_terr["ymin"], conus_bbox_minus_some_terr["ymax"])
   ) +
   labs(
     title = "Where do you usually reside (Within the US)?",
