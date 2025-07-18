@@ -1,10 +1,8 @@
 # Contributions and acknowledgments {.unnumbered}
 
-**BRC Census General Manager:**
+**Black Rock City Census Manager:** Maher Abdel-Sattar (Random) PharmD, MS, FAMCP
 
 **Principal Investigator:** Samuel Ehrenreich, Ph.D.
-
-**Director of the Black Rock City Census:** Maher Abdel-Sattar (Random) PharmD, MS, FAMCP
 
 **Study Design:** Aaron Shev (Murrs), Ph.D.; Dominic Beaulieu-Prévost (Hunter), Ph.D 
 
@@ -12,13 +10,13 @@
 
 **Special thanks and acknowledgements:**
 
--   The nearly 200 volunteers of the 2024 Census Lab including: research collaborators, volunteer coordinators, camp builders, random samplers, key punchers, Census Lab hosts, graphic designers, and many more!
+-   The more than 150 volunteers of the 2024 Census Lab including: research collaborators, volunteer coordinators, camp builders, random samplers, key punchers, Census Lab hosts, graphic designers, and many more!
 
 -   Special thanks to Dana DeVaul (DV8) whose work on the 2018 population report was the basis for many elements in this report, and to Dominic Beaulieu-Prévost (Hunter) for cleaning and weighting data from 2013 to 2019.
 
--   We would also like to thank Dominique DeBucquoy Dodley (Great Question), Leslie Moyer, Carly Rhodes (I-Carly), and the Burning Man Communications Department.
+-   We would also like to thank Dominique DeBucquoy Dodley (Great Question), Leslie Moyer, Kristy Nuehouse (Brinkley), Carly Rhodes (Hi-Chew), and the Burning Man Communications Department.
 
--   Additionally, our thanks to Burning Man Project for the resources they provide both on playa and off playa and for believing in the Black Rock City Census!
+-   Additionally, our thanks to Burning Man Project for the resources they provide both on playa and off playa and for supporting the Black Rock City Census!
 
 -   Finally, we would like to extend our sincere thanks to all of the Burning Man participants who have taken the time to provide their data. This project would not exist without our respondents.
 
@@ -32,6 +30,6 @@ Census Lab Blog: <https://journal.burningman.org/author/census/>
 
 Census Lab Data Archive: <https://burningman.org/culture/history/brc-history/census-data/>
 
-Citation: Shev, A.B., Dunford, M., Abdel-Sattar M., and the 2024 Census Lab. (2025). Black Rock City Census: 2013-2024 Population Analysis. Black Rock City Census.
+Citation: Shev, A.B., Dunford, M., Beaulieu-Prévost, D., Abdel-Sattar M., and the 2024 Census Lab. (2025). Black Rock City Census: 2013-2024 Population Analysis. Black Rock City Census.
 
 Copyright © 2025 Shev et al.
