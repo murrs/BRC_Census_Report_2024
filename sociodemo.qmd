@@ -1450,10 +1450,6 @@ brc_map +
   theme(
     legend.position = c(0.95, 0.95),
     legend.justification = c("right", "top"),
-    panel.background = element_rect(fill = "#f5f1e9", color = NA),  # Tan background
-    plot.background = element_rect(fill = "#f5f1e9", color = NA),
-    legend.background = element_rect(fill = "#f5f1e9", color = NA),
-    legend.key = element_rect(fill = "#f5f1e9", color = NA)
   )
 
 ```
