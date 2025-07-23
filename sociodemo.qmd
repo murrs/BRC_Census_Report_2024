@@ -1414,9 +1414,16 @@ makeTableData(education) |>
 ```{r}
 #| label: residence-brc
 
+library(geomtextpath)  # <-- needed for labeling the maps along radials
+
 # Pull in official street centerlines and intersections generated from /_RCode/geo_make_intersections.R
 brc_centerlines <- read_sf("geo_data/brc_centerlines.geojson")
 brc_intersections <- read_sf("geo_data/brc_intersections.geojson")
+
+# Pull in all the data for labeling
+brc_street_labels <- read_sf("geo_data/brc_street_labels.geojson")
+brc_radial_labels <- read_sf("geo_data/brc_radial_labels.geojson")
+brc_man <- read_sf("geo_data/brc_man.geojson")
 
 # All possible survey responses for location campStreet and campRadial
 validcampStreet <- c(LETTERS[1:12], "Esplanade", 
@@ -1439,19 +1446,74 @@ intersection_summary <-brc_intersections_valid %>%
   group_by(address, geometry) %>%
   summarize(num_matches = n(), .groups = "drop")
 
+# Generate labeling lines for radial streets
+# Create lines pointing toward the center, but not all the way
+# Step 1: Create the line geometries and line_id
+radial_lines <- brc_radial_labels |>
+  rowwise() |>
+  mutate(
+    line = st_sfc(
+      st_linestring(matrix(c(
+        st_coordinates(brc_man)[1, 1] + 0.6 * (st_coordinates(geometry)[1] - st_coordinates(brc_man)[1, 1]),
+        st_coordinates(brc_man)[1, 2] + 0.6 * (st_coordinates(geometry)[2] - st_coordinates(brc_man)[1, 2]),
+        st_coordinates(geometry)[1],
+        st_coordinates(geometry)[2]
+      ), ncol = 2, byrow = TRUE)),
+      crs = st_crs(brc_radial_labels)
+    )
+  ) |>
+  ungroup() |>
+  st_as_sf() |>
+  mutate(
+    line = st_segmentize(line, dfMaxLength = 20),
+    line_id = row_number()
+  )
+st_geometry(radial_lines) <- "line"
+
+# Step 2: Extract coordinates from lines and join back to data
+coords <- st_coordinates(radial_lines) |> as_tibble()
+radial_text_data <- coords |>
+  rename(x = X, y = Y, line_id = L1) |>
+  mutate(street1 = radial_lines$street1[line_id])
+
+# Create offsets for the street labels
+coords <- st_coordinates(brc_street_labels)
+brc_street_labels <- brc_street_labels |>
+  mutate(
+    x = coords[, 1],
+    y = coords[, 2],
+    nudge_x = case_when(
+      street1 == "2:00" & street2 == "Esp" ~ 0.0003,
+      street1 == "2:00" ~ 0.0001,
+      street2 == "Esp" ~ 0.0013,
+      TRUE ~ 0.0010
+    ),
+    nudge_y = case_when(
+      street1 == "2:00" ~ 0.0010,
+      TRUE ~ 0.0001
+    ),
+    label_x = x + nudge_x,
+    label_y = y + nudge_y
+  )
+
 # Map the result
 brc_map <- ggplot() + geom_sf(data = brc_centerlines) + theme_void()
-brc_map + 
-  geom_sf(data = intersection_summary, aes(size = num_matches), color = '#EA008B') + 
-  scale_size_continuous(range = c(1, 6), name = "Number of Responses") +
+brc_map +
+  geom_sf(data = intersection_summary, aes(size = num_matches), color = '#EA008B') +
+  scale_size_continuous(range = c(1, 5), name = "Number of Responses") +
   geom_sf_text(data = intersection_summary, aes(label = num_matches), 
-               color = "white", size = 2, check_overlap = TRUE) +
+               color = "white", size = 1, check_overlap = FALSE) +
+  geom_text(data = brc_street_labels, aes(x = label_x, y = label_y, label = street2),
+            color = "grey30", size = 2, fontface = "bold") +
+  geom_textpath(data = radial_text_data, aes(x = x, y = y, label = street1, group = line_id),
+                text_only = TRUE, size = 2, color = "grey30") +
   theme_void() +
   theme(
     legend.position = c(0.95, 0.95),
-    legend.justification = c("right", "top"),
-  )
-
+    legend.justification = c("right", "top")
+  ) +
+  labs(title = "On which street and radial was your campsite?") +
+  coord_sf()
 ```
 
 ### Residence outside of Black Rock City
