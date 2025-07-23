@@ -18,6 +18,7 @@ pkgs = c(
     "config",
     "data.table",
     "dplyr",
+    "geomtextpath",
     "ggplot2",
     "kableExtra",
     "knitr",
