@@ -1450,15 +1450,17 @@ intersection_summary <-brc_intersections_valid %>%
 # Create lines pointing toward the center, but not all the way
 # Step 1: Create the line geometries and line_id
 radial_lines <- brc_radial_labels |>
+  filter(street2 == "Esplanade") |>
   rowwise() |>
   mutate(
+    center_x = st_coordinates(brc_man)[1, 1],
+    center_y = st_coordinates(brc_man)[1, 2],
+    target_x = st_coordinates(geometry)[1],
+    target_y = st_coordinates(geometry)[2],
+    interp_x = center_x + 0.6 * (target_x - center_x),
+    interp_y = center_y + 0.6 * (target_y - center_y),
     line = st_sfc(
-      st_linestring(matrix(c(
-        st_coordinates(brc_man)[1, 1] + 0.6 * (st_coordinates(geometry)[1] - st_coordinates(brc_man)[1, 1]),
-        st_coordinates(brc_man)[1, 2] + 0.6 * (st_coordinates(geometry)[2] - st_coordinates(brc_man)[1, 2]),
-        st_coordinates(geometry)[1],
-        st_coordinates(geometry)[2]
-      ), ncol = 2, byrow = TRUE)),
+      st_linestring(matrix(c(interp_x, interp_y, target_x, target_y), ncol = 2, byrow = TRUE)),
       crs = st_crs(brc_radial_labels)
     )
   ) |>
@@ -1485,7 +1487,7 @@ brc_street_labels <- brc_street_labels |>
     nudge_x = case_when(
       street1 == "2:00" & street2 == "Esp" ~ 0.0003,
       street1 == "2:00" ~ 0.0001,
-      street2 == "Esp" ~ 0.0013,
+      street2 == "Esp" ~ 0.0014,
       TRUE ~ 0.0010
     ),
     nudge_y = case_when(
@@ -1500,16 +1502,15 @@ brc_street_labels <- brc_street_labels |>
 brc_map <- ggplot() + geom_sf(data = brc_centerlines) + theme_void()
 brc_map +
   geom_sf(data = intersection_summary, aes(size = num_matches), color = '#EA008B') +
-  scale_size_continuous(range = c(1, 5), name = "Number of Responses") +
+  scale_size_continuous(range = c(1, 5), name = "# Responses") +
   geom_sf_text(data = intersection_summary, aes(label = num_matches), 
-               color = "white", size = 1, check_overlap = FALSE) +
+               color = "white", size = 2, check_overlap = FALSE) +
   geom_text(data = brc_street_labels, aes(x = label_x, y = label_y, label = street2),
             color = "grey30", size = 2, fontface = "bold") +
   geom_textpath(data = radial_text_data, aes(x = x, y = y, label = street1, group = line_id),
                 text_only = TRUE, size = 2, color = "grey30") +
-  theme_void() +
   theme(
-    legend.position = c(0.95, 0.95),
+    legend.position = c(0.95, 0.9),
     legend.justification = c("right", "top")
   ) +
   labs(title = "On which street and radial was your campsite?") +
