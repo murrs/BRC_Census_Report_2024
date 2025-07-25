@@ -1919,10 +1919,34 @@ conus_bbox_minus_some_terr <- usa_shifted %>%
   filter(!STUSPS %in% c("GU", "VI", "MP", "AS")) %>%
   st_bbox()
 
+# Spatial join to assign the state boundary each jitter point falls within
+density_dots_us <- st_join(
+  density_dots_us,
+  usa_shifted %>% select(STUSPS),
+  join = st_intersects,
+  left = TRUE
+)
+
+# Assign relevant state classifications
+density_dots_us_where <- density_dots_us %>%
+  mutate(
+    symbol_group = case_when(
+      STUSPS == "CA" ~ "Within California",
+      STUSPS == "NV" ~ "Within Nevada",
+      TRUE ~ "Other location in U.S."
+    ),
+    symbol_group = factor(symbol_group, levels = c(
+      "Within California",
+      "Within Nevada",
+      "Other location in U.S."
+    ))
+  )
+
 ggplot() +
   geom_sf(data = usa_shifted, fill = "gray92", color = "white", size = 0.1) +
-  geom_sf(data = density_dots_us, color = discreteColors[1], size = 0.1, alpha = 0.3, show.legend = FALSE) +
-  geom_sf(data = brc_5070, shape = 8, size = 1, color = "gray10", show.legend = FALSE) +
+  geom_sf(data = density_dots_us_where, aes(color = symbol_group), size = 0.01, alpha = 0.7, show.legend = FALSE) +
+  geom_sf(data = brc_5070, shape = 8, size = 1, color = discreteColors[4], show.legend = FALSE) +
+  scale_color_manual(values = discreteColors[7:9]) +
   coord_sf(
     crs = 5070,
     xlim = c(conus_bbox_minus_some_terr["xmin"], conus_bbox_minus_some_terr["xmax"]),
@@ -1943,50 +1967,27 @@ ggplot() +
   )
 
 
-# Spatial join to assign the state boundary each jitter point falls within
-density_dots_us <- st_join(
-  density_dots_us,
-  usa_shifted %>% select(STUSPS),
-  join = st_intersects,
-  left = TRUE
-)
-
 # Only California and Nevada.
 
 # First union the states to avoid too many computations,
 # then trim out the areas of the zip that fall outside these states.
-# bm_zcta_CA_NV <- density_dots_us |>
-#   st_intersection(
-#     usa_shifted |>
-#       filter(STUSPS %in% c("CA", "NV")) |>
-#       st_union() |>
-#       st_make_valid()
-#   )
+bm_zcta_CA_NV <- density_dots_us |>
+  st_intersection(
+    usa_shifted |>
+      filter(STUSPS %in% c("CA", "NV")) |>
+      st_union() |>
+      st_make_valid()
+  )
 
 conus_bbox_CA_NV <- usa_shifted %>%
   filter(STUSPS %in% c("CA", "NV")) %>%
   st_bbox()
 
-# Assign relevant state classifications
-density_dots_us_where <- density_dots_us %>%
-  mutate(
-    symbol_group = case_when(
-      STUSPS == "CA" ~ "Within California",
-      STUSPS == "NV" ~ "Within Nevada",
-      TRUE ~ "Other location in U.S."
-    ),
-    symbol_group = factor(symbol_group, levels = c(
-      "Within California",
-      "Within Nevada",
-      "Other location in U.S."
-    ))
-  )
-
 ggplot() +
   geom_sf(data = usa_shifted, fill = "gray92", color = "white", size = 0.1) +
   geom_sf(data = density_dots_us_where, aes(color = symbol_group), size = 0.01, alpha = 0.7, show.legend = FALSE) +
-  geom_sf(data = brc_5070, shape = 8, size = 2, color = "black", show.legend = FALSE) +
-  scale_color_manual(values = discreteColors[1:3]) +
+  geom_sf(data = brc_5070, shape = 8, size = 2, color = discreteColors[4], show.legend = FALSE) +
+  scale_color_manual(values = discreteColors[7:9]) +
   coord_sf(
     crs = 5070,
     xlim = c(conus_bbox_CA_NV["xmin"], conus_bbox_CA_NV["xmax"]),
