@@ -16,8 +16,10 @@ R
 pkgs = c(
     "cartogram",
     "config",
+    "cowplot",
     "data.table",
     "dplyr",
+    "geomtextpath",
     "ggplot2",
     "kableExtra",
     "knitr",
