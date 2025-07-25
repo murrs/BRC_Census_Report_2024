@@ -1850,7 +1850,7 @@ ggplot(reside, aes(x = year, y = est, color = labels)) +
   scale_x_continuous(breaks = c(2013:2019, 2022:2024),
                      labels = c(2013:2019, 2022:2024)) +
   scale_y_continuous(labels = percent, limits = c(0, NA)) +
-  scale_color_manual(values = discreteColors[1:5]) +
+  scale_color_manual(values = discreteColors[c(7:9,1:2)]) +
   labs(x = "", y = "Burning Man participants (%)",
        color = "Residence (not in BRC)",
        title = "Where do you usually reside (when not in Black Rock City)")
