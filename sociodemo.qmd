@@ -27,6 +27,7 @@ library(tigris)   # to shift and rescale AK, HI, PR via shift_geometry
 library(tidytext)
 library(wordcloud2)
 library(dplyr)
+library(cowplot)
 
 source(paste0(getwd(), "/_RCode/read_census_data.R"))
 source(paste0(getwd(), "/_RCode/make_table_data.R"))
@@ -1942,7 +1943,7 @@ density_dots_us_where <- density_dots_us %>%
     ))
   )
 
-ggplot() +
+usa_dotdensity <- ggplot() +
   geom_sf(data = usa_shifted, fill = "gray92", color = "white", size = 0.1) +
   geom_sf(data = density_dots_us_where, aes(color = symbol_group), size = 0.01, alpha = 0.7, show.legend = FALSE) +
   geom_sf(data = brc_5070, shape = 8, size = 1, color = discreteColors[4], show.legend = FALSE) +
@@ -1969,21 +1970,11 @@ ggplot() +
 
 # Only California and Nevada.
 
-# First union the states to avoid too many computations,
-# then trim out the areas of the zip that fall outside these states.
-bm_zcta_CA_NV <- density_dots_us |>
-  st_intersection(
-    usa_shifted |>
-      filter(STUSPS %in% c("CA", "NV")) |>
-      st_union() |>
-      st_make_valid()
-  )
-
 conus_bbox_CA_NV <- usa_shifted %>%
   filter(STUSPS %in% c("CA", "NV")) %>%
   st_bbox()
 
-ggplot() +
+CaNV_dotdensity <- ggplot() +
   geom_sf(data = usa_shifted, fill = "gray92", color = "white", size = 0.1) +
   geom_sf(data = density_dots_us_where, aes(color = symbol_group), size = 0.01, alpha = 0.7, show.legend = FALSE) +
   geom_sf(data = brc_5070, shape = 8, size = 2, color = discreteColors[4], show.legend = FALSE) +
@@ -1992,10 +1983,6 @@ ggplot() +
     crs = 5070,
     xlim = c(conus_bbox_CA_NV["xmin"], conus_bbox_CA_NV["xmax"]),
     ylim = c(conus_bbox_CA_NV["ymin"], conus_bbox_CA_NV["ymax"])
-  ) +
-  labs(
-    title = "Where do you usually reside (Within the US)?",
-    subtitle = "1 dot ≈ 5 Burners"
   ) +
   theme_minimal(base_size = 12) +
   theme(
@@ -2007,6 +1994,11 @@ ggplot() +
     axis.title = element_blank(),
   )
 
+# Position inset zoomed in and on top of west coast 
+final_dotdensity <- ggdraw() +
+  draw_plot(usa_dotdensity) +
+  draw_plot(CaNV_dotdensity, x = 0.1, y = 0.25, width = 0.3, height = 0.5)
+print(final_dotdensity)
 
 ```
 
