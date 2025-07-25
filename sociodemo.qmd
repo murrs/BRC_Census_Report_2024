@@ -1954,7 +1954,7 @@ usa_dotdensity <- ggplot() +
     ylim = c(conus_bbox_minus_some_terr["ymin"], conus_bbox_minus_some_terr["ymax"])
   ) +
   labs(
-    title = "Where do you usually reside (when not in Black Rock City)?",
+    title = "Where do you usually reside (when not in Black Rock City)",
     subtitle = "1 dot ≈ 5 Burners"
   ) +
   theme_minimal(base_size = 12) +
