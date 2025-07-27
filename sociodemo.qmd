@@ -27,7 +27,6 @@ library(tigris)   # to shift and rescale AK, HI, PR via shift_geometry
 library(tidytext)
 library(wordcloud2)
 library(dplyr)
-library(cowplot)
 
 source(paste0(getwd(), "/_RCode/read_census_data.R"))
 source(paste0(getwd(), "/_RCode/make_table_data.R"))
@@ -1943,20 +1942,11 @@ density_dots_us_where <- density_dots_us %>%
     ))
   )
 
-usa_dotdensity <- ggplot() +
+final_dotdensity <- ggplot() +
   geom_sf(data = usa_shifted, fill = "gray92", color = "white", size = 0.1) +
   geom_sf(data = density_dots_us_where, aes(color = symbol_group), size = 0.01, alpha = 0.7, show.legend = FALSE) +
-  geom_sf(data = brc_5070, shape = 8, size = 1, color = discreteColors[4], show.legend = FALSE) +
+  geom_sf(data = brc_5070, shape = 8, size = 1.5, color = discreteColors[4], show.legend = FALSE) +
   scale_color_manual(values = discreteColors[7:9]) +
-  coord_sf(
-    crs = 5070,
-    xlim = c(conus_bbox_minus_some_terr["xmin"], conus_bbox_minus_some_terr["xmax"]),
-    ylim = c(conus_bbox_minus_some_terr["ymin"], conus_bbox_minus_some_terr["ymax"])
-  ) +
-  labs(
-    title = "Where do you usually reside (when not in Black Rock City)",
-    subtitle = "1 dot ≈ 5 Burners"
-  ) +
   theme_minimal(base_size = 12) +
   theme(
     panel.background = element_rect(fill = "white", color = NA),
@@ -1967,6 +1957,17 @@ usa_dotdensity <- ggplot() +
     axis.title = element_blank(),
   )
 
+# Map all USA
+final_dotdensity +
+  labs(
+    title = "Where do you usually reside (within USA)",
+    subtitle = "1 dot ≈ 5 Burners"
+  ) +
+  coord_sf(
+    crs = 5070,
+    xlim = c(conus_bbox_minus_some_terr["xmin"], conus_bbox_minus_some_terr["xmax"]),
+    ylim = c(conus_bbox_minus_some_terr["ymin"], conus_bbox_minus_some_terr["ymax"])
+  )
 
 # Only California and Nevada.
 
@@ -1974,31 +1975,16 @@ conus_bbox_CA_NV <- usa_shifted %>%
   filter(STUSPS %in% c("CA", "NV")) %>%
   st_bbox()
 
-CaNV_dotdensity <- ggplot() +
-  geom_sf(data = usa_shifted, fill = "gray92", color = "white", size = 0.1) +
-  geom_sf(data = density_dots_us_where, aes(color = symbol_group), size = 0.01, alpha = 0.7, show.legend = FALSE) +
-  geom_sf(data = brc_5070, shape = 8, size = 2, color = discreteColors[4], show.legend = FALSE) +
-  scale_color_manual(values = discreteColors[7:9]) +
+final_dotdensity +
+  labs(
+    title = "Where do you usually reside (California & Nevada)",
+    subtitle = "1 dot ≈ 5 Burners"
+  ) +
   coord_sf(
     crs = 5070,
     xlim = c(conus_bbox_CA_NV["xmin"], conus_bbox_CA_NV["xmax"]),
     ylim = c(conus_bbox_CA_NV["ymin"], conus_bbox_CA_NV["ymax"])
-  ) +
-  theme_minimal(base_size = 12) +
-  theme(
-    panel.background = element_rect(fill = "white", color = NA),
-    plot.background = element_rect(fill = "white", color = NA),
-    panel.grid = element_blank(),
-    axis.text = element_blank(),
-    axis.ticks = element_blank(),
-    axis.title = element_blank(),
   )
-
-# Position inset zoomed in and on top of west coast 
-final_dotdensity <- ggdraw() +
-  draw_plot(usa_dotdensity) +
-  draw_plot(CaNV_dotdensity, x = 0.1, y = 0.25, width = 0.3, height = 0.5)
-print(final_dotdensity)
 
 ```
 
