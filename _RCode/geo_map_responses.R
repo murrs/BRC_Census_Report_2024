@@ -16,8 +16,7 @@ brc_intersections_valid <- brc_intersections %>%
   filter(
     street2 %in% validcampStreet,
     street1 %in% validcampRadial
-  ) %>%
-  select(all_of(save_columns))
+  )
 
 # Tally responses per intersection
 intersection_summary <- intersections_valid %>%
@@ -42,6 +41,10 @@ brc_map +
     legend.background = element_rect(fill = "#f5f1e9", color = NA),
     legend.key = element_rect(fill = "#f5f1e9", color = NA)
   )
+
+# Save summary data
+save_summaries_file = "geo_data/brc_residency_geocoded_response.geojson"
+write_sf(intersection_summary, save_summaries_file, driver="GeoJSON")
 
 # /etc...
 # Further location analysis
@@ -72,10 +75,12 @@ census24_campLocation %>% filter( is.na(campStreet) | is.na(campRadial) )
 # Special values - these need to have a location assigned or need modification
 
 # Center Camp / Rod's Road / ESD / DPW Depot (81) - best guesses for where to put these:
-# ??? -[ ] Center Camp: If the campRadial is 5:30, 6:00 or 6:30 we can put this at B, lots of indecipherables at other radials
-# ??? -[ ] Rod's Road: Best I can do is treat this the same as Center Camp
-# ??? -[ ] ESD: ???
-# ??? -[ ] DPW Depo: Add a point?
+# -[ ] Center Camp: If the campRadial is 5:30, 6:00 or 6:30 we can put this at B, lots of indecipherables at other radials
+# -[ ] Rod's Road: Best I can do is treat this the same as Center Camp
+# -[ ] ESD:
+# -[ ] DPW Depo: Add a point?
+# -[ ] Airport
+# -[ ] Walk-in campers
 census24_campLocation %>% filter( campStreet %in% c("Center Camp Plaza", "Rod's Road", "DPW Depot", "ESD") ) %>% 
   select ( campStreet, campRadial, campPlaced )
 
