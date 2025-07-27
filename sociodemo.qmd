@@ -1421,8 +1421,8 @@ brc_centerlines <- read_sf("geo_data/brc_centerlines.geojson")
 brc_intersections <- read_sf("geo_data/brc_intersections.geojson")
 
 # Pull in all the data for labeling
-brc_street_labels <- read_sf("geo_data/brc_street_labels.geojson")
-brc_radial_labels <- read_sf("geo_data/brc_radial_labels.geojson")
+brc_street_label_points <- read_sf("geo_data/brc_street_label_points.geojson")
+brc_radial_label_lines <- read_sf("geo_data/brc_radial_label_lines.geojson")
 brc_man <- read_sf("geo_data/brc_man.geojson")
 
 # All possible survey responses for location campStreet and campRadial
@@ -1449,7 +1449,7 @@ intersection_summary <-brc_intersections_valid %>%
 # Generate labeling lines for radial streets
 # Create lines pointing toward the center, but not all the way
 # Step 1: Create the line geometries and line_id
-radial_lines <- brc_radial_labels |>
+radial_lines <- brc_radial_label_lines |>
   filter(street2 == "Esplanade") |>
   rowwise() |>
   mutate(
@@ -1461,7 +1461,7 @@ radial_lines <- brc_radial_labels |>
     interp_y = center_y + 0.6 * (target_y - center_y),
     line = st_sfc(
       st_linestring(matrix(c(interp_x, interp_y, target_x, target_y), ncol = 2, byrow = TRUE)),
-      crs = st_crs(brc_radial_labels)
+      crs = st_crs(brc_radial_label_lines)
     )
   ) |>
   ungroup() |>
@@ -1479,8 +1479,8 @@ radial_text_data <- coords |>
   mutate(street1 = radial_lines$street1[line_id])
 
 # Create offsets for the street labels
-coords <- st_coordinates(brc_street_labels)
-brc_street_labels <- brc_street_labels |>
+coords <- st_coordinates(brc_street_label_points)
+brc_street_label_points <- brc_street_label_points |>
   mutate(
     x = coords[, 1],
     y = coords[, 2],
@@ -1505,7 +1505,7 @@ brc_map +
   scale_size_continuous(range = c(1, 5), name = "# Responses") +
   geom_sf_text(data = intersection_summary, aes(label = num_matches), 
                color = "white", size = 2, check_overlap = FALSE) +
-  geom_text(data = brc_street_labels, aes(x = label_x, y = label_y, label = street2),
+  geom_text(data = brc_street_label_points, aes(x = label_x, y = label_y, label = street2),
             color = "grey30", size = 2, fontface = "bold") +
   geom_textpath(data = radial_text_data, aes(x = x, y = y, label = street1, group = line_id),
                 text_only = TRUE, size = 2, color = "grey30") +
