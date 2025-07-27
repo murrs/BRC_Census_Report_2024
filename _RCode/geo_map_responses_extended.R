@@ -12,7 +12,7 @@ library(showtext)       # optional, for font embedding on print
 
 # Pull in all the data
 brc_centerlines <- read_sf("geo_data/brc_centerlines.geojson")
-geocoded_census_responses <- read_sf("geo_data/brc_residency_geocoded_response.geojson")
+geocoded_census_responses <- read_sf("geo_data/brc_intersection_tally.geojson")
 
 # Pull in metadata for labeling
 brc_street_labels <- read_sf("geo_data/brc_street_labels.geojson")
@@ -128,7 +128,7 @@ brc_map_final <- brc_map +
                nudge_y = -0.0012, size = 3, color = "grey30")
 
 # Save in print-friendly landscape mode (11 x 8.5 inches)
-ggsave("./brc_radial_map_landscape.pdf", brc_map_final, width = 11, height = 8.5, units = "in", dpi = 300)
+ggsave("./brc_census_response_map.pdf", brc_map_final, width = 11, height = 8.5, units = "in", dpi = 300)
 
 # Optionally also save a high-resolution PNG version
-ggsave("./brc_radial_map_landscape.png", brc_map_final, width = 11, height = 8.5, units = "in", dpi = 300)
+ggsave("./brc_census_response_map.png", brc_map_final, width = 11, height = 8.5, units = "in", dpi = 300)
