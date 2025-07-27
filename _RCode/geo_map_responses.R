@@ -22,6 +22,7 @@ brc_intersections_valid <- brc_intersections %>%
 # Tally responses per intersection
 intersection_summary <- brc_intersections_valid %>%
   left_join(census24, by = c("street1" = "campRadial", "street2" = "campStreet")) %>%
+  filter(!is.na(weights)) %>%  # Only count actual matches
   group_by(street1, street2, address, geometry) %>%
   summarize(num_matches = n(), .groups = "drop")
 
@@ -43,7 +44,7 @@ brc_map +
   )
 
 # Save summary data
-save_summaries_file = "geo_data/brc_residency_geocoded_response.geojson"
+save_summaries_file = "geo_data/brc_intersection_tally.geojson"
 write_sf(intersection_summary, save_summaries_file, driver="GeoJSON")
 
 # /etc...
