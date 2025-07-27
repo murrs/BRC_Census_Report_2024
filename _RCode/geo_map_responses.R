@@ -19,10 +19,10 @@ brc_intersections_valid <- brc_intersections %>%
   )
 
 # Tally responses per intersection
-intersection_summary <- intersections_valid %>%
+intersection_summary <- brc_intersections_valid %>%
   left_join(census24, by = c("street1" = "campRadial", "street2" = "campStreet"), 
             relationship = "many-to-many") %>%
-  group_by(address, geometry) %>%
+  group_by(street1, street2, address, geometry) %>%
   summarize(num_matches = n(), .groups = "drop")
 
 # Map the result
