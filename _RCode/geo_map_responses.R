@@ -4,6 +4,7 @@ library(ggplot2)
 
 # Summarize responses and map to BRC intersections
 brc_intersections <- read_sf("geo_data/brc_intersections.geojson")
+brc_centerlines <- read_sf("geo_data/brc_centerlines.geojson")
 
 # All possible survey responses for location campStreet and campRadial
 validcampStreet <- c(LETTERS[1:12], "Esplanade", 
@@ -20,8 +21,7 @@ brc_intersections_valid <- brc_intersections %>%
 
 # Tally responses per intersection
 intersection_summary <- brc_intersections_valid %>%
-  left_join(census24, by = c("street1" = "campRadial", "street2" = "campStreet"), 
-            relationship = "many-to-many") %>%
+  left_join(census24, by = c("street1" = "campRadial", "street2" = "campStreet")) %>%
   group_by(street1, street2, address, geometry) %>%
   summarize(num_matches = n(), .groups = "drop")
 

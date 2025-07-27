@@ -254,7 +254,6 @@
 { "type": "Feature", "properties": { "street1": "9:00", "street2": "C", "address": "9:00 & C" }, "geometry": { "type": "Point", "coordinates": [ -119.213019639134671, 40.793738460644548 ] } },
 { "type": "Feature", "properties": { "street1": "8:30", "street2": "H", "address": "8:30 & H" }, "geometry": { "type": "Point", "coordinates": [ -119.220030033358682, 40.793946662134104 ] } },
 { "type": "Feature", "properties": { "street1": "9:30", "street2": "B", "address": "9:30 & B" }, "geometry": { "type": "Point", "coordinates": [ -119.20989965136539, 40.794597462888888 ] } },
-{ "type": "Feature", "properties": { "street1": "9:30", "street2": "B", "address": "9:30 & B" }, "geometry": { "type": "Point", "coordinates": [ -119.209899651365404, 40.794597462888881 ] } },
 { "type": "Feature", "properties": { "street1": "10:00", "street2": "A", "address": "10:00 & A" }, "geometry": { "type": "Point", "coordinates": [ -119.206837596595136, 40.794737276153676 ] } },
 { "type": "Feature", "properties": { "street1": "8:45", "street2": "F", "address": "8:45 & F" }, "geometry": { "type": "Point", "coordinates": [ -119.217088158145017, 40.794532247852551 ] } },
 { "type": "Feature", "properties": { "street1": "9:00", "street2": "D", "address": "9:00 & D" }, "geometry": { "type": "Point", "coordinates": [ -119.213734830916849, 40.794281882654182 ] } },
@@ -303,9 +302,6 @@
 { "type": "Feature", "properties": { "street1": "10:00", "street2": "I", "address": "10:00 & I" }, "geometry": { "type": "Point", "coordinates": [ -119.20911907871546, 40.801206740331608 ] } },
 { "type": "Feature", "properties": { "street1": "9:45", "street2": "K", "address": "9:45 & K" }, "geometry": { "type": "Point", "coordinates": [ -119.212035336689823, 40.801524182267443 ] } },
 { "type": "Feature", "properties": { "street1": "10:00", "street2": "J", "address": "10:00 & J" }, "geometry": { "type": "Point", "coordinates": [ -119.209287402321792, 40.801683993809831 ] } },
-{ "type": "Feature", "properties": { "street1": "10:00", "street2": "K", "address": "10:00 & K" }, "geometry": { "type": "Point", "coordinates": [ -119.209465079856031, 40.802187761060686 ] } },
-{ "type": "Feature", "properties": { "street1": "12:00", "street2": "The Man", "address": "12:00 & 3:00" }, "geometry": { "type": "Point", "coordinates": [ -119.20409385961743, 40.786955289792317 ] } },
-{ "type": "Feature", "properties": { "street1": "12:00", "street2": "The Man", "address": "12:00 & 6:00" }, "geometry": { "type": "Point", "coordinates": [ -119.20409385961743, 40.786955289792317 ] } },
-{ "type": "Feature", "properties": { "street1": "12:00", "street2": "The Man", "address": "12:00 & 9:00" }, "geometry": { "type": "Point", "coordinates": [ -119.20409385961743, 40.786955289792317 ] } }
+{ "type": "Feature", "properties": { "street1": "10:00", "street2": "K", "address": "10:00 & K" }, "geometry": { "type": "Point", "coordinates": [ -119.209465079856031, 40.802187761060686 ] } }
 ]
 }
