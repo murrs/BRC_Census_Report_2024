@@ -4,7 +4,7 @@ project:
 book:
   title: "Black Rock City Census 2024 Population Report"
   author: "Aaron \"Murrs\" Shev"
-  date: "2/17/2025"
+  date: "7/18/2025"
   chapters:
     - index.qmd
     - intro.qmd

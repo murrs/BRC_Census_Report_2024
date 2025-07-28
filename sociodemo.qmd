@@ -1971,6 +1971,8 @@ ggplot() +
 ```{r}
 #| label: politics-voted
 
+
+
 voteEligible <- makePlotData(varName = "Are you eligible to vote in the United States?",
                              varNameTable,
                              designs = list(design13, design14, design15,
@@ -2030,6 +2032,19 @@ makeTableData(numberVotes) |>
 ### Political party affiliation
 
 ```{r}
+ppGroups <- list(`Democratic Party` = c("Democratic",
+                                             "Democratic Party"), 
+                      `Green Party` = c("Green", "Green Party"),
+                      `Libertarian Party` = c("Libertarian",
+                                              "Libertarian Party"), 
+                      `None or unaffiliated` = c("None",
+                                                 "None or unaffiliated",
+                                                 "None, I am nonpartisan"),
+                      `Other US Party` = c("Other",
+                                           "Other US Party"), 
+                      `Republican Party` = c("Republican",
+                                             "Republican Party"))
+
 politicalParty <- makePlotData("With which political party are you currently affiliated in the United States, if any?",
                                varNameTable = varNameTable,
                                designs = list(design17, design18, design19,
@@ -2045,13 +2060,22 @@ politicalParty <- makePlotData("With which political party are you currently aff
                                                      "None or unaffiliated",
                                                      "Other US Party",
                                                      "Republican Party")),
-                                              times = 3)),
+                                              times = 2),
+                                         rep(list(c("Democratic Party",
+                                                     "Green Party",
+                                                     "Libertarian Party",
+                                                     "None or unaffiliated",
+                                                     "None, I am nonpartisan",
+                                                     "Other US Party",
+                                                     "Republican Party")),
+                                              times = 1)),
                                labels = c("Democratic Party", "Green Party",
                                           "Libertarian Party", "None or unaffiliated",
                                           "Other US Party", "Republican Party"),
                                labelOrder = c("Democratic Party", "Republican Party",
                                               "Libertarian Party", "Green Party",
-                                              "Other US Party", "None or unaffiliated"))
+                                              "Other US Party", "None or unaffiliated"),
+                               groups = ppGroups)
 
 
 party.dem.16 <- customPlotDat(c("Democratic"),

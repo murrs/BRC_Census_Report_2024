@@ -30,6 +30,6 @@ Census Lab Blog: <https://journal.burningman.org/author/census/>
 
 Census Lab Data Archive: <https://burningman.org/culture/history/brc-history/census-data/>
 
-Citation: Shev, A.B., Dunford, M., Beaulieu-Prévost, D., Abdel-Sattar M., and the 2024 Census Lab. (2025). Black Rock City Census: 2013-2024 Population Analysis. Black Rock City Census.
+Citation: Shev, A.B., Dunford, M., May, S., Beaulieu-Prévost, D., Abdel-Sattar M., and the 2024 Census Lab. (2025). Black Rock City Census: 2013-2024 Population Analysis. Black Rock City Census.
 
 Copyright © 2025 Shev et al.
