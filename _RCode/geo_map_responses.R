@@ -4,6 +4,7 @@ library(ggplot2)
 
 # Summarize responses and map to BRC intersections
 brc_intersections <- read_sf("geo_data/brc_intersections.geojson")
+brc_centerlines <- read_sf("geo_data/brc_centerlines.geojson")
 
 # All possible survey responses for location campStreet and campRadial
 validcampStreet <- c(LETTERS[1:12], "Esplanade", 
@@ -16,14 +17,13 @@ brc_intersections_valid <- brc_intersections %>%
   filter(
     street2 %in% validcampStreet,
     street1 %in% validcampRadial
-  ) %>%
-  select(all_of(save_columns))
+  )
 
 # Tally responses per intersection
-intersection_summary <- intersections_valid %>%
-  left_join(census24, by = c("street1" = "campRadial", "street2" = "campStreet"), 
-            relationship = "many-to-many") %>%
-  group_by(address, geometry) %>%
+intersection_summary <- brc_intersections_valid %>%
+  left_join(census24, by = c("street1" = "campRadial", "street2" = "campStreet")) %>%
+  filter(!is.na(weights)) %>%  # Only count actual matches
+  group_by(street1, street2, address, geometry) %>%
   summarize(num_matches = n(), .groups = "drop")
 
 # Map the result
@@ -42,6 +42,10 @@ brc_map +
     legend.background = element_rect(fill = "#f5f1e9", color = NA),
     legend.key = element_rect(fill = "#f5f1e9", color = NA)
   )
+
+# Save summary data
+save_summaries_file = "geo_data/brc_intersection_tally.geojson"
+write_sf(intersection_summary, save_summaries_file, driver="GeoJSON")
 
 # /etc...
 # Further location analysis
@@ -72,10 +76,12 @@ census24_campLocation %>% filter( is.na(campStreet) | is.na(campRadial) )
 # Special values - these need to have a location assigned or need modification
 
 # Center Camp / Rod's Road / ESD / DPW Depot (81) - best guesses for where to put these:
-# ??? -[ ] Center Camp: If the campRadial is 5:30, 6:00 or 6:30 we can put this at B, lots of indecipherables at other radials
-# ??? -[ ] Rod's Road: Best I can do is treat this the same as Center Camp
-# ??? -[ ] ESD: ???
-# ??? -[ ] DPW Depo: Add a point?
+# -[ ] Center Camp: If the campRadial is 5:30, 6:00 or 6:30 we can put this at B, lots of indecipherables at other radials
+# -[ ] Rod's Road: Best I can do is treat this the same as Center Camp
+# -[ ] ESD:
+# -[ ] DPW Depo: Add a point?
+# -[ ] Airport
+# -[ ] Walk-in campers
 census24_campLocation %>% filter( campStreet %in% c("Center Camp Plaza", "Rod's Road", "DPW Depot", "ESD") ) %>% 
   select ( campStreet, campRadial, campPlaced )
 

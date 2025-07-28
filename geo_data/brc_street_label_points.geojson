@@ -1,0 +1,31 @@
+{
+"type": "FeatureCollection",
+"name": "brc_street_label_points",
+"crs": { "type": "name", "properties": { "name": "urn:ogc:def:crs:OGC:1.3:CRS84" } },
+"features": [
+{ "type": "Feature", "properties": { "street1": "2:00", "street2": "K", "address": "2:00 & K" }, "geometry": { "type": "Point", "coordinates": [ -119.184053992845421, 40.782871979311494 ] } },
+{ "type": "Feature", "properties": { "street1": "2:00", "street2": "J", "address": "2:00 & J" }, "geometry": { "type": "Point", "coordinates": [ -119.184716716796302, 40.783007079204751 ] } },
+{ "type": "Feature", "properties": { "street1": "2:00", "street2": "I", "address": "2:00 & I" }, "geometry": { "type": "Point", "coordinates": [ -119.185344563017949, 40.783135065064165 ] } },
+{ "type": "Feature", "properties": { "street1": "2:00", "street2": "H", "address": "2:00 & H" }, "geometry": { "type": "Point", "coordinates": [ -119.186321217489407, 40.783334147384529 ] } },
+{ "type": "Feature", "properties": { "street1": "2:00", "street2": "G", "address": "2:00 & G" }, "geometry": { "type": "Point", "coordinates": [ -119.187297877795899, 40.783533221433402 ] } },
+{ "type": "Feature", "properties": { "street1": "2:00", "street2": "F", "address": "2:00 & F" }, "geometry": { "type": "Point", "coordinates": [ -119.18827454393714, 40.783732287210618 ] } },
+{ "type": "Feature", "properties": { "street1": "2:00", "street2": "E", "address": "2:00 & E" }, "geometry": { "type": "Point", "coordinates": [ -119.189948842324682, 40.784073523583942 ] } },
+{ "type": "Feature", "properties": { "street1": "2:00", "street2": "D", "address": "2:00 & D" }, "geometry": { "type": "Point", "coordinates": [ -119.190925524301619, 40.784272566908648 ] } },
+{ "type": "Feature", "properties": { "street1": "2:00", "street2": "C", "address": "2:00 & C" }, "geometry": { "type": "Point", "coordinates": [ -119.191902212112154, 40.784471601961073 ] } },
+{ "type": "Feature", "properties": { "street1": "2:00", "street2": "B", "address": "2:00 & B" }, "geometry": { "type": "Point", "coordinates": [ -119.19287890575599, 40.784670628740997 ] } },
+{ "type": "Feature", "properties": { "street1": "2:00", "street2": "Esp", "address": "2:00 & Esplanade" }, "geometry": { "type": "Point", "coordinates": [ -119.195372989203562, 40.785178820305141 ] } },
+{ "type": "Feature", "properties": { "street1": "2:00", "street2": "A", "address": "2:00 & A" }, "geometry": { "type": "Point", "coordinates": [ -119.193855605232784, 40.7848696472483 ] } },
+{ "type": "Feature", "properties": { "street1": "10:00", "street2": "Esp", "address": "10:00 & Esplanade" }, "geometry": { "type": "Point", "coordinates": [ -119.206430903481618, 40.793583903060998 ] } },
+{ "type": "Feature", "properties": { "street1": "10:00", "street2": "A", "address": "10:00 & A" }, "geometry": { "type": "Point", "coordinates": [ -119.206837596595136, 40.794737276153676 ] } },
+{ "type": "Feature", "properties": { "street1": "10:00", "street2": "B", "address": "10:00 & B" }, "geometry": { "type": "Point", "coordinates": [ -119.207099383517459, 40.795479676343987 ] } },
+{ "type": "Feature", "properties": { "street1": "10:00", "street2": "C", "address": "10:00 & C" }, "geometry": { "type": "Point", "coordinates": [ -119.207361176272741, 40.796222075844319 ] } },
+{ "type": "Feature", "properties": { "street1": "10:00", "street2": "D", "address": "10:00 & D" }, "geometry": { "type": "Point", "coordinates": [ -119.207622974861351, 40.796964474654672 ] } },
+{ "type": "Feature", "properties": { "street1": "10:00", "street2": "E", "address": "10:00 & E" }, "geometry": { "type": "Point", "coordinates": [ -119.207884779283518, 40.797706872774938 ] } },
+{ "type": "Feature", "properties": { "street1": "10:00", "street2": "F", "address": "10:00 & F" }, "geometry": { "type": "Point", "coordinates": [ -119.208333600437342, 40.79897955366129 ] } },
+{ "type": "Feature", "properties": { "street1": "10:00", "street2": "G", "address": "10:00 & G" }, "geometry": { "type": "Point", "coordinates": [ -119.208595420695104, 40.799721949908268 ] } },
+{ "type": "Feature", "properties": { "street1": "10:00", "street2": "H", "address": "10:00 & H" }, "geometry": { "type": "Point", "coordinates": [ -119.208857246787687, 40.800464345465066 ] } },
+{ "type": "Feature", "properties": { "street1": "10:00", "street2": "I", "address": "10:00 & I" }, "geometry": { "type": "Point", "coordinates": [ -119.20911907871546, 40.801206740331608 ] } },
+{ "type": "Feature", "properties": { "street1": "10:00", "street2": "J", "address": "10:00 & J" }, "geometry": { "type": "Point", "coordinates": [ -119.209287402321792, 40.801683993809831 ] } },
+{ "type": "Feature", "properties": { "street1": "10:00", "street2": "K", "address": "10:00 & K" }, "geometry": { "type": "Point", "coordinates": [ -119.209465079856031, 40.802187761060686 ] } }
+]
+}
